@@ -1,8 +1,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.body {
+  margin: 0;
+}
+body {
+  margin: 0;
+  /* background-color: #fafafa; */
+  min-height: 100% !important;
+}
+img.conver {
+  object-fit: cover;
+  width: auto;
+  height: 100%;
+}
+.fafafa {
+  background-color: #fafafa !important;
+}
+.intent-page {
+  background-color: #7696f2 !important;
+}
+::placeholder {
+  color: #848484 !important;
+}
 
-:root {
+.slick-dots {
+  bottom: 4vh !important;
+}
+.slick-dots li button::before {
+  font-size: 10px !important;
+}
+.slick-list {
+  border-radius: 0 1.125rem 1.125rem 0 !important;
+}
+.text-special {
+  overflow: hidden;
+  text-align: center;
+}
+
+.text-special:before,
+.text-special:after {
+  background-color: #848484;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.text-special:before {
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+.text-special:after {
+  left: 0.5em;
+  margin-right: -50%;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.prompt span {
+  color: #848484 !important;
+  font-weight: 700;
+  line-height: 1.5rem;
+  font-size: 1rem;
+}
+.field {
+  box-shadow: 0px 0px 50px 3px rgba(0, 0, 0, 0.1);
+}
+/* .prompt-image { */
+/* background: linear-gradient(0deg, #a1c65c 0%, #a1c65c 100%) !important; */
+/* url(<path-to-image>), lightgray 50% / cover no-repeat; */
+/* } */
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,4 +100,4 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
