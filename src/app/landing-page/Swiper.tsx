@@ -59,7 +59,7 @@ export default class Swiper extends Component {
     return (
       <Slider {...settings} className="w-[100vw] m-0 overflow-hidden">
         <Card
-          link="ganesh.smortr.com"
+          link="https://ganesh.smortr.com"
           image="person1.png"
           background="bg1.png"
           name="Ganesh Baby"
@@ -70,7 +70,7 @@ export default class Swiper extends Component {
           pronouns="he/him"
         />
         <Card
-          link="shylesh.smortr.com"
+          link="https://shylesh.smortr.com"
           image="person2.png"
           background="bg2.png"
           name="Shylesh Kumar"
@@ -81,7 +81,7 @@ export default class Swiper extends Component {
           pronouns="he/him"
         />
         <Card
-          link="saroja.smortr.com"
+          link="https://saroja.smortr.com"
           image="person3.png"
           background="bg3.png"
           name="Saroja Arunachalam"
@@ -92,7 +92,7 @@ export default class Swiper extends Component {
           pronouns="she/her"
         />
         <Card
-          link="samad.smortr.com"
+          link="https://samad.smortr.com"
           image="person4.png"
           background="bg4.png"
           name="Samad Vahora"
@@ -103,7 +103,7 @@ export default class Swiper extends Component {
           pronouns="he/him"
         />
         <Card
-          link="neel.smortr.com"
+          link="https://neel.smortr.com"
           image="person5.png"
           background="bg5.png"
           name="Neel Shah"
@@ -114,7 +114,7 @@ export default class Swiper extends Component {
           pronouns="he/him"
         />
         <Card
-          link="harsh.smortr.com"
+          link="https://harsh.smortr.com"
           image="person6.png"
           background="bg6.png"
           name="Harsh Varma"
@@ -125,7 +125,7 @@ export default class Swiper extends Component {
           pronouns="he/him"
         />
         <Card
-          link="kumaran.smortr.com"
+          link="https://kumaran.smortr.com"
           image="person7.png"
           background="bg7.png"
           name="Kumaran Parthibhan"
