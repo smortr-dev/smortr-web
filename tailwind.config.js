@@ -6,13 +6,25 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
+    screens: {
+      'sm': "640px",
+      'md': "768px",
+      'lg': "1024px",
+      "xl": "1440px",
+      "2xl": "1536px",
+      "tab": "500px",
+      "hd": "769px",
+      "2k": "1024px",
+      "4k": "1440px",
+      "6k": "1536px",
+    },
     container: {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "xl": "1400px",
       },
     },
     extend: {
