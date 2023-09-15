@@ -160,7 +160,7 @@ export default function LandingPage() {
       </div>
       <div className="md:mr-20 mr-0">
         <img
-          src="/comments.svg"
+          src="/comment.svg"
           className="rounded-r-[18px] w-full h-auto"
           alt="why"
         />
