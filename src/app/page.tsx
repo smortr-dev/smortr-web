@@ -57,31 +57,14 @@ export default function LandingPage() {
             className="md:inline-block absolute hidden lg:bottom-[-4rem] bottom-[-2rem] right-0 lg:h-[40vw] md:h-[50vw]"
             alt="logo-large"
           />
-          <div
-            // onLoad={async () => {
-            //   console.log("clicked");
-            //   setInterval(function () {
-            //     document.getElementById("player")?.click();
-            //   }, 2000);
-            //   // document.getElementById("player")?.click();
-            // }}
-            className="md:inline-block overflow-clip hidden aspect-video lg:w-[50vw] md:w-[60vw] h-auto bg-red-400 absolute bottom-0 right-0 rounded-l-[18px]"
-          >
+          <div className="md:inline-block overflow-clip hidden aspect-video lg:w-[50vw] md:w-[60vw] h-auto bg-red-400 absolute bottom-0 right-0 rounded-l-[18px]">
             <iframe
-              onLoad={async () => {
-                console.log("clicked");
-                setInterval(function () {
-                  document.getElementById("player")?.click();
-                }, 1000);
-                // document.getElementById("player")?.click();
-              }}
               src="https://player.vimeo.com/video/862315644?h=c43452d2aa&autoplay=1&loop=1&title=0&byline=0&portrait=0"
               // style="position:absolute;top:0;left:0;width:100%;height:100%;"
               className="absolute top-0 left-0 w-full h-full"
-              id="player "
-              // frameBorder="0"
+              frameBorder="0"
               allow="autoplay; fullscreen; picture-in-picture"
-              // allowFullScreen
+              allowFullScreen
             ></iframe>
             {/* <script src="https://player.vimeo.com/api/player.js"></script> */}
             <Script src="https://player.vimeo.com/api/player.js" />
@@ -109,7 +92,7 @@ export default function LandingPage() {
         </p>
         <Swiper />
       </div>
-      <div className="p-16 pb-8">
+      <div className="p-16 pb-20">
         <h2 className="text-center text-[#1B1B2D] lg:text-[3rem] text-[2.4rem] font-[800] tracking-tighter">
           Foundations
         </h2>

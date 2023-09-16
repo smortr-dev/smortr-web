@@ -11,7 +11,7 @@ export default class Swiper extends Component {
     // console.log(number, "props");
     const settings = {
       //   dots: true,
-      pauseOnHover: true,
+
       className: "center",
       centerMode: true,
       infinite: true,
@@ -21,9 +21,8 @@ export default class Swiper extends Component {
       //   slidesPerRow: 2,.
       // autoplay: true,
       autoplaySpeed: 2000,
-      slidesToShow: 3,
+      slidesToShow: 5,
       swipeToSlide: true,
-      // draggable: true,
       // rows: 1,
       slidesToScroll: 1,
       cssEase: "linear",
@@ -33,6 +32,38 @@ export default class Swiper extends Component {
           breakpoint: 2000,
           settings: {
             centerMode: true,
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            infinite: true,
+            // dots: true,
+          },
+        },
+        {
+          breakpoint: 1800,
+          settings: {
+            centerMode: true,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            infinite: true,
+            // dots: true,
+          },
+        },
+        {
+          breakpoint: 1439,
+          settings: {
+            centerMode: true,
+            // centerMode: false,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+            // dots: true,
+          },
+        },
+        {
+          breakpoint: 1023,
+          settings: {
+            centerMode: true,
+            // centerMode: false,
             slidesToShow: 3,
             slidesToScroll: 1,
             infinite: true,
@@ -40,32 +71,34 @@ export default class Swiper extends Component {
           },
         },
         {
-          breakpoint: 1024,
+          breakpoint: 767,
           settings: {
             centerMode: true,
             slidesToShow: 2,
             slidesToScroll: 1,
+            infinite: true,
             // initialSlide: 2,
           },
         },
         {
-          breakpoint: 767,
+          breakpoint: 500,
           settings: {
             centerMode: true,
             slidesToShow: 1,
             slidesToScroll: 1,
+            infinite: true,
           },
         },
       ],
       // pauseOnHover: true,
     };
     return (
-      <Slider {...settings} className="w-[100vw] m-0">
+      <Slider {...settings} className="w-[100vw] m-0 overflow-hidden">
         <Card
           link="https://ganesh.smortr.com"
           image="person1.png"
           background="bg1.png"
-          name="Ganesh Babu"
+          name="Ganesh Baby"
           thought="Mapping the cultural richness of Dravidian Urbanism in India and ‘Toekomst' in the Netherlands."
           position="Urbanist"
           place="Rotterdam"
@@ -131,7 +164,7 @@ export default class Swiper extends Component {
           link="https://kumaran.smortr.com"
           image="person7.png"
           background="bg7.png"
-          name="Kumaran Parthiban"
+          name="Kumaran Parthibhan"
           thought="Let’s talk about the future and how it will manifest."
           position="Speculative Architect/Educator"
           place="Los Angeles"
