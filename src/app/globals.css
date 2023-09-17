@@ -9,10 +9,44 @@ body {
   /* background-color: #fafafa; */
   min-height: 100% !important;
 }
+
+.transition-custom {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.card-hover:hover {
+  transition: background-color 0.5s ease-out;
+
+  background: linear-gradient(0deg, #fff 0%, rgba(255, 255, 255, 0) 46%);
+}
+/* .slick-slide {
+  flex: 1;
+} */
 img.conver {
   object-fit: cover;
   width: auto;
   height: 100%;
+}
+div[class^="slick"] {
+  overflow-y: visible !important;
+}
+.slick-list {
+  overflow: visible !important;
+  /* overflow-x: hidden !important; */
+  /* overflow-y: visible !important; */
+}
+.slick-track {
+  overflow-y: visible;
+  display: flex !important;
+}
+.slick-slide {
+  height: inherit !important;
+}
+.slick-slide > div {
+  height: 100% !important;
 }
 .fafafa {
   background-color: #fafafa !important;

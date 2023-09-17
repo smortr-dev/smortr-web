@@ -27,20 +27,21 @@ export default function LandingPage() {
       <Header />
       <div className="mt-8 md:mb-20 mb-0">
         <div className="relative md:ml-[5rem] ml-0 lg:h-[87.5vh] md:h-[75vw] bg-[#7696F2] md:rounded-l-[18px] rounded-tl-[18px] md:px-[2.5rem] md:py-0 p-10 pb-32 border-[3px] border-r-0 border-[rgba(0,0,0,0.30)] border-b-0 md:border-b-[3px]">
-          <div className="md:mt-16 lg:w-[25vw] md:w-[40vw] md:float-left">
-            <h1 className="font-[800] lg:text-[3rem] leading-tight text-[2.4rem] tracking-tighter text-[#333]">
-              We’re Building Smortr
+          <div className="tab:mt-8 lg:w-[30vw] md:w-[40vw]  md:float-left">
+            <h1 className="font-[800] uhd:text-[3rem] tab:text-[2.1rem] text-[2.4rem] tracking-tighter text-[#333] uhd:leading-[3.2rem] tab:leading-[2.35rem] leading-[2.5rem]">
+              Building Connections in One Window
             </h1>
-            <p className="mt-4 text-[1.25rem] leading-[1.75rem] text-[#333] tracking-tight">
-              The global social network for people in the building design
-              industry to showcase, connect and collaborate.
+            <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
+              Say goodbye to managing multiple platforms. We’re building Smortr,
+              the global social network for people in the building design
+              industry to showcase, connect, and collaborate.
             </p>
             <Link
               href="https://share-eu1.hsforms.com/1b7cmFaXvReORge98WazfXAfrzmm"
               target="_blank"
             >
               <Button
-                className="relative z-[5] lg:mt-8 md:mt-4 mt-8 block w-[100%]  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
+                className="relative z-[5] lg:mt-4 md:mt-4 mt-8 block w-[100%]  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
                 onClick={() => {
                   console.log("clicked");
                   // router.push(
@@ -71,6 +72,13 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
+      {/* <div className="flex">
+        <div className="w-[30vw] bg-red-50">Helloooo</div>
+        <div className="w-[30vw] bg-blue-50">
+          Hiiii
+          <div>Hellooo</div>
+        </div>
+      </div> */}
       <div className="relative md:hidden block aspect-video w-full h-auto bg-red-300 ">
         <iframe
           src="https://player.vimeo.com/video/862315644?h=c43452d2aa&autoplay=1&loop=1&title=0&byline=0&portrait=0"
@@ -83,16 +91,19 @@ export default function LandingPage() {
         {/* <script src="https://player.vimeo.com/api/player.js"></script> */}
         <Script src="https://player.vimeo.com/api/player.js" />
       </div>
-      <div className=" bg-[#1B1B2D] py-16 overflow-hidden">
-        <p className="px-8 text-white bg-transparent text-center lg:mb-8 mb-4 md:text-[1.25rem] text-[1rem]">
+      <div className=" bg-[#1B1B2D] py-16  w-full">
+        <p className="px-8  text-white bg-transparent text-center lg:mb-8 mb-4 md:text-[1.25rem] text-[1rem]">
           Creators are powerful.
         </p>
         <p className="px-8 text-white bg-transparent text-center md:mb-24 mb-12 md:text-[1.25rem] text-[1rem]">
           Showcase your work where it matters.
         </p>
+        <p className="px-6 text-white bg-transparent text-center md:mb-24 mb-12 md:text-[2.25rem] text-[2rem] tracking-[-0.035rem] leading-8 font-[700]">
+          Explore profiles of our early adopters
+        </p>
         <Swiper />
       </div>
-      <div className="p-16 pb-20">
+      <div className="py-10">
         <h2 className="text-center text-[#1B1B2D] lg:text-[3rem] text-[2.4rem] font-[800] tracking-tighter">
           Foundations
         </h2>
@@ -100,11 +111,25 @@ export default function LandingPage() {
           Questions that lead to building Smortr
         </p>
       </div>
-      <div className="mt-8 lg:px-16 px-8">
+      <div className="mx-6 tab:mx-16">
+        <div className="md:text-[1.25rem] tab:w-[60%] text-[1rem]">
+          Are you part of the ever-evolving building design community, where
+          your work leaves a lasting impact, and collaboration is key? In this
+          interdisciplinary field, you understand the value of long-term
+          commitments and collaborating with diverse talents.
+        </div>
+        <div className="relative tab:w-[60%] tab:ml-[40%] mt-16 md:text-[1.25rem] text-[1rem] mb-10">
+          <span className="font-[700]">But here’s the challenge:</span> there is
+          no unified platform to connect all of us, forcing you to juggle
+          multiple platforms. This fragmentation disrupts your workflow and
+          makes collaboration a hassle.
+        </div>
+      </div>
+      <div className="mt-8 lg:px-16 px-6 md:pr-20">
         <h4 className="text-[1.125rem] font-[700] text-[#479F70]">
           Time Taken
         </h4>
-        <h1 className="lg:text-[2rem] text-[1.2rem] font-[400] text-[#479F70] mb-8">
+        <h1 className="lg:text-[2rem] text-[1.2rem] font-[400] text-[#479F70] mb-8 ">
           “How long does it take to effectively showcase work and skill sets?”
         </h1>
       </div>
@@ -116,7 +141,7 @@ export default function LandingPage() {
         />
       </div>
 
-      <div className="mt-24 lg:px-16 px-8">
+      <div className="mt-24 lg:px-16 px-4 md:pr-20">
         <h4 className="text-[1.125rem] font-[700] text-[#1769FF]">
           Connections in 3 Clicks
         </h4>
@@ -125,14 +150,14 @@ export default function LandingPage() {
           collaborations in 3 clicks or less?”
         </h1>
       </div>
-      <div className="md:pr-20 mr-0">
+      <div className="md:pr-20 mr-0 ">
         <img
           src="/connect.svg"
           className="rounded-r-[18px]  w-full h-auto"
           alt="why"
         />
       </div>
-      <div className="mt-24 lg:px-16 px-8">
+      <div className="mt-24 lg:px-16 px-4 md:pr-20">
         <h4 className="text-[1.125rem] font-[700] text-[#CC3057]">
           Modular but Versatile
         </h4>
@@ -157,7 +182,7 @@ export default function LandingPage() {
             href="https://share-eu1.hsforms.com/1b7cmFaXvReORge98WazfXAfrzmm"
             target="_blank"
           >
-            <Button className="relative md:w-[40vw] w-[70vw] z-[5] lg:mt-8 md:mt-4 mt-8 block  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black">
+            <Button className="relative w-[70vw] hd:w-[40vw] uhd:w-[25vw] z-[5] lg:mt-8 md:mt-4 mt-8 block  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black">
               Join Waitlist
             </Button>
           </Link>
