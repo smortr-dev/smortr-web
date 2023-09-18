@@ -199,12 +199,12 @@ export default class Swiper extends Component {
         </Slider>
         <img
           src="/arrow_prev.svg"
-          className="inline-block absolute top-[calc(50%-2rem)] left-2 h-[6rem] w-[6rem] cursor-pointer"
+          className="hd:inline-block absolute top-[calc(50%-2rem)] left-2 h-[6rem] w-[6rem] cursor-pointer hidden"
           onClick={this.previous}
         />
         <img
           src="/arrow_next.svg"
-          className="inline-block absolute top-[calc(50%-2rem)] right-2 h-[6rem] w-[6rem] cursor-pointer"
+          className="hd:inline-block absolute top-[calc(50%-2rem)] right-2 h-[6rem] w-[6rem] cursor-pointer hidden "
           onClick={this.next}
         />
       </div>

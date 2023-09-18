@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-
+import { HubspotProvider } from "next-hubspot";
 import { Button } from "@/components/ui/button";
 import Header from "./Header";
 // import { Swiper } from "swiper/types";
@@ -8,30 +8,79 @@ import Swiper from "./Swiper";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Form from "./Form";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useState } from "react";
 
 export default function LandingPage() {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <Script
-        src="//js-eu1.hsforms.net/forms/embed/v2.js"
+      <Header />
+      {/* <Script
+        src="https://js-eu1.hsforms.net/forms/embed/v2.js"
         type="text/javascript"
-      />
-      {/* <Script id="show-banner">
+        onLoad={() => {
+          console.log("load");
+        }}
+        onReady={() => {
+          console.log("ready");
+          hbspt.forms.create({
+            region: "eu1",
+            portalId: "26500126",
+            formId: "6fb72615-a5ef-45e3-9181-ef7c59acdf5c",
+          });
+        }}
+      /> */}
+      {/* <Script
+        id="show-banner"
+        onLoad={() => {
+          console.log("load");
+        }}
+      >
+        {`(async () => {
+          const script = document.createElement("script");
+          script.setAttribute("type", "text/javascript");
+          script.src = "https://js.hsforms.net/forms/embed/v2.js";
+
+          script.addEventListener("load", () => {
+            hbspt.forms.create({
+              region: "eu1",
+              portalId: "26500126",
+              formId: "6fb72615-a5ef-45e3-9181-ef7c59acdf5c",
+            });
+          });
+
+          document.head.append(script);
+        })();`}
+      </Script> */}
+      {/* <Script
+        id="show-banner"
+        onLoad={() => {
+          console.log("working");
+        }}
+      >
         {`hbspt.forms.create({
             region: "eu1",
             portalId: "26500126",
             formId: "6fb72615-a5ef-45e3-9181-ef7c59acdf5c"
           });`}
       </Script> */}
-      <Header />
       <div className="mt-8 md:mb-20 mb-0">
-        <div className="relative md:ml-[5rem] ml-0 lg:h-[87.5vh] md:h-[75vw] bg-[#7696F2] md:rounded-l-[18px] rounded-tl-[18px] md:px-[2.5rem] md:py-0 p-10 pb-32 border-[3px] border-r-0 border-[rgba(0,0,0,0.30)] border-b-0 md:border-b-[3px]">
+        <div className="relative md:ml-[5rem] ml-0 lg:h-[87.5vh] md:h-[75vw] bg-[#7696F2] md:rounded-l-[18px] rounded-tl-[18px] md:px-[2.5rem] md:py-0 p-10 2k:pt-12 pb-32 border-[3px] border-r-0 border-[rgba(0,0,0,0.30)] border-b-0 md:border-b-[3px]">
           <div className="tab:mt-8 lg:w-[30vw] md:w-[40vw]  md:float-left">
-            <h1 className="font-[800] uhd:text-[3rem] tab:text-[2.1rem] text-[2.4rem] tracking-tighter text-[#333] uhd:leading-[3.2rem] tab:leading-[2.35rem] leading-[2.5rem]">
+            <h1 className="font-[800] 2k:text-[3rem] uhd:text-[3rem] tab:text-[2.1rem] text-[2.4rem] tracking-tighter text-[#333] 2k:leading-[3.4rem] uhd:leading-[3.2rem] tab:leading-[2.35rem] leading-[2.5rem]">
               Building Connections in One Window
             </h1>
-            <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
+            <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] 2k:leading-[1.85rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
               Say goodbye to managing multiple platforms. We’re building Smortr,
               the global social network for people in the building design
               industry to showcase, connect, and collaborate.
@@ -41,7 +90,7 @@ export default function LandingPage() {
               target="_blank"
             >
               <Button
-                className="relative z-[5] lg:mt-4 md:mt-4 mt-8 block w-[100%]  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
+                className="relative z-[5] 2k:mt-6 lg:mt-4 md:mt-4 mt-8 block w-[100%]  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
                 onClick={() => {
                   console.log("clicked");
                   // router.push(
@@ -59,6 +108,15 @@ export default function LandingPage() {
             alt="logo-large"
           />
           <div className="md:inline-block overflow-clip hidden aspect-video lg:w-[50vw] md:w-[60vw] h-auto bg-red-400 absolute bottom-0 right-0 rounded-l-[18px]">
+            <Script src="https://player.vimeo.com/api/player.js" />
+            {/* <iframe
+              src="https://player.vimeo.com/video/862315644?h=c43452d2aa&autoplay=1&loop=1&title=0&byline=0&portrait=0"
+              // style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              className="absolute top-0 left-0 w-full h-full"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            ></iframe> */}
             <iframe
               src="https://player.vimeo.com/video/862315644?h=c43452d2aa&autoplay=1&loop=1&title=0&byline=0&portrait=0"
               // style="position:absolute;top:0;left:0;width:100%;height:100%;"
@@ -68,17 +126,10 @@ export default function LandingPage() {
               allowFullScreen
             ></iframe>
             {/* <script src="https://player.vimeo.com/api/player.js"></script> */}
-            <Script src="https://player.vimeo.com/api/player.js" />
           </div>
         </div>
       </div>
-      {/* <div className="flex">
-        <div className="w-[30vw] bg-red-50">Helloooo</div>
-        <div className="w-[30vw] bg-blue-50">
-          Hiiii
-          <div>Hellooo</div>
-        </div>
-      </div> */}
+
       <div className="relative md:hidden block aspect-video w-full h-auto bg-red-300 ">
         <iframe
           src="https://player.vimeo.com/video/862315644?h=c43452d2aa&autoplay=1&loop=1&title=0&byline=0&portrait=0"
@@ -91,14 +142,23 @@ export default function LandingPage() {
         {/* <script src="https://player.vimeo.com/api/player.js"></script> */}
         <Script src="https://player.vimeo.com/api/player.js" />
       </div>
+      {/* <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent>
+          <HubspotProvider>
+            <Form setOpen={setOpen} open={open} />
+          </HubspotProvider>
+        </DialogContent>
+      </Dialog> */}
+
       <div className=" bg-[#1B1B2D] py-16  w-full">
-        <p className="px-8  text-white bg-transparent text-center lg:mb-8 mb-4 md:text-[1.25rem] text-[1rem]">
+        <p className="px-8  text-white bg-transparent text-center  mb-4 md:text-[1.25rem] text-[1rem]">
           Creators are powerful.
         </p>
-        <p className="px-8 text-white bg-transparent text-center md:mb-24 mb-12 md:text-[1.25rem] text-[1rem]">
+        <p className="px-8 text-white bg-transparent text-center md:mb-14 mb-12 md:text-[1.25rem] text-[1rem]">
           Showcase your work where it matters.
         </p>
-        <p className="px-6 text-white bg-transparent text-center md:mb-24 mb-12 md:text-[2.25rem] text-[2rem] tracking-[-0.035rem] leading-8 font-[700]">
+        <p className="px-6 text-white bg-transparent text-center md:mb-18 mb-12 md:text-[2.25rem] text-[2rem] tracking-[-0.035rem] leading-8 font-[700]">
           Explore profiles of our early adopters
         </p>
         <Swiper />
