@@ -26,15 +26,22 @@ body {
   flex: 1;
 } */
 .section {
+  /* position: relative; */
   border-radius: 12px !important;
   border-color: transparent;
+  /* scroll-padding-top: 10px; */
 }
+
 .section::-webkit-scrollbar {
-  width: 12px;
+  width: 5px;
+
+  height: 90%;
 }
 .section::-webkit-scrollbar-track {
   background-color: #e4e4e4;
-  border-radius: 100px;
+  position: relative !important;
+  right: 8px !important;
+  border-radius: 18px;
 }
 .section::-webkit-scrollbar-thumb {
   background-color: #d4aa70;
