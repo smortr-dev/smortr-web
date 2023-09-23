@@ -149,7 +149,7 @@ export default class Swiper extends Component {
             thought="Looking for local artists to collaborate on Starbucks store designs and experiences."
             position="Store Design Manager"
             place="Seattle"
-            about="I use design to create business identities."
+            about=" I am a designer who loves to create business identities. Currently designing a portfolio of cafes for Starbucks Coffee Company."
             pronouns="she/her"
           />
           <Card

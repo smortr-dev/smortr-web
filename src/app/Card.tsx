@@ -49,8 +49,8 @@ export default function Card(props: CardProps) {
               <p className="font-[600] mt-[0.15rem]  2k:text-[0.75rem] uhd:text-[0.7rem] hd:text-[0.65rem] tab:text-[0.6rem] text-[0.8rem] text-center leading-4">
                 {props.position}
               </p>
-              <p className="font-[600] mt-[0.15rem]  2k:text-[0.75rem] uhd:text-[0.7rem] hd:text-[0.65rem] tab:text-[0.6rem] text-[0.8rem] text-center leading-4 text-[#848484]">
-                in {props.place}
+              <p className="font-[600] mt-[0.15rem]  2k:text-[0.75rem] uhd:text-[0.7rem] hd:text-[0.65rem] tab:text-[0.6rem] text-[0.8rem] text-center leading-4 ">
+                in <span className="text-[#848484]">{props.place}</span>
               </p>
               <p className="text-center mt-[0.15rem] 2k:text-[0.6rem] hd:text-[0.55rem] text-[0.55rem]">
                 ({props.pronouns})
