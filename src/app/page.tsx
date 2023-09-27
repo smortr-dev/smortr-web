@@ -221,7 +221,7 @@ export default function LandingPage() {
         <div className="md:pr-20 mr-0 ">
           <img
             src="/connect.svg"
-            className="rounded-r-[18px]  w-full h-auto"
+            className="rounded-r-[18px] w-full h-auto"
             alt="why"
           />
         </div>
