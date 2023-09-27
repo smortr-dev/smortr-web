@@ -10,13 +10,12 @@ export default function Header(props: { setOpen: any }) {
           className="float-left inline-block w-[2.5rem] h-[2.5rem] "
           alt="logo"
         />
-        
-          <Button className="md:inline-block hidden bg-black float-right text-white h-[2.5rem] border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black " onClick={()=>{
+
+        {/* <Button className="md:inline-block hidden bg-black float-right text-white h-[2.5rem] border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black " onClick={()=>{
             props.setOpen((prev:boolean)=>!prev)
           }}>
             Join waitlist!
-          </Button>
-        
+          </Button> */}
       </nav>
     </>
   );

@@ -103,7 +103,7 @@ export default function LandingPage() {
                   setOpen((prev: boolean) => !prev);
                 }}
               >
-                Sign up now!
+                Join waitlist!
               </Button>
             </div>
             <img
