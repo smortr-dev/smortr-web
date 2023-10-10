@@ -2,6 +2,9 @@
 const nextConfig = {
     compiler: {
         styledComponents: true
+    },
+    env: {
+        baseUrl: "http://localhost:3000"
     }
 }
 
