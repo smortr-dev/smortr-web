@@ -146,14 +146,14 @@ export default function Feed() {
   const [presentedData, setPresentedData] = useState<Feed>();
   const [apiData, setApiData] = useState<Feed>();
   const [filters, setFilters] = useState<filter>(defaultFilter);
-  useEffect(() => {
-    async function fetchData() {
-      const feedData: Feed = await getData();
-      setApiData(feedData);
-      console.log(feedData, "feedData");
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const feedData: Feed = await getData();
+  //     setApiData(feedData);
+  //     console.log(feedData, "feedData");
+  //   }
+  //   fetchData();
+  // }, []);
 
   return (
     <>
