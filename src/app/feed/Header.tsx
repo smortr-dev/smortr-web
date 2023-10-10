@@ -29,21 +29,6 @@ export default function Header() {
           {/* <img src="/" */}
         </div>
       </div>
-      <div className="w-full relative rounded-[6.25rem] flex border-[0.06rem] border-black justify-stretch">
-        <div className="inline-block w-[90%] h-full">
-          <div className="w-full flex">
-            <img
-              src="/feed_search_bar.svg"
-              className="inline-block p-3 h-12 w-12"
-              alt="feed-search-logo"
-            />
-          </div>
-        </div>
-        <div className="relative w-[10%] border-black border-l-[0.06rem] flex items-center justify-center">
-          <div className="inline-block">Hello</div>
-        </div>
-      </div>
-      
     </>
   );
 }

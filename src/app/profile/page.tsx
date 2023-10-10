@@ -24,7 +24,7 @@ type Profile = {
     connections: number;
     shares: number;
     joinDate: string;
-    languages: [string];
+    languages: string[];
     workPreference: string;
   };
   bio: [
@@ -35,7 +35,7 @@ type Profile = {
       caption: string;
     }
   ];
-  skills: [{ skillName: string; proficiency: number }];
+  skills: { skillName: string; proficiency: number }[];
   portfolio: [
     {
       type: string;
@@ -49,7 +49,7 @@ type Profile = {
       description: string;
       startDate: string;
       endDate: string;
-      skills: [string];
+      skills: string[];
       school: string;
     }
   ];
@@ -62,7 +62,7 @@ type Profile = {
       position: string;
       endDate: string;
       company: string;
-      skills: [string];
+      skills: string[];
     }
   ];
   certificationOrLicense: [
@@ -297,6 +297,7 @@ export default async function Profile() {
             return (
               <>
                 <div
+                  key={index}
                   className={`border-2 border-black rounded-[0.88rem] mt-[1.25rem] overflow-clip ${portfolioClassResolver(
                     portfolioObject
                   )}`}
