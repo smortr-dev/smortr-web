@@ -1,4 +1,5 @@
 import fsPromises from 'fs/promises';
+import { NextResponse } from 'next/server';
 import path from 'path'
 export async function GET() {
     // Get the path of the json file
@@ -19,5 +20,6 @@ export async function GET() {
     // const data = await res.json()
    
     // return Response.json({ data })
-    return Response.json({...objectData})
+    // return Response.json({...objectData})
+    return NextResponse.json({...objectData})
   }

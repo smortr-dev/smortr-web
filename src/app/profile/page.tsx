@@ -245,9 +245,12 @@ export default async function Profile() {
       <div className="px-16 pt-8">
         <h3 className="text-[1.3rem] px-2 font-[700]">Bio</h3>
         <div className="flex justify-between mt-4">
-          {profileData.bio.map((cardData) => (
+          {profileData.bio.map((cardData, index) => (
             <>
-              <div className="w-[28vw] shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]">
+              <div
+                key={index}
+                className="w-[28vw] shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]"
+              >
                 <div className="text-[0.9rem] font-[700] px-4 py-4 text-left w-full">
                   {cardData.question}
                 </div>
@@ -274,7 +277,7 @@ export default async function Profile() {
           {profileData.skills.map((skill, index) => {
             return (
               <>
-                <div className="inline-block w-full  mt-4" key={index}>
+                <div className="inline-block w-full mt-4" key={index}>
                   <div className="text-[0.9rem] py-2 font-[500]">
                     {skill.skillName}
                   </div>
@@ -349,6 +352,7 @@ export default async function Profile() {
             return (
               <>
                 <div
+                  key={index}
                   // ref={previewRef}
                   className={`rounded-[18px] relative bg-white shadow-[0_4px_50px_0_rgba(0,0,0,0.05)]`}
                   // data-hadler-id={handlerId}
@@ -408,6 +412,7 @@ export default async function Profile() {
             return (
               <>
                 <div
+                  key={index}
                   // ref={previewRef}
                   className={`rounded-[18px] relative bg-white shadow-[0_4px__50px_0_rgba(0,0,0,0.05)]`}
                   // data-hadler-id={handlerId}
@@ -471,7 +476,10 @@ export default async function Profile() {
             (certificationOrLicense, index) => {
               return (
                 <>
-                  <div className="inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] mt-4">
+                  <div
+                    key={index}
+                    className="inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] mt-4"
+                  >
                     <div className=" relative grid grid-cols-2 px-10 py-10 justify-center w-full h-full items-center">
                       <img
                         className="absolute top-[1rem] right-[1rem] h-[1.5rem] w-[1.5rem]"
