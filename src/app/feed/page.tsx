@@ -117,7 +117,7 @@ type Feed = {
 
 async function getData() {
   // console.log("called");
-  const res = await fetch(process.env.baseUrl + "/api/profile");
+  const res = await fetch("/api/feed");
   const profileData: Feed = await res.json();
   // console.log(profileData);
   return profileData;
@@ -146,14 +146,14 @@ export default function Feed() {
   const [presentedData, setPresentedData] = useState<Feed>();
   const [apiData, setApiData] = useState<Feed>();
   const [filters, setFilters] = useState<filter>(defaultFilter);
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const feedData: Feed = await getData();
-  //     setApiData(feedData);
-  //     console.log(feedData, "feedData");
-  //   }
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    async function fetchData() {
+      const feedData: Feed = await getData();
+      setApiData(feedData);
+      console.log(feedData, "feedData");
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
