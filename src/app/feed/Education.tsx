@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 type education = {
+  userLink: string;
   user: string;
   image: string;
   degree: string;
@@ -10,13 +11,17 @@ type education = {
   school: string;
   postDate: string;
 };
-
+import { useRouter } from "next/navigation";
 export default function Education({ cardData }: { cardData: education }) {
+  const router = useRouter();
   return (
     <>
       <div
+        onClick={() => {
+          router.push(cardData.userLink);
+        }}
         // ref={previewRef}
-        className={`rounded-[18px] relative bg-white shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+        className={`rounded-[18px] relative hover:cursor-pointer bg-white shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
         // data-hadler-id={handlerId}
       >
         <div

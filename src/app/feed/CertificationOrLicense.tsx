@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 type certificationOrLicense = {
+  userLink: string;
   userImg: string;
   user: string;
   type: string;
@@ -9,7 +10,7 @@ type certificationOrLicense = {
   link: string;
   postDate: string;
 };
-
+import { useRouter } from "next/navigation";
 let fetchMonth = function (date: Date) {
   let monthList = [
     "January",
@@ -32,11 +33,15 @@ export default function CertificationOrLicense({
 }: {
   cardData: certificationOrLicense;
 }) {
+  const router = useRouter();
   return (
     <>
       <div
+        onClick={() => {
+          router.push(cardData.userLink);
+        }}
         // key={index}
-        className="inline-block min-h-[25vh] w-full shadow-[0_3px_50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
+        className="inline-block hover:cursor-pointer min-h-[25vh] w-full shadow-[0_3px_50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
       >
         <div className=" relative grid grid-cols-2  justify-center w-full h-full items-center">
           <img

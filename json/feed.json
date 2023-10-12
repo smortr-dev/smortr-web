@@ -7,6 +7,7 @@
             {
                 "type":"bio",
                 "cardData":{
+                    "userLink":"",
                     "user":"ZA",
                     "question":"My favourite part of the design process...",
                     "mediaType":"img",
@@ -18,6 +19,7 @@
             {
                 "type":"certificationOrLicense",
                 "cardData":{
+                    "userLink":"",
                     "userImg":"",
                     "user":"JW",
                     "type":"LEED Certification",
@@ -30,6 +32,7 @@
             {
                 "type":"experience",
                 "cardData":{
+                    "userLink":"",
                     "user":"BZ",
                     "image":"",
                     "place":"Dubai",
@@ -45,6 +48,7 @@
             {
                 "type":"education",
                 "cardData":{
+                    "userLink":"",
                     "user":"MK",
                     "image":"",
                     "school":"UC Berkeley",
@@ -61,11 +65,18 @@
             {
                 "type":"portfolio",
                 "cardData":{
+                    "userLink":"",
+                    "designSector":"Urban Planning",
+                    "typology":"Transport Corridors",
+                    "scopeRole":"Data Analysis",
+                    "location":"Netherlands",
+                    "year":"2023",
                     "user":"CF",
                     "type":"",
                     "image":"",
                     "title":"Green Room",
-                    "description":"Indoors like outdoors"
+                    "description":"Indoors like outdoors",
+                    "postDate":"2023-10-12T06:28:14.326Z"
                 }
             }
         ]

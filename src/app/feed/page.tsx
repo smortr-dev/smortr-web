@@ -5,6 +5,7 @@ import Header from "./Header";
 import { MultiSelect } from "react-multi-select-component";
 // import  from "react-responsive-masonry";
 import Masonry from "react-responsive-masonry";
+import { InputFeed } from "@/components/ui/input";
 import { Option } from "react-multi-select-component";
 import {
   Form,
@@ -43,6 +44,7 @@ function optionCreator(array: string[]) {
 // const;
 
 const Typology: Option[] = optionCreator([
+  "Transport Corridors",
   "House",
   "Retail",
   "Restaurant",
@@ -58,13 +60,15 @@ const Typology: Option[] = optionCreator([
 ]);
 
 const Location: Option[] = optionCreator([
-  "Chennai",
+  // "Chennai",
   "Dubai",
-  "New Delhi",
+  // "New Delhi",
   "Seattle",
+  "Netherlands",
 ]);
 
 const DesignSector: Option[] = optionCreator([
+  "All Design Sectors",
   "Architecture",
   "Interior Design",
   "Urban Design",
@@ -178,6 +182,7 @@ type filter = {
 };
 
 type bio = {
+  userLink: string;
   user: string;
   question: string;
   mediaType: string;
@@ -186,6 +191,7 @@ type bio = {
   postDate: string;
 };
 type portfolio = {
+  userLink: string;
   designSector: string;
   typology: string;
   scopeRole: string;
@@ -200,6 +206,7 @@ type portfolio = {
 };
 
 type education = {
+  userLink: string;
   user: string;
   image: string;
   degree: string;
@@ -212,6 +219,7 @@ type education = {
 };
 
 type experience = {
+  userLink: string;
   user: string;
   image: string;
   place: string;
@@ -225,6 +233,7 @@ type experience = {
 };
 
 type certificationOrLicense = {
+  userLink: string;
   userImg: string;
   user: string;
   type: string;
@@ -235,7 +244,7 @@ type certificationOrLicense = {
   postDate: string;
 };
 
-type data = (
+type dataTypes =
   | {
       type: "bio";
       cardData: bio;
@@ -255,8 +264,9 @@ type data = (
   | {
       type: "portfolio";
       cardData: portfolio;
-    }
-)[];
+    };
+
+type data = dataTypes[];
 
 type Feed = {
   profile: {
@@ -288,6 +298,7 @@ function convertToValues(props: Option[]): string[] {
 export default function Feed() {
   const defaultFilter: filter = {
     designSector: undefined,
+    searchString: undefined,
     typology: [],
     skills: [],
     location: [],
@@ -297,17 +308,8 @@ export default function Feed() {
   const [presentedData, setPresentedData] = useState<data>();
   const [apiData, setApiData] = useState<Feed>();
   const [filters, setFilters] = useState<filter>(defaultFilter);
-  useEffect(() => {
-    async function fetchData() {
-      const feedData: Feed = await getData();
-      setApiData(feedData);
-      setPresentedData(feedData.data);
-      console.log(feedData, "feedData");
-    }
-    fetchData();
-  }, []);
 
-  function filterData(filter: filter) {
+  function filterData(filter: filter, apiData: Feed | undefined) {
     console.log(filter, "filter called");
     let initialData: data | undefined = apiData?.data;
 
@@ -336,88 +338,151 @@ export default function Feed() {
     if (filter.searchString && filter.searchString.length > 0) {
       console.log("search string");
       initialData = initialData?.filter((data) => {
-        if (data.type == "bio") {
-          for (let i = 0; i < Skills.length; i++) {
+        if (data.type == "bio" && filter.searchString) {
+          if (
+            data.cardData.question
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.caption
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else return false;
+        } else if (data.type == "education" && filter.searchString) {
+          for (let i = 0; i < data.cardData.skills.length; i++) {
             if (
-              Skills[i].value
+              data.cardData.skills[i]
                 .toLocaleLowerCase()
-                .match(data.cardData.caption.toLocaleLowerCase())
+                .match(filter.searchString.toLocaleLowerCase())
             )
               return true;
-            else return false;
           }
-        } else if (data.type == "education") {
-          for (let i = 0; i < Skills.length; i++) {
-            for (let j = 0; j < data.cardData.skills.length; j++) {
-              if (
-                Skills[i].value
-                  .toLocaleLowerCase()
-                  .match(data.cardData.skills[i].toLocaleLowerCase())
-              )
-                return true;
-              else return false;
-            }
-          }
-        } else if (data.type == "experience") {
-          for (let i = 0; i < Skills.length; i++) {
-            for (let j = 0; j < data.cardData.skills.length; j++) {
-              if (
-                Skills[i].value
-                  .toLocaleLowerCase()
-                  .match(data.cardData.skills[i].toLocaleLowerCase())
-              )
-                return true;
-              else return false;
-            }
-          }
-        } else if (data.type == "certificationOrLicense") {
-          for (let i = 0; i < Skills.length; i++) {
+          if (
+            data.cardData.school
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.degree
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.description
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else return false;
+        } else if (data.type == "experience" && filter.searchString) {
+          for (let i = 0; i < data.cardData.skills.length; i++) {
             if (
-              Skills[i].value
+              data.cardData.skills[i]
                 .toLocaleLowerCase()
-                .match(data.cardData.type.toLocaleLowerCase())
+                .match(filter.searchString.toLocaleLowerCase())
             )
               return true;
-            else return false;
           }
-        } else if (data.type == "portfolio") {
-          for (let i = 0; i < Skills.length; i++) {
-            if (
-              Skills[i].value
-                .toLocaleLowerCase()
-                .match(data.cardData.type.toLocaleLowerCase())
-            )
-              return true;
-            // else if (
-            //   Skills[i].value
-            //     .toLocaleLowerCase()
-            //     .match(data.cardData.location.toLocaleLowerCase())
-            // )
-            //   return true;
-            else if (
-              Skills[i].value
-                .toLocaleLowerCase()
-                .match(data.cardData.designSector.toLocaleLowerCase())
-            )
-              return true;
-            else if (
-              Skills[i].value
-                .toLocaleLowerCase()
-                .match(data.cardData.location.toLocaleLowerCase())
-            )
-              return true;
-            else if (
-              Skills[i].value
-                .toLocaleLowerCase()
-                .match(data.cardData.scopeRole.toLocaleLowerCase())
-            )
-              return true;
-            else return false;
-          }
+          if (
+            data.cardData.place
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.company
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.position
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.position
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.description
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else return false;
+        } else if (
+          data.type == "certificationOrLicense" &&
+          filter.searchString
+        ) {
+          if (
+            data.cardData.type
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.from
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else return false;
+        } else if (data.type == "portfolio" && filter.searchString) {
+          if (
+            data.cardData.designSector
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.description
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.typology
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.location
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.title
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else if (
+            data.cardData.scopeRole
+              .toLocaleLowerCase()
+              .match(filter.searchString.toLocaleLowerCase())
+          )
+            return true;
+          else return false;
         }
       });
     }
-    if (filter.designSector && filter.designSector.length > 0) {
+    if (
+      filter.designSector &&
+      filter.designSector.length > 0 &&
+      filter.designSector != "All Design Sectors"
+    ) {
       console.log("design sector");
       initialData = initialData?.filter((data) => {
         if (data.type == "portfolio") {
@@ -426,7 +491,33 @@ export default function Feed() {
         } else return false;
       });
     }
-    console.log(filter.skills, "skills");
+
+    if (filter.typology && filter.typology.length > 0) {
+      initialData = initialData?.filter((data) => {
+        if (data.type == "portfolio" && filter.typology) {
+          for (let i = 0; i < filter?.typology.length; i++) {
+            if (data.cardData.typology == filter.typology[i]) {
+              return true;
+            } else return false;
+          }
+        } else return false;
+      });
+    }
+
+    if (filter.location && filter.location.length > 0) {
+      initialData = initialData?.filter((data) => {
+        // console.log(data.cardData);
+        if (data.type == "portfolio" && filter.location) {
+          for (let i = 0; i < filter?.location.length; i++) {
+            if (data.cardData.location == filter.location[i]) {
+              return true;
+            } else return false;
+          }
+        } else return false;
+      });
+    }
+
+    // console.log(filter.skills, "skills");
     if (filter.skills && filter.skills.length > 0) {
       console.log("skills");
       initialData = initialData?.filter((data) => {
@@ -454,9 +545,32 @@ export default function Feed() {
         } else return false;
       });
     }
-    console.log(initialData, "filterData");
+    console.log(initialData, "initial data before sort");
+    if (filter.sortBy == "Latest") {
+      initialData?.sort((a: dataTypes, b: dataTypes) => {
+        if (new Date(a.cardData.postDate) > new Date(b.cardData.postDate)) {
+          return -1;
+        } else if (
+          new Date(a.cardData.postDate) < new Date(b.cardData.postDate)
+        ) {
+          return 1;
+        } else return 0;
+      });
+    }
+    console.log(initialData, "initial data after sort");
     return initialData;
   }
+  useEffect(() => {
+    async function fetchData() {
+      const feedData: Feed = await getData();
+      setApiData(feedData);
+      setPresentedData(filterData(filters, feedData));
+      console.log(feedData, "feedData");
+    }
+    fetchData();
+    // setPresentedData(filterData(filters));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (presentedData && filters) {
     console.log(presentedData, "change");
@@ -471,6 +585,23 @@ export default function Feed() {
                   src="/feed_search_bar.svg"
                   className="inline-block p-3 h-12 w-12"
                   alt="feed-search-logo"
+                />
+
+                <InputFeed
+                  className="inline-block"
+                  placeholder="Describe what you are searching for..."
+                  defaultValue={filters.searchString}
+                  onChange={(event) => {
+                    let filter = {
+                      ...filterData,
+                      searchString: event.target.value,
+                    };
+                    setFilters((prev) => {
+                      console.log(event.target.value);
+                      return { ...prev, searchString: event.target.value };
+                    });
+                    setPresentedData(filterData(filter, apiData));
+                  }}
                 />
               </div>
             </div>
@@ -512,12 +643,14 @@ export default function Feed() {
             </Select> */}
               <Select
                 onValueChange={(props) => {
+                  let returnValue: filter = { ...filters, searchType: props };
+                  setPresentedData(filterData(returnValue, apiData));
                   setFilters((prev) => {
                     let returnValue: filter = { ...prev, searchType: props };
                     // console.log(returnValue);
                     return returnValue;
                   });
-                  filterData(filters);
+                  filterData(filters, apiData);
                 }}
                 defaultValue={filters.searchType}
               >
@@ -528,10 +661,11 @@ export default function Feed() {
                   {/* <SelectGroup> */}
                   {/* <SelectLabel>Fruits</SelectLabel> */}
                   <SelectItem value="All Content">All Content</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="blueberry">Blueberry</SelectItem>
-                  <SelectItem value="grapes">Grapes</SelectItem>
-                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                  <SelectItem value="Projects">Projects</SelectItem>
+                  <SelectItem value="Bio">Bio</SelectItem>
+                  <SelectItem value="Education">Education</SelectItem>
+                  <SelectItem value="Experience">Experience</SelectItem>
+                  <SelectItem value="Certification">Certification</SelectItem>
                   {/* </SelectGroup> */}
                 </SelectContent>
               </Select>
@@ -573,8 +707,8 @@ export default function Feed() {
                     ...filters,
                     typology: convertToValues(props),
                   };
-                  console.log(returnValue, "return value");
-                  setPresentedData(filterData(returnValue));
+                  // console.log(returnValue, "return value");
+                  setPresentedData(filterData(returnValue, apiData));
                   setFilters((prev: filter | undefined) => {
                     let returnValue: filter = {
                       ...prev,
@@ -588,17 +722,17 @@ export default function Feed() {
                 onValueChange={(props) => {
                   let returnValue: filter = { ...filters, designSector: props };
                   // console.log(returnValue, "return value");
-                  setPresentedData(filterData(returnValue));
+                  setPresentedData(filterData(returnValue, apiData));
                   setFilters((prev) => {
                     let returnValue: filter = { ...prev, designSector: props };
                     // console.log(returnValue);
                     return returnValue;
                   });
-                  filterData(filters);
+                  filterData(filters, apiData);
                 }}
                 defaultValue={filters.designSector}
               >
-                <SelectTrigger className="text-[#AAAAAA] bg-white text-[1rem]  w-[15%] mr-4">
+                <SelectTrigger className="text-[#AAAAAA] border-[#ccc] bg-white text-[1rem]  w-[20%] mr-4">
                   <SelectValue placeholder="Design Sector" className="" />
                 </SelectTrigger>
                 <SelectContent className="border-transparent">
@@ -629,7 +763,7 @@ export default function Feed() {
                     skills: convertToValues(props),
                   };
                   // console.log(returnValue, "return value");
-                  setPresentedData(filterData(returnValue));
+                  setPresentedData(filterData(returnValue, apiData));
                   setFilters((prev: filter | undefined) => {
                     let returnValue: filter = {
                       ...prev,
@@ -643,12 +777,17 @@ export default function Feed() {
                 className="w-[15%] mr-4"
                 overrideStrings={{ selectSomeItems: "Location" }}
                 hasSelectAll={false}
-                labelledBy="Design Sector"
+                labelledBy="Location"
                 options={Location}
                 // value={field.value ? field.value : []}
                 value={convertToOptions(filters?.location)}
                 // control={form.control}
                 onChange={(props: Option[]) => {
+                  let returnValue: filter = {
+                    ...filters,
+                    location: convertToValues(props),
+                  };
+                  setPresentedData(filterData(returnValue, apiData));
                   setFilters((prev: filter | undefined) => {
                     let returnValue: filter = {
                       ...prev,
@@ -656,7 +795,7 @@ export default function Feed() {
                     };
                     return returnValue;
                   });
-                  filterData(filters);
+                  filterData(filters, apiData);
                 }}
               />
             </div>
@@ -666,12 +805,14 @@ export default function Feed() {
               </div>
               <Select
                 onValueChange={(props) => {
+                  let returnValue: filter = { ...filters, sortBy: props };
+                  setPresentedData(filterData(returnValue, apiData));
                   setFilters((prev) => {
                     let returnValue: filter = { ...prev, sortBy: props };
                     // console.log(returnValue);
                     return returnValue;
                   });
-                  filterData(filters);
+                  filterData(filters, apiData);
                 }}
                 defaultValue={filters.sortBy}
               >

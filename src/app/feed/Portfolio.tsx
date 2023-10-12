@@ -1,5 +1,8 @@
+import { useRouter } from "next/navigation";
+
 /* eslint-disable @next/next/no-img-element */
 type portfolio = {
+  userLink: string;
   user: string;
   type: string;
   image: string;
@@ -8,10 +11,14 @@ type portfolio = {
   postDate: string;
 };
 export default function Portfolio({ cardData }: { cardData: portfolio }) {
+  const router = useRouter();
   return (
     <>
       <div
-        className={`min-h-[60vh] border-2 relative border-black rounded-[0.88rem] overflow-clip h-[45vh] shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+        onClick={() => {
+          router.push(cardData.userLink);
+        }}
+        className={`min-h-[60vh] hover:cursor-pointer border-2 relative border-black rounded-[0.88rem] overflow-clip h-[45vh] shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
       >
         <img
           src="/bg1.png"

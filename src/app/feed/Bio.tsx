@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
+import { useRouter } from "next/navigation";
 type bio = {
+  userLink: string;
   user: string;
   question: string;
   mediaType: string;
@@ -8,11 +10,15 @@ type bio = {
   postDate: string;
 };
 export default function Bio({ cardData }: { cardData: bio }) {
+  const router = useRouter();
   return (
     <>
       <div
+        onClick={() => {
+          router.push(cardData.userLink);
+        }}
         // key={index}
-        className="min-h-[30vw] shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]"
+        className="min-h-[30vw] hover:cursor-pointer shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]"
       >
         <div className="text-[0.9rem] font-[700] px-4 py-4 text-left w-full">
           {cardData.question}
