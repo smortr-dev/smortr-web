@@ -6,7 +6,7 @@ export default function Header() {
   const router = useRouter();
   return (
     <>
-      <div className="flex justify-between pb-6 pt-4">
+      <div className="flex justify-between pb-6 pt-4 mx-16">
         <div className="flex items-center">
           <div className="inline-block h-10 w-10">
             <img
@@ -19,12 +19,12 @@ export default function Header() {
             />
           </div>
           <Link href={"/"} className="inline-block ml-10">
-            <div className="inline-block text-[1.15rem] text-[#848484] font-[600] hover:text-black hover:underline transition-all">
+            <div className="inline-block text-[1.15rem] text-[#DD5D33] font-[600] hover:text-black hover:underline transition-all">
               About
             </div>
           </Link>
           <Link href={"/"} className="inline-block ml-10">
-            <div className="inline-block text-[1.15rem] text-[#DD5D33] font-[600] hover:text-black hover:underline transition-all">
+            <div className="inline-block text-[1.15rem] text-[#848484] font-[600] hover:text-black hover:underline transition-all">
               Feed
             </div>
           </Link>
