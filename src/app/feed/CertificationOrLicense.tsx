@@ -51,7 +51,8 @@ export default function CertificationOrLicense({
           />
           <div className="h-full w-full flex justify-center items-center">
             <img
-              src={`/${cardData.userImg}`}
+              loading="lazy"
+              src={`${cardData.userImg}`}
               alt="certificate"
               className=" aspect-square w-[20vh] inline-block border-2 border-black rounded-full mr-6"
             />

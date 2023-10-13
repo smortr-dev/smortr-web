@@ -27,13 +27,14 @@ export default function Experience({ cardData }: { cardData: experience }) {
         // data-hadler-id={handlerId}
       >
         <div
-          className={`h-[35vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]   overflow-clip`}
+          className={`h-[45vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]   overflow-clip`}
           // onClick={() => {}}
         >
           <img
-            src={`/bg1.png`}
+            loading="lazy"
+            src={cardData.image}
             alt="preview"
-            className="block object-cover h-full z-[12] w-full "
+            className=" object-cover h-full z-[12] w-full "
           />
         </div>
         <div className="px-6 pt-2 pb-4">
@@ -75,7 +76,7 @@ export default function Experience({ cardData }: { cardData: experience }) {
         <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#DD5D33] rounded-full">
           <div className="inline-block text-white  text-[0.6rem]">
             {cardData.user.split(" ").map((part, index) => {
-              return <span key={index}>{part.charAt(0)} </span>;
+              return <span key={index}>{part.charAt(0)}</span>;
             })}
           </div>
         </div>

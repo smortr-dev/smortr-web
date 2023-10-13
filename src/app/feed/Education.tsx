@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 type education = {
   userLink: string;
   user: string;
@@ -25,13 +26,22 @@ export default function Education({ cardData }: { cardData: education }) {
         // data-hadler-id={handlerId}
       >
         <div
-          className={`h-[35vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
+          className={`h-[45vh] relative rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
           // onClick={() => {}}
         >
-          <img
-            src={`/bg1.png`}
+          {/* <Image
+            src={cardData.image}
             alt="preview"
-            className="block object-cover h-full z-[12] w-full "
+            fill={true}
+            objectFit="cover"
+            height={500}
+            width={500}
+          /> */}
+          <img
+            loading="lazy"
+            src={cardData.image}
+            alt="preview"
+            className="object-cover h-full z-[12] w-full "
           />
         </div>
         <div className="px-6 pt-2 pb-4">
@@ -65,10 +75,10 @@ export default function Education({ cardData }: { cardData: education }) {
             })}
           </div>
         </div>
-        <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#1769FF] rounded-full">
+        <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#1769FF] rounded-full z-[14]">
           <div className="inline-block text-white  text-[0.6rem]">
             {cardData.user.split(" ").map((part, index) => {
-              return <span key={index}>{part.charAt(0)} </span>;
+              return <span key={index}>{part.charAt(0)}</span>;
             })}
           </div>
         </div>

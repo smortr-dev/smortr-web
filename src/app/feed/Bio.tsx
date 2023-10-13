@@ -5,7 +5,7 @@ type bio = {
   user: string;
   question: string;
   mediaType: string;
-  fileLink: string;
+  filelink: string;
   caption: string;
   postDate: string;
 };
@@ -25,7 +25,7 @@ export default function Bio({ cardData }: { cardData: bio }) {
         </div>
         <div className="h-[20vw] border-2 border-black w-full">
           <img
-            src="/bg1.png"
+            src={cardData.filelink}
             className="object-cover h-full w-full"
             alt="some stuff"
           />
@@ -38,7 +38,7 @@ export default function Bio({ cardData }: { cardData: bio }) {
         <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#DD5D33] rounded-full">
           <div className="inline-block text-white  text-[0.6rem]">
             {cardData.user.split(" ").map((part, index) => {
-              return <span key={index}>{part.charAt(0)} </span>;
+              return <span key={index}>{part.charAt(0)}</span>;
             })}
           </div>
         </div>

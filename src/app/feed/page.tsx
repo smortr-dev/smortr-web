@@ -186,7 +186,7 @@ type bio = {
   user: string;
   question: string;
   mediaType: string;
-  fileLink: string;
+  filelink: string;
   caption: string;
   postDate: string;
 };
@@ -738,10 +738,12 @@ export default function Feed() {
                 <SelectContent className="border-transparent">
                   {/* <SelectGroup> */}
                   {/* <SelectLabel>Fruits</SelectLabel> */}
-                  {convertToValues(DesignSector).map((item) => {
+                  {convertToValues(DesignSector).map((item, index) => {
                     return (
                       <>
-                        <SelectItem value={`${item}`}>{item}</SelectItem>
+                        <SelectItem key={index} value={`${item}`}>
+                          {item}
+                        </SelectItem>
                       </>
                     );
                   })}

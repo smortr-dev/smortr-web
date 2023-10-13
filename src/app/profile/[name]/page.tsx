@@ -531,7 +531,9 @@ export default function Profile({ params }: { params: { name: string } }) {
               : null}
           </div>
         </div>
-        {profileData && profileData.certificationOrLicense.length > 0 ? (
+        {profileData &&
+        profileData.certificationOrLicense &&
+        profileData.certificationOrLicense.length > 0 ? (
           <>
             <div className="px-16 pt-8 mb-4">
               <h3 className="text-[1.3rem] px-2 font-[700]">

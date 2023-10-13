@@ -1,0 +1,83 @@
+{
+        "profile":{
+            "user":"JW",
+            "profileImg":""
+        },
+        "data":[
+            {
+                "type":"bio",
+                "cardData":{
+                    "userLink":"",
+                    "user":"ZA",
+                    "question":"My favourite part of the design process...",
+                    "mediaType":"img",
+                    "filelink":"",
+                    "caption":"Creating spaces for ideas.",
+                    "postDate":"2023-09-30T10:40:40.604Z"
+                }
+            },
+            {
+                "type":"certificationOrLicense",
+                "cardData":{
+                    "userLink":"",
+                    "userImg":"",
+                    "user":"JW",
+                    "type":"LEED Certification",
+                    "from":"USGBC",
+                    "validTill":"2023-09-30T10:40:40.604Z",
+                    "id":"123456899900000",
+                    "postDate":"2023-09-30T10:40:40.604Z"
+                }
+            },
+            {
+                "type":"experience",
+                "cardData":{
+                    "userLink":"",
+                    "user":"BZ",
+                    "image":"",
+                    "place":"Dubai",
+                    "company":"Build Up Architects",
+                    "position":"Design Intern",
+                    "startDate":"2023-09-30T10:40:40.604Z",
+                    "endDate":"2023-09-30T10:40:40.604Z",
+                    "description":"Learnt how to work with a team, design collaboratively and make art into tangible space.Worked on and executed 3 projects while I was working here.",
+                    "skills":["Carpentry","Microsoft Excel","Illustrator"],
+                    "postDate":"2023-09-30T10:40:40.604Z"
+                      }
+            },
+            {
+                "type":"education",
+                "cardData":{
+                    "userLink":"",
+                    "user":"MK",
+                    "image":"",
+                    "school":"UC Berkeley",
+                    "degree":"Master of Arts, Interior Design",
+                    "description":"Pursuing my MA in Interior Design at UC Berkeley, I delved into the intersection of art and technology, exploring innovative design solutions that harmonize aesthetics, functionality, and cutting-edge digital tools for immersive spatial experiences.",
+                    "skills":[
+                        "Lumion Render","KeyShot","Photoshop"
+                    ],
+                    "startDate":"2023-09-30T10:40:40.604Z",
+                    "endDate":"2023-09-30T10:40:40.604Z",
+                    "postDate":"2023-09-30T10:40:40.604Z"
+                }
+            },
+            {
+                "type":"portfolio",
+                "cardData":{
+                    "userLink":"",
+                    "designSector":"Urban Planning",
+                    "typology":"Transport Corridors",
+                    "scopeRole":"Data Analysis",
+                    "location":"Netherlands",
+                    "year":"2023",
+                    "user":"CF",
+                    "type":"",
+                    "image":"",
+                    "title":"Green Room",
+                    "description":"Indoors like outdoors",
+                    "postDate":"2023-10-12T06:28:14.326Z"
+                }
+            }
+        ]
+}
