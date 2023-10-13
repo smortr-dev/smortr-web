@@ -310,11 +310,11 @@ export default function Feed() {
   const [filters, setFilters] = useState<filter>(defaultFilter);
 
   function filterData(filter: filter, apiData: Feed | undefined) {
-    console.log(filter, "filter called");
+    // console.log(filter, "filter called");
     let initialData: data | undefined = apiData?.data;
 
     if (filter.searchType) {
-      console.log("search type");
+      // console.log("search type");
       initialData = initialData?.filter((data) => {
         if (filter.searchType == "Bio") {
           if (data.type == "bio") return true;
@@ -336,7 +336,7 @@ export default function Feed() {
     }
 
     if (filter.searchString && filter.searchString.length > 0) {
-      console.log("search string");
+      // console.log("search string");
       initialData = initialData?.filter((data) => {
         if (data.type == "bio" && filter.searchString) {
           if (
@@ -483,7 +483,7 @@ export default function Feed() {
       filter.designSector.length > 0 &&
       filter.designSector != "All Design Sectors"
     ) {
-      console.log("design sector");
+      // console.log("design sector");
       initialData = initialData?.filter((data) => {
         if (data.type == "portfolio") {
           if (data.cardData.designSector == filter.designSector) return true;
@@ -519,25 +519,25 @@ export default function Feed() {
 
     // console.log(filter.skills, "skills");
     if (filter.skills && filter.skills.length > 0) {
-      console.log("skills");
+      // console.log("skills");
       initialData = initialData?.filter((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.type == "education" && filter.skills) {
           for (let i = 0; i < filter.skills.length; i++) {
             for (let j = 0; j < data.cardData.skills.length; j++) {
               if (filter.skills[i] == data.cardData.skills[j]) {
-                console.log(filter.skills[i], data.cardData.skills[j]);
+                // console.log(filter.skills[i], data.cardData.skills[j]);
                 return true;
               }
             }
           }
         }
         if (data.type == "experience" && filter.skills) {
-          console.log("experience", filter.skills.length, Skills.length);
+          // console.log("experience", filter.skills.length, Skills.length);
           for (let i = 0; i < filter.skills.length; i++) {
             for (let j = 0; j < data.cardData.skills.length; j++) {
               if (filter.skills[i] == data.cardData.skills[j]) {
-                console.log(filter.skills[i], data.cardData.skills[j]);
+                // console.log(filter.skills[i], data.cardData.skills[j]);
                 return true;
               }
             }
@@ -545,7 +545,7 @@ export default function Feed() {
         } else return false;
       });
     }
-    console.log(initialData, "initial data before sort");
+    // console.log(initialData, "initial data before sort");
     if (filter.sortBy == "Latest") {
       initialData?.sort((a: dataTypes, b: dataTypes) => {
         if (new Date(a.cardData.postDate) > new Date(b.cardData.postDate)) {
@@ -557,7 +557,7 @@ export default function Feed() {
         } else return 0;
       });
     }
-    console.log(initialData, "initial data after sort");
+    // console.log(initialData, "initial data after sort");
     return initialData;
   }
   useEffect(() => {
@@ -565,7 +565,7 @@ export default function Feed() {
       const feedData: Feed = await getData();
       setApiData(feedData);
       setPresentedData(filterData(filters, feedData));
-      console.log(feedData, "feedData");
+      // console.log(feedData, "feedData");
     }
     fetchData();
     // setPresentedData(filterData(filters));
@@ -573,7 +573,7 @@ export default function Feed() {
   }, []);
 
   if (presentedData && filters) {
-    console.log(presentedData, "change");
+    // console.log(presentedData, "change");
     return (
       <>
         <div className="mx-16">
@@ -597,7 +597,7 @@ export default function Feed() {
                       searchString: event.target.value,
                     };
                     setFilters((prev) => {
-                      console.log(event.target.value);
+                      // console.log(event.target.value);
                       return { ...prev, searchString: event.target.value };
                     });
                     setPresentedData(filterData(filter, apiData));

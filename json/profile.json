@@ -1,48 +1,50 @@
 [{
-    "name":"Kumaran",
+    "name":"kumaran",
     "userInfo":{
-        "image":"https://lh3.googleusercontent.com/mJ0N0o-7g3FhWcCwOsA2KKRp7VWqfeUoneKiUVIFiwSYRN-OIq9ai1BQLI3f17osZMSYdHgseIADpJ-_3LaS8ew=w1280",
+        "image":"https://ik.imagekit.io/ip3x08u9u/Kumaran/Kumaran.png?updatedAt=1696985489984",
         "name":"Kumaran Parthiban",
         "location":"Los Angeles",
         "position":"Speculative Architect/Educator",
         "pronouns":"he/him",
         "about":"I’m a visionary architect and educator, navigating the digital frontier, shaping tomorrow’s aesthetics through digital technology and embracing Gen Z zeitgeist! ",
         "thought":"Let’s talk about the future and how it will manifest.",
-        "background":"https://lh4.googleusercontent.com/sDDKATHiNXtu0Xr8jfP7Yy8KRG0_IPOo2ldifMtRSOk3iM6jWcYpRa1-qDSGhb1Q8KBoU61MWBRZeAhgZT54VG8=w16383",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Kumaran/KumaranParthiban_Ethereal_Images%20(1)%20(1).jpg?updatedAt=1696985296015",
         "thoughtPostDate":"2023-09-30T10:40:40.604Z",
-        "connections":73,
-        "shares":246,
+        "connections":0,
+        "shares":46,
         "joinDate":"2023-09-30T10:40:40.604Z",
         "languages":[
-            "English","Arabic"
+            "English","Tamil"
         ],
-        "workPreference":"Current Location"
+        "workPreference":[
+            "Remote","Current Location"
+        ]
 
     },
     "bio":[
         {
-            "question":"My TED talk would be about...",
+            "question":"My design process is fueled by the belief that...",
             "mediaType":"image",
-            "filelink":"",
-            "caption":"Art, technology and everything in between. asdfadsfadsfadsfadsf sdf afasf f afaesfads fasdf adsfads asdfads dfaf saf"
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Kumaran/2GBX-KumaranParthiban_190621_003920.png?updatedAt=1696986790655",
+            "caption":"walls don't have to always be straight."
         },
         {
-            "question":"My favorite part of the design process...",
+            "question":"The most important lesson I've learned as a designer is...",
             "mediaType":"image",
-            "filelink":"",
-            "caption":"Creating spaces from ideas."
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Kumaran/2GAX-Kumaran-Parthiban-cp.jpg?updatedAt=1696986851989",
+            "caption":"it changes you as a person, especially the way you think and see the world. I started to question everything I’ve come across and also started to appreciate the value of things a lot more."
         },
         {
-            "question":"My all time favorite designer...",
+            "question":"My all time favorite designer is...",
             "mediaType":"image",
-            "filelink":"",
-            "caption":"Not a designer but, Picasso!"
+            "filelink":"https://media.istockphoto.com/id/1311737605/photo/heydar-eliyev-center.jpg?s=612x612&w=0&k=20&c=3ass9t7ds-Gd4R0JoWVxApcERQ8zoiAFqelpRuGXKjg=",
+            "caption":"Zaha Hadid. I followed her work for the entire duration of my time as an undergrad. Listening to her lectures, interviews, and following her work gave me a lot of inspiration and energy to continue to push the boundaries of architecture."
         }
 
     ],
     "skills":[
         {
-            "skillName":"AutoCAD",
+            "skillName":"Cinema 4D",
             "proficiency":70
         },
         {
@@ -50,16 +52,16 @@
             "proficiency":50
         },
         {
-            "skillName":"Lumion Render",
+            "skillName":"Unity",
             "proficiency":65
         },
         {
             "skillName":"Photoshop",
-            "proficiency":50
+            "proficiency":80
         },
         {
-            "skillName":"Carpentry",
-            "proficiency":70
+            "skillName":"Conceptualization",
+            "proficiency":90
         }
     ],
     "portfolio":[
@@ -82,26 +84,223 @@
     ],
     "education":[
         {
-            "image":"",
-            "school":"UC Berkeley",
-            "degree":"Master of Arts, Interior Design",
-            "description":"Pursuing my MA in Interior Design at UC Berkeley, I delved into the intersection of art and technology, exploring innovative design solutions that harmonize aesthetics, functionality, and cutting-edge digital tools for immersive spatial experiences.",
+            "image":"https://ik.imagekit.io/ip3x08u9u/Kumaran/CriticalMASS-2019.jpeg?updatedAt=1696985863043",
+            "school":"SCI-Arc",
+            "degree":"Master of Architecture, Architecture 2",
+            "description":"It was a transformative journey that allowed me to delve deeper into the avant-garde and experimental realms of architecture. I was exposed to cutting-edge design theories, unconventional approaches, and a creative freedom that pushed the boundaries of traditional architectural norms. The rigorous curriculum challenged me to think critically, to break free from convention, and to redefine the very essence of architecture.",
             "skills":[
-                "Lumion Render","KeyShot","Photoshop"
+                "Unity","Cinema 4D","After Effects"
             ],
-            "startDate":"2023-09-30T10:40:40.604Z",
-            "endDate":"2023-09-30T10:40:40.604Z"
+            "startDate":"2019-09-30T10:40:40.604Z",
+            "endDate":"2021-09-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://images.collegedunia.com/public/college_data/images/appImage/5631_MEASI_APP.jpg",
+            "school":"MEASI Academy of Architecture",
+            "degree":"Bachelor of Architecture, Architecture",
+            "description":"This was my introduction into the world of Architecture where I first explored space and form.",
+            "skills":[
+                "AutoCAD","Team Work","Lumion Render"
+            ],
+            "startDate":"2012-04-30T10:40:40.604Z",
+            "endDate":"2017-05-30T10:40:40.604Z"
         }
     ],
     "experience":[
         {
-            "image":"",
-            "company":"The Home Company",
+            "image":"https://ik.imagekit.io/ip3x08u9u/Kumaran/KumaranParthiban_MM23_Kinetic_Gallery_%20(1).jpg?updatedAt=1696991449780",
+            "company":"SCI-Arc",
+            "position":"Instructor",
+            "place":"Los Angeles",
+            "startDate":"2021-09-30T10:40:40.604Z",
+            "endDate":"2023-09-30T10:40:40.604Z",
+            "description":"Teaching the next generation of avant-garde designers and architects.",
+            "skills":[
+                "Cinema 4D","Teaching and Facilitation","3D Modelling"
+            ]
+        },
+        {
+            "image":"https://lh3.googleusercontent.com/p/AF1QipO4MaucGse9rJhRJ6r3L7CNUMQ4eJvRVqEfavI-=s1360-w1360-h1020",
+            "company":"Atelier Manferdini",
             "position":"Founding Furniture Designer",
-            "place":"Dubai",
+            "place":"Los Angeles",
             "startDate":"2023-09-30T10:40:40.604Z",
             "endDate":"2023-09-30T10:40:40.604Z",
-            "description":"I am designing an exciting new collection!",
+            "description":"Designing concepts, buildings and fashion!",
+            "skills":[
+                "Rhino 3D","AutoCAD","Revit","Photoshop"
+            ]
+        },
+        {
+            "image":"data:image/png;base64,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",
+            "company":"WeBe Design Labs",
+            "position":"Architectural Design Intern",
+            "place":"Chennai",
+            "startDate":"2015-05-30T10:40:40.604Z",
+            "endDate":"2015-12-30T10:40:40.604Z",
+            "description":"Worked on live architectural projects.",
+            "skills":[
+                "AutoCAD","Revit","Photoshop"
+            ]
+            
+        }
+    ],
+    "certificationOrLicense":[]
+},
+
+{   
+    "name":"saroja",
+    "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/Saroja.png?updatedAt=1696989875400",
+        "name":"Saroja Arunachalam",
+        "location":"Seattle",
+        "position":"Store Design Manager",
+        "pronouns":"she/her",
+        "about":"I am a designer who loves to create business identities. Currently designing a portfolio of cafes for Starbucks Coffee Company.",
+        "thought":"Looking for local artists to collaborate on Starbucks store designs and experiences.",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/Schuster%20Center%20(1)%20(1).jpg?updatedAt=1696989514467",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":36,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","French"
+        ],
+        "workPreference":[
+            "-"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"My design process is fueled by the belief that...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/tidal-conversations-saroja-arunachalam-indiaartndesign.jpg?updatedAt=1697059198253",
+            "caption":"buildings and the design of spaces are a product of its place and time and reflect its inherent emotions."
+        },
+        {
+            "question":"The most important lesson I've learned as a designer is...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/Screenshot%202023-10-11%20at%202.28.19%20PM.png?updatedAt=1697059726757",
+            "caption":"the built fabric correlates to its geographic, socio-economic and political setting."
+        },
+        {
+            "question":"Designing for sustainability means...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/Screenshot%202023-10-11%20at%202.27.36%20PM.png?updatedAt=1697059737860",
+            "caption":"recogonizing communities as interconnected ecosystems."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Interior Design",
+            "proficiency":80
+        },
+        {
+            "skillName":"Project Management",
+            "proficiency":90
+        },
+        {
+            "skillName":"Revit",
+            "proficiency":65
+        },
+        {
+            "skillName":"Enscape",
+            "proficiency":80
+        },
+        {
+            "skillName":"Construction Administration",
+            "proficiency":90
+        }
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"data:image/jpeg;base64,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",
+            "school":"Université de Tours",
+            "degree":"Master of Science, Urban and Regional Planning",
+            "description":"Through extensive research, I delved into the multifaceted challenges of urban and regional development, examining critical issues in European nations and the Global South. This program not only honed my skills as a planner but also instilled a deep understanding of various planning cultures. Furthermore, I acquired proficiency in research methodologies tailored to the fields of urban studies and planning, with a strong emphasis on integrating environmental considerations into urban development strategies.",
+            "skills":[
+                "Research","Planning"
+            ],
+            "startDate":"2016-09-30T10:40:40.604Z",
+            "endDate":"2017-03-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/20067006_1950260948596509_8836065118895734784_n.jpg?updatedAt=1697058591768",
+            "school":"Anna University",
+            "degree":"Bachelor of Architecture, Architecture",
+            "description":"Gold Medallist and Student President of Archilogue (2015-16). Archilogue is the technical society of students in Dept. of Architecture and conducts events for the students to involve and explore the city.",
+            "skills":[
+                "AutoCAD","Team Work","Lumion Render"
+            ],
+            "startDate":"2011-04-30T10:40:40.604Z",
+            "endDate":"2016-05-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/IMG_7872.JPG?updatedAt=1697059197399",
+            "company":"Starbucks",
+            "position":"Store Design Manager - LS Studio X",
+            "place":"Seattle",
+            "startDate":"2023-02-30T10:40:40.604Z",
+            "endDate":"Present-30T10:40:40.604Z",
+            "description":"I lead the end-to-end design process for Starbucks stores, ensuring alignment with budget, schedule, and operational needs while upholding Starbucks' guiding principles. My responsibilities include design strategy execution, meeting deliverables, budget compliance, documentation management, and cross-functional collaboration.",
+            "skills":[
+                "Interior Design","Revit","Project Management"
+            ]
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/Glacier%20Basecamp%20Lodge%20(3).jpg?updatedAt=1697059371932",
+            "company":"Starbucks",
+            "position":"Store Design Manager - US Licensed Stores",
+            "place":"Seattle",
+            "startDate":"2023-02-30T10:40:40.604Z",
+            "endDate":"2018-07-30T10:40:40.604Z",
+            "description":"Licensed store design.",
+            "skills":[
+                "Interior Design","Revit","Project Management"
+            ]
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Saroja%20Arunachalam/Picture4.jpg?updatedAt=1697059197551",
+            "company":"Starbucks",
+            "position":"Store Design Manager - China Market",
+            "place":"Seattle",
+            "startDate":"2017-10-30T10:40:40.604Z",
+            "endDate":"2018-07-30T10:40:40.604Z",
+            "description":"Managed the production of construction documents, overseeing both internal and external designers and consultants. I am accountable for ensuring the integrity and quality of construction documents, encompassing design intent, detailing, code compliance, scheduling, and MEPs.",
+            "skills":[
+                "Interior Design","Revit","Project Management"
+            ]
+        },
+        {
+            "image":"https://cdn.buildofy.com/firms/logos/46942b77-6051-4756-824e-5e9eb55131f9.jpeg",
+            "company":"Hundred Hands",
+            "position":"Architectural Design Intern",
+            "place":"Bangalore",
+            "startDate":"2014-06-30T10:40:40.604Z",
+            "endDate":"2014-11-30T10:40:40.604Z",
+            "description":"Under the guidance of Architect Bijoy Ramachandran, I contributed to diverse projects, including interior architecture for a 60,000 sqft office space, interior design for Paradise Biriyani restaurants, and detailed working drawings for the Bangalore International Centre.",
             "skills":[
                 "AutoCAD","Revit","Photoshop"
             ]
@@ -109,12 +308,186 @@
     ],
     "certificationOrLicense":[
         {
-            "type":"LEED Certification",
-            "from":"USGBC",
-            "date":"2023-09-30T10:40:40.604Z",
-            "id":"123456899900000",
-            "link":""
+            "type":"Construction Cost Estimating and Cost Control",
+            "from":"Columbia University",
+            "date":"2020-05-30T10:40:40.604Z",
+            "id":"JV5PSDR6XSB7",
+            "link":"https://www.coursera.org/account/accomplishments/certificate/JV5PSDR6XSB7"
         }
         
     ]
-}]
+},
+{
+    "name":"ganesh",
+    "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/GB.png?updatedAt=1697059928605",
+        "name":"Ganesh Babu",
+        "location":"Rotterdam",
+        "position":"Urbanist",
+        "pronouns":"he/him",
+        "about":"I love cities and their idiosyncrasies. My life’s mission is to work towards understanding and documenting the myriad of complex systems that make cities possible while developing sustainable solutions to fixing the most pressing issues facing them.",
+        "thought":"Mapping the cultural richness of Dravidian Urbanism in India and ‘Toekomst' in the Netherlands.",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/Screenshot%202023-09-09%20at%2010.55.40%20AM.png?updatedAt=1697059915341",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":72,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","Dutch"
+        ],
+        "workPreference":[
+            "-"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"Designing for sustainability means...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/water-supply.webp?updatedAt=1697123119088",
+            "caption":"addressing fundamental issues like access to safe drinking water."
+        },
+        {
+            "question":"What would your TED Talk be about?",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/1669993094311.jpeg?updatedAt=1697123119051",
+            "caption":"Mobility, cities and people."
+        },
+        {
+            "question":"The most fulfilling part of being a designer is...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/1664955078309.jpeg?updatedAt=1697123307987",
+            "caption":"being able to analyse issues with different lenses."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Communication",
+            "proficiency":80
+        },
+        {
+            "skillName":"Urban Planning",
+            "proficiency":90
+        },
+        {
+            "skillName":"Geographic Information Systems (GIS)",
+            "proficiency":60
+        },
+        {
+            "skillName":"Data Visualization",
+            "proficiency":80
+        },
+        {
+            "skillName":"Spatial Analysis",
+            "proficiency":70
+        },
+        {
+            "skillName":"Architectural Design",
+            "proficiency":60
+        }
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/TU%20Delft.jpeg?updatedAt=1697123116738",
+            "school":"Delft University of Technology",
+            "degree":"Master of Science, Urbanism",
+            "description":"I explored the complexities of urban systems, focusing on sustainable solutions for pressing urban challenges. This educational journey equipped me with the skills and knowledge to pursue my lifelong mission of understanding and enhancing cities as an Urbanist in Rotterdam.",
+            "skills":[
+                "Research","Planning","Mapping", "Urban Planning"
+            ],
+            "startDate":"2019-09-30T10:40:40.604Z",
+            "endDate":"2021-03-30T10:40:40.604Z"
+        },
+        {
+            "image":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBYWFRgVFhUZGRgaGhoaGRwcGhocHBoaGRkaHBocGBwcIS4lHB4rIRgcJjgmKy8xNTU1HCQ7QDs0Py40NTEBDAwMEA8QHhISHzQrISs0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQxNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0Mf/AABEIAMIBAwMBIgACEQEDEQH/xAAbAAACAgMBAAAAAAAAAAAAAAAEBQMGAAIHAf/EAEUQAAIBAgQDBQUFBQYFBAMAAAECEQADBBIhMQVBUQYiYXGBEzKRobFCUnLB0RQjYrLwFRYkNHPhM4KSwvElVKLSQ1Nj/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAJBEAAgICAgICAwEBAAAAAAAAAAECERIhMVEDQRNhIjJSgRT/2gAMAwEAAhEDEQA/AAUdEHMBQSBHejWQR1FJcbxP9puK4WFt2/ZqTuRJMnxpti8MyOu3IE+E7x4zQC8HvW8wCh7ZYsCo7wPIMOW9c/ilymTFOyr4sDMRrMn4U37NpL+v5VrxDCqFR1U++2cneeXpRXZde+fM/St3wNcl7wCd01S+2v8Ambf4F/mq9YJe6ao3bL/NJ+BP5qBexW5776xqfhJ3qSxdjY6zv86CxIl28z9TTbg3A717KUQ5ebHReU6nnBrOTUdsUlsFe0S4b7xka/Hyq13Lr4bD6iHA95SCNWgENtpA+FZ/c+4WH7+2CAdNSQdY2O2lMMDw2/ZlLgtXbbbaBhIHNDopE7zrHjWPyRfsEBcB4lcuks55yfGQR+vxNWd0z6yZ8N8vIfKggLdsIwtAyVE84HOQY06U5soCJUwpAg89uVRd8LQKLekAYxCFZwYCKWM8supg9fClfEL9t7CsCW1JZSNR+I8oPOrFcw7ZGCjQqVnfcDfrVXxHDWs2nQZnzgjNpprImB4U/JFYqglFoI4DfDxYBCG42cEn5Dx6Gum4awVtqgMEACfz864rhLZzoAdVYRGh8FJrp3Z3iOdWR3V3QiQjFsvhmIANODjF12KLCnukNJUmZ1O5A3kDlUJxCgNlHdJ0BOk+HQ6/KpMRjWDSRLHu5QJBU/aJnTek+Kx+QZVTwGxg8yKTk4ukxii67hzGmsef+1GYC6+bIkA6ksdgADmjxjSgLrSrFtSNI1AE7/141CgaBHT3ZiZ28azVWQG4jFuyzkXLGpf7onSB5/Okz4nWQIHRdBp57iKnxJObIDMaae7497pUGJXaGEDTWdY3IA10oUUgIbjyDmmSIgbColeQc8wNByGnKpTbEanXx/LnUqYQ3EZy2iiFHMnT4L8a0jVDAsP3iRPL58prMToAEPPWB5bVJ7QAQoj9R41NhlkHMY3MnnHIaTRJ07GE8Dw+XvsOZJ0O0aeQJnzqTFWgbhcyNsq/dUzO+s1JcxDJbFpxroSByUbL4nT4UK9zMJMyScxbl4DrHWo+S0xOQSypkIQ94mGJAHe3DKaUNfbK0TGeWA+8Jg/M/GinOYBobKN5Onma2uYWI5ZhJnYE95fSOvUVKkkwBsLbDuCzESDJA120ivcJdKGAZkbDQAE6a+HOtDKMY1YeGnhp01orAWAqq7kQCqoDAykmCG8xJkUNp8iNbfAbTAM4ljqSBoekekVlMrfHwoyqBlBIHcVtJPOdaynUu0LIqyXTceQe8TBEbgnl061a8MkKJEGIPpzqLDYFRkMDMqgevM0cVreMWts6IxoAxnD7dwQ6A/X40sw3Z9bT57bafdOvwNPmFaxVptDolwyQtUPtig/agSwACJufE10GyulVntDwe1euFnUhoADA66fWtZSpEJbKSzjMT1O/XWrM/a50RLaIAoEQJAnYee5+VIL+GKXCo1K6/wDmvHuj7SydJHjt8KyklLkh8lv4fx1ghlFzE6tsZ8fCJp1wTFM1jOylWZz3iGDOCe5lVhGXKBsdd+dUXgl4vdW1ycgAxJyzqKumKxFpL9qwCqW0BJgsBsZjXqAPOaxlCN0l9iLG9hShL5QPdAMAZjtHiTpQ6jKAo2AApKvEPa3UtL3kFwGerDWCPA5W/wCWrDet6miMWka+J7ZPgsWqght+nWvb9guMwQqs7kaHpQLW+6x2IBg9D1qfhfFLzfunIcRIY+93dYPWt1uJcuSpcfsLZuKVEhzmbX3TP0/Si+ynEFS8VE5WAXN4E7MeWtGcbCXLL90BhJB2PdOo06Us7JcPd7lxlIlVErPvSdwOe1YRVtdmL+i9Y3D5wPZkJA1BO3MnTekOJwRRA7MSWJA5zA1NevxwMjwO+hy+EzFTYK6LyIz6BZUc8pB5iq8kU5VHkV7ErKSfAcvCl17iS23ylSzn3RsDmIAk9KYdpMXkvlLRGVUQMRsxgkk9NYqqXcSWYtMkknxBGojw8KheN3shj/F4pEzhm76SpAHQifrQHFbsOiq4KlQw8iZkRzrXAXQ8MyB3cTlJhdzOYjen+BwpMyttFiD7NSGEzGVp6GahtQ2w5ED6jOdZ0PI666Vlu/3WUA9TPLYegpjcsqp32Y6nnyEnrS29aIYweR9R+VUmNK2S2wAAOZPpHSmdjCEoYYKACWJ6AzC+JigMKwZQANSJ32361qmJhCJG+3ieY8KltthYS97O7FtF0P8AF3RoB5k1FhsUXYyREwqnbwmOv5UKZOumup8vzplb4WzW8waO9oDpJka/A0OOqEaYrKUdQ/uGDGxO8DqKnfDt7NfaGbjKpKj7KiFSZ3MAD1FI8WyoXIOrSBrr8OVNMNjVBXIsoFCiQCWP22edyXJMnwpuDjHQ0a3EZwH6gHx06cjtWl3Be1XKzwBqSPeGvTrTBcIXYAnujbpudADtQGPxBGxYKWnT3QV01HM6VEbTTBr2B3OA4lSQli7dQe66zDDkRWU0XEeJPjmGtZW//Qv5FaLU1pTuKgfBjkY89RWWeIW32ceun1oknSRrXXSZrbQtuYZxynyoYv1086cq01DeQHcTUuCKUiLD+7SvHr3z5CnCIAIA0pdi8KzMWUjyP60STcaBPZX34WGuF+TLlI8es1X8XwtgxHRozHnz08hNXh7bIpZhECZ3FKbFoXLtsBgYL6E+8AQCfHu5hXO7i0KVMqVlilyQ0FTE9IkVLjcO4ZHdgytbBUzJCyw16MCD61MmGDYwIfda8VPkXNWHjHCymHACx7O4y680ZjkI+PyNaMlx9gHZjFotxHhhlcTBOsmJMnxOtdPvLJJ8eVcms4TI6wZLGAPEV0fs8riwof3hI86m90PxvdBlxe6/4T9KF4Qe+Pwn6UXdHdb8JoDhJ76+R+n9fOtI8GsgftFw1lR7qNBJjL/C3vZR1oTgmM/ZUuFkLFlKhgdQIMb8pq1420ro2YTlBI86qrieXpSfj3aMmirWMQQHHeXNuesNJmrR2exZCEZeeYie9Ox9arfEbZAcsMpV48CWOoqDDPcQSrSWBEDUyfCsZJp5Iy4ZYOMrBd80g5ZBEQSCd+cZR8aq/wC1JpoZBkidPgd6eYvE5rAtt7yZAx1BggzM8/Gq3dw4IMd4zoF1JE8orSMlIbdj3AcRVLbi2s3XkCRAC7wo2686Z/tTO6MrAKgGoPdJKwUI5+dK8JwfEFO7ZfUSDERp1aKbcN4A6wXGVyJAnZeummu1ZTglutjoivvpAPiSVnXbu/Heh8XbUycgBGWBOvjJ5k0wvYXvzM6eQnx8qDxKQ2Uc4knmwOp9azS2F0LXnPMkAQNohgpJBGxFeoA6lToQSVPI+Bo98JDqDoJGaTpmI+utarhMr5Q0hmkDpDQPOdNKqhGYSIUZQ0Qsa7DeI86b4nDX3tBLQXIoYkue9qNQsTB0j1oHhmF9jndx3SWyyMpBU5RPmdvSnXA8dnbLOjozgazCnKT030NbeNWEV2UfhWAOJfvLCLGc66x9heQJ5nlrVgTCqHRLcDeQJyg7QpPvCQddJipGwGIF94UexXVCYVQW5qNJbca1JedbS5ftDUnxjT+j41z+aUsga2EY26qIVtySZzN92d4nnv8AGk11A4yEsFcTO7BhH+9QYnGFtxvqZ/I0Rw253lY694DKep29Kl3Vg2Af3dJ1RruU7SjevPrXlX61jLMCRrz/AKIrKPmfY6Qmu8FPJfhQrYa6nusy/Ef7Vb0YHYj41sVHSvQ+NembZdlRTit9fehvMa/EVOnHQT30I8taf3cGjboD/XhQd3gts7SPX9aMZL2FxPbLhhI51mkkVsmFKCJn0ikfELTe0ZlJB02NOUsUSlbGXEEBttmbKI19NYrneGxHs74uj7OseBnfwgxVtL3cpVjIIiCJoDihtpYI9koYCFYHUkmTPXSspSTYpQfIk4UobGW5IzG6CeepM/nXRO0PDXuWWVBJ3HnXPMAuS6lwAZlcPE7wZI+FdZwWMR1Dqw7wBidR51SqWgjK1RQsLwF2NxMpDobbCd4LQ8Vd8NiQWe3EG3A8IgRROBP7x/IfKgMPbIv32OxIj0pYKNsqKphF33W8j9KWcKbvr6/SjcTjEQw7ASDA5mN9PWgF4xYRiArZgGJ7sEKgJY6mdAvrpVxjocpbH90yjjmVIHwqtpw64SO7A8TRWE4yruEy5QVzAk6mT3RHI+HKosPxC+11FKQkEtC8wB3NenXxq6IshxXZprmcM4AZp2LRz2PhU1ns1YRkcuwKAx3gs85POhsSmKuZIlD+8Vjmj3p9mQBvAYTpyqe7wp2cMCEUrGUEtrDDXb73yqcY9BRObeEUnRXg94tLkloAnNudvjU7cTt21lLegIAyKqiZC+HM1E/CgVYM27W20AENbAGm+hgV7+y2lBVmEHcFtJkGY6yJppJcIKNcZxlsrkIAEJDAkkmMh2H4/lUWC4i73hIAD20YAdSG0nwifgKnfEWSWJg5ozECS0bV7/adsEQp0noN6dhQBaF5ndHXu5zkJGuXoDyHP1qHDYNrYV3XQgyCZywIQDqTAk0xucXB2T4mhcdjndBKgKG5Dn8dawnGLTb9hjYH+yMxe4wAB1AHIjn41tjOHZcjwCAQR4RzPpUzYklYnpAjbrPWvcfezldZC6fCuWUWmkhOJl3Eln1AdT7wPTbTyjTypnhlsJLoFUtM6CfEGKQm/AIG308q9svqNd+s1fjk4afAcD648iBqWiI+oHWqzxiwwbJGq6trOraxH507wWIZTIBMbaTvWuKwjOWhDnc5iTpKiJ9NBR5VvL0Nx9lTuSYB25Ry16UQiDVyNUIMDbzqyPwpcijKJXYnlO8mlt3h+Z1CsqsD3i8hMn2szbDwrGTtaM5JjPAXsELai6w9pEtIO516+NZQf93sIdWa67HUsEcqxPNSF1Xp4VlTUR1IC4cTnUAn3hz8am4hxp0vugfQMQAYqLhY76/iH1qscduE4zFT9m4QNBoMs16j4NfZbrfaR+eU+lF2+0QO6fA1yNOMONwPSRVl4Bii4zGdRtM84pWx0joCcXRtg3wn6UsuYpS7efOveGtCnzqrcU4kExDpzkaeYFEtoFyXtSpG428KqXHsXbuuiKYC5hm5MZA08N6XLxgbHQ+YqNrgd5Xw35ajb0qZbRMkwbCDJea2eTlZ6AaaVfOGcGD2VKuc0QZkEEVSlY/tZckT7SSYB5iTEVdU7RLacrkBVu8Crb5pJMHnrEeFSkskmJLF6GWBsXbOhUuI1IMk+pqS9jmJgADz1PwoZO09oj3XHpP0pbf4xbLEh4nwrVxRSbD8TaR8rXWHd21io1bDKSx7xOpMEz6mgjx+0ORPp+tEBke17QW11nwPyp8BQQ3FrQMqhJ6wBUb8e+6gHnVYfHKToI8JmoV4gp2YfGlY8Szvx1+RA8hQ78Uc7ufpSMYivRdosdDVsWTux+Jrz29Lg5r0MaQUHrdrb2tBLNTIhpDonF2t3vSYE5RtNaJZom3hqlioitnvDp0rdE18KLTB86IGGXqPiKnEGhe6AJtqfpW3DhIIPLaj3NpPfdF5akfrUFviGFTQXkPkZrP4tbZGK7DsAxDgEwDoxqwe0Uq0Ac1HjA/8VUbvH8Mo94sPBWNJ34nibrOLV0BC5ZFCrmy6DvEiRsaqVVsHJItjuHRR6GOR/wDFIOOMyuL+QuLYGW39lrk6M6/aAFOMMCQAdYiY+9UHE+AvcbMbuRAMrRqxlhAUnQGs5RSVoGtCPF3cazTbuKqFUhTcKx3FkQNtZrKMuYjCgkbRpq5nu6awnhWVGJFy7I+GDvL+IfWqnxof4zGf6v8A21buHDvL5j61UuMD/GYz/V/7a73waLkpjmrf2W9weR/mqnSdKuXZX3B5H+ahjRduHr3fWuedpD/j3H8SfyiulcNTuetc57TrHEGHVk/lFHoXsRY//iP5/kKtXZzCgornlpHp/vVW4iP3r+Y+gq5dmP8AhDzH0FJ7SH2B2/8ANa//ALQP/kK34hjJxTWYH7u46rH3ZOh9ZNRx/iev70fzChsYP/U7/wDrXPrQ4p7Ctlrw40qkcTxRW/cGcjvmBEjlV9wqb1zrjumJufj/ACFNAiV8aye8R8/yronZu/nwaHqD9a53g0DX9QDt/JXQuz5/wyjz+poY0VzD4dnJ1G5+tZ7EDSB8KM4QJePxfnUD+PX9aQWSYvh6oiOu78tgNvjTPhWBR/enad6j4ov+Hs+v0ongh/lpPlAnphOI4agAyiNes0mw17O7oEEq+Tffoas9zb4VSExTLibqqYly2w3BjSm0Ckxvic6I7tbjKJGsg+cbV4nEUIEEgxLZlMARuD0ofjV24cM/eJiD6eNB8Fxk2zmUMqA79IkiloTk7N34ndZroS5oi5lhVg6a60lbjuIeCLr68ttt9qOwV605uvlZVMe79kGPzpfYwqC2jh+97QiCPsloHyE+tNol2aPxW4yEG45bMNcxmIMx4TWvC8dkLM4LmDEsRBg6yelD8RtBXYA93cevQ0PhwsqT7o975/KpS0Kh5euPeh3CougVJJ0I3POTEmetRWsQh0ZSI0lQB9d6GS+1zuLoJ94+UAUZibCSsLpA2PPqazbp7Ia7GBxWG7qoLgJgOWKkHxUAfKTR9y1+zrnt5szQS0Akd4wJ5LoNKVYKyobIyKWOxJ93xHpV5HZo3bSvauiChzK24I00I5T9a5/LKWSUf9XYn9BvC7korHWQCY51Bx+7cdFQaLOw2ABmfA+VS4C0UUIwgqMp8xW2JuAETz0HmavzNrx2jZ/qAWuGIAP3SnxKST5nnWU6tX7ZAm4wPMLEDyrK82p/2RQgwA7y+Y+tVbi3+axf+r/2VY7T3FIPsToR9taXY3hF17ty4EC+0bMQXHSOVe62qNEnZzMg/Orl2UHcHkf5qlfsk33B/wBZo7hvCntaBBl296edDkhpFv4cvc9a5v2rP/qJ87f0rpOAHcqr8c4AbmJa6As92CWI2HQCm3SJS2UDig/ev5j6Crh2U/4Q/rkKixHZVmYscknfvN0jp4UdwzAvZ7vdOukE/mKnNF4sTYg/4gxv7T86ixo/9Uv/AOq3zymtbt0+1JjX2h+OanGK4UWvviJQO7Zj73QfpTckhJMdJcCqSdq5zxp1a/ccbFtPgKvPE84sEqQCdzyrnmKJzsTvPLaadkvQZw68BdBYgbb/AISK6F2auBsMCCCJbbzrmX7NnuBJiYE78q6J2Qt5MLlmYZ/qaUuCkIl4iLTkn+IfOpMI+eX66KOgG/zJ+VL+KINTlk5jt5mvOGX1RM77kx5UEst3EP8ALWvM/wAtbcEbUfhrTFNOFtkfe+oNR8DPeHkaJcoqPDLHNUWys4q7+Jv5qu6mqfwuyGe+/wBr2jAH1oboS2MuJp/hrmk9yl3BbP7g92JU+vdIBoHCcYuOro5kFXE/hGlM+EA+zQSYKCixUJOBpKXB4LU9vhrvaUKhDC4W100zUFeulPaBGyn2gWZ2Ef70tOJvE/8AFc6x71OrAsr9nLzOWEQ24fXTXTSoU7F3TpnTy5mlKK+k3H2177bz51qiXASwuOCBIOZjqDI57UlF9isdX+FG1oxURpI8OXnQt+7lKw4jeY5xUrsWvXA8n98Q4B+w4jSejKsedQ4vCliAlsALI7zCT+LlNZtJcktI0sMhMhwTzBESa6L2M4xlAtMwkbTMEHl0rneGw0AgFRG8qGg+Z3p7hXASMyyG7pEmFj7QI0I8Kx88ItWmJqnovWcF3K7ZjFA8VvZQukljAHI9ZPLSouBPKCDInfr41nHGgI2bLDjWNdRy8aJ78W+jR7iTW7V+BlQxyhEiPCQaykn7XGntHH/Mv/1rK5MmZWPQtSRWgr0tXonUauKGYVPcahnekwGeDHd9aFxfvGicIe760Hjm7xrSX6krkHdqgXesd6jLRWJoUy2370H+P/vq23DVRw6FmB/jGnrNWhzVyJRLiWm16/rXPuLDK7COf1E1fipKQN55+tVbi3A3DG4SCGOwk6x/tVrhENbEofI6sJOx/Wuidk2nDmRHeaqHZlG92CBGoq99k7ueyxiO+35UpNvQJFfxLjM4PJifmaEwNgPYLtGXPClmjUHUL1obFqf2i7rpnMb/ACr1sKe6WPdBBifyptjUbLizocKFDr3CCdZ5ERpUPZ68HMjxFKlcH2urG2wUhYyqG5t1ER8zRPAm7hyNqJ1ifE77ipT0rDGnRcFeqlwS7Aun/wDq1MLOOZrburqyp70RM7wBz3pJwJHe27IjXD7USqjUBhJcnlHSqbtAo0GrYVEuQBqGPxmoOGLdeyi2jDhRG2wOxnrU+JwrKboKDKUhCT388a6efWvOF4cpbR2IBE6SJm33m8+6YiaFwJ86Mt9lDBDE++WGpO/Lxo3D9kF1BA0jruRNe4ntRcFzIlm2dMw75O+oBjSa8wfa26QzeyQDdtW8utVRAZ/de0o1n50I/Z3M6MoItgy8n3xI7oHLSdaOftBMI6Ae0SVKNO+gB6VPaBhihAXRTACjODrCgkDTSedD/EKshvYO2ru6oMzNLGJnWdOlQ47hd64waxYZ+6AzKNJHXxipcLc9utx7eq23NtpgEkc1HMGtDdus720d1yZCQpIGqDfxkGs6tjWhTiuF4lAZslCdScp39KU4bDXWeWYZRJbXUxyjrVtucDxLrndmC/edwo+JNLL+Ba2cwu2yf4XknqNKiapehyVrSHnZhpsr6/Wve07AWZInvLWvZy4GtggAanQcjOtT8dtB7ZXMqyRBb3Z8aT/QaVqit27QIB19DWUwscGtZRmvgGNcrCPTWsrk/D7IxfQ3N2tDcqEGvQa7Tc2d6EuXakxFwAamkmJ4kin3x8Z+lFCLXg7wC6mhca8tvVbfjyDQN05GsfjgOwMRuRFW3aomK2OTUWJeEY9FP0NL8NjHuGEEnoASa14zbu20m6HTODlDDLm6x13qEtmjWhLgGICt/EPnvTzEYlQYLedVZCYgHT9dKtr8OtCM1wsfICapqyEyG3xNAPe68jWPxW22XvbGkGKt3C7BB3QTBPMVn7K5VQdCNz1p0Kr9D3H8NS6rOmrnbXSfKmPZrDNbtsriCWJ3B09Kr2EuXEEaHzpph+MMu6T60WPFlbx8jEXPxnlNTWcWVHdYg8u6J+J2qXFIXdmiJM1B+zGkNJoivuX3Yn1pjwLGGy8wrLBGVhIM9RQfsDWy2zSKoePxBDICIoPJVVR8q0w2LtoCEGWd8vdnzjelOQ1E8igLLFaxliZdC/qRPmaEv4pz3Ldy2q584D6HK0hhPMcqUT/FFK8XLKGO+oj6VcURJoufCuzV29nFi2rEQWZTlidguZgI8qOTsViUGVrBO8w66zy0eqPwrjOIw4Is3HSd8v8AvTL++2P/APcOfMKfyqzMZYrhbIXVLcXFKyGYyoDTAkwNqY4/ij2rbEW7aKTmMsScx32Gpqi47jN+6xZ7jZiZJGknrpQT4hm952PSSSKTVj0iy8M40uGF06s5Oa2ANCSuuY8oNWzs3x9BZu3e8967kABQBEKqQWDZjm08Br8a50MQDKgEIwURHQCTPiZqx8HvIBkZym0GO6R4ipdIai3wMzxzMxzr7RBoFYmJ+8INEPx9HIGREBIHdBAGup1MVEOE229xkPk2X5V4nZ4TJDQOhU/WsZQs0TpUPOH3AcxBBGYwRlgjl7ulb43iIsjOUDgaZSARr4GhMDhBZQqufeQCo576hqhxym4uUyBz7hP502njRNqwn++Q/wDbWfgB+VeUl/stPvv/ANB/WsrPFlWgxXuHmB6T9a8KN9pz8Yqrf2pecwM58v8AapcPgsTc0GnqSfkDW+L9secfSLdY4CbqhgAVP2iwg/GtX7I4dBme6FE8mJ1PKp+CcMuW0W05WZJBZoGvILM/Km+IwKIpN3EgTr3QBHgARJpaRLk2c64qbFt2RFLAHRjOvpUOHd2IyWS3Tukj6V0C1gLDHPawj3m++yQPVm/SmNnC4k6Z7WHXoim44+HdFO/onYPw65icgyhbWgnKiJGnUiaqnbO09woDe9s6kwoZnKzp6elXlOC2N7r3b7c875V/6VpphDYtiLaInkBPxNFtBVnIMN2WxbjMMO8dSAv1pi/CLqMFZCG6QT89q6NjOPWF95yxHIS3+1Jcb2s3FtInm0fQU0waKRcGUkMrSPCPpUZf+D500xuLe4SW1NBtYmqpBkyAOOn0r0uOnyr1rccqiNsmjFBkyQZTzFbC0DzFQi0a99nSxDJkxw1a/svhURU14Mw+0aMR5khwvhXn7L4Vi3nGzVIMW/h8KWLHmuiA4IdK1bADpRQxbc1HzrZcb1T50qkVnHoX/wBmjpWrcJB600XGLzQ1IMUnRhRUgyiIjwJSedbjg6fcp4MVb6n4VKLts/b+IpfkNOAkThijYVDc4ew1AqyJk++tSBE+8p9aTTLjKKdoquRl3BrZcWy7Ow9SPzq0tYTmR8aJwPDLVx1UgEE+FRia/LH6Kl/al2NLrf8AUaz+2bw//I3y/SulHsNZYmEgfiU1VeO9khaYqVA5qQdx+dUomUvNG+Ctf2rd++3/AMf0rKk/sdevzrKrBk/LH+Sw4JbKCWsEr/G8D4GBRNztDkGVCiLyCLmPx2qsLbZjuSeup+tErhjzq8UYWwl+IgkmGM7yYn4a0RheJ5HDKq6fwgn4maCXD+dF2LMbD8qdJBsfp2gdyJQnzYx6AaVM/GnU7L5ClNrCsf0Ek0ywnAbr/ZIHVtPlUaGY/G3bTKPhQeKv59PZ+smflVqwHZxF9/vn1indjBovu20+AosDnWE4Jdf3UaOp0FGP2UvDYqfCuglD5eVaFY5UWwo5tc4BfXe2fTX6VD/ZTcwR8vrXVc1aOVO4B8xP1p2By0cK6mtH4aORrpN7h1pt0X00+lAX+AWjsWHrP1pWxUc7fBkVA9ur1f7Mz7r/ABH6Utv9mrg2APkf1q7Cipm1Xgs1YX4LcG6N8P0oV8GRyPqKdioVCxXoseFMf2c9K2yn+opWOhUcPWrYcjlTV/KtPaUWFCk2q8y0yua0O1vwoFQGV8a1MUT7EHrWHDDpVABETWKnhRL2fSvVs1IAwQ1ILZGskepoxbNOOz+FBckqCMp3Ejl1obChCmIuL7t1x5Ma2vcRvMAGdmA2kzHlNXw8NtN71pPQR9KFu9nbBnuFfwsfzkUrQygyfGsq5nswvJmjlMfpWU7AreHtruWjyE0bZwpc9xGPjXmFUbBAT1J0poLrKNWHkNAPQUmwozDcCuN7xVfWT8qcYXgSLq5zfIUo/tF9g3oBTXAXHMF2jzNJjQ8wyomiqBRf7QeQpfbcctamD1NDDku9alW7S9HrcPQAcG6mtgw6UtN2vRiDTAPZx0qNjUKXZGprb2gNIDVjWrPUmStSlMRpNbA+dbKK2KUAeKRzNeMEPIH0rCtakGgAe7grTbovwoS9waz90jyNM4rQnlQBX7/Z5Ds5HmAfpQb9m3+yynz0q1stYLdFhRSbvZ++NkB8iKFfhlxfetsPITV9dDWoJ6U7FRz5sPG6keYNQvZ5V0Z0ncChHwqNui/CKdhRz17DedeIhHWrvc4VbOyEeRoW9wFDszfI0WFFWVo8af8AZxCWczyry52dYe66nz0o3g/DmQNn3nkaTGM0Q8/ka2OlQnTwqVVBE/KaQGmbyrK2yD+jWUAUbDc63O9ZWVYG9ui8P7/9daysqWBacLsKKO5rKykBInLyqBv1rKygZ6m9b86yspiNl3/rpUib1lZQBNa2Hl+lTrsfSsrKQyU1lz8qyspiIm2qJdj5n61lZQBs+x/rpWVlZQBo9aHb1FeVlIDZtqiPPz/KsrKBkK7/ANeNRYnb4fUV7WUxEb/n+ZrZ/e9PyryspAR3Pz/KvOtZWUDJbvuev5io293/AJvzrKygQNf941lZWUFH/9k=",
+            "school":"Anna University",
+            "degree":"Bachelor of Architecture, Architecture",
+            "description":"I was an industrious student focused on academic excellence, while actively participating in co-curricular and extracurricular activities in the college. Monsoon Assemblages - part of a design-driven enquiry into the impacts of changing monsoon climates in Chennai. It was a combined studio with the DS18 in the University of Westminster.",
+            "skills":[
+                "AutoCAD","Architectural Design","Research"
+            ],
+            "startDate":"2012-04-30T10:40:40.604Z",
+            "endDate":"2017-05-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/PostWadan.jpeg?updatedAt=1697123120001",
+            "company":"PosadMaxwan strategy x design",
+            "position":"Urban Designer and Research Coordinator",
+            "place":"Amsterdam",
+            "startDate":"2021-08-30T10:40:40.604Z",
+            "endDate":"Present-30T10:40:40.604Z",
+            "description":"I lead the end-to-end design process for Starbucks stores, ensuring alignment with budget, schedule, and operational needs while upholding Starbucks' guiding principles. My responsibilities include design strategy execution, meeting deliverables, budget compliance, documentation management, and cross-functional collaboration.",
+            "skills":[
+                "Communication","Quantum GIS", "Urban Planning", "Spatial Analysis", "Geographic Information Systems (GIS)", "Urban Design"
+            ]
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/1686550649280.jpeg?updatedAt=1697123120354",
+            "company":"Academie van Bouwkunst Amsterdam",
+            "position":"Guest Teacher",
+            "place":"Amsterdam",
+            "startDate":"2023-02-30T10:40:40.604Z",
+            "endDate":"Present-30T10:40:40.604Z",
+            "description":"Licensed store design.",
+            "skills":[
+                "Communication"
+            ]
+        },
+        {
+            "image":"e64,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",
+            "company":"GIZ India",
+            "position":"Independent Urban Design Consultant",
+            "place":"Kochi",
+            "startDate":"2020-09-30T10:40:40.604Z",
+            "endDate":"2021-04-30T10:40:40.604Z",
+            "description":"Independent consultant to Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) as part of the Sustainable Urban Development-Smart Cities (SUDC-SC) Initiative in Kochi, India to develop an integrated planning framework, canal edge masterplan, participatory toolkit, sub-site design detailing and a pilot DPR for the Mullaserry Canal and adjacent region. The project supports the national Ministry of Housing and Urban Affairs and the State Government of Kerala in policy formulation on housing for all, basic services, planning framework, and monitoring of the Sustainable Development Goals (SDGs).",
+            "skills":[
+                "Communication"
+            ]
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/ITDP.jpeg?updatedAt=1697123117636",
+            "company":"ITDP - India",
+            "position":"Research Associate",
+            "place":"Chennai",
+            "startDate":"2018-06-30T10:40:40.604Z",
+            "endDate":"2019-08-30T10:40:40.604Z",
+            "description":"I collaborated with a multidisciplinary team, gaining hands-on experience in sustainable transportation projects and policy advocacy. This experience deepened my commitment to creating greener, more livable cities and broadened my perspective on the complex challenges of urban development in India.",
+            "skills":[
+                "Communication"
+            ]
+        }
+    ],
+    "certificationOrLicense":[
+        {
+            "type":"Architect",
+            "from":"Council of Architecture - India",
+            "date":"2017-12-30T10:40:40.604Z",
+            "id":"CA/2017/89347",
+            "link":"https://www.coa.gov.in/ver_arch.php?lang=1"
+        }
+        
+    ]
+}
+]

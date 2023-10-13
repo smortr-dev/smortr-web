@@ -35,49 +35,41 @@ type Profile = {
     {
       question: string;
       mediaType: string;
-      fileLink: string;
+      filelink: string;
       caption: string;
     }
   ];
   skills: { skillName: string; proficiency: number }[];
-  portfolio: [
-    {
-      type: string;
-      image: string;
-    }
-  ];
-  education: [
-    {
-      image: string;
-      degree: string;
-      description: string;
-      startDate: string;
-      endDate: string;
-      skills: string[];
-      school: string;
-    }
-  ];
-  experience: [
-    {
-      image: string;
-      place: string;
-      description: string;
-      startDate: string;
-      position: string;
-      endDate: string;
-      company: string;
-      skills: string[];
-    }
-  ];
-  certificationOrLicense: [
-    {
-      type: string;
-      from: string;
-      validTill: string;
-      id: string;
-      link: string;
-    }
-  ];
+  portfolio: {
+    type: string;
+    image: string;
+  }[];
+  education: {
+    image: string;
+    degree: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    skills: string[];
+    school: string;
+  }[];
+  experience: {
+    image: string;
+    place: string;
+    description: string;
+    startDate: string;
+    position: string;
+    endDate: string;
+    company: string;
+    skills: string[];
+  }[];
+  certificationOrLicense: {
+    type: string;
+    from: string;
+    date: string;
+    id: string;
+    link: string;
+  }[];
 };
 
 // export const getStaticProps = (async () => {
@@ -92,7 +84,7 @@ async function getData(name: string) {
     body: JSON.stringify({ name: name }),
   });
   const profileData: Profile = await res.json();
-  console.log(profileData, "profileData");
+  // console.log(profileData, "profileData");
   // console.log(profileData);
   return profileData;
 }
@@ -149,8 +141,9 @@ export default function Profile({ params }: { params: { name: string } }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "data");
+        // console.log(data, "data");
         setProfileData(data);
+        // console.log(data);
         setLoad(false);
       });
 
@@ -176,9 +169,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         <div className="relative  h-[100vh]">
           <div className="overflow-clip h-[40%]">
             <img
-              src={`${
-                profileData ? "/" + profileData.userInfo.background : ""
-              }`}
+              src={`${profileData ? profileData.userInfo.background : ""}`}
               className="w-full object-contain"
               alt=""
             />
@@ -201,7 +192,7 @@ export default function Profile({ params }: { params: { name: string } }) {
 
           <img
             className="inline-block absolute lg:h-[10rem] lg:w-[10rem] h-[6rem] w-[6rem] rounded-full  lg:left-[calc(50%-5rem)]  left-[calc(50%-3rem)] lg:translate-y-[-5rem] translate-y-[-3rem]"
-            src={`${profileData ? "/" + profileData.userInfo.image : ""}`}
+            src={`${profileData ? profileData.userInfo.image : ""}`}
             alt="img"
           />
           <div className="h-[60%]">
@@ -301,7 +292,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                 );
               }}
             >
-              View Profile
+              View Portfolio
             </Button>
           </div>
         </div>
@@ -321,7 +312,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       </div>
                       <div className="h-[20vw] border-2 border-black w-full">
                         <img
-                          src="/bg1.png"
+                          src={cardData.filelink}
                           className="object-cover h-full w-full"
                           alt="some stuff"
                         />
@@ -428,7 +419,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                           // onClick={() => {}}
                         >
                           <img
-                            src={`/bg1.png`}
+                            src={education.image}
                             alt="preview"
                             className="block object-cover h-full z-[12] w-full "
                           />
@@ -476,7 +467,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         </div>
         <div className="px-16 pt-8 mb-4">
           <h3 className="text-[1.3rem] px-2 font-[700]">Experience</h3>
-          <div className="grid gap-x-16 grid-cols-[1fr_1fr_1fr] mt-4">
+          <div className="grid gap-x-16 grid-cols-[1fr_1fr_1fr]">
             {profileData
               ? profileData.experience.map((experience, index) => {
                   return (
@@ -484,7 +475,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       <div
                         key={index}
                         // ref={previewRef}
-                        className={`rounded-[18px] relative bg-white shadow-[0_4px__50px_0_rgba(0,0,0,0.05)]`}
+                        className={` mt-4 rounded-[18px] relative bg-white shadow-[0_4px__50px_0_rgba(0,0,0,0.05)]`}
                         // data-hadler-id={handlerId}
                       >
                         <div
@@ -492,7 +483,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                           // onClick={() => {}}
                         >
                           <img
-                            src={`/bg1.png`}
+                            src={experience.image}
                             alt="preview"
                             className="block object-cover h-full z-[12] w-full "
                           />
@@ -540,59 +531,67 @@ export default function Profile({ params }: { params: { name: string } }) {
               : null}
           </div>
         </div>
-        <div className="px-16 pt-8 mb-4">
-          <h3 className="text-[1.3rem] px-2 font-[700]">
-            Certification/License
-          </h3>
-          <div className=" columns-3 gap-x-10 px-2">
-            {profileData
-              ? profileData.certificationOrLicense.map(
-                  (certificationOrLicense, index) => {
-                    return (
-                      <>
-                        <div
-                          key={index}
-                          className="inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] mt-4"
-                        >
-                          <div className=" relative grid grid-cols-2 px-10 py-10 justify-center w-full h-full items-center">
-                            <img
-                              className="absolute top-[1rem] right-[1rem] h-[1.5rem] w-[1.5rem]"
-                              src="/open_certificate.svg"
-                              alt="open link"
-                            />
-                            <img
-                              src="/certificate.svg"
-                              alt="certificate"
-                              className="h-[9vh] w-full block"
-                            />
-                            <div>
-                              <div className="text-[0.9rem] text-[#848484]">
-                                {certificationOrLicense.type}
-                              </div>
-                              <div className="font-[500] text-[1rem]">
-                                by{" "}
-                                <span className="font-[700]">
-                                  {certificationOrLicense.from}
-                                </span>
-                              </div>
-                              <div className="text-[0.75rem] text-[#848484]">
-                                Valid till {fetchMonth(new Date())}{" "}
-                                {new Date(
-                                  certificationOrLicense.validTill
-                                ).getFullYear()}
-                              </div>
-                              <div className="text-[0.6rem] font-[500] text-[#4F46E5]">
-                                ID: {certificationOrLicense.id}
+        {profileData && profileData.certificationOrLicense.length > 0 ? (
+          <>
+            <div className="px-16 pt-8 mb-4">
+              <h3 className="text-[1.3rem] px-2 font-[700]">
+                Certification/License
+              </h3>
+              <div className=" columns-3 gap-x-10 px-2">
+                {profileData
+                  ? profileData.certificationOrLicense.map(
+                      (certificationOrLicense, index) => {
+                        return (
+                          <>
+                            <div
+                              onClick={() => {
+                                router.push(certificationOrLicense.link);
+                              }}
+                              key={index}
+                              className="hover:cursor-pointer inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] mt-4"
+                            >
+                              <div className=" relative grid grid-cols-2 px-10 py-10 justify-center w-full h-full items-center">
+                                <img
+                                  className="absolute top-[1rem] right-[1rem] h-[1.5rem] w-[1.5rem]"
+                                  src="/open_certificate.svg"
+                                  alt="open link"
+                                />
+                                <img
+                                  src="/certificate.svg"
+                                  alt="certificate"
+                                  className="h-[9vh] w-full block"
+                                />
+                                <div>
+                                  <div className="text-[0.9rem] text-[#848484]">
+                                    {certificationOrLicense.type}
+                                  </div>
+                                  <div className="font-[500] text-[1rem]">
+                                    by{" "}
+                                    <span className="font-[700]">
+                                      {certificationOrLicense.from}
+                                    </span>
+                                  </div>
+                                  <div className="text-[0.75rem] text-[#848484]">
+                                    Valid till{" "}
+                                    {fetchMonth(
+                                      new Date(certificationOrLicense.date)
+                                    )}{" "}
+                                    {new Date(
+                                      certificationOrLicense.date
+                                    ).getFullYear()}
+                                  </div>
+                                  <div className="text-[0.6rem] font-[500] text-[#4F46E5]">
+                                    ID: {certificationOrLicense.id}
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  }
-                )
-              : null}
-            {/* <div className="inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem]">
+                          </>
+                        );
+                      }
+                    )
+                  : null}
+                {/* <div className="inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem]">
             <div className=" relative grid grid-cols-2 px-10 py-10 justify-center w-full h-full items-center">
               <img
                 className="absolute top-[1rem] right-[1rem] h-[1.5rem] w-[1.5rem]"
@@ -620,8 +619,10 @@ export default function Profile({ params }: { params: { name: string } }) {
               </div>
             </div>
           </div> */}
-          </div>
-        </div>
+              </div>
+            </div>
+          </>
+        ) : null}
       </>
     );
   else null;

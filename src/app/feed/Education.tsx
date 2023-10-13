@@ -21,7 +21,7 @@ export default function Education({ cardData }: { cardData: education }) {
           router.push(cardData.userLink);
         }}
         // ref={previewRef}
-        className={`rounded-[18px] relative hover:cursor-pointer bg-white shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+        className={` rounded-[18px] relative hover:cursor-pointer bg-white shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
         // data-hadler-id={handlerId}
       >
         <div
@@ -62,6 +62,13 @@ export default function Education({ cardData }: { cardData: education }) {
                   {name}
                 </span>
               );
+            })}
+          </div>
+        </div>
+        <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#1769FF] rounded-full">
+          <div className="inline-block text-white  text-[0.6rem]">
+            {cardData.user.split(" ").map((part, index) => {
+              return <span key={index}>{part.charAt(0)} </span>;
             })}
           </div>
         </div>

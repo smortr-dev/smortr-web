@@ -96,7 +96,9 @@ export async function GET() {
 
   export async function POST(req:Request) {
     const body:{name:string} = await req.json()
+    
     const name = body.name;
+    // console.log(name);
     // Get the path of the json file
     const filePath = path.join(process.cwd(), 'json/profile.json');
     // Read the json file
@@ -105,7 +107,7 @@ export async function GET() {
     const objectData = JSON.parse(jsonData.toString());
 
     const user = objectData.find((user:any)=> user.name == name)
-    console.log(user)
+    // console.log(user)
     if(user)
       return NextResponse.json({...user})
     else 

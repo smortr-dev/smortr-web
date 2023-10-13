@@ -18,7 +18,7 @@ export default function Portfolio({ cardData }: { cardData: portfolio }) {
         onClick={() => {
           router.push(cardData.userLink);
         }}
-        className={`min-h-[60vh] hover:cursor-pointer border-2 relative border-black rounded-[0.88rem] overflow-clip h-[45vh] shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+        className={` min-h-[60vh] hover:cursor-pointer border-2 relative border-black rounded-[0.88rem] overflow-clip h-[45vh] shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
       >
         <img
           src="/bg1.png"
@@ -31,6 +31,13 @@ export default function Portfolio({ cardData }: { cardData: portfolio }) {
           </div>
           <div className="text-[1rem] text-white font-[500] px-6 py-1 tracking-wide">
             {cardData.description}
+          </div>
+        </div>
+        <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#479F70] rounded-full">
+          <div className="inline-block text-white  text-[0.6rem]">
+            {cardData.user.split(" ").map((part, index) => {
+              return <span key={index}>{part.charAt(0)} </span>;
+            })}
           </div>
         </div>
       </div>
