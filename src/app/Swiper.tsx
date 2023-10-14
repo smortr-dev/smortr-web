@@ -196,6 +196,28 @@ export default class Swiper extends Component {
             about="I’m a visionary architect and educator, navigating the digital frontier, shaping tomorrow’s aesthetics through digital technology and embracing Gen Z zeitgeist! "
             pronouns="he/him"
           />
+          <Card
+            link="https://thein.smortr.com"
+            image="person8.png"
+            background="bg8.png"
+            name="Thein Manimekalai Sowrirajan"
+            thought="I seek like-minded individuals worldwide who share my passion for rural areas. Together, let's ensure their beauty and resilience thrive for generations."
+            position="Copy Architect / Regional Planner / Entrepreneur"
+            place="Milan"
+            about="I love the countryside and its unique puzzle of nature, people, and challenges. My dream is to use my research in rural entrepreneurship, architectural background, and prefab construction experience to improve life in these places."
+            pronouns="she/her"
+          />
+          <Card
+            link="https://adhavan.smortr.com"
+            image="person9.png"
+            background="bg9.png"
+            name="Adhavan Sundaramurthy"
+            thought="Open to collaborate on residential interiors and architecture projects."
+            position="Architectural Designer"
+            place="Chennai"
+            about=" I work at the intersection of Art + Architecture. I focus on bringing the culture, Identity and representation in the forefront to create immersive spaces that narrates stories and celebrate diversity."
+            pronouns="he/him"
+          />
         </Slider>
         <img
           src="/arrow_prev.svg"
