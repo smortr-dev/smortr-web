@@ -34,7 +34,7 @@ export default function Header(props: { setOpen: any }) {
         <Button
           className="relative z-[5] inline-block  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
           onClick={() => {
-            router.push("/");
+            props.setOpen((prev: boolean) => !prev);
           }}
         >
           Join waitlist!

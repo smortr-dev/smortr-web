@@ -45,6 +45,20 @@ function optionCreator(array: string[]) {
 
 const Typology: Option[] = optionCreator([
   "Transport Corridors",
+  "3D Modelling",
+  "Textile Accessory",
+  "Data Analysis",
+  "Chair",
+  "Public Space",
+  "Speculative Architecture",
+  "Cafe",
+  "Infrastructure",
+  "Architect",
+  "Instructor",
+  "Apartment",
+  "Augmented Reality",
+  "Masterplan",
+  "Stadium",
   "House",
   "Retail",
   "Restaurant",
@@ -57,6 +71,7 @@ const Typology: Option[] = optionCreator([
   "Factory",
   "Bridges",
   "Greenways",
+  "Layout",
 ]);
 
 const Location: Option[] = optionCreator([
@@ -173,6 +188,8 @@ const Skills: Option[] = optionCreator([
 ]);
 type filter = {
   searchString?: string;
+  city?: string[];
+  country?: string[];
   designSector?: string;
   typology?: string[];
   skills?: string[];
@@ -498,7 +515,7 @@ export default function Feed() {
           for (let i = 0; i < filter?.typology.length; i++) {
             if (data.cardData.typology == filter.typology[i]) {
               return true;
-            } else return false;
+            }
           }
         } else return false;
       });
@@ -511,7 +528,7 @@ export default function Feed() {
           for (let i = 0; i < filter?.location.length; i++) {
             if (data.cardData.location == filter.location[i]) {
               return true;
-            } else return false;
+            }
           }
         } else return false;
       });
