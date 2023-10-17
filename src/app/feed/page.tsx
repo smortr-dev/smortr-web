@@ -32,6 +32,7 @@ import Education from "./Education";
 import Experience from "./Experience";
 import Portfolio from "./Portfolio";
 import { tr } from "date-fns/locale";
+import { boolean } from "zod";
 // import { Option } from "lucide-react";
 
 function optionCreator(array: string[]) {
@@ -563,18 +564,63 @@ export default function Feed() {
       });
     }
     // console.log(initialData, "initial data before sort");
+    // function groupBy2(xs: data) {
+    //   var grouped = {};
+    //   for (var i = 0; i < xs.length; i++) {
+    //     var p = xs[i]["cardData"].postDate;
+
+    //     if (grouped["hello"] != undefined) {
+    //       grouped[p] = [];
+    //     }
+    //     grouped[p].push(xs[i]);
+    //   }
+    //   return grouped;
+    // }
+
     if (filter.sortBy == "Latest") {
-      initialData?.sort((a: dataTypes, b: dataTypes) => {
+      initialData = initialData?.sort((a: dataTypes, b: dataTypes) => {
+        // console.log(
+        //   new Date(a.cardData.postDate),
+        //   new Date(b.cardData.postDate)
+        // );
+        // console.log("filter");
         if (new Date(a.cardData.postDate) > new Date(b.cardData.postDate)) {
+          // console.log(-1);
           return -1;
         } else if (
           new Date(a.cardData.postDate) < new Date(b.cardData.postDate)
         ) {
+          // console.log(1);
           return 1;
-        } else return 0;
+        } else {
+          let num: number = Math.floor(Math.random() * 2);
+          let arr = [-1, 1];
+          return arr[num];
+        }
+      });
+    } else if (filter.sortBy == "Oldest") {
+      initialData = initialData?.sort((a: dataTypes, b: dataTypes) => {
+        // console.log(
+        //   new Date(a.cardData.postDate),
+        //   new Date(b.cardData.postDate)
+        // );
+        // console.log("filter");
+        if (new Date(a.cardData.postDate) > new Date(b.cardData.postDate)) {
+          // console.log(-1);
+          return 1;
+        } else if (
+          new Date(a.cardData.postDate) < new Date(b.cardData.postDate)
+        ) {
+          // console.log(1);
+          return -1;
+        } else {
+          let num: number = Math.floor(Math.random() * 2);
+          let arr = [-1, 1];
+          return arr[num];
+        }
       });
     }
-    // console.log(initialData, "initial data after sort");
+    console.log(initialData, "initial data after sort");
     return initialData;
   }
   useEffect(() => {
@@ -712,7 +758,7 @@ export default function Feed() {
 
               <MultiSelect
                 className="w-[15%] mr-4"
-                overrideStrings={{ selectSomeItems: "Topology" }}
+                overrideStrings={{ selectSomeItems: "Typology" }}
                 hasSelectAll={false}
                 labelledBy="Design Sector"
                 options={Typology}

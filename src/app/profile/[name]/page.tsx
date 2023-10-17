@@ -29,7 +29,7 @@ type Profile = {
     shares: number;
     joinDate: string;
     languages: string[];
-    workPreference: string;
+    workPreference: string[];
   };
   bio: [
     {
@@ -167,8 +167,9 @@ export default function Profile({ params }: { params: { name: string } }) {
       <>
         <Header />
         <div className="relative  h-[100vh]">
-          <div className="overflow-clip h-[40%]">
+          <div className="overflow-clip h-[50%]">
             <img
+              loading="lazy"
               src={`${profileData ? profileData.userInfo.background : ""}`}
               className="w-full object-contain"
               alt=""
@@ -191,13 +192,14 @@ export default function Profile({ params }: { params: { name: string } }) {
           <div className="inline-block absolute w-[0.67rem] h-[0.67rem] rounded-full bg-white lg:left-[calc(50%-4.5rem)]  left-[calc(50%-3.6rem)] lg:translate-y-[-6.2rem] translate-y-[-4.2rem]"></div>
 
           <img
+            loading="lazy"
             className="inline-block absolute lg:h-[10rem] lg:w-[10rem] h-[6rem] w-[6rem] rounded-full  lg:left-[calc(50%-5rem)]  left-[calc(50%-3rem)] lg:translate-y-[-5rem] translate-y-[-3rem]"
             src={`${profileData ? profileData.userInfo.image : ""}`}
             alt="img"
           />
-          <div className="h-[60%]">
+          <div className="">
             <div className="h-[5rem]"></div>
-            <div className="flex flex-col justify-between px-[30%] h-[calc(100%-5rem)]">
+            <div className="flex flex-col justify-between px-[30%] ">
               <div>
                 <h1 className="text-center text-[2rem] font-[700]">
                   {profileData ? profileData.userInfo.name : ""}
@@ -216,13 +218,14 @@ export default function Profile({ params }: { params: { name: string } }) {
                 </p>
               </div>
 
-              <div className="">
+              <div className="mt-4">
                 <p className="text-center text-[0.9rem] font-[500] tracking-tight">
                   {profileData ? profileData.userInfo.about : ""}
                 </p>
                 <div className="flex justify-center last:pr-0 mt-4">
                   <div className="inline-block pr-4">
                     <img
+                      loading="lazy"
                       src="/person_add.svg"
                       alt="connections"
                       className="h-[0.8rem] w-[0.8rem] inline-block"
@@ -234,6 +237,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                   </div>
                   <div className="inline-block pr-4">
                     <img
+                      loading="lazy"
                       src="/share.svg"
                       alt="shares"
                       className="h-[0.8rem] w-[0.8rem] inline-block"
@@ -246,6 +250,7 @@ export default function Profile({ params }: { params: { name: string } }) {
 
                   <div className="inline-block">
                     <img
+                      loading="lazy"
                       src="/calendar_month.svg"
                       alt="date joined"
                       className="h-[0.8rem] w-[0.8rem] inline-block"
@@ -277,7 +282,18 @@ export default function Profile({ params }: { params: { name: string } }) {
                 <div className="text-[0.8rem] text-[#848484] text-center mb-4">
                   Work Preference:{" "}
                   <span className="font-[700]">
-                    {profileData ? profileData.userInfo.workPreference : ""}
+                    {profileData
+                      ? profileData.userInfo.workPreference.map(
+                          (item, index) => {
+                            if (
+                              index !=
+                              profileData.userInfo.workPreference.length - 1
+                            ) {
+                              return <>{item}, </>;
+                            } else return <>{item}</>;
+                          }
+                        )
+                      : ""}
                   </span>
                 </div>
               </div>

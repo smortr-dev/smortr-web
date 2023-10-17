@@ -106,7 +106,7 @@ export async function GET() {
     // Parse data as json
     const objectData = JSON.parse(jsonData.toString());
 
-    const user = objectData.find((user:any)=> user.name == name)
+    const user:Profile[] = objectData.find((user:Profile)=> user.name.toLocaleLowerCase() == name.toLocaleLowerCase())
     // console.log(user)
     if(user)
       return NextResponse.json({...user})

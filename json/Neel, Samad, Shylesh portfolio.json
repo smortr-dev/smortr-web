@@ -1,0 +1,477 @@
+[{
+    "name":"neel shah",
+    "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Neel%20Shah/Neel.png?updatedAt=1697467803680",
+        "name":"Neel Shah",
+        "location":"Berkeley",
+        "position":"Product Design Engineer",
+        "pronouns":"he/him",
+        "about":"I am a product design engineer who uses empathy and engineering to design products that are intuitive, meaningful, and inclusive, and simple.  ",
+        "thought":"Building my portfolio at the intersection of engineering, design and interactive experiences.",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Neel%20Shah/WhatsApp%20Image%202022-05-08%20at%203.11.25%20PM%201.png?updatedAt=1697467803370",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":46,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","Tamil"
+        ],
+        "workPreference":[
+            "Remote","Current Location"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"My design process is fueled by the belief that...",
+            "mediaType":"image",
+            "filelink":"https://static.wixstatic.com/media/2b5c0d_7a0beeaa066d430581f3a4f613623c38~mv2.jpg/v1/crop/x_638,y_0,w_2896,h_2261/fill/w_539,h_421,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/2b5c0d_7a0beeaa066d430581f3a4f613623c38~mv2.jpg",
+            "caption":" intuitive, meaningful, inclusive, and not-so-complex solutions are answers to the complex problems"
+        },
+        {
+            "question":"I imagine a world..",
+            "mediaType":"image",
+            "filelink":"https://static.wixstatic.com/media/2b5c0d_39e41c5450de4605bd052c36775aeca6~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/2b5c0d_39e41c5450de4605bd052c36775aeca6~mv2.jpg",
+            "caption":"where it is not humans against the environment but a place where we integrate and move closer to being more connected to nature. "
+        },
+        {
+            "question":"I am particularly interested in...",
+            "mediaType":"image",
+            "filelink":"https://static.wixstatic.com/media/2b5c0d_be5d54e44f134b53831cc1650ebd659c~mv2.jpg/v1/crop/x_726,y_67,w_3037,h_2194/fill/w_565,h_409,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/2b5c0d_be5d54e44f134b53831cc1650ebd659c~mv2.jpg",
+            "caption":"sustainability and how we can use technology to build more meaningful products, for us as well as the world around us."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Computer Aided Design",
+            "proficiency":80
+        },
+        {
+            "skillName":"Finite Elemental Analysis",
+            "proficiency":60
+        },
+        {
+            "skillName":"Product Design",
+            "proficiency":75
+        },
+        {
+            "skillName":"Adobe Creative Suite",
+            "proficiency":70
+        },
+        {
+            "skillName":"Design Research",
+            "proficiency":65
+        }
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://design.berkeley.edu/wp-content/uploads/2019/03/Screen-Shot-2019-03-15-at-10.00.49-AM.png",
+            "school":"University of California, Berkeley",
+            "degree":"Master of Design, Emerging Technologies and Product Design",
+            "description":"MDes Distinguished Scholar Award.  The Berkeley Master of Design (Berkeley MDes) is a professional graduate program in design for emerging technologies. MDes emphasizes critical design and social practice to address the new realities of emerging technologies in the 21st century and prepares students for work at the intersection of technology and design.",
+            "skills":[
+                "MATLAB","3D printing","Injection molding"
+            ],
+            "startDate":"2022-07-30T10:40:40.604Z",
+            "endDate":"2023-12-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://images.news18.com/ibnlive/uploads/2023/06/iit-madras-nirf.jpeg",
+            "school":"Indian Institute of Technology, Madras",
+            "degree":"BTech + MTech (Integrated Dual Degree), Engineering Design",
+            "description":"Activities and societies: Part of Institute Basketball team 2015-2018,Shaastra- Sponsorship & PR team/Media & Photography team, Co-founding team member, Feeding India, Chennai Chapter. Minor- Sustainable Infrastructure & Environmental Management",
+            "skills":[
+                "Product Design","Finite Elemental Analysis (FEA)","Adobe Creative Suite"
+            ],
+            "startDate":"2014-08-30T10:40:40.604Z",
+            "endDate":"2019-05-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://design.berkeley.edu/wp-content/uploads/2019/03/Screen-Shot-2019-03-15-at-10.00.49-AM.png",
+            "company":"University of California, Berkeley",
+            "position":"Teaching Assistant",
+            "place":"Berkeley",
+            "startDate":"Present-30T10:40:40.604Z",
+            "endDate":"2023-09-30T10:40:40.604Z",
+            "description":"Tutor for Design Field Notes Lecture Series at Jacobs Institute of DesignTutor",
+            "skills":[
+                "Research","Teaching and Facilitation","Python"
+            ]
+        },
+        {
+            "image":"https://www.havells.com/HavellsProductImages/HavellsIndia/Content/Consumer/Water-heater/Immersion-water-heater/Electric-immersion/Zella/rod_open2.png",
+            "company":"Havells India Ltd",
+            "position":"Research / Design Engineer",
+            "place":"Delhi",
+            "startDate":"2019-07-30T10:40:40.604Z",
+            "endDate":"2021-12-30T10:40:40.604Z",
+            "description":"-Designed and developed innovative products in the household electrical appliance industry, with four products launched in the market, resulting in increased revenue of $ 1.2M. -Co-inventor for two patents applied in household water heating solution and garment-care segment.-Led a project on improving food hygiene, collaborating with engineering, marketing, and outside customer stakeholders.",
+            "skills":[
+                "Research and Development","Computer Aided Design (CAD)","Protoype","Design Thinking"
+            ]
+        },
+        {
+            "image":"https://www.cleanfuture.co.in/wp-content/uploads/2023/02/3D_printed_house.jpg",
+            "company":"Tvasta",
+            "position":"Research and Development Intern",
+            "place":"Chennai",
+            "startDate":"2018-01-30T10:40:40.604Z",
+            "endDate":"2018-15-30T10:40:40.604Z",
+            "description":"Redesigned hydraulic manifold blocks for Additive Manufacturing using CFD analysis, achieving a 71% reduction in weight and a 12.5% reduction in pressure drop.",
+            "skills":[
+                "Engineering","Computational Fluid Dynamics (CFD)","ANSYS"
+            ]
+        }
+    ]
+},
+
+{
+    "name":"samad vahora",
+     "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Samad%20Vahora/Samad.png?updatedAt=1697387620427",
+        "name":"Samad Vahora",
+        "location":"Chicago",
+        "position":"Architectural Designer ",
+        "pronouns":"he/him",
+        "about":"I possess the artful prowess to sculpt living spaces into harmonious havens, blending form and function to create residential dreams that transcend mere structures, awakening the essence of home. ",
+        "thought":"Currently designing homes at Robbins Architecture",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Samad%20Vahora/WhatsApp%20Image%202022-05-08%20at%203.11.25%20PM%203.png?updatedAt=1697387766417",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":36,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","Hindi"
+        ],
+        "workPreference":[
+            "-"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"My design process is fueled by the belief that...",
+            "mediaType":"image",
+            "filelink":"https://cdn.myportfolio.com/3f6603be-b07a-452a-afb4-25c506d05898/f6abfa9b-7b8f-4467-a492-19e32d5c77fa_rw_1920.jpg?h=a0baf36cac0dd44a85120dbfa6ea5fdc",
+            "caption":"architecture transcends buildings; it influences society, culture, and human experiences."
+        },
+        {
+            "question":"The most important lesson I've learned as a designer is...",
+            "mediaType":"image",
+            "filelink":"https://cdn.myportfolio.com/3f6603be-b07a-452a-afb4-25c506d05898/bd0420ef-4528-4e81-ad78-1bc51d722b4a_rw_1920.jpg?h=90fe3e04b539f0dd778b4df49f1284ab",
+            "caption":"alancing creativity with practicality ensures enduring, people-centric architectural solutions."
+        },
+        {
+            "question":"Proximity is...",
+            "mediaType":"image",
+            "filelink":"https://cdn.myportfolio.com/3f6603be-b07a-452a-afb4-25c506d05898/2c39ce54-6e6c-4253-b5b9-7f9563fa778c_rw_1920.jpg?h=dffb83281f47a5db7dac042f8e87249c",
+            "caption":"constantly in flux with the changes around us."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Building Information Modelling",
+            "proficiency":80
+        },
+        {
+            "skillName":"Building Design",
+            "proficiency":70
+        },
+        {
+            "skillName":"3D Modelling",
+            "proficiency":65
+        },
+        {
+            "skillName":"AutoCAD Architecture",
+            "proficiency":80
+        }
+        
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://arch.iit.edu/img/34302d33/5804-l.jpg",
+            "school":"Illinois Institute of Technology",
+            "degree":"Master of Architecture, Architecture",
+            "description":"Blend of architectural design with cutting-edge technology to bring creative visions to life.",
+            "skills":[
+                "Design","Presentations", "Autodesk 3ds Max", "Enscape"
+            ],
+            "startDate":"2021-01-30T10:40:40.604Z",
+            "endDate":"2023-12-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://archinect.imgix.net/uploads/1q/1qdglmcuzx5l0rwa.jpg?fit=crop&auto=compress%2Cformat&w=1200",
+            "school":"INDUBHAI PAREKH COLLEGE OF ARCHITECTURE",
+            "degree":"Bachelor of Architecture, Architecture",
+            "description":"Laid foundations to Architecture Design and concept development.",
+            "skills":[
+                "Presentations","Concept Art","Enscape"
+            ],
+            "startDate":"2014-30T10:40:40.604Z",
+            "endDate":"2019-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://robbins-architecture.com/wp-content/uploads/2022/01/Robbins-Architecture-Model-About-Page.jpg",
+            "company":"Robbins Architecture Inc",
+            "position":"Architectural Designer",
+            "place":"Winnetka",
+            "startDate":"2023-01-30T10:40:40.604Z",
+            "endDate":"Present-30T10:40:40.604Z",
+            "description":"Design focus on Residential Projects at Robbins",
+            "skills":[
+                "Building Design","Building Information Modeling (BIM)","AutoCAD Architecture", "3D Modelling"
+            ]
+        },
+        {
+            "image":"https://arch.iit.edu/img/34302d33/5804-l.jpg",
+            "company":"Illinois Institute of Technology",
+            "position":"Teaching Assistant",
+            "place":"Chicago",
+            "startDate":"2021-06-30T10:40:40.604Z",
+            "endDate":"2022-06-30T10:40:40.604Z",
+            "description":"Formulated rubrics, evaluated assignments and final exams",
+            "skills":[
+                "Presentations","Building Information Modeling (BIM)","AutoCAD Architecture "
+            ]
+        },
+        {
+            "image":"https://cdn.myportfolio.com/3f6603be-b07a-452a-afb4-25c506d05898/1e7a5cbc-8b90-4898-a295-819e2714f19e_rw_1920.JPG?h=e792ca7bdbf7abd8ee82119af2937dc7",
+            "company":"Studio Samsara",
+            "position":"Architect",
+            "place":"India",
+            "startDate":"2018-11-30T10:40:40.604Z",
+            "endDate":"2022-03-30T10:40:40.604Z",
+            "description":"Worked at the intersection of Design and Aesthetics",
+            "skills":[
+                "Submittals","Concept Art","High Performance Computing (HPC)", "Rhino 3D"
+            ]
+        },
+        {
+            "image":"https://meetajain.com/wp-content/uploads/LOGOFINAL-.png",
+            "company":"Meeta Jain Architects",
+            "position":"Architectural Intern",
+            "place":"Bangalore",
+            "startDate":"2017-06-30T10:40:40.604Z",
+            "endDate":"2017-12-30T10:40:40.604Z",
+            "description":"Undergraduate Architecture Internship, worked on a variety of residential and commercial projects.",
+            "skills":[
+                "Building Materials","AutoCAD Architecture","Presentations "
+            ]
+        }
+    ]
+    
+},
+{
+    "name":"shylesh kumar",
+    "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/Shylesh.png?updatedAt=1697388895053",
+        "name":"Shylesh Kumar",
+        "location":"Barcelona",
+        "position":"Computational designer",
+        "pronouns":"he/him",
+        "about":"Armed with extensive experience in architectural sustainability, I channel creativity through innovative technologies, seamlessly integrating parametric 3D modeling and simulation tools into the architectural process.",
+        "thought":"Interested in generative design, computational geometry, machine learning, new media, and game design.",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/image%2034.png?updatedAt=1697388895263",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":72,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","Spanish"
+        ],
+        "workPreference":[
+            "-"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"Designing for sustainability means...",
+            "mediaType":"image",
+            "filelink":"https://res.cloudinary.com/duufhvbhi/image/upload/q_50/v1657578147/files/My_project_qsqdby.jpg",
+            "caption":"applying parametric design principles to create efficient and sustainable building solutions."
+        },
+        {
+            "question":"What would your TED Talk be about?",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/Screenshot%202023-10-17%20143100.png?updatedAt=1697533284952",
+            "caption":"Integration of parametric 3D modeling and simulation tools into Building Design"
+        },
+        {
+            "question":"What would be the impact of AI in Architecture?",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/Screenshot%202023-10-17%20142543.png?updatedAt=1697532990732",
+            "caption":"AI will eventually replace architects, if not design and emotion part anytime soon, atleast to a major extend of our functions in society. It does not imply the end of architects; rather, the scope of architects changes, integrating tech in design workflow,it evolves. Curation instead of creation."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Python",
+            "proficiency":80
+        },
+        {
+            "skillName":"Virtual Reality",
+            "proficiency":90
+        },
+        {
+            "skillName":"Building Information Modeling (BIM)",
+            "proficiency":70
+        },
+        {
+            "skillName":"3D Modeling",
+            "proficiency":75
+        },
+        {
+            "skillName":"Game Development",
+            "proficiency":65
+        }
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/upc1.jpg?updatedAt=1697454595678",
+            "school":"UPC School (Universitat Politècnica de Catalunya)",
+            "degree":"Master's Degree in Parametric Design in Architecture",
+            "description":"As a student in the UPC School MPDA Master’s degree program in Parametric Design in Architecture, I worked on applying parametric design principles to create efficient and sustainable building solutions. Through practical workshops and real-world applications, I gained experience in using advanced software tools and integrating diverse disciplines such as BIM, urban design, and climate analysis into the design process. The program provided me with the skills and knowledge needed to become a builder of efficient and sustainable architectural systems, contributing to a more sustainable built environment.",
+            "skills":[
+                "Virtual Reality","Parametric Architecture","3D Modelling", "Webgl"
+            ],
+            "startDate":"2022-30T10:40:40.604Z",
+            "endDate":"2023-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/School-of-Planning-and-Architecture-Vijayawada-3.webp?updatedAt=1697454454490",
+            "school":"School of Planning & Architecture Vijaywada",
+            "degree":"Bachelor of Architecture, Architecture",
+            "description":"A strong foundation in architecture, enabling a comprehensive understanding of innovative design principles and architectural concepts. ",
+            "skills":[
+                "AutoCAD","Architectural Design","Research"
+            ],
+            "startDate":"2014-30T10:40:40.604Z",
+            "endDate":"2019-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://cdnb.artstation.com/p/assets/images/images/056/526/737/large/shylesh-kumar-a1-3.jpg?1669472214",
+            "company":"xBuild",
+            "position":"VR Designer",
+            "place":"Chennai",
+            "startDate":"2021-06-30T10:40:40.604Z",
+            "endDate":"Present-30T10:40:40.604Z",
+            "description":"WebVR experience of interiors with focus on interactivity.",
+            "skills":[
+                "Webgl","Python", "3D Modeling", "Virtual Reality (VR)", "Building Information Modeling (BIM)"
+            ]
+        },
+        {
+            "image":"https://media.licdn.com/dms/image/C510BAQF6qO-v26I_oA/company-logo_200_200/0/1565786430180/sustecture_consultants_logo?e=2147483647&v=beta&t=WfCdXUkR2L4hI3-HvUj1zym0Hoh3eRgTxPooZWfVnY8",
+            "company":"Sustecture Consultants",
+            "position":"Design Architect",
+            "place":"Chennai",
+            "startDate":"2020-09-30T10:40:40.604Z",
+            "endDate":"2020-04-30T10:40:40.604Z",
+            "description":"Working on achieving sustainble residential and commercial design. Researching on various computational design workflows intersecting with traditional india architecture. Working on various levels of interior and execution projects",
+            "skills":[
+                "C#", "Sustainability", "Grasshopper","Python", "3D Modeling"
+            ]
+        },
+        {
+            "image":"https://ir.iith.ac.in/assets/images/home/Jaykishan%20Pipaliya.jpeg",
+            "company":"Department of Design, IIT Hyderabad",
+            "position":"Junior Researcher",
+            "place":"Hyderabad",
+            "startDate":"2019-09-30T10:40:40.604Z",
+            "endDate":"2020-09-30T10:40:40.604Z",
+            "description":"Worked on DST project for creating digital heritage of representative architectural marvels from each states of Northeast India.",
+            "skills":[
+                "Game Design", "Game Development", "Photogrammetry","Python", "3D Modeling", "Virtual Reality (VR)"
+            ]
+        }
+     
+    ],
+    "certificationOrLicense":[
+        {
+            "type":"Deep Learning",
+            "from":"GUVI Geek Networks, IITM Research Park",
+            "date":"2022-09-30T10:40:40.604Z",
+            "id":"Wvtg713876l6fN8023",
+            "link":"https://www.guvi.in/verify-certificate?id=Wvtg713876l6fN8023"
+        },
+        {
+            "type":"Generative design",
+            "from":"Performance Network",
+            "date":"2022-09-30T10:40:40.604Z",
+            "id":"nzu78eiofh",
+            "link":"https://www.performance.network/certificates/nzu78eiofh"
+        },
+        {
+            "type":"Scripting from Scratch in Rhino 3D",
+            "from":"Performance Network",
+            "date":"2022-09-30T10:40:40.604Z",
+            "id":"ngh92eicfd",
+            "link":"https://www.performance.network/certificates/ngh92eicfd"
+        }
+    ]
+}
+] 
