@@ -7,6 +7,13 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import { useRouter } from "next/navigation";
 
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+
 // export async function getStaticProps(params:type) {
 
 // }
@@ -91,6 +98,11 @@ async function getData(name: string) {
 
 export default function Profile({ params }: { params: { name: string } }) {
   const router = useRouter();
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
   let portfolioClassResolver = (portfolioObject: {
     image: string;
     type: string;
@@ -166,16 +178,16 @@ export default function Profile({ params }: { params: { name: string } }) {
     return (
       <>
         <Header />
-        <div className="relative  h-[100vh]">
-          <div className="overflow-clip h-[50%]">
+        <div className="relative min-h-[60vh] md:h-[100vh]">
+          <div className="overflow-clip md:h-[50%] h-[30vh]">
             <img
               loading="lazy"
               src={`${profileData ? profileData.userInfo.background : ""}`}
-              className="w-full object-contain"
+              className="w-full object-fill h-full"
               alt=""
             />
           </div>
-          <div className="flex justify-center p-4  items-center absolute bg-white min-h-[15%] rounded-[6px] w-[30%]  left-[35%] lg:translate-y-[calc(-85%-7.8rem)] translate-y-[calc(-85%-5rem)] shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
+          <div className="flex justify-center md:p-4 p-4  items-center absolute bg-white md:min-h-[15%] rounded-[6px] lg:w-[30%] md:w-[50%] w-[70%] md:left-[25%] lg:left-[35%] left-[15%] lg:translate-y-[calc(-85%-7.8rem)] translate-y-[calc(-85%-6rem)] shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
             <div className="absolute bottom-2 right-4 text-[0.6rem] font-[500] text-[#848484]">
               {profileData
                 ? new Date(
@@ -187,27 +199,27 @@ export default function Profile({ params }: { params: { name: string } }) {
               {profileData ? profileData.userInfo.thought : ""}
             </div>
           </div>
-          <div className="inline-block absolute w-[0.3rem] h-[0.3rem] rounded-full bg-white lg:left-[calc(50%-3rem)]  left-[calc(50%-2.5rem)] lg:translate-y-[-5rem] translate-y-[-2.8rem]"></div>
-          <div className="inline-block absolute w-[0.5rem] h-[0.5rem] rounded-full bg-white lg:left-[calc(50%-3.8rem)]  left-[calc(50%-3rem)] lg:translate-y-[-5.5rem] translate-y-[-3.5rem]"></div>
-          <div className="inline-block absolute w-[0.67rem] h-[0.67rem] rounded-full bg-white lg:left-[calc(50%-4.5rem)]  left-[calc(50%-3.6rem)] lg:translate-y-[-6.2rem] translate-y-[-4.2rem]"></div>
+          <div className="inline-block absolute w-[0.3rem] h-[0.3rem] rounded-full bg-white lg:left-[calc(50%-3rem)]  left-[calc(50%-2.5rem)] lg:translate-y-[-5rem] translate-y-[-3.8rem]"></div>
+          <div className="inline-block absolute w-[0.5rem] h-[0.5rem] rounded-full bg-white lg:left-[calc(50%-3.8rem)]  left-[calc(50%-3.2rem)] lg:translate-y-[-5.5rem] translate-y-[-4.1rem]"></div>
+          <div className="inline-block absolute w-[0.67rem] h-[0.67rem] rounded-full bg-white lg:left-[calc(50%-4.5rem)]  left-[calc(50%-3.8rem)] lg:translate-y-[-6.2rem] translate-y-[-4.9rem]"></div>
 
           <img
             loading="lazy"
-            className="inline-block absolute lg:h-[10rem] lg:w-[10rem] h-[6rem] w-[6rem] rounded-full  lg:left-[calc(50%-5rem)]  left-[calc(50%-3rem)] lg:translate-y-[-5rem] translate-y-[-3rem]"
+            className="inline-block absolute lg:h-[10rem] lg:w-[10rem] h-[8rem] w-[8rem] rounded-full  lg:left-[calc(50%-5rem)]  left-[calc(50%-4rem)] lg:translate-y-[-5rem] translate-y-[-4rem]"
             src={`${profileData ? profileData.userInfo.image : ""}`}
             alt="img"
           />
           <div className="">
-            <div className="h-[5rem]"></div>
-            <div className="flex flex-col justify-between px-[30%] ">
+            <div className="md:h-[5rem] h-[4.5rem]"></div>
+            <div className="flex flex-col justify-between md:px-[30%] px-[5%] ">
               <div>
-                <h1 className="text-center text-[2rem] font-[700]">
+                <h1 className="text-center md:text-[2rem] text-[1.7rem] leading-7 md:leading-10 font-[700]">
                   {profileData ? profileData.userInfo.name : ""}
                 </h1>
-                <h3 className="text-center text-[1.3rem] tracking-tight">
+                <h3 className="text-center md:text-[1.3rem] text-[1.2rem] tracking-tight">
                   {profileData ? profileData.userInfo.position : ""}
                 </h3>
-                <h3 className="text-center text-[1.3rem]">
+                <h3 className="text-center text-[1.2rem]">
                   in{" "}
                   <span className="text-[#848484] font-[700] ">
                     {profileData ? profileData.userInfo.location : ""}
@@ -219,7 +231,7 @@ export default function Profile({ params }: { params: { name: string } }) {
               </div>
 
               <div className="mt-4">
-                <p className="text-center text-[0.9rem] font-[500] tracking-tight">
+                <p className="text-center md:text-[0.9rem] text-[0.8rem] font-[500] tracking-tight">
                   {profileData ? profileData.userInfo.about : ""}
                 </p>
                 <div className="flex justify-center last:pr-0 mt-4">
@@ -230,7 +242,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       alt="connections"
                       className="h-[0.8rem] w-[0.8rem] inline-block"
                     />
-                    <span className="text-[0.8rem] text-[#848484]">
+                    <span className="md:text-[0.8rem] text-[0.7rem] text-[#848484]">
                       {" "}
                       {profileData ? profileData.userInfo.connections : ""}
                     </span>
@@ -242,7 +254,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       alt="shares"
                       className="h-[0.8rem] w-[0.8rem] inline-block"
                     />
-                    <span className="text-[0.8rem] text-[#848484]">
+                    <span className="md:text-[0.8rem] text-[0.7rem] text-[#848484]">
                       {" "}
                       {profileData ? profileData.userInfo.shares : ""}
                     </span>
@@ -255,7 +267,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       alt="date joined"
                       className="h-[0.8rem] w-[0.8rem] inline-block"
                     />
-                    <span className="text-[0.8rem] text-[#848484]">
+                    <span className="md:text-[0.8rem] text-[0.7rem] text-[#848484]">
                       {" Joined in "}
                       {profileData
                         ? fetchMonth(new Date(profileData.userInfo.joinDate))
@@ -266,7 +278,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                     </span>
                   </div>
                 </div>
-                <div className="text-[0.8rem] text-[#848484] text-center">
+                <div className="md:text-[0.8rem] text-[0.7rem] text-[#848484] text-center">
                   Languages:{" "}
                   {profileData
                     ? profileData.userInfo.languages.map((language, index) => (
@@ -279,7 +291,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       ))
                     : null}
                 </div>
-                <div className="text-[0.8rem] text-[#848484] text-center mb-4">
+                <div className="md:text-[0.8rem] text-[0.7rem] text-[#848484] text-center mb-4">
                   Work Preference:{" "}
                   <span className="font-[700]">
                     {profileData
@@ -312,8 +324,33 @@ export default function Profile({ params }: { params: { name: string } }) {
             </Button>
           </div>
         </div>
-
-        <div className="px-16 pt-16">
+        <div className="md:hidden block">
+          <Box sx={{ width: "100%", typography: "body1" }}>
+            <TabContext value={value}>
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  marginTop: "3rem",
+                }}
+              >
+                <TabList
+                  onChange={handleChange}
+                  aria-label="lab API tabs example"
+                  centered
+                >
+                  <Tab sx={{ fontWeight: 600 }} label="Item One" value="1" />
+                  <Tab label="Item Two" value="2" />
+                  <Tab label="Item Three" value="3" />
+                </TabList>
+              </Box>
+              <TabPanel value="1">Item One</TabPanel>
+              <TabPanel value="2">Item Two</TabPanel>
+              <TabPanel value="3">Item Three</TabPanel>
+            </TabContext>
+          </Box>
+        </div>
+        <div className="px-16 pt-16 md:block hidden">
           <h3 className="text-[1.3rem] px-2 font-[700]">Bio</h3>
           <div className="flex justify-between mt-4">
             {profileData
@@ -344,7 +381,7 @@ export default function Profile({ params }: { params: { name: string } }) {
               : null}
           </div>
         </div>
-        <div className="px-16 pt-8 mb-4">
+        <div className="px-16 pt-8 mb-4 md:block hidden">
           <h3 className="text-[1.3rem] px-2 font-[700]">Skills</h3>
           <div className=" columns-3 gap-x-24 px-2">
             {profileData
@@ -417,7 +454,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         </div>
       </div> */}
 
-        <div className="px-16 pt-8 mb-4">
+        <div className="px-16 pt-8 mb-4 md:block hidden">
           <h3 className="text-[1.3rem] px-2 font-[700]">Education</h3>
           <div className="grid gap-x-16 grid-cols-[1fr_1fr_1fr] mt-4">
             {profileData
@@ -481,7 +518,7 @@ export default function Profile({ params }: { params: { name: string } }) {
               : null}
           </div>
         </div>
-        <div className="px-16 pt-8 mb-4">
+        <div className="px-16 pt-8 mb-4 md:block hidden">
           <h3 className="text-[1.3rem] px-2 font-[700]">Experience</h3>
           <div className="grid gap-x-16 grid-cols-[1fr_1fr_1fr]">
             {profileData
@@ -551,7 +588,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         profileData.certificationOrLicense &&
         profileData.certificationOrLicense.length > 0 ? (
           <>
-            <div className="px-16 pt-8 mb-4">
+            <div className="px-16 pt-8 mb-4 md:block hidden">
               <h3 className="text-[1.3rem] px-2 font-[700]">
                 Certification/License
               </h3>

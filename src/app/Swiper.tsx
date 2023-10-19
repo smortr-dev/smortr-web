@@ -120,7 +120,7 @@ export default class Swiper extends Component {
           className="flex relative m-0 overflow-x-hidden overflow-y-visible py-16"
         >
           <Card
-            link="https://ganesh.smortr.com"
+            link="/profile/ganesh"
             image="person1.png"
             background="bg1.png"
             name="Ganesh Babu"
@@ -131,7 +131,7 @@ export default class Swiper extends Component {
             pronouns="he/him"
           />
           <Card
-            link="https://shylesh.smortr.com"
+            link="/profile/shylesh"
             image="person2.png"
             background="bg2.png"
             name="Shylesh Kumar"
@@ -141,19 +141,9 @@ export default class Swiper extends Component {
             about="Armed with extensive experience in architectural sustainability, I channel creativity through innovative technologies, seamlessly integrating parametric 3D modeling and simulation tools into the architectural process."
             pronouns="he/him"
           />
+
           <Card
-            link="https://saroja.smortr.com"
-            image="person3.png"
-            background="bg3.png"
-            name="Saroja Arunachalam"
-            thought="Looking for local artists to collaborate on Starbucks store designs and experiences."
-            position="Store Design Manager"
-            place="Seattle"
-            about=" I am a designer who loves to create business identities. Currently designing a portfolio of cafes for Starbucks Coffee Company."
-            pronouns="she/her"
-          />
-          <Card
-            link="https://samad.smortr.com"
+            link="/profile/samad"
             image="person4.png"
             background="bg4.png"
             name="Samad Vahora"
@@ -163,41 +153,9 @@ export default class Swiper extends Component {
             about="I possess the artful prowess to sculpt living spaces into harmonious havens, blending form and function to create residential dreams that transcend mere structures, awakening the essence of home."
             pronouns="he/him"
           />
+
           <Card
-            link="https://neel.smortr.com"
-            image="person5.png"
-            background="bg5.png"
-            name="Neel Shah"
-            thought="Building my portfolio at the intersection of engineering, design and interactive experiences."
-            position="Product Design Engineer"
-            place="Berkeley"
-            about="I am a product design engineer who uses empathy and engineering to design products that are intuitive, meaningful, inclusive, and simple. "
-            pronouns="he/him"
-          />
-          <Card
-            link="https://harsh.smortr.com"
-            image="person6.png"
-            background="bg6.png"
-            name="Harsh Verma"
-            thought="Open to collaborate with architects and interior designers on furniture design for residential and commercial projects!"
-            position="Product Designer"
-            place="New Delhi"
-            about="I am a product designer specializing in furniture design for the premium residential and commercial sector."
-            pronouns="he/him"
-          />
-          <Card
-            link="https://kumaran.smortr.com"
-            image="person7.png"
-            background="bg7.png"
-            name="Kumaran Parthiban"
-            thought="Let’s talk about the future and how it will manifest."
-            position="Speculative Architect/Educator"
-            place="Los Angeles"
-            about="I’m a visionary architect and educator, navigating the digital frontier, shaping tomorrow’s aesthetics through digital technology and embracing Gen Z zeitgeist! "
-            pronouns="he/him"
-          />
-          <Card
-            link="https://thein.smortr.com"
+            link="/profile/thein"
             image="person8.png"
             background="bg8.png"
             name="Thein Manimekalai Sowrirajan"
@@ -208,7 +166,18 @@ export default class Swiper extends Component {
             pronouns="she/her"
           />
           <Card
-            link="https://adhavan.smortr.com"
+            link="/profile/neel"
+            image="person5.png"
+            background="bg5.png"
+            name="Neel Shah"
+            thought="Building my portfolio at the intersection of engineering, design and interactive experiences."
+            position="Product Design Engineer"
+            place="Berkeley"
+            about="I am a product design engineer who uses empathy and engineering to design products that are intuitive, meaningful, inclusive, and simple. "
+            pronouns="he/him"
+          />
+          <Card
+            link="/profile/adhavan"
             image="person9.png"
             background="bg9.png"
             name="Adhavan Sundaramurthy"
@@ -216,6 +185,41 @@ export default class Swiper extends Component {
             position="Architectural Designer"
             place="Chennai"
             about=" I work at the intersection of Art + Architecture. I focus on bringing the culture, Identity and representation in the forefront to create immersive spaces that narrates stories and celebrate diversity."
+            pronouns="he/him"
+          />
+          <Card
+            link="/profile/harsh"
+            image="person6.png"
+            background="bg6.png"
+            name="Harsh Verma"
+            thought="Open to collaborate with architects and interior designers on furniture design for residential and commercial projects!"
+            position="Product Designer"
+            place="New Delhi"
+            about="I am a product designer specializing in furniture design for the premium residential and commercial sector."
+            pronouns="he/him"
+          />
+
+          <Card
+            link="/profile/saroja"
+            image="person3.png"
+            background="bg3.png"
+            name="Saroja Arunachalam"
+            thought="Looking for local artists to collaborate on Starbucks store designs and experiences."
+            position="Store Design Manager"
+            place="Seattle"
+            about=" I am a designer who loves to create business identities. Currently designing a portfolio of cafes for Starbucks Coffee Company."
+            pronouns="she/her"
+          />
+
+          <Card
+            link="/profile/kumaran"
+            image="person7.png"
+            background="bg7.png"
+            name="Kumaran Parthiban"
+            thought="Let’s talk about the future and how it will manifest."
+            position="Speculative Architect/Educator"
+            place="Los Angeles"
+            about="I’m a visionary architect and educator, navigating the digital frontier, shaping tomorrow’s aesthetics through digital technology and embracing Gen Z zeitgeist! "
             pronouns="he/him"
           />
         </Slider>
