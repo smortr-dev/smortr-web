@@ -27,14 +27,14 @@ export default function Experience({ cardData }: { cardData: experience }) {
         // data-hadler-id={handlerId}
       >
         <div
-          className={`h-[45vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]   overflow-clip`}
+          className={`h-[45vh] rounded-t-[18px]  border-[0.06rem] border-black w-full  bg-[#FAFAFA]   overflow-clip`}
           // onClick={() => {}}
         >
           <img
             loading="lazy"
             src={cardData.image}
             alt="preview"
-            className=" object-cover h-full z-[12] w-full "
+            className=" object-cover h-full  w-full "
           />
         </div>
         <div className="px-6 pt-2 pb-4">

@@ -183,7 +183,7 @@ export default function Profile({ params }: { params: { name: string } }) {
             <img
               loading="lazy"
               src={`${profileData ? profileData.userInfo.background : ""}`}
-              className="w-full object-fill h-full"
+              className="w-full object-cover h-full"
               alt=""
             />
           </div>

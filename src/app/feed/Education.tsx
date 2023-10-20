@@ -26,7 +26,7 @@ export default function Education({ cardData }: { cardData: education }) {
         // data-hadler-id={handlerId}
       >
         <div
-          className={`h-[45vh] relative rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
+          className={`h-[45vh] relative rounded-t-[18px]  border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
           // onClick={() => {}}
         >
           {/* <Image
@@ -41,7 +41,7 @@ export default function Education({ cardData }: { cardData: education }) {
             loading="lazy"
             src={cardData.image}
             alt="preview"
-            className="object-cover h-full z-[12] w-full "
+            className="object-cover h-full  w-full "
           />
         </div>
         <div className="px-6 pt-2 pb-4">
@@ -75,7 +75,7 @@ export default function Education({ cardData }: { cardData: education }) {
             })}
           </div>
         </div>
-        <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#1769FF] rounded-full z-[14]">
+        <div className="absolute flex justify-center items-center top-3 left-3 h-7 w-7 bg-[#1769FF] rounded-full ">
           <div className="inline-block text-white  text-[0.6rem]">
             {cardData.user.split(" ").map((part, index) => {
               return <span key={index}>{part.charAt(0)}</span>;
