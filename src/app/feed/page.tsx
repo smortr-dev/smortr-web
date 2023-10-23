@@ -7,15 +7,15 @@ import { MultiSelect } from "react-multi-select-component";
 import Masonry from "react-responsive-masonry";
 import { InputFeed } from "@/components/ui/input";
 import { Option } from "react-multi-select-component";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+// import {
+//   Form,
+//   FormControl,
+//   FormDescription,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -639,7 +639,7 @@ export default function Feed() {
     // console.log(presentedData, "change");
     return (
       <>
-        <div className="mx-16">
+        <div className="mx-16 mb-4">
           <Header />
           <div className="w-full relative rounded-[6.25rem] flex border-[0.06rem] border-black justify-stretch">
             <div className="inline-block w-[90%] h-full">

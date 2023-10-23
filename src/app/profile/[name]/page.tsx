@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { styled } from "@mui/material/styles";
 import { Button } from "@/components/ui/button";
+import Masonry from "react-responsive-masonry";
 import { profile, profileEnd } from "console";
 // import { type } from "os";
 import { useEffect, useState } from "react";
@@ -13,73 +15,203 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import CertificationOrLicense from "./CertificationOrLicense";
+import Bio from "./Bio";
+import Education from "./Education";
+import Experience from "./Experience";
+import Portfolio from "./Portfolio";
+import Tabs from "@mui/material/Tabs";
 
 // export async function getStaticProps(params:type) {
 
 // }
 // import { profile } from "console";
 // import type { InferGetStaticPropsType, GetStaticProps } from "next";
+type userInfo = {
+  name: string;
+  image: string;
+  location: string;
+  position: string;
+  pronouns: string;
+  about: string;
+  thought: string;
+  background: string;
+  thoughtPostDate: string;
+  connections: number;
+  shares: number;
+  joinDate: string;
+  languages: string[];
+  workPreference: string[];
+};
+
+type bio = {
+  question: string;
+  mediaType: string;
+  filelink: string;
+  caption: string;
+};
+
+type portfolio = {
+  title: string;
+  description: string;
+  type: string;
+  image: string;
+};
+
+type education = {
+  image: string;
+  degree: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  skills: string[];
+  school: string;
+};
+
+type experience = {
+  image: string;
+  place: string;
+  description: string;
+  startDate: string;
+  position: string;
+  endDate: string;
+  company: string;
+  skills: string[];
+};
+
+type certificationOrLicense = {
+  type: string;
+  from: string;
+  date: string;
+  id: string;
+  link: string;
+};
 
 type Profile = {
   name: string;
-  userInfo: {
-    name: string;
-    image: string;
-    location: string;
-    position: string;
-    pronouns: string;
-    about: string;
-    thought: string;
-    background: string;
-    thoughtPostDate: string;
-    connections: number;
-    shares: number;
-    joinDate: string;
-    languages: string[];
-    workPreference: string[];
-  };
-  bio: [
-    {
-      question: string;
-      mediaType: string;
-      filelink: string;
-      caption: string;
-    }
-  ];
+  userInfo: userInfo;
+  bio: bio[];
   skills: { skillName: string; proficiency: number }[];
-  portfolio: {
-    type: string;
-    image: string;
-  }[];
-  education: {
-    image: string;
-    degree: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    skills: string[];
-    school: string;
-  }[];
-  experience: {
-    image: string;
-    place: string;
-    description: string;
-    startDate: string;
-    position: string;
-    endDate: string;
-    company: string;
-    skills: string[];
-  }[];
-  certificationOrLicense: {
-    type: string;
-    from: string;
-    date: string;
-    id: string;
-    link: string;
-  }[];
+  portfolio: portfolio[];
+  education: education[];
+  experience: experience[];
+  certificationOrLicense: certificationOrLicense[];
 };
 
+type dataTypes =
+  | {
+      type: "bio";
+      cardData: bio;
+    }
+  | {
+      type: "certificationOrLicense";
+      cardData: certificationOrLicense;
+    }
+  | {
+      type: "experience";
+      cardData: experience;
+    }
+  | {
+      type: "education";
+      cardData: education;
+    }
+  | {
+      type: "portfolio";
+      cardData: portfolio;
+    };
+
+type data = dataTypes[];
+
+export type { bio, experience, certificationOrLicense, portfolio, education };
 // export const getStaticProps = (async () => {
+
+const AntTabs = styled(Tabs)({
+  borderBottom: "1px solid #e8e8e8",
+  "& .MuiTabs-indicator": {
+    backgroundColor: "transparent", //6563FF
+  },
+});
+
+const AntTab = styled((props: StyledTabProps) => <Tab {...props} />)(
+  ({ theme }) => ({
+    textTransform: "none",
+    minWidth: 0,
+    [theme.breakpoints.up("sm")]: {
+      minWidth: 0,
+    },
+    // padding: "0.4rem",
+    fontWeight: theme.typography.fontWeightRegular,
+    marginRight: theme.spacing(0),
+    color: "rgba(0, 0, 0, 0.85)",
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+    "&:hover": {
+      color: "#40a9ff",
+      opacity: 1,
+    },
+    "&.Mui-selected": {
+      color: "#6563FF",
+      fontWeight: theme.typography.fontWeightMedium,
+    },
+    "&.Mui-focusVisible": {
+      backgroundColor: "#d1eaff",
+    },
+  })
+);
+
+interface StyledTabsProps {
+  children?: React.ReactNode;
+  value: number;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
+}
+
+const StyledTabs = styled((props: StyledTabsProps) => (
+  <Tabs
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  "& .MuiTabs-indicator": {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  "& .MuiTabs-indicatorSpan": {
+    maxWidth: 40,
+    width: "100%",
+    backgroundColor: "#635ee7",
+  },
+});
+
+interface StyledTabProps {
+  label: string;
+}
+
+const StyledTab = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: "none",
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  marginRight: theme.spacing(1),
+  color: "rgba(255, 255, 255, 0.7)",
+  "&.Mui-selected": {
+    color: "#fff",
+  },
+  "&.Mui-focusVisible": {
+    backgroundColor: "rgba(100, 95, 228, 0.32)",
+  },
+}));
 
 // }) satisfies GetStaticProps<{
 //   profileData: Profile;
@@ -96,11 +228,59 @@ async function getData(name: string) {
   return profileData;
 }
 
+function getAllData(profileData: Profile) {
+  if (!profileData) return undefined;
+  else {
+    let bioData: data = profileData.bio.map((bio): dataTypes => {
+      return { type: "bio", cardData: bio };
+    });
+    let certificationOrLicenseData: data =
+      profileData.certificationOrLicense.map(
+        (certificationOrLicense): dataTypes => {
+          return {
+            type: "certificationOrLicense",
+            cardData: certificationOrLicense,
+          };
+        }
+      );
+
+    let experienceData: data = profileData.experience.map(
+      (experience): dataTypes => {
+        return { type: "experience", cardData: experience };
+      }
+    );
+    let educationData: data = profileData.education.map(
+      (education): dataTypes => {
+        return { type: "education", cardData: education };
+      }
+    );
+
+    let portfolio: data = profileData.portfolio.map((portfolio): dataTypes => {
+      return { type: "portfolio", cardData: portfolio };
+    });
+
+    let totalData: data = [
+      ...bioData,
+      ...experienceData,
+      ...educationData,
+      ...portfolio,
+      ...certificationOrLicenseData,
+    ];
+    totalData = totalData.sort(() => {
+      let num: number = Math.floor(Math.random() * 2);
+      let arr = [-1, 1];
+      return arr[num];
+    });
+
+    return totalData;
+  }
+}
+
 export default function Profile({ params }: { params: { name: string } }) {
   const router = useRouter();
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState<number>(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   let portfolioClassResolver = (portfolioObject: {
@@ -144,7 +324,16 @@ export default function Profile({ params }: { params: { name: string } }) {
     ];
     return monthList[date.getMonth()];
   };
+
+  type qualificationSelectionOption =
+    | "education"
+    | "experience"
+    | "certificationOrLicense";
+
+  const [qualificationSelection, setQualificationSelection] =
+    useState<qualificationSelectionOption>("education");
   const [profileData, setProfileData] = useState<Profile>();
+  const [allData, setAllData] = useState<data>();
   const [load, setLoad] = useState(true);
   useEffect(() => {
     fetch("/api/profile", {
@@ -155,6 +344,8 @@ export default function Profile({ params }: { params: { name: string } }) {
       .then((data) => {
         // console.log(data, "data");
         setProfileData(data);
+
+        setAllData(getAllData(data));
         // console.log(data);
         setLoad(false);
       });
@@ -178,8 +369,8 @@ export default function Profile({ params }: { params: { name: string } }) {
     return (
       <>
         <Header />
-        <div className="relative min-h-[60vh] md:h-[100vh]">
-          <div className="overflow-clip md:h-[50%] h-[30vh]">
+        <div className="relative min-h-[60vh] ">
+          <div className="overflow-clip md:h-[45vh] h-[30vh]">
             <img
               loading="lazy"
               src={`${profileData ? profileData.userInfo.background : ""}`}
@@ -311,6 +502,7 @@ export default function Profile({ params }: { params: { name: string } }) {
               </div>
             </div>
           </div>
+          {/* <div className="h-[4rem]"></div> */}
           <div className="flex justify-center">
             <Button
               className=" p-4 bg-[#1B1B2D] leading-5 text-white border-2 border-transparent rounded-[6px] hover:text-[#1B1B2D] hover:bg-white hover:border-[#1B1B2D]"
@@ -326,27 +518,265 @@ export default function Profile({ params }: { params: { name: string } }) {
         </div>
         <div className="md:hidden block">
           <Box sx={{ width: "100%", typography: "body1" }}>
-            <TabContext value={value}>
+            <TabContext value={value.toString()}>
               <Box
                 sx={{
                   borderBottom: 1,
                   borderColor: "divider",
-                  marginTop: "3rem",
+                  marginTop: "0.6rem",
                 }}
               >
-                <TabList
+                <AntTabs
+                  // sx={}
+                  // variant="centered"
+                  value={value}
                   onChange={handleChange}
-                  aria-label="lab API tabs example"
-                  centered
+                  aria-label="ant example"
                 >
-                  <Tab sx={{ fontWeight: 600 }} label="Item One" value="1" />
-                  <Tab label="Item Two" value="2" />
-                  <Tab label="Item Three" value="3" />
-                </TabList>
+                  <AntTab label="Profile" />
+                  <AntTab label="Bio" />
+                  <AntTab label="Portfolio" />
+                  <AntTab label="Skills" />
+                  <AntTab label="Qualification" />
+                </AntTabs>
               </Box>
-              <TabPanel value="1">Item One</TabPanel>
-              <TabPanel value="2">Item Two</TabPanel>
-              <TabPanel value="3">Item Three</TabPanel>
+              <TabPanel
+                value="0"
+                sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
+              >
+                {allData ? (
+                  <Masonry columnsCount={2} gutter="0.7rem">
+                    {allData.map((card, index) => {
+                      if (card.type == "bio") {
+                        let data: bio = card.cardData;
+                        return <Bio key={index} cardData={card.cardData} />;
+                      } else if (card.type == "certificationOrLicense") {
+                        let data: certificationOrLicense = card.cardData;
+                        return (
+                          <CertificationOrLicense
+                            key={index}
+                            cardData={card.cardData}
+                          />
+                        );
+                      } else if (card.type == "education") {
+                        let data: education = card.cardData;
+                        // console.log(data, "education");
+                        return (
+                          <Education key={index} cardData={card.cardData} />
+                        );
+                      } else if (card.type == "experience") {
+                        let data: experience = card.cardData;
+                        // console.log(data, "experience");
+                        return (
+                          <Experience key={index} cardData={card.cardData} />
+                        );
+                      } else if (card.type == "portfolio") {
+                        let data: portfolio = card.cardData;
+                        // console.log(data, "experience");
+                        return (
+                          <Portfolio key={index} cardData={card.cardData} />
+                        );
+                      }
+                    })}
+                  </Masonry>
+                ) : null}
+              </TabPanel>
+              <TabPanel
+                value="1"
+                sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
+              >
+                {profileData
+                  ? profileData.bio.map((cardData, index) => (
+                      <>
+                        <div
+                          key={index}
+                          className="shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]"
+                        >
+                          <div className="text-[1rem] font-[700] px-4 py-4 text-left w-full">
+                            {cardData.question}
+                          </div>
+                          <div className="h-[25vh] border-2 border-black w-full">
+                            <img
+                              src={cardData.filelink}
+                              className="object-cover h-full w-full"
+                              alt="some stuff"
+                            />
+                          </div>
+                          <div className="flex justify-center items-center">
+                            <div className="text-[0.9rem] px-4 pt-3 text-left w-full">
+                              {cardData.caption}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ))
+                  : null}
+              </TabPanel>
+              <TabPanel
+                value="2"
+                sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
+              >
+                <div className="grid gap-y-4">
+                  {profileData
+                    ? profileData.portfolio.map((cardData, index) => {
+                        return (
+                          <>
+                            <div
+                              className={` hover:cursor-pointer border-2 relative border-black rounded-[0.88rem] overflow-clip shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+                            >
+                              <div className="h-[25vh] relative">
+                                <img
+                                  loading="lazy"
+                                  src={cardData.image}
+                                  alt="test"
+                                  className="object-cover h-full w-full z-[15]"
+                                />
+                              </div>
+                              <div className=" w-full bg-white  z-[20] flex justify-center items-start flex-col tracking-wide py-4">
+                                <div className="text-[0.8rem] text-black font-[500] py-1 px-6">
+                                  {cardData.title}
+                                </div>
+                                {/* <div className="text-[0.8rem] text-black font-[500] px-6 py-1 tracking-wide">
+                              {cardData.description}
+                            </div> */}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })
+                    : null}
+                </div>
+              </TabPanel>
+              <TabPanel
+                value="3"
+                sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
+              >
+                <div className="px-8">
+                  {profileData
+                    ? profileData.skills.map((skill, index) => {
+                        return (
+                          <>
+                            <div
+                              className="inline-block w-full mt-4"
+                              key={index}
+                            >
+                              <div className="text-[0.9rem] py-2 font-[500]">
+                                {skill.skillName}
+                              </div>
+                              <div className=" py-[0.44rem] rounded-[0.38rem] bg-[#ECECEC]">
+                                <div
+                                  className={`bg-[#F8C643] h-[0.875rem]`}
+                                  style={{ width: `${skill.proficiency}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })
+                    : null}
+                </div>
+              </TabPanel>
+
+              <TabPanel
+                sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
+                value="4"
+              >
+                <div className="flex justify-center">
+                  <div className="inline-block border-[1px] border-[#848484] bg-[#FAFAFA] rounded-[0.56rem]">
+                    <div
+                      className={`${
+                        qualificationSelection == "education"
+                          ? "font-[700] rounded-[0.56rem] border-[1px] border-[#D9D9D9]"
+                          : "text-[#848484]"
+                      } inline-block px-3 py-2  text-[0.7rem]`}
+                    >
+                      Education
+                    </div>
+                    <div
+                      className={`${
+                        qualificationSelection == "experience"
+                          ? "font-[700] rounded-[0.56rem] border-[1px] border-[#D9D9D9]"
+                          : "text-[#848484]"
+                      } inline-block px-3 py-2  text-[0.7rem]`}
+                    >
+                      Experience
+                    </div>
+                    <div
+                      className={`${
+                        qualificationSelection == "certificationOrLicense"
+                          ? "font-[700] rounded-[0.56rem] border-[1px] border-[#D9D9D9]"
+                          : "text-[#848484]"
+                      } inline-block px-3 py-2  text-[0.7rem]`}
+                    >
+                      Certificaition/License
+                    </div>
+                  </div>
+                </div>
+
+                {/* {profileData
+                  ? profileData.education.map((education, index) => {
+                      return (
+                        <>
+                          <div
+                            key={index}
+                            // ref={previewRef}
+                            className={`rounded-[18px] relative bg-white shadow-[0_4px_50px_0_rgba(0,0,0,0.05)]`}
+                            // data-hadler-id={handlerId}
+                          >
+                            <div
+                              className={`h-[25vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
+                              // onClick={() => {}}
+                            >
+                              <img
+                                src={education.image}
+                                alt="preview"
+                                className="block object-cover h-full z-[12] w-full "
+                              />
+                            </div>
+                            <div className="px-3 pt-2 pb-4">
+                              <p className="text-left text-[0.9rem] font-semibold text-[#848484]">
+                                {education.degree}
+                              </p>
+                              <p className="text-left text-[1rem] ">
+                                at{" "}
+                                <span className="font-semibold ">
+                                  {education.school}
+                                </span>
+                              </p>
+                              <div className="text-[0.8rem] font-[500] text-[#848484]">
+                                
+                                <span>
+                                  {new Date(education.startDate).getFullYear()}
+                                </span>
+                                {" - "}
+                                
+                                <span>
+                                  {new Date(education.endDate).getFullYear()}
+                                </span>
+                              </div>
+                              <p className="text-left text-[0.85rem] text-[#848484] pt-3 pb-2">
+                                {education.description}
+                              </p>
+
+                              <div className="flex flex-wrap">
+                                {education.skills.map((name, index) => {
+                                  return (
+                                    <span
+                                      key={index}
+                                      className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hovertransition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
+                                    >
+                                      {name}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })
+                  : null} */}
+              </TabPanel>
             </TabContext>
           </Box>
         </div>
@@ -363,7 +793,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       <div className="text-[0.9rem] font-[700] px-4 py-4 text-left w-full">
                         {cardData.question}
                       </div>
-                      <div className="h-[20vw] border-2 border-black w-full">
+                      <div className="h-[35vh] border-2 border-black w-full">
                         <img
                           src={cardData.filelink}
                           className="object-cover h-full w-full"
@@ -405,54 +835,6 @@ export default function Profile({ params }: { params: { name: string } }) {
               : null}
           </div>
         </div>
-        {/* <div className="px-16 pt-8 mb-4">
-          <h3 className="text-[1.3rem] px-2 font-[700]">Portfolio</h3>
-          <div className="grid gap-x-10 gap-y-5 grid-cols-[1fr_1fr_1fr] grid-flow-dense ">
-            {profileData
-              ? profileData.portfolio.map((portfolioObject, index) => {
-                  return (
-                    <>
-                      <div
-                        key={index}
-                        className={`border-2 border-black rounded-[0.88rem] mt-[1.25rem] overflow-clip ${portfolioClassResolver(
-                          portfolioObject
-                        )}`}
-                      >
-                        <img
-                          src="/bg1.png"
-                          alt="test"
-                          className="object-cover h-full w-full"
-                        />
-                      </div>
-                    </>
-                  );
-                })
-              : null}
-          </div>
-        </div> */}
-
-        {/* <div className="px-16 pt-8 mb-4">
-        <h3 className="text-[1.3rem] px-2 font-[700]">Portfolio</h3>
-        <div className=" columns-3 gap-x-10 gap-y-5 " style={{ columnSpan: 2 }}>
-          {profileData.portfolio.map((portfolioObject, index) => {
-            return (
-              <>
-                <div
-                  className={`inline-block border-2 border-black rounded-[0.88rem] mt-[1.25rem] overflow-clip ${portfolioClassResolverAlt(
-                    portfolioObject
-                  )}`}
-                >
-                  <img
-                    src="bg1.png"
-                    alt="test"
-                    className="object-cover h-full w-full"
-                  />
-                </div>
-              </>
-            );
-          })}
-        </div>
-      </div> */}
 
         <div className="px-16 pt-8 mb-4 md:block hidden">
           <h3 className="text-[1.3rem] px-2 font-[700]">Education</h3>
@@ -489,10 +871,14 @@ export default function Profile({ params }: { params: { name: string } }) {
                           </p>
                           <div className="text-[0.8rem] font-[500] text-[#848484]">
                             {/* <span>{data.dates.startDate.getFullYear()}</span>- */}
-                            <span>{new Date().getFullYear()}</span>
+                            <span>
+                              {new Date(education.startDate).getFullYear()}
+                            </span>
                             {" - "}
                             {/* <span>{data.dates.endDate.getFullYear()}</span> */}
-                            <span>{new Date().getFullYear()}</span>
+                            <span>
+                              {new Date(education.endDate).getFullYear()}
+                            </span>
                           </div>
                           <p className="text-left text-[1rem] text-[#848484] py-6">
                             {education.description}
@@ -555,10 +941,14 @@ export default function Profile({ params }: { params: { name: string } }) {
                           </p>
                           <div className="text-[0.8rem] font-[500] text-[#848484]">
                             {/* <span>{data.dates.startDate.getFullYear()}</span>- */}
-                            <span>{new Date().getFullYear()}</span>
+                            <span>
+                              {new Date(experience.startDate).getFullYear()}
+                            </span>
                             {" - "}
                             {/* <span>{data.dates.endDate.getFullYear()}</span> */}
-                            <span>{new Date().getFullYear()}</span>
+                            <span>
+                              {new Date(experience.endDate).getFullYear()}
+                            </span>
                           </div>
                           <p className="text-left text-[1rem] text-[#848484] py-6">
                             {experience.description}

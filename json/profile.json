@@ -143,7 +143,8 @@
                 "AutoCAD","Revit","Photoshop"
             ]
         }
-    ]
+    ],
+    "certificationOrLicense":[]
 },
 
 {
@@ -656,7 +657,8 @@
         ],
         "workPreference":[
             "-"
-        ]
+        ],
+        "certificationOrLicense":[]
 
     },
     "bio":[
@@ -737,8 +739,8 @@
             "skills":[
                 "Presentations","Concept Art","Enscape"
             ],
-            "startDate":"2014-30T10:40:40.604Z",
-            "endDate":"2019-30T10:40:40.604Z"
+            "startDate":"2014-01-30T10:40:40.604Z",
+            "endDate":"2019-12-30T10:40:40.604Z"
         }
     ],
     "experience":[
@@ -886,8 +888,8 @@
             "skills":[
                 "Virtual Reality","Parametric Architecture","3D Modelling", "Webgl"
             ],
-            "startDate":"2022-30T10:40:40.604Z",
-            "endDate":"2023-30T10:40:40.604Z"
+            "startDate":"2022-01-30T10:40:40.604Z",
+            "endDate":"2023-02-30T10:40:40.604Z"
         },
         {
             "image":"https://ik.imagekit.io/ip3x08u9u/Shylesh%20Kumar/School-of-Planning-and-Architecture-Vijayawada-3.webp?updatedAt=1697454454490",
@@ -897,8 +899,8 @@
             "skills":[
                 "AutoCAD","Architectural Design","Research"
             ],
-            "startDate":"2014-30T10:40:40.604Z",
-            "endDate":"2019-30T10:40:40.604Z"
+            "startDate":"2014-01-30T10:40:40.604Z",
+            "endDate":"2019-01-30T10:40:40.604Z"
         }
     ],
     "experience":[
@@ -908,7 +910,7 @@
             "position":"VR Designer",
             "place":"Chennai",
             "startDate":"2021-06-30T10:40:40.604Z",
-            "endDate":"Present-30T10:40:40.604Z",
+            "endDate":"2023-06-30T10:40:40.604Z",
             "description":"WebVR experience of interiors with focus on interactivity.",
             "skills":[
                 "Webgl","Python", "3D Modeling", "Virtual Reality (VR)", "Building Information Modeling (BIM)"
