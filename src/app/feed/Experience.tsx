@@ -23,11 +23,11 @@ export default function Experience({ cardData }: { cardData: experience }) {
         }}
         // key={index}
         // ref={previewRef}
-        className={`rounded-[18px] relative hover:cursor-pointer bg-white shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+        className={`hover:translate-y-[-1rem] transition-transform  rounded-[18px] relative hover:cursor-pointer bg-white shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
         // data-hadler-id={handlerId}
       >
         <div
-          className={`h-[45vh] rounded-t-[18px]  border-[0.06rem] border-black w-full  bg-[#FAFAFA]   overflow-clip`}
+          className={`md:h-[45vh] h-[30vh] rounded-t-[18px]  border-[0.06rem] border-black w-full  bg-[#FAFAFA]   overflow-clip`}
           // onClick={() => {}}
         >
           <img

@@ -363,6 +363,212 @@ export default function Profile({ params }: { params: { name: string } }) {
     // }
     // apiCall();
   }, [params]);
+  function displayQualificationData(
+    qualificationSelection: qualificationSelectionOption
+  ) {
+    if (qualificationSelection == "education") {
+      return (
+        <>
+          {profileData
+            ? profileData.education.map((education, index) => {
+                return (
+                  <>
+                    <div
+                      key={index}
+                      // ref={previewRef}
+                      className={`rounded-[18px] relative bg-white shadow-[0_4px_50px_0_rgba(0,0,0,0.05)]`}
+                      // data-hadler-id={handlerId}
+                    >
+                      <div
+                        className={`h-[25vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
+                        // onClick={() => {}}
+                      >
+                        <img
+                          src={education.image}
+                          alt="preview"
+                          className="block object-cover h-full z-[12] w-full "
+                        />
+                      </div>
+                      <div className="px-3 pt-2 pb-4">
+                        <p className="text-left text-[0.9rem] font-semibold text-[#848484]">
+                          {education.degree}
+                        </p>
+                        <p className="text-left text-[1rem] ">
+                          at{" "}
+                          <span className="font-semibold ">
+                            {education.school}
+                          </span>
+                        </p>
+                        <div className="text-[0.8rem] font-[500] text-[#848484]">
+                          <span>
+                            {new Date(education.startDate).getFullYear()}
+                          </span>
+                          {" - "}
+
+                          <span>
+                            {new Date(education.endDate).getFullYear()}
+                          </span>
+                        </div>
+                        <p className="text-left text-[0.85rem] text-[#848484] pt-3 pb-2">
+                          {education.description}
+                        </p>
+
+                        <div className="flex flex-wrap">
+                          {education.skills.map((name, index) => {
+                            return (
+                              <span
+                                key={index}
+                                className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hovertransition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
+                              >
+                                {name}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })
+            : null}
+        </>
+      );
+    } else if (qualificationSelection == "experience") {
+      return (
+        <>
+          {profileData
+            ? profileData.experience.map((experience, index) => {
+                return (
+                  <>
+                    <div
+                      key={index}
+                      // ref={previewRef}
+                      className={`rounded-[18px] relative bg-white shadow-[0_4px_50px_0_rgba(0,0,0,0.05)]`}
+                      // data-hadler-id={handlerId}
+                    >
+                      <div
+                        className={`h-[25vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
+                        // onClick={() => {}}
+                      >
+                        <img
+                          src={experience.image}
+                          alt="preview"
+                          className="block object-cover h-full z-[12] w-full "
+                        />
+                      </div>
+                      <div className="px-3 pt-2 pb-4">
+                        <p className="text-left text-[0.9rem] font-semibold text-[#848484]">
+                          {experience.position}
+                        </p>
+                        <p className="text-left text-[1rem] ">
+                          at{" "}
+                          <span className="font-semibold ">
+                            {experience.company}
+                          </span>
+                        </p>
+                        <div className="text-[0.8rem] font-[500] text-[#848484]">
+                          <span>
+                            {new Date(experience.startDate).getFullYear()}
+                          </span>
+                          {" - "}
+
+                          <span>
+                            {new Date(experience.endDate).getFullYear()}
+                          </span>
+                        </div>
+                        <p className="text-left text-[0.85rem] text-[#848484] pt-3 pb-2">
+                          {experience.description}
+                        </p>
+
+                        <div className="flex flex-wrap">
+                          {experience.skills.map((name, index) => {
+                            return (
+                              <span
+                                key={index}
+                                className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hovertransition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
+                              >
+                                {name}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })
+            : null}
+        </>
+      );
+    } else if (qualificationSelection == "certificationOrLicense") {
+      // console.log("certification");
+      return (
+        <>
+          {profileData &&
+          profileData.certificationOrLicense &&
+          profileData.certificationOrLicense.length > 0 ? (
+            <>
+              <div className="px-2">
+                {profileData
+                  ? profileData.certificationOrLicense.map(
+                      (certificationOrLicense, index) => {
+                        return (
+                          <>
+                            <div
+                              onClick={() => {
+                                router.push(certificationOrLicense.link);
+                              }}
+                              key={index}
+                              className="hover:cursor-pointer inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
+                            >
+                              <div className=" relative grid grid-cols-2 px-4 py-4 justify-center w-full h-full items-center">
+                                <img
+                                  className="absolute top-[0.4rem] right-[0.4rem] h-[0.9rem] w-[0.9rem]"
+                                  src="/open_certificate.svg"
+                                  alt="open link"
+                                />
+                                <img
+                                  src="/certificate.svg"
+                                  alt="certificate"
+                                  className="h-[9vh] w-full block"
+                                />
+                                <div>
+                                  <div className="text-[0.9rem] text-[#848484]">
+                                    {certificationOrLicense.type}
+                                  </div>
+                                  <div className="font-[500] text-[1rem]">
+                                    by{" "}
+                                    <span className="font-[700]">
+                                      {certificationOrLicense.from}
+                                    </span>
+                                  </div>
+                                  <div className="text-[0.75rem] text-[#848484]">
+                                    Valid till{" "}
+                                    {fetchMonth(
+                                      new Date(certificationOrLicense.date)
+                                    )}{" "}
+                                    {new Date(
+                                      certificationOrLicense.date
+                                    ).getFullYear()}
+                                  </div>
+                                  <div className="text-[0.6rem] font-[500] text-[#4F46E5]">
+                                    ID: {certificationOrLicense.id}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      }
+                    )
+                  : null}
+              </div>
+            </>
+          ) : null}
+        </>
+      );
+    } else return null;
+  }
   // const profileData: Profile = await getData();
   // console.log(profileData, load, "mount");
   if (profileData && !load)
@@ -573,9 +779,10 @@ export default function Profile({ params }: { params: { name: string } }) {
                       } else if (card.type == "portfolio") {
                         let data: portfolio = card.cardData;
                         // console.log(data, "experience");
-                        return (
-                          <Portfolio key={index} cardData={card.cardData} />
-                        );
+                        return null;
+                        // return (
+                        //   <Portfolio key={index} cardData={card.cardData} />
+                        // );
                       }
                     })}
                   </Masonry>
@@ -585,38 +792,40 @@ export default function Profile({ params }: { params: { name: string } }) {
                 value="1"
                 sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
               >
-                {profileData
-                  ? profileData.bio.map((cardData, index) => (
-                      <>
-                        <div
-                          key={index}
-                          className="shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]"
-                        >
-                          <div className="text-[1rem] font-[700] px-4 py-4 text-left w-full">
-                            {cardData.question}
-                          </div>
-                          <div className="h-[25vh] border-2 border-black w-full">
-                            <img
-                              src={cardData.filelink}
-                              className="object-cover h-full w-full"
-                              alt="some stuff"
-                            />
-                          </div>
-                          <div className="flex justify-center items-center">
-                            <div className="text-[0.9rem] px-4 pt-3 text-left w-full">
-                              {cardData.caption}
+                <div className="grid gap-y-4">
+                  {profileData
+                    ? profileData.bio.map((cardData, index) => (
+                        <>
+                          <div
+                            key={index}
+                            className="shadow-[0_3px_50px_0px_rgba(0,0,0,0.1)] py-4 rounded-[1.13rem]"
+                          >
+                            <div className="text-[1rem] font-[700] px-4 py-4 text-left w-full">
+                              {cardData.question}
+                            </div>
+                            <div className="h-[25vh] border-2 border-black w-full">
+                              <img
+                                src={cardData.filelink}
+                                className="object-cover h-full w-full"
+                                alt="some stuff"
+                              />
+                            </div>
+                            <div className="flex justify-center items-center">
+                              <div className="text-[0.9rem] px-4 pt-3 text-left w-full">
+                                {cardData.caption}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    ))
-                  : null}
+                        </>
+                      ))
+                    : null}
+                </div>
               </TabPanel>
               <TabPanel
                 value="2"
                 sx={{ padding: "0", paddingX: "0.5rem", paddingTop: "0.5rem" }}
               >
-                <div className="grid gap-y-4">
+                {/* <div className="grid gap-y-4">
                   {profileData
                     ? profileData.portfolio.map((cardData, index) => {
                         return (
@@ -636,16 +845,14 @@ export default function Profile({ params }: { params: { name: string } }) {
                                 <div className="text-[0.8rem] text-black font-[500] py-1 px-6">
                                   {cardData.title}
                                 </div>
-                                {/* <div className="text-[0.8rem] text-black font-[500] px-6 py-1 tracking-wide">
-                              {cardData.description}
-                            </div> */}
+                                
                               </div>
                             </div>
                           </>
                         );
                       })
                     : null}
-                </div>
+                </div> */}
               </TabPanel>
               <TabPanel
                 value="3"
@@ -684,98 +891,49 @@ export default function Profile({ params }: { params: { name: string } }) {
                 <div className="flex justify-center">
                   <div className="inline-block border-[1px] border-[#848484] bg-[#FAFAFA] rounded-[0.56rem]">
                     <div
+                      onClick={() => {
+                        if (qualificationSelection != "education")
+                          setQualificationSelection("education");
+                      }}
                       className={`${
                         qualificationSelection == "education"
                           ? "font-[700] rounded-[0.56rem] border-[1px] border-[#D9D9D9]"
                           : "text-[#848484]"
-                      } inline-block px-3 py-2  text-[0.7rem]`}
+                      } inline-block px-3 py-2  text-[0.7rem] transition-all ease-in-out`}
                     >
                       Education
                     </div>
                     <div
+                      onClick={() => {
+                        if (qualificationSelection != "experience")
+                          setQualificationSelection("experience");
+                      }}
                       className={`${
                         qualificationSelection == "experience"
                           ? "font-[700] rounded-[0.56rem] border-[1px] border-[#D9D9D9]"
                           : "text-[#848484]"
-                      } inline-block px-3 py-2  text-[0.7rem]`}
+                      } inline-block px-3 py-2  text-[0.7rem] transition-all ease-in-out`}
                     >
                       Experience
                     </div>
                     <div
+                      onClick={() => {
+                        if (qualificationSelection != "certificationOrLicense")
+                          setQualificationSelection("certificationOrLicense");
+                      }}
                       className={`${
                         qualificationSelection == "certificationOrLicense"
                           ? "font-[700] rounded-[0.56rem] border-[1px] border-[#D9D9D9]"
                           : "text-[#848484]"
-                      } inline-block px-3 py-2  text-[0.7rem]`}
+                      } inline-block px-3 py-2  text-[0.7rem] transition-all ease-in-out`}
                     >
                       Certificaition/License
                     </div>
                   </div>
                 </div>
-
-                {/* {profileData
-                  ? profileData.education.map((education, index) => {
-                      return (
-                        <>
-                          <div
-                            key={index}
-                            // ref={previewRef}
-                            className={`rounded-[18px] relative bg-white shadow-[0_4px_50px_0_rgba(0,0,0,0.05)]`}
-                            // data-hadler-id={handlerId}
-                          >
-                            <div
-                              className={`h-[25vh] rounded-t-[18px] z-[8] border-[0.06rem] border-black w-full  bg-[#FAFAFA]  overflow-clip`}
-                              // onClick={() => {}}
-                            >
-                              <img
-                                src={education.image}
-                                alt="preview"
-                                className="block object-cover h-full z-[12] w-full "
-                              />
-                            </div>
-                            <div className="px-3 pt-2 pb-4">
-                              <p className="text-left text-[0.9rem] font-semibold text-[#848484]">
-                                {education.degree}
-                              </p>
-                              <p className="text-left text-[1rem] ">
-                                at{" "}
-                                <span className="font-semibold ">
-                                  {education.school}
-                                </span>
-                              </p>
-                              <div className="text-[0.8rem] font-[500] text-[#848484]">
-                                
-                                <span>
-                                  {new Date(education.startDate).getFullYear()}
-                                </span>
-                                {" - "}
-                                
-                                <span>
-                                  {new Date(education.endDate).getFullYear()}
-                                </span>
-                              </div>
-                              <p className="text-left text-[0.85rem] text-[#848484] pt-3 pb-2">
-                                {education.description}
-                              </p>
-
-                              <div className="flex flex-wrap">
-                                {education.skills.map((name, index) => {
-                                  return (
-                                    <span
-                                      key={index}
-                                      className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hovertransition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
-                                    >
-                                      {name}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      );
-                    })
-                  : null} */}
+                <div className="grid gap-y-4 pt-4">
+                  {displayQualificationData(qualificationSelection)}
+                </div>
               </TabPanel>
             </TabContext>
           </Box>
@@ -889,7 +1047,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               return (
                                 <span
                                   key={index}
-                                  className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hovertransition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
+                                  className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hover transition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
                                 >
                                   {name}
                                 </span>
@@ -959,7 +1117,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               return (
                                 <span
                                   key={index}
-                                  className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hovertransition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
+                                  className="inline-block  relative group overflow-x-hidden border-[#479F70] leading-3 border-2  bg-white hover:border-2 hover:overflow-x-visible hover transition-all p-2 text-[0.75rem] font-[500] text-[#479F70] rounded-[6.25rem] mr-2 whitespace-nowrap mt-1"
                                 >
                                   {name}
                                 </span>

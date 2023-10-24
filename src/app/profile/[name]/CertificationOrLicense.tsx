@@ -30,7 +30,7 @@ export default function CertificationOrLicense({
         // key={index}
         className="inline-block hover:cursor-pointer  w-full shadow-[0_3px_50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
       >
-        <div className=" relative grid grid-cols-2 px-2 py-4 justify-center w-full items-center">
+        <div className=" relative px-2 py-4 justify-center w-full items-center">
           <img
             className="absolute top-[0.2rem] right-[0.2rem] h-[0.8rem] w-[0.8rem]"
             src="/open_certificate.svg"
@@ -41,10 +41,10 @@ export default function CertificationOrLicense({
               loading="lazy"
               src={`/certificate.svg`}
               alt="certificate"
-              className=" aspect-square w-[60%] inline-block  mr-2"
+              className=" aspect-square w-[30%] inline-block"
             />
           </div>
-          <div>
+          <div className="mt-2">
             <div className="text-[0.6rem] text-[#848484]">{cardData.type}</div>
             <div className="font-[500] leading-[0.8rem] mt-[0.1rem] text-[0.65rem]">
               by <span className="font-[700]">{cardData.from}</span>

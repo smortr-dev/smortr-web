@@ -18,9 +18,9 @@ export default function Portfolio({ cardData }: { cardData: portfolio }) {
         onClick={() => {
           router.push(cardData.userLink);
         }}
-        className={` hover:cursor-pointer border-2 relative border-black rounded-[0.88rem] overflow-clip shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
+        className={` hover:translate-y-[-1rem] transition-transform  hover:cursor-pointer border-2 relative border-black rounded-[0.88rem] overflow-clip shadow-[0_3px_50px_0_rgba(0,0,0,0.1)]`}
       >
-        <div className="h-[40vh] relative">
+        <div className="md:h-[40vh] h-[30vh] relative">
           <img
             loading="lazy"
             src={cardData.image}

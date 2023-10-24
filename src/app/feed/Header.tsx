@@ -18,12 +18,12 @@ export default function Header() {
               }}
             />
           </div>
-          <Link href={"/"} className="inline-block ml-10">
+          <Link href={"/"} className="inline-block md:ml-10 ml-3">
             <div className="inline-block text-[1.15rem] text-[#848484]  hover:text-black hover:underline transition-all">
               About
             </div>
           </Link>
-          <Link href={"/feed"} className="inline-block ml-10">
+          <Link href={"/feed"} className="inline-block md:ml-10 ml-3">
             <div className="inline-block text-[1.15rem] text-[#DD5D33]  hover:text-black hover:underline transition-all">
               Feed
             </div>

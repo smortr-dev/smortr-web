@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Header from "./Header";
 import { MultiSelect } from "react-multi-select-component";
 // import  from "react-responsive-masonry";
-import Masonry from "react-responsive-masonry";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { InputFeed } from "@/components/ui/input";
 import { Option } from "react-multi-select-component";
 // import {
@@ -639,14 +639,14 @@ export default function Feed() {
     // console.log(presentedData, "change");
     return (
       <>
-        <div className="mx-16 mb-4">
+        <div className="md:mx-16 mb-4 mx-4">
           <Header />
           <div className="w-full relative rounded-[6.25rem] flex border-[0.06rem] border-black justify-stretch">
-            <div className="inline-block w-[90%] h-full">
+            <div className="inline-block w-[85%] h-full">
               <div className="w-full flex">
                 <img
                   src="/feed_search_bar.svg"
-                  className="inline-block p-3 h-12 w-12"
+                  className="inline-block p-3 md:h-12 md:w-12 h-[2.5rem] w-[2.5rem]"
                   alt="feed-search-logo"
                 />
 
@@ -668,42 +668,7 @@ export default function Feed() {
                 />
               </div>
             </div>
-            <div className="relative w-[10%] border-black border-l-[0.06rem] flex items-center justify-center">
-              {/* <Select
-              onValueChange={(props) => {
-                setFilters((prev) => {
-                  let returnValue: filter = { ...prev, searchType: props };
-                  return returnValue;
-                });
-              }}
-              defaultValue={filters.searchType}
-            >
-              <SelectTrigger
-                className={` border-transparent text-black w-full`}
-              >
-                <SelectValue
-                  placeholder="Select your location"
-                  className="text-[1rem] font-[500] visible border-2 border-black w-full"
-                />
-              </SelectTrigger>
-              <SelectContent className="hover:opacity-1 bg-white">
-                <SelectItem
-                  value="United States"
-                  className="bg-white text-[1rem] "
-                >
-                  United States
-                </SelectItem>
-                <SelectItem value="India" className="bg-white text-[1rem] ">
-                  India
-                </SelectItem>
-                <SelectItem
-                  value="m@support.com"
-                  className="bg-white  text-[1rem] "
-                >
-                  m@support.com
-                </SelectItem>
-              </SelectContent>
-            </Select> */}
+            <div className="relative hidden w-[15%] border-black md:border-l-[0.06rem] md:flex items-center justify-center">
               <Select
                 onValueChange={(props) => {
                   let returnValue: filter = { ...filters, searchType: props };
@@ -733,8 +698,13 @@ export default function Feed() {
                 </SelectContent>
               </Select>
             </div>
+            <div className="w-[15%] flex items-center">
+              <div className="w-full h-full flex items-center justify-center mr-2 ml-2">
+                <img src="/tune.svg" alt="filter" className=" object-cover" />
+              </div>
+            </div>
           </div>
-          <div className="flex py-6 justify-between">
+          <div className="md:flex w-[100%] py-6 justify-between hidden ">
             <div className="flex min-w-[80%]">
               {/* <MultiSelect
                 className="w-[20%] inline-block mr-4"
@@ -952,34 +922,38 @@ export default function Feed() {
               }
             })}
           </div> */}
-          <Masonry columnsCount={3} gutter="2rem">
-            {presentedData.map((card, index) => {
-              if (card.type == "bio") {
-                let data: bio = card.cardData;
-                return <Bio key={index} cardData={card.cardData} />;
-              } else if (card.type == "certificationOrLicense") {
-                let data: certificationOrLicense = card.cardData;
-                return (
-                  <CertificationOrLicense
-                    key={index}
-                    cardData={card.cardData}
-                  />
-                );
-              } else if (card.type == "education") {
-                let data: education = card.cardData;
-                // console.log(data, "education");
-                return <Education key={index} cardData={card.cardData} />;
-              } else if (card.type == "experience") {
-                let data: experience = card.cardData;
-                // console.log(data, "experience");
-                return <Experience key={index} cardData={card.cardData} />;
-              } else if (card.type == "portfolio") {
-                let data: portfolio = card.cardData;
-                // console.log(data, "experience");
-                return <Portfolio key={index} cardData={card.cardData} />;
-              }
-            })}
-          </Masonry>
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+          >
+            <Masonry columnsCount={3} gutter="2rem" className="mt-4 md:mt-0">
+              {presentedData.map((card, index) => {
+                if (card.type == "bio") {
+                  let data: bio = card.cardData;
+                  return <Bio key={index} cardData={card.cardData} />;
+                } else if (card.type == "certificationOrLicense") {
+                  let data: certificationOrLicense = card.cardData;
+                  return (
+                    <CertificationOrLicense
+                      key={index}
+                      cardData={card.cardData}
+                    />
+                  );
+                } else if (card.type == "education") {
+                  let data: education = card.cardData;
+                  // console.log(data, "education");
+                  return <Education key={index} cardData={card.cardData} />;
+                } else if (card.type == "experience") {
+                  let data: experience = card.cardData;
+                  // console.log(data, "experience");
+                  return <Experience key={index} cardData={card.cardData} />;
+                } else if (card.type == "portfolio") {
+                  let data: portfolio = card.cardData;
+                  // console.log(data, "experience");
+                  return <Portfolio key={index} cardData={card.cardData} />;
+                }
+              })}
+            </Masonry>
+          </ResponsiveMasonry>
         </div>
       </>
     );

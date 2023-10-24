@@ -41,7 +41,7 @@ export default function CertificationOrLicense({
           router.push(cardData.userLink);
         }}
         // key={index}
-        className="inline-block hover:cursor-pointer min-h-[25vh] w-full shadow-[0_3px_50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
+        className="hover:translate-y-[-1rem] transition-transform inline-block hover:cursor-pointer min-h-[25vh] w-full shadow-[0_3px_50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
       >
         <div className=" relative grid grid-cols-2  justify-center w-full h-full items-center">
           <img

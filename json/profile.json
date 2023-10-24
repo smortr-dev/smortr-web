@@ -634,7 +634,8 @@
                 "Engineering","Computational Fluid Dynamics (CFD)","ANSYS"
             ]
         }
-    ]
+    ],
+    "certificationOrLicense":[]
 },
 
 {
@@ -657,10 +658,11 @@
         ],
         "workPreference":[
             "-"
-        ],
-        "certificationOrLicense":[]
+        ]
+        
 
     },
+    "certificationOrLicense":[],
     "bio":[
         {
             "question":"My design process is fueled by the belief that...",
@@ -963,6 +965,174 @@
             "date":"2022-09-30T10:40:40.604Z",
             "id":"ngh92eicfd",
             "link":"https://www.performance.network/certificates/ngh92eicfd"
+        }
+    ]
+},
+{
+    "name":"harsh",
+    "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/Harsh.png?updatedAt=1697632327994",
+        "name":"Harsh Verma",
+        "location":"New Delhi",
+        "position":"Industrial Designer",
+        "pronouns":"he/him",
+        "about":"I am a product designer specializing in furniture design for the premium residential and commercial sector.",
+        "thought":"Open to collaborate with architects and interior designers on furniture design for residential and commercial projects.",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/Ep30bODzWgU0zOQCzwpqhcrNLmvJh_58.png?updatedAt=1697632860115",
+        "thoughtPostDate":"2023-10-18T18:12:12.604Z",
+        "connections":20,
+        "shares":81,
+        "joinDate":"2023-10-18T18:12:12.604Z",
+        "languages":[
+            "English","Hindi"
+        ],
+        "workPreference":[
+            "Remote","current location"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"This year I'm trying to...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/screenshot.jpg?updatedAt=1697638971406",
+            "caption":" Work on diverse projects that is challenging and enhances my creativity and skills"
+        },
+        {
+            "question":"What would your TED Talk be about?",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/1670498082884.jpg?updatedAt=1697639286656",
+            "caption":"Design can transform spaces and objects into functional and beautiful solutions that enhance people's lives and well-being."
+        },
+        {
+            "question":"A cause I really care about..",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/2wb6_g2FxR8ZX9DpX-idbK_9Unmuw8Fs.jpg?updatedAt=1697639485840",
+            "caption":"Promoting design literacy and awareness among people and empowering them to use design as a tool for positive change and innovation."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Autocad",
+            "proficiency":80
+        },
+        {
+            "skillName":"Prototyping",
+            "proficiency":90
+        },
+        {
+            "skillName":"Product design",
+            "proficiency":85
+        },
+        {
+            "skillName":"3D Modeling",
+            "proficiency":90
+        },
+        {
+            "skillName":"Adobe illustrator",
+            "proficiency":80
+        },
+        {
+            "skillName":"Model making",
+            "proficiency":90
+        }
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/barandbenchimport201610NLUJ-e150.jpg?updatedAt=1697634827584",
+            "school":"National Law University, Jodhpur",
+            "degree":"Bachelor of Business Administration and Bachelor of Legislative Law",
+            "description":"Studying BBA and BLL was a rewarding and challenging experience for me. I learned how to apply business principles and legal frameworks to real-world problems. I also gained valuable skills in communication, teamwork, research, and analysis. I enjoyed interacting with my professors and peers, who inspired me to pursue my goals.",
+            "skills":[
+                "Communication","Negotiation","Mediation", "Organisation", "Research"
+            ],
+            "startDate":"2015-01-30T10:40:40.604Z",
+            "endDate":"2017-01-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/387766505_705724394926287_845179.jpg?updatedAt=1697636221063",
+            "school":"National Institute of Design (NID) Ahmedabad",
+            "degree":"Bachelor of Design, Furniture and interior design",
+            "description":"Studying design, furniture and interior design was a creative and fulfilling experience for me. I learned how to design functional and aesthetic spaces and objects that reflect the needs and preferences of the clients. I also developed skills in drawing, modeling, prototyping, and presenting my ideas. I appreciated the feedback and guidance from my professors and peers, who helped me improve my craft.",
+            "skills":[
+                "AutoCAD","Adobe illustrator","Photoshop","Packaging design","Industrial design","Design thinking"
+            ],
+            "startDate":"2018-01-30T10:40:40.604Z",
+            "endDate":"2022-01-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/POKDpT0-oE5P7a1BWi_YSXty_s_0eClL.jpg?updatedAt=1697637632443",
+            "company":"Freelancing",
+            "position":"Design consultant",
+            "place":"New Delhi",
+            "startDate":"2023-01-30T10:40:40.604Z",
+            "endDate":"2023-01-30T10:40:40.604Z",
+            "description":"Self motivated individual who is also versatile, logically driven and hard working. Likes to think things through and thus looks for challenges and opportunities to experiment.",
+            "skills":[
+                "Designer","Consultant", "Interior design", "Commercial", "Freelancer"
+            ]
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/01-5.jpg?updatedAt=1697637301163",
+            "company":"Project 810",
+            "position":"Furniture designer",
+            "place":"New Delhi",
+            "startDate":"2022-03-30T10:40:40.604Z",
+            "endDate":"2023-01-30T10:40:40.604Z",
+            "description":"Working as a furniture designer was a rewarding and enjoyable experience for me. I created innovative and elegant designs that satisfied the client's needs. I learned a lot from my colleagues.",
+            "skills":[
+                "Furniture", "Design", "3D Modeling","AutoCAD", "Prototyping", "Interior design", "Model making"
+            ]
+        },
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/Newsletter-pic-for-website.jpg?updatedAt=1697636857784",
+            "company":"Arti Singh & Associates",
+            "position":"Intern",
+            "place":"New Delhi",
+            "startDate":"2016-08-30T10:40:40.604Z",
+            "endDate":"2016-10-30T10:40:40.604Z",
+            "description":"Interning at a law firm was a great learning opportunity for me. I assisted lawyers with research, drafting, and filing documents. I gained practical and professional skills.",
+            "skills":[
+                "Management", "Research", "Internship","Communication"
+            ]
+        }
+     
+    ],
+    "certificationOrLicense":[
+        {
+            "type":"Designer",
+            "from":"National Institute of Design",
+            "date":"2022-09-30T10:40:40.604Z",
+            "id":"Wvtg713876l6fN8023",
+            "link":"https://nid.edu/academics/programmes/bachelor-of-design-bdes"
+        },
+        {
+            "type":"Law Intern",
+            "from":"Arti Singh & Associates",
+            "date":"2016-10-30T10:40:40.604Z",
+            "id":"nzu78eiofh",
+            "link":"asalawyers@gmail.com"
         }
     ]
 }
