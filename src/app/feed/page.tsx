@@ -642,7 +642,7 @@ export default function Feed() {
         <div className="md:mx-16 mb-4 mx-4">
           <Header />
           <div className="w-full relative rounded-[6.25rem] flex border-[0.06rem] border-black justify-stretch">
-            <div className="inline-block w-[85%] h-full">
+            <div className="inline-block md:w-[90%] w-[85%] h-full">
               <div className="w-full flex">
                 <img
                   src="/feed_search_bar.svg"
@@ -668,7 +668,7 @@ export default function Feed() {
                 />
               </div>
             </div>
-            <div className="relative hidden w-[15%] border-black md:border-l-[0.06rem] md:flex items-center justify-center">
+            <div className="relative hidden w-[10%] border-black md:border-l-[0.06rem] md:flex items-center justify-center">
               <Select
                 onValueChange={(props) => {
                   let returnValue: filter = { ...filters, searchType: props };
@@ -698,7 +698,7 @@ export default function Feed() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="w-[15%] flex items-center">
+            <div className="w-[15%] flex items-center md:hidden ">
               <div className="w-full h-full flex items-center justify-center mr-2 ml-2">
                 <img src="/tune.svg" alt="filter" className=" object-cover" />
               </div>
@@ -809,7 +809,7 @@ export default function Feed() {
                 }}
               />
               <MultiSelect
-                className="w-[15%] mr-4"
+                className="w-[15%] mr-4 "
                 overrideStrings={{ selectSomeItems: "Location" }}
                 hasSelectAll={false}
                 labelledBy="Location"

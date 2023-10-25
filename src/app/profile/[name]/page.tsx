@@ -8,7 +8,14 @@ import { profile, profileEnd } from "console";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import { useRouter } from "next/navigation";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog-profile";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -21,6 +28,7 @@ import Education from "./Education";
 import Experience from "./Experience";
 import Portfolio from "./Portfolio";
 import Tabs from "@mui/material/Tabs";
+import { useStepContext } from "@mui/material";
 
 // export async function getStaticProps(params:type) {
 
@@ -333,6 +341,7 @@ export default function Profile({ params }: { params: { name: string } }) {
   const [qualificationSelection, setQualificationSelection] =
     useState<qualificationSelectionOption>("education");
   const [profileData, setProfileData] = useState<Profile>();
+  const [shareOpen, setShareOpen] = useState(false);
   const [allData, setAllData] = useState<data>();
   const [load, setLoad] = useState(true);
   useEffect(() => {
@@ -521,7 +530,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               key={index}
                               className="hover:cursor-pointer inline-block w-full shadow-[0_4px__50px_0_rgba(0,0,0,0.05)] rounded-[0.88rem] "
                             >
-                              <div className=" relative grid grid-cols-2 px-4 py-4 justify-center w-full h-full items-center">
+                              <div className=" relative grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-x-6 px-4 py-4 justify-center w-full h-full items-center">
                                 <img
                                   className="absolute top-[0.4rem] right-[0.4rem] h-[0.9rem] w-[0.9rem]"
                                   src="/open_certificate.svg"
@@ -530,7 +539,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                                 <img
                                   src="/certificate.svg"
                                   alt="certificate"
-                                  className="h-[9vh] w-full block"
+                                  className=" w-full block"
                                 />
                                 <div>
                                   <div className="text-[0.9rem] text-[#848484]">
@@ -575,6 +584,263 @@ export default function Profile({ params }: { params: { name: string } }) {
     return (
       <>
         <Header />
+        <Dialog open={shareOpen} onOpenChange={setShareOpen}>
+          <DialogContent>
+            {profileData ? (
+              <>
+                <div className="py-10 px-6">
+                  <p className="font-[500] text-[1.2rem]">
+                    {profileData.userInfo.name} is an{" "}
+                    {profileData.userInfo.position} in{" "}
+                    {profileData.userInfo.location}. Check out their profile on
+                    Smortr{" "}
+                    <a
+                      className="text-[#1769FF] underline underline-offset-2"
+                      href={`https://smortr.com/profile/${profileData.name}`}
+                    >{`https://smortr.com/profile/${profileData.name}`}</a>{" "}
+                  </p>
+
+                  <div className="mt-12">
+                    <h3 className="text-center font-[700] text-[1.5rem]">
+                      Share
+                    </h3>
+                    <div className="grid mx-6 grid-cols-4 gap-x-8 gap-y-4 mt-6">
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            src="/link.svg"
+                            onClick={() => {
+                              navigator.clipboard.writeText(`${
+                                profileData.userInfo.name
+                              } is an{" "}
+                              ${profileData.userInfo.position} in${" "}
+                              ${
+                                profileData.userInfo.location
+                              }. Check out their profile on
+                              Smortr${" "}${`https://smortr.com/profile/${profileData.name}`}`);
+                            }}
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Link
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            src="/linkedin.svg"
+                            onClick={() => {
+                              let newUrl = `https://www.linkedin.com/sharing/share-offsite/?url=https://smortr.com/profile/${profileData.name}`;
+                              let sw = screen.availWidth || 1024,
+                                sh = screen.availHeight || 700,
+                                pw = Math.min(600, sw - 40),
+                                ph = Math.min(600, sh - 40),
+                                px = Math.floor((sw - pw) / 2),
+                                py = Math.floor((sh - ph) / 2);
+
+                              window.open(
+                                newUrl,
+                                "social",
+                                `width=${pw},height=${ph},left=${px},top=${py},\
+                              location=0,menubar=0,toolbar=0,personalbar=0,\
+                              status=0,scrollbars=1,resizable=1`
+                              );
+                            }}
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          LinkedIn
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            onClick={() => {
+                              let newUrl = `https://www.facebook.com/sharer/sharer.php?u=https://smortr.com/profile/${profileData.name}`;
+                              let sw = screen.availWidth || 1024,
+                                sh = screen.availHeight || 700,
+                                pw = Math.min(600, sw - 40),
+                                ph = Math.min(600, sh - 40),
+                                px = Math.floor((sw - pw) / 2),
+                                py = Math.floor((sh - ph) / 2);
+
+                              window.open(
+                                newUrl,
+                                "social",
+                                `width=${pw},height=${ph},left=${px},top=${py},\
+                            location=0,menubar=0,toolbar=0,personalbar=0,\
+                            status=0,scrollbars=1,resizable=1`
+                              );
+                            }}
+                            src="/facebook.svg"
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Facebook
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            onClick={() => {
+                              // prettier-ignore
+                              let newUrl = `https://twitter.com/intent/tweet?url=https://smortr.com/profile/${profileData.name}&text=${profileData.userInfo.name}%20is%20an%20${profileData.userInfo.position}%20in%20${profileData.userInfo.location}.%20Check%20out%20their%20profile%20on%20Smortr%20`;
+                              let sw = screen.availWidth || 1024,
+                                sh = screen.availHeight || 700,
+                                pw = Math.min(600, sw - 40),
+                                ph = Math.min(600, sh - 40),
+                                px = Math.floor((sw - pw) / 2),
+                                py = Math.floor((sh - ph) / 2);
+
+                              window.open(
+                                newUrl,
+                                "social",
+                                `width=${pw},height=${ph},left=${px},top=${py},\
+                          location=0,menubar=0,toolbar=0,personalbar=0,\
+                          status=0,scrollbars=1,resizable=1`
+                              );
+                            }}
+                            src="/twitter.svg"
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Twitter
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            onClick={() => {
+                              // prettier-ignore
+                              let newUrl = `whatsapp://send?text=${profileData.userInfo.name}%20is%20an%20${profileData.userInfo.position}%20in%20${profileData.userInfo.location}.%20Check%20out%20their%20profile%20on%20Smortr%0Ahttps://smortr.com/profile/${profileData.name}`;
+                              let sw = screen.availWidth || 1024,
+                                sh = screen.availHeight || 700,
+                                pw = Math.min(600, sw - 40),
+                                ph = Math.min(600, sh - 40),
+                                px = Math.floor((sw - pw) / 2),
+                                py = Math.floor((sh - ph) / 2);
+
+                              window.open(
+                                newUrl,
+                                "social",
+                                `width=${pw},height=${ph},left=${px},top=${py},\
+                          location=0,menubar=0,toolbar=0,personalbar=0,\
+                          status=0,scrollbars=1,resizable=1`
+                              );
+                            }}
+                            src="/whatsapp.svg"
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Whatsapp
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            // onClick={() => {
+                            //   let newUrl = `https://www.facebook.com/sharer/sharer.php?u=https://smortr.com/profile/${profileData.name}`;
+                            //   let sw = screen.availWidth || 1024,
+                            //     sh = screen.availHeight || 700,
+                            //     pw = Math.min(600, sw - 40),
+                            //     ph = Math.min(600, sh - 40),
+                            //     px = Math.floor((sw - pw) / 2),
+                            //     py = Math.floor((sh - ph) / 2);
+
+                            //   window.open(
+                            //     newUrl,
+                            //     "social",
+                            //     `width=${pw},height=${ph},left=${px},top=${py},\
+                            // location=0,menubar=0,toolbar=0,personalbar=0,\
+                            // status=0,scrollbars=1,resizable=1`
+                            //   );
+                            // }}
+                            src="/instagram.svg"
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Instagram
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            onClick={() => {
+                              // prettier-ignore
+                              let newUrl = `https://t.me/share/url?url=https://smortr.com/profile/${profileData.name}&text=${profileData.userInfo.name}%20is%20an%20${profileData.userInfo.position}%20in%20${profileData.userInfo.location}.%20Check%20out%20their%20profile%20on%20Smortr%20`;
+                              let sw = screen.availWidth || 1024,
+                                sh = screen.availHeight || 700,
+                                pw = Math.min(600, sw - 40),
+                                ph = Math.min(600, sh - 40),
+                                px = Math.floor((sw - pw) / 2),
+                                py = Math.floor((sh - ph) / 2);
+
+                              window.open(
+                                newUrl,
+                                "social",
+                                `width=${pw},height=${ph},left=${px},top=${py},\
+                          location=0,menubar=0,toolbar=0,personalbar=0,\
+                          status=0,scrollbars=1,resizable=1`
+                              );
+                            }}
+                            src="/telegram.svg"
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Telegram
+                        </div>
+                      </div>
+                      <div className="w-full ">
+                        <div className="flex justify-center items-center w-full">
+                          <img
+                            onClick={() => {
+                              // prettier-ignore
+                              let newUrl = `sgnl://send?text=${profileData.userInfo.name}%20is%20an%20${profileData.userInfo.position}%20in%20${profileData.userInfo.location}.%20Check%20out%20their%20profile%20on%20Smortr%0Ahttps://smortr.com/profile/${profileData.name}`;
+                              let sw = screen.availWidth || 1024,
+                                sh = screen.availHeight || 700,
+                                pw = Math.min(600, sw - 40),
+                                ph = Math.min(600, sh - 40),
+                                px = Math.floor((sw - pw) / 2),
+                                py = Math.floor((sh - ph) / 2);
+
+                              window.open(
+                                newUrl,
+                                "social",
+                                `width=${pw},height=${ph},left=${px},top=${py},\
+                          location=0,menubar=0,toolbar=0,personalbar=0,\
+                          status=0,scrollbars=1,resizable=1`
+                              );
+                            }}
+                            src="/signal.svg"
+                            className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
+                            alt="Share Link"
+                          />
+                        </div>
+                        <div className="text-center mt-2 text-[0.9rem] font-[500]">
+                          Signal
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : null}
+          </DialogContent>
+        </Dialog>
         <div className="relative min-h-[60vh] ">
           <div className="overflow-clip md:h-[45vh] h-[30vh]">
             <img
@@ -606,7 +872,35 @@ export default function Profile({ params }: { params: { name: string } }) {
             src={`${profileData ? profileData.userInfo.image : ""}`}
             alt="img"
           />
-          <div className="">
+          <div className="relative ">
+            <div className="absolute hidden top-4 right-4 md:flex flex-col">
+              <div className="hover:cursor-pointer hover:bg-black transition-all h-8 w-8 flex justify-center items-center bg-[#848484] rounded-full">
+                <img
+                  src="/person_add_profile.svg"
+                  alt="Add People"
+                  className="inline-block h-[60%] w-auto"
+                />
+              </div>
+              <div
+                onClick={() => {
+                  setShareOpen((prev) => !prev);
+                }}
+                className="hover:cursor-pointer hover:bg-black transition-all h-8 w-8 mt-4 flex justify-center items-center bg-[#848484] rounded-full"
+              >
+                <img
+                  src="/share_profile.svg"
+                  alt="Share"
+                  className="inline-block h-[60%] w-auto"
+                />
+              </div>
+              <div className="hover:cursor-pointer hover:bg-black transition-all h-8 w-8 mt-4 flex justify-center items-center bg-[#848484] rounded-full">
+                <img
+                  src="/calendar_today_profile.svg"
+                  alt="Schedule"
+                  className="inline-block h-[60%] w-auto"
+                />
+              </div>
+            </div>
             <div className="md:h-[5rem] h-[4.5rem]"></div>
             <div className="flex flex-col justify-between md:px-[30%] px-[5%] ">
               <div>
@@ -927,7 +1221,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                           : "text-[#848484]"
                       } inline-block px-3 py-2  text-[0.7rem] transition-all ease-in-out`}
                     >
-                      Certificaition/License
+                      Certification/License
                     </div>
                   </div>
                 </div>

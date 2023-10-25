@@ -29,10 +29,10 @@ export default function Portfolio({ cardData }: { cardData: portfolio }) {
           />
         </div>
         <div className=" w-full bg-white  z-[20] flex justify-center items-start flex-col tracking-wide py-4">
-          <div className="text-[1.5rem] text-black font-[500] py-1 px-6">
+          <div className="text-[1.2rem] leading-7 text-black font-[600] py-1 px-6">
             {cardData.title}
           </div>
-          <div className="text-[0.8rem] text-black font-[500] px-6 py-1 tracking-wide">
+          <div className="text-[1rem] text-[#848484]  px-6 py-1 tracking-wide">
             {cardData.description}
           </div>
         </div>
