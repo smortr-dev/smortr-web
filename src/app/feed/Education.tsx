@@ -57,7 +57,11 @@ export default function Education({ cardData }: { cardData: education }) {
             <span>{new Date(cardData.startDate).getFullYear()}</span>
             {" - "}
             {/* <span>{data.dates.endDate.getFullYear()}</span> */}
-            <span>{new Date(cardData.endDate).getFullYear()}</span>
+            <span>
+              {cardData.endDate != "Present"
+                ? new Date(cardData.endDate).getFullYear()
+                : "Present"}
+            </span>
           </div>
           <p className="text-left text-[1rem] text-[#848484] py-6">
             {cardData.description}

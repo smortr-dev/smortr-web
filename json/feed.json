@@ -357,7 +357,7 @@
                     "position":"Design consultant",
                     "place":"New Delhi",
                     "startDate":"2023-01-30T10:40:40.604Z",
-                    "endDate":"Present-30T10:40:40.604Z",
+                    "endDate":"2023-01-30T10:40:40.604Z",
                     "description":"Self motivated individual who is also versatile, logically driven and hard working. Likes to think things through and thus looks for challenges and opportunities to experiment.",
                     "skills":["Designer","Consultant", "Interior design", "Commercial", "Freelancer"],
                     "postDate":"2023-10-18T10:40:40.604Z"
@@ -396,26 +396,10 @@
                       }
             },
             {
-                "type":"education",
+                "type":"experience",
                 "cardData":{
-                    "userLink":"https://www.smortr.com/profile/kumaran",
-                    "user":"Kumaran Parthiban",
-                    "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/giz.jpeg?updatedAt=1697179663552",
-                    "company":"GIZ India",
-                    "position":"Independent Urban Design Consultant",
-                    "place":"Kochi",
-                    "startDate":"2020-09-30T10:40:40.604Z",
-                    "endDate":"2021-04-30T10:40:40.604Z",
-                    "description":"Independent consultant to Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) as part of the Sustainable Urban Development-Smart Cities (SUDC-SC) Initiative in Kochi, India to develop an integrated planning framework, canal edge masterplan, participatory toolkit, sub-site design detailing and a pilot DPR for the Mullaserry Canal and adjacent region. The project supports the national Ministry of Housing and Urban Affairs and the State Government of Kerala in policy formulation on housing for all, basic services, planning framework, and monitoring of the Sustainable Development Goals (SDGs).",
-                    "skills":["Communication"],
-                    "postDate":"2023-09-30T10:40:40.604Z"
-                }
-            },
-            {
-                "type":"education",
-                "cardData":{
-                    "userLink":"https://www.smortr.com/profile/kumaran",
-                    "user":"Kumaran Parthiban",
+                    "userLink":"https://www.smortr.com/profile/ganesh",
+                    "user":"Ganesh Babu",
                     "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/giz.jpeg?updatedAt=1697179663552",
                     "company":"GIZ India",
                     "position":"Independent Urban Design Consultant",

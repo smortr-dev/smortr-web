@@ -42,7 +42,11 @@ export default function Experience({ cardData }: { cardData: experience }) {
             <span>{new Date(cardData.startDate).getFullYear()}</span>
             {" - "}
             {/* <span>{data.dates.endDate.getFullYear()}</span> */}
-            <span>{new Date(cardData.endDate).getFullYear()}</span>
+            <span>
+              {cardData.endDate != "Present"
+                ? new Date(cardData.endDate).getFullYear()
+                : "Present"}
+            </span>
           </div>
           <p className="text-left text-[0.55rem] leading-[0.7rem] text-[#848484] py-1">
             {cardData.description}
