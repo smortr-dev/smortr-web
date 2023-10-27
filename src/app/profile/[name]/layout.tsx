@@ -1,40 +1,69 @@
 import "../../globals.css";
 // import { Metadata } from "next";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 // import { ResolvingMetadata } from "next";
-import { Inter } from "next/font/google";
-import Head from "next/head";
+// import { Inter } from "next/font/google";
+// import Head from "next/head";
 // import  from "./Form";
 // import { HubspotProvider } from "next-hubspot";
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 import Script from "next/script";
 // export const metadata: Metadata = {
 //   title: "Smortr",
 //   description: "We're Building Smortr",
 // };
+
+import type { Metadata, ResolvingMetadata } from "next";
+// import { profile } from "console";
+
 type Props = {
   params: { name: string };
 };
 
-type MetadataType = {
-  name: string;
-  description: string;
-};
-export async function generateMetadata({ params }: Props, parent?: any) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
   const id = params.name;
-  // console.log(params.name);
-  const res = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
+  console.log(params.name, "name"); // fetch data
+  const product = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
     method: "POST",
     body: JSON.stringify({ name: params.name }),
-  });
-  const meta: MetadataType = await res.json();
-  // console.log(meta);
+  }).then((res) => res.json());
+
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || [];
+
   return {
-    title: meta.name,
-    description: meta.description,
-    // keywords: blog.keywords,
+    title: product.name,
+    description: product.description,
   };
 }
+
+// type Props = {
+//   params: { name: string };
+// };
+
+// type MetadataType = {
+//   name: string;
+//   description: string;
+// };
+// export async function generateMetadata({ params }: Props, parent?: any) {
+//   const id = params.name;
+//   console.log(params.name,"called");
+//   const res = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
+//     method: "POST",
+//     body: JSON.stringify({ name: params.name }),
+//   });
+//   const meta: MetadataType = await res.json();
+//   // console.log(meta);
+//   return {
+//     title: meta.name,
+//     description: meta.description,
+//     // keywords: blog.keywords,
+//   };
+// }
 
 export default function RootLayout({
   children,
