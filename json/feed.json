@@ -382,22 +382,6 @@
             {
                 "type":"experience",
                 "cardData":{
-                    "userLink":"https://www.smortr.com/profile/harsh",
-                    "user":"Harsh Verma",
-                    "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/Newsletter-pic-for-website.jpg?updatedAt=1697636857784",
-                    "company":"Arti Singh & Associates",
-                    "position":"ntern",
-                    "place":"New Delhi",
-                    "startDate":"2016-08-30T10:40:40.604Z",
-                    "endDate":"2016-10-30T10:40:40.604Z",
-                    "description":"Interning at a law firm was a great learning opportunity for me. I assisted lawyers with research, drafting, and filing documents. I gained practical and professional skills.",
-                    "skills":["Management", "Research", "Internship","Communication"],
-                    "postDate":"2023-10-18T10:40:40.604Z"
-                      }
-            },
-            {
-                "type":"experience",
-                "cardData":{
                     "userLink":"https://www.smortr.com/profile/ganesh",
                     "user":"Ganesh Babu",
                     "image":"https://ik.imagekit.io/ip3x08u9u/Ganesh%20Babu/giz.jpeg?updatedAt=1697179663552",
@@ -499,21 +483,6 @@
                     "startDate":"2012-04-30T10:40:40.604Z",
                     "endDate":"2017-05-30T10:40:40.604Z",
                     "postDate":"2023-09-30T10:40:40.604Z"
-                }
-            },
-            {
-                "type":"education",
-                "cardData":{
-                    "userLink":"https://www.smortr.com/profile/harsh",
-                    "user":"Harsh Verma",
-                    "image":"https://ik.imagekit.io/ip3x08u9u/Harsh%20Verma/barandbenchimport201610NLUJ-e150.jpg?updatedAt=1697634827584",
-                    "school":"National Law University, Jodhpur",
-                    "degree":"Bachelor of Business Administration and Bachelor of Legislative Law",
-                    "description":"Studying BBA and BLL was a rewarding and challenging experience for me. I learned how to apply business principles and legal frameworks to real-world problems. I also gained valuable skills in communication, teamwork, research, and analysis. I enjoyed interacting with my professors and peers, who inspired me to pursue my goals.",
-                    "skills":["Communication","Negotiation","Mediation", "Organisation", "Research"],
-                    "startDate":"2015-30T10:40:40.604Z",
-                    "endDate":"2017-05-30T10:40:40.604Z",
-                    "postDate":"2023-10-18T10:40:40.604Z"
                 }
             },
             {
