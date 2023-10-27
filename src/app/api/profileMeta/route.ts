@@ -74,8 +74,8 @@ type MetaData = {
     description:string;
 }
 export async function POST(req:Request) {
-    const body:{name:string} = await req.json()
-    
+    const body = await req.json()
+    console.log(body,"body recieved")
     const name = body.name;
     // console.log(name,"server");
     // Get the path of the json file
