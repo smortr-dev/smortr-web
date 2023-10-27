@@ -90,5 +90,5 @@ export async function POST(req:Request) {
     if(user)
       return NextResponse.json({name:user.userInfo.name,description:user.userInfo.position})
     else 
-        return NextResponse.json({name:null,description:null})
+        return NextResponse.json({name:"test",description:"test"})
   }
