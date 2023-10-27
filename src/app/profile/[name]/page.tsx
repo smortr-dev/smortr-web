@@ -589,7 +589,7 @@ export default function Profile({ params }: { params: { name: string } }) {
     return (
       <>
         <HubspotProvider>
-          <div>
+          <div className="relative">
             <div className="fixed z-[10] md:hidden w-[100%] bottom-0 flex bg-white items-center justify-evenly py-2">
               <div
                 onClick={() => {
@@ -628,7 +628,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                 />
               </div>
             </div>
-            <div className="fixed hidden h-full w-full mt-[calc(6rem+45vh)] md:flex justify-end">
+            <div className="fixed z-[10] hidden h-full w-full mt-[calc(6rem+45vh)] md:flex justify-end">
               <div className="sticky hidden top-4 right-4 md:flex flex-col">
                 <div
                   onClick={() => {
@@ -843,30 +843,31 @@ export default function Profile({ params }: { params: { name: string } }) {
                           <div className="w-full ">
                             <div className="flex justify-center items-center w-full">
                               <img
-                                // onClick={() => {
-                                //   let newUrl = `https://www.facebook.com/sharer/sharer.php?u=https://smortr.com/profile/${profileData.name}`;
-                                //   let sw = screen.availWidth || 1024,
-                                //     sh = screen.availHeight || 700,
-                                //     pw = Math.min(600, sw - 40),
-                                //     ph = Math.min(600, sh - 40),
-                                //     px = Math.floor((sw - pw) / 2),
-                                //     py = Math.floor((sh - ph) / 2);
+                                onClick={() => {
+                                  //prettier-ignore
+                                  let newUrl = `mailto:?subject=Checkout%20${profileData.userInfo.name}%27s%20profile%20on%20Smortr&body=${profileData.userInfo.name}%20is%20an%20${profileData.userInfo.position}%20in%20${profileData.userInfo.location}.%20Check%20out%20their%20profile%20on%20Smortr%0Ahttps://smortr.com/profile/${profileData.name}`;
+                                  let sw = screen.availWidth || 1024,
+                                    sh = screen.availHeight || 700,
+                                    pw = Math.min(600, sw - 40),
+                                    ph = Math.min(600, sh - 40),
+                                    px = Math.floor((sw - pw) / 2),
+                                    py = Math.floor((sh - ph) / 2);
 
-                                //   window.open(
-                                //     newUrl,
-                                //     "social",
-                                //     `width=${pw},height=${ph},left=${px},top=${py},\
-                                // location=0,menubar=0,toolbar=0,personalbar=0,\
-                                // status=0,scrollbars=1,resizable=1`
-                                //   );
-                                // }}
-                                src="/instagram.svg"
+                                  window.open(
+                                    newUrl,
+                                    "social",
+                                    `width=${pw},height=${ph},left=${px},top=${py},\
+                                location=0,menubar=0,toolbar=0,personalbar=0,\
+                                status=0,scrollbars=1,resizable=1`
+                                  );
+                                }}
+                                src="/mail.svg"
                                 className="block bg-white hover:cursor-pointer max-w-[2.5rem] h-auto"
                                 alt="Share Link"
                               />
                             </div>
                             <div className="text-center mt-2 text-[0.9rem] font-[500]">
-                              Instagram
+                              Email
                             </div>
                           </div>
                           <div className="w-full ">

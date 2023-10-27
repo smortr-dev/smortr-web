@@ -1,15 +1,43 @@
 import "../../globals.css";
-import type { Metadata } from "next";
+// import { Metadata } from "next";
+import { Metadata } from "next";
+import { ResolvingMetadata } from "next";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 // import  from "./Form";
 // import { HubspotProvider } from "next-hubspot";
 const inter = Inter({ subsets: ["latin"] });
 import Script from "next/script";
-export const metadata: Metadata = {
-  title: "Smortr",
-  description: "We're Building Smortr",
+// export const metadata: Metadata = {
+//   title: "Smortr",
+//   description: "We're Building Smortr",
+// };
+type Props = {
+  params: { name: string };
 };
+
+type MetadataType = {
+  name: string;
+  description: string;
+};
+export async function generateMetadata(
+  { params }: Props,
+  parent?: ResolvingMetadata
+) {
+  const id = params.name;
+  // console.log(params.name);
+  const res = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
+    method: "POST",
+    body: JSON.stringify({ name: params.name }),
+  });
+  const meta: MetadataType = await res.json();
+  // console.log(meta);
+  return {
+    title: meta.name,
+    description: meta.description,
+    // keywords: blog.keywords,
+  };
+}
 
 export default function RootLayout({
   children,
