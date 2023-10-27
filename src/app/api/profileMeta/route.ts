@@ -74,6 +74,7 @@ type MetaData = {
     description:string;
 }
 export async function POST(req:Request) {
+    console.log("function called")
     const body = await req.json()
     console.log(body,"body recieved")
     const name = body.name;

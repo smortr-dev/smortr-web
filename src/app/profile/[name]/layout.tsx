@@ -27,9 +27,14 @@ export async function generateMetadata(
   // read route params
   const id = params.name;
   console.log(params.name, "name");
+  console.log(JSON.stringify({ name: params.name }));
   console.log(process.env.BASE_URL); // fetch data
   const product = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
     body: JSON.stringify({ name: params.name }),
   }).then((res) => res.json());
   console.log(product);

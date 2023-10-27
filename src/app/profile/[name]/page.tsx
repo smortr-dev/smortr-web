@@ -29,6 +29,7 @@ import Tabs from "@mui/material/Tabs";
 import { useStepContext } from "@mui/material";
 import Form from "./Form";
 
+
 // export async function getStaticProps(params:type) {
 
 // }
