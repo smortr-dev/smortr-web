@@ -1,7 +1,7 @@
 import "../../globals.css";
 // import { Metadata } from "next";
 import { Metadata } from "next";
-import { ResolvingMetadata } from "next";
+// import { ResolvingMetadata } from "next";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 // import  from "./Form";
@@ -20,10 +20,7 @@ type MetadataType = {
   name: string;
   description: string;
 };
-export async function generateMetadata(
-  { params }: Props,
-  parent?: ResolvingMetadata
-) {
+export async function generateMetadata({ params }: Props, parent?: any) {
   const id = params.name;
   // console.log(params.name);
   const res = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
