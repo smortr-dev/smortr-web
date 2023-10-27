@@ -20,32 +20,32 @@ type Props = {
   params: { name: string };
 };
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  // read route params
-  const id = params.name;
-  console.log(params.name, "name");
-  console.log(JSON.stringify({ name: params.name }));
-  console.log(process.env.BASE_URL); // fetch data
-  const product = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({ name: params.name }),
-  }).then((res) => res.json());
-  console.log(product);
-  // optionally access and extend (rather than replace) parent metadata
-  // const previousImages = (await parent).openGraph?.images || [];
+// export async function generateMetadata(
+//   { params }: Props,
+//   parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//   // read route params
+//   const id = params.name;
+//   console.log(params.name, "name");
+//   console.log(JSON.stringify({ name: params.name }));
+//   console.log(process.env.BASE_URL); // fetch data
+//   const product = await fetch(`${process.env.BASE_URL}/api/profileMeta`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // 'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//     body: JSON.stringify({ name: params.name }),
+//   }).then((res) => res.json());
+//   console.log(product);
+//   // optionally access and extend (rather than replace) parent metadata
+//   // const previousImages = (await parent).openGraph?.images || [];
 
-  return {
-    title: product.name,
-    description: product.description,
-  };
-}
+//   return {
+//     title: product.name,
+//     description: product.description,
+//   };
+// }
 
 // type Props = {
 //   params: { name: string };
