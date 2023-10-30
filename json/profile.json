@@ -1292,7 +1292,8 @@
                 "Landscape Architecture","Land Development","Urban Design","Sketching","Graphic Design"
             ]
         }
-    ]
+    ],
+    "certificationOrLicense":[]
 },
 
 {
@@ -1436,6 +1437,7 @@
             "skills":[
                 "Design","Sustainable Integrated Design","Architecture"
             ]
-        }]
+        }],
+        "certificationOrLicense":[]
 }
 ]
