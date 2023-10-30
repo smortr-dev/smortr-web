@@ -1135,5 +1135,307 @@
             "link":"asalawyers@gmail.com"
         }
     ]
+},
+{
+    "name":"thein",
+    "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Thein/thein%201%20(1).png?updatedAt=1698327098484",
+        "name":"Thein Manimekalai Sowrirajan",
+        "location":"Milan",
+        "position":"Architect / Regional Planner / Entrepreneur",
+        "pronouns":"she/her",
+        "about":"I seek like-minded individuals worldwide who share my passion for rural areas. Together, lets ensure their beauty and resilience thrive for generations",
+        "thought":"Building my portfolio at the intersection of engineering, design and interactive experiences.",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Thein/nonurbanism_cover.jfif?updatedAt=1698327098860",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":46,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","Tamil"
+        ],
+        "workPreference":[
+            "Remote","Current Location"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"At non urbanism, we believe that...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Thein/Screenshot%202023-10-26%20191737.png?updatedAt=1698328085511",
+            "caption":"you don't need to be only an activist, a politician, or a journalist to decode the crises. You can be anyone. You pick your own issue. What you have is your own skill set. Combine your social concerns and profession and create a product or a service that benefits people beyond your circle."
+        },
+        {
+            "question":"What is your dream?",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Thein/1689958313477.jfif?updatedAt=1698328376544",
+            "caption":"My dream is to understand the countryside and small communities better and use my research in rural entrepreneurship, my background in architecture and planning, and my experience with pre-fab construction, to make life better in these places."
+        },
+        {
+            "question":"The four pillars of non urbanism are...",
+            "mediaType":"image",
+            "filelink":"https://www.gotn.in/wp-content/uploads/2023/04/Four-Pillars-1013x1024-1.png",
+            "caption":"fellowships, advocacy, outreach and skills."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Research",
+            "proficiency":80
+        },
+        {
+            "skillName":"Urban Design",
+            "proficiency":85
+        },
+        {
+            "skillName":"Writing",
+            "proficiency":75
+        },
+        {
+            "skillName":"Public Policy",
+            "proficiency":70
+        },
+        {
+            "skillName":"Cultural Anthropology",
+            "proficiency":65
+        }
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://talloiresnetwork.tufts.edu/wp-content/uploads/1-PolimiCampus_2.jpg",
+            "school":"Politecnico di Milano",
+            "degree":"PhD, City/Urban, Community and Regional Planning",
+            "description":"PhD Researcher at the Department of Planning and Policy, Politecnico di Milano.",
+            "skills":[
+                "Planning","Proposal Writing","Policy Analysis"
+            ],
+            "startDate":"2021-09-30T10:40:40.604Z",
+            "endDate":"2024-12-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://talloiresnetwork.tufts.edu/wp-content/uploads/1-PolimiCampus_2.jpg",
+            "school":"Politecnico di Milano",
+            "degree":"M.Sc, City/Urban, Community and Regional Planning",
+            "description":"Published ' The mosaic approach as a tool to facilitate participatory planning with children: Insights from Milan, Italy' in International Journal of Primary, Elementary and Early Years Education.",
+            "skills":[
+                "Graphic Design","Land use Planning","International Development"
+            ],
+            "startDate":"2018-09-30T10:40:40.604Z",
+            "endDate":"2020-12-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://images.shiksha.com/mediadata/images/1554720148phpxEZLxG.jpeg",
+            "school":"Measi Academy of Architecture",
+            "degree":"Bachelor's Degree, Architecture",
+            "description":"Underground Society of Architects - Founder. The Underground society of Architects was a start-up consisting of 12 architecture students, passionate about the built environment. The services provided included architectural renderings for large corporations, research assistance in urban projects and organizing heritage walks around the old city of Chennai for the public. I graduated top of my class securing a university rank 10 in the state of Tamilnadu with an overall GPA of 8.48/10. I also received a University Gold medal for the best outgoing thesis.",
+            "skills":[
+                "Graphic Design","Architectural Design","Site Supervision"
+            ],
+            "startDate":"2011-06-30T10:40:40.604Z",
+            "endDate":"2016-04-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://images.indianexpress.com/2023/01/tamil-indian-express-2021-12-10T111554.695.jpg",
+            "company":"State Development Planning Commission Tamilnadu",
+            "position":"Member",
+            "place":"Chennai",
+            "startDate":"2023-11-30T10:40:40.604Z",
+            "endDate":"2021-07-30T10:40:40.604Z",
+            "description":"Working as a member in a 7-member committee created under Hon'ble Minister Thangam Thennarasu to help construct policy and strategy to improve academic & research standards in Tamil art and aesthetic.",
+            "skills":[
+                "Land Development","Urban Design","Sketching"
+            ]
+        },
+        {
+            "image":"hhttps://media.licdn.com/dms/image/C4E0BAQEeTDD9dJcbBQ/company-logo_100_100/0/1593344758777/nonurbanism_logo?e=1706140800&v=beta&t=6_adqmhs4R92nnTDdCovVIuXco2l52L3SA24Z-8J7qA",
+            "company":"Nonurban Foundation",
+            "position":"Founder",
+            "place":"Milan",
+            "startDate":"2020-03-30T10:40:40.604Z",
+            "endDate":"2023-11-30T10:40:40.604Z",
+            "description":"Nonurbanism is a non-profit organisation that was started with a vision to provide an alternative developmental strategy that links rural, non-urban communities to global discourses of growth. Currently, It functions as a think tank providing policy consultation, architecture design proposals, regional planning solutions and process-based framework formulation to visionary individuals and other organisations from nonurban areas of India and Africa. The core of the organisation lies in the pursuit of decoupling urban growth and preventing urban-centric approaches towards rural development. Every project is designed by focusing on the assets of each community.",
+            "skills":[
+                "Policy Consultation","Architecture Design Proposals","Regional Planning"
+            ]
+        },
+        {
+            "image":"https://images.ctfassets.net/isq5xwjfoz2m/7jY3IB48NIZqW8IytFh2Id/33772669c5096fb86df30a191bdb6f0d/Milano.png",
+            "company":"Comune di Milano",
+            "position":"UrbanPlanning Intern",
+            "place":"Milan",
+            "startDate":"2019-09-30T10:40:40.604Z",
+            "endDate":"2020-02-30T10:40:40.604Z",
+            "description":"Developed and coordinated public participation through a variety of community involvement techniques like open houses, focus groups, stakeholder meetings, workshops, and charrettes in neighbourhoods of Municipality 3. Collected, managed, mapped and archived data using Geographic Information Systems (GIS) for 48 projects of which 30% were realized, 40% in progress and 30% under study. The report was published on the state website. Performed financial and economic impact analysis to assess the feasibility of new development projects including 3 new parks and 2 tactical urbanism projects. Attended Council meetings and supported Councilwoman in delivering reports.",
+            "skills":[
+                "Landscape Architecture","Land Development","Urban Design","Sketching","Graphic Design"
+            ]
+        }
+    ]
+},
+
+{
+    "name":"adhavan",
+     "userInfo":{
+        "image":"https://ik.imagekit.io/ip3x08u9u/Adhavan/IMG_4464%20(1)%201.png?updatedAt=1698327065416",
+        "name":"Adhavan Sundaramurthy",
+        "location":"Chennai",
+        "position":"Architectural Designer ",
+        "pronouns":"he/him",
+        "about":" I work at the intersection of Art + Architecture. I focus on bringing the culture, Identity and representation to the forefront to create immersive spaces that narrate stories and celebrate diversity.",
+        "thought":"Let's push the boundaries of mainstream design to foster inclusivity, culture, identity and representation",
+        "background":"https://ik.imagekit.io/ip3x08u9u/Adhavan/IMG-1383%20(1)%20(1).jpg?updatedAt=1698327069259",
+        "thoughtPostDate":"2023-09-30T10:40:40.604Z",
+        "connections":0,
+        "shares":36,
+        "joinDate":"2023-09-30T10:40:40.604Z",
+        "languages":[
+            "English","Tamil"
+        ],
+        "workPreference":[
+            "-"
+        ]
+
+    },
+    "bio":[
+        {
+            "question":"How did your interest in architecture and design development influence you?",
+            "mediaType":"image",
+            "filelink":"https://storage.googleapis.com/sci-arc/images/2GB.jpg",
+            "caption":"I believe architecture is one of the very few disciplines that plays a really important role in shaping the society we live in, which in turn has a direct impact on shaping people’s lives. Hence architecture."
+        },
+        {
+            "question":"A bold fraction of my ambition constitutes...",
+            "mediaType":"image",
+            "filelink":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9GgSxOYQXVsGirBG9a2p5BtGKtUawBdCJwg&usqp=CAU",
+            "caption":"the ability to influence through design. I am no different from the individuals who seek to positively impact lifestyles through architecture."
+        },
+        {
+            "question":"Tamil futurism is the celebration of...",
+            "mediaType":"image",
+            "filelink":"https://ik.imagekit.io/ip3x08u9u/Adhavan/IMG-1585%20(1).JPG?updatedAt=1698402135411",
+            "caption":"the Tamil culture through the speculative lens of Art & Architecture. It aims to not just make the history relevant to the present scenario but also to envision a Tamil future through Art & Architecture."
+        }
+
+    ],
+    "skills":[
+        {
+            "skillName":"Multidisciplinary Design",
+            "proficiency":80
+        },
+        {
+            "skillName":"Rhino",
+            "proficiency":70
+        },
+        {
+            "skillName":"Adobe Creative Cloud",
+            "proficiency":75
+        },
+        {
+            "skillName":"Graphic Design",
+            "proficiency":80
+        }
+        
+    ],
+    "portfolio":[
+        {
+            "type":"long",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        },
+        {
+            "type":"wide",
+            "image":""
+        },
+        {
+            "type":"normal",
+            "image":""
+        }
+    ],
+    "education":[
+        {
+            "image":"https://storage.googleapis.com/sci-arc/images/L_MagicBox_3.jpg",
+            "school":"SCI-Arc",
+            "degree":"Master of Architecture - MArch, Architecture",
+            "description":"I was interested in a program that had a very experimental and exploratory approach towards architecture. I believe SCI-Arc is one of the very few schools around the globe that has an unconventional approach towards not just architecture but also architectural thinking.",
+            "skills":[
+                "Design","Architecture", "Rhino", "Visualisation"
+            ],
+            "startDate":"2016-07-30T10:40:40.604Z",
+            "endDate":"2019-04-30T10:40:40.604Z"
+        },
+        {
+            "image":"https://images.shiksha.com/mediadata/images/1547804071php6ai1GL.jpeg",
+            "school":"College of Engineering, Guindy",
+            "degree":"Bachelor's Degree, Civil Engineering'",
+            "description":"Laid foundations to my building construction understanding.",
+            "skills":[
+                "AutoCAD","Building Construction","Construction Drawings"
+            ],
+            "startDate":"2011-06-30T10:40:40.604Z",
+            "endDate":"2015-04-30T10:40:40.604Z"
+        }
+    ],
+    "experience":[
+        {
+            "image":"https://ik.imagekit.io/ip3x08u9u/Adhavan/download%20(4).png?updatedAt=1698403511896",
+            "company":"Padaipu",
+            "position":"Founder / Principal Designer",
+            "place":"Chennai",
+            "startDate":"2023-01-30T10:40:40.604Z",
+            "endDate":"Present-30T10:40:40.604Z",
+            "description":"Padaippu – The creation will be a multidisciplinary practice that works at the intersection of Art + Architecture + Design. I’m looking forward to seeing this evolve and start making a cultural impact hopefully on a global scale through design.",
+            "skills":[
+                "Building Design","Art","Cultural Architecture"
+            ]
+        },
+        {
+            "image":"https://images.ctfassets.net/cxhpe12k9p1s/1B4zDnVlpnpVgIY2nIOVMd/236be9db0fbcb1f0a284cd041c924108/national_sawdust_03.jpg?w=1200&h=800&fl=progressive&q=50&fm=jpg",
+            "company":"Junior Designer",
+            "position":"Teaching Assistant",
+            "place":"New York",
+            "startDate":"2021-06-30T10:40:40.604Z",
+            "endDate":"2023-01-30T10:40:40.604Z",
+            "description":"BVA is an award-winning interdisciplinary studio dedicated to culturally responsive and inclusive architecture, design, & technology.",
+            "skills":[
+                "Design","Installations","Design Consulting"
+            ]
+        },
+        {
+            "image":"https://mithun.com/wp-content/uploads/2019/02/Mithun-Pier56-CoLab1200x900-1.jpg",
+            "company":"Mithun",
+            "position":"Architectural Designer",
+            "place":"California",
+            "startDate":"2019-11-30T10:40:40.604Z",
+            "endDate":"2021-05-30T10:40:40.604Z",
+            "description":"Mithun integrate architecture, interiors and landscapes with urban design and planning to design innovative places that elevate the human experience.",
+            "skills":[
+                "Design","Sustainable Integrated Design","Architecture"
+            ]
+        }]
 }
 ]

@@ -104,7 +104,7 @@
             ],
             "startDate":"2018-09-30T10:40:40.604Z",
             "endDate":"2020-12-30T10:40:40.604Z"
-        }
+        },
         {
             "image":"https://images.shiksha.com/mediadata/images/1554720148phpxEZLxG.jpeg",
             "school":"Measi Academy of Architecture",
@@ -298,5 +298,6 @@
             "skills":[
                 "Design","Sustainable Integrated Design","Architecture"
             ]
-        }
+        }]
+}]
    

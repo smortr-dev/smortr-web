@@ -29,7 +29,6 @@ import Tabs from "@mui/material/Tabs";
 import { useStepContext } from "@mui/material";
 import Form from "./Form";
 
-
 // export async function getStaticProps(params:type) {
 
 // }
@@ -629,7 +628,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                 />
               </div>
             </div>
-            <div className="fixed z-[10] hidden h-full w-full mt-[calc(6rem+45vh)] md:flex justify-end">
+            <div className="fixed z-[10] hidden right-2 top-[calc(6rem+45vh)] md:flex justify-end">
               <div className="sticky hidden top-4 right-4 md:flex flex-col">
                 <div
                   onClick={() => {
