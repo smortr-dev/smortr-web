@@ -90,11 +90,11 @@ export default function LandingPage() {
           <div className="relative md:ml-[5rem] ml-0 lg:h-[87.5vh] md:h-[75vw] bg-[#7696F2] md:rounded-l-[18px] rounded-tl-[18px] md:px-[2.5rem] md:py-0 p-10 2k:pt-12 pb-32 border-[3px] border-r-0 border-[rgba(0,0,0,0.30)] border-b-0 md:border-b-[3px]">
             <div className="tab:mt-8 lg:w-[30vw] md:w-[40vw]  md:float-left">
               <h1 className="font-[800] 2k:text-[3rem] uhd:text-[3rem] tab:text-[2.1rem] text-[2.4rem] tracking-tighter text-[#333] 2k:leading-[3.4rem] uhd:leading-[3.2rem] tab:leading-[2.35rem] leading-[2.5rem]">
-                The next-gen portfolio builder
+                Document faster, showcase better. All in one window.
               </h1>
               <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] 2k:leading-[1.85rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
-                Say goodbye to managing multiple platforms. We’re building Smortr, a contextual AI-assisted portfolio builder for the building design community.
-                Document faster, showcase better. All in one window.
+                Say goodbye to composition and format troubles. We’re building Smortr, a contextual AI-assisted portfolio builder for the building design community.
+                
 
               </p>
               <Button
