@@ -201,7 +201,7 @@ export default function LandingPage() {
         </div>
         <div className="mt-8 lg:px-16 px-6 md:pr-20">
           <h4 className="text-[1.125rem] font-[700] text-[#479F70]">
-            Time Taken
+            Efficiency
           </h4>
           <h1 className="lg:text-[2rem] text-[1.2rem] font-[400] text-[#479F70] mb-8 ">
             “How long does it take to effectively showcase work and skill sets?”
@@ -217,7 +217,7 @@ export default function LandingPage() {
 
         <div className="mt-24 lg:px-16 px-4 md:pr-20">
           <h4 className="text-[1.125rem] font-[700] text-[#1769FF]">
-            Connections in 3 Clicks
+            Discoverability
           </h4>
           <h1 className="lg:text-[2rem] text-[1.2rem] font-[400] text-[#1769FF] mb-8">
             “Can we foster meaningful connections, potentially leading to
@@ -233,7 +233,7 @@ export default function LandingPage() {
         </div>
         <div className="mt-24 lg:px-16 px-4 md:pr-20">
           <h4 className="text-[1.125rem] font-[700] text-[#CC3057]">
-            Modular but Versatile
+            Contextual
           </h4>
           <h1 className="lg:text-[2rem] text-[1.2rem] font-[400] text-[#CC3057] mb-4">
             “How many types of building designers can we help showcase their
