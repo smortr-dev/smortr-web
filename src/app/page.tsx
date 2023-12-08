@@ -94,7 +94,7 @@ export default function LandingPage() {
               </h1>
               <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] 2k:leading-[1.85rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
                 Say goodbye to composition and format troubles. We’re building Smortr, 
-                an AI-powered portfolio platform for building designers to compile, showcase and share, 
+                an AI-assisted portfolio platform for building designers to compile, showcase and share, 
                 focused on improving discoverability.
 
 
