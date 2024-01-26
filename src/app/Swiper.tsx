@@ -112,7 +112,7 @@ export default class Swiper extends Component {
     //       className="inline-block absolute top-[calc(50%-2rem)] h-[4rem] w-[4rem]"
     //     />
     return (
-      <div className="relative">
+      <div className="relative landing-swiper">
         <Slider
           ref={(c) => (this.slider = c)}
           {...settings}
