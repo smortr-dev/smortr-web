@@ -61,9 +61,6 @@ export default function Signup() {
       })
       .catch((error) => {
         setError(error.message)
-
-        const errorCode = error.code
-        const errorMessage = error.message
       })
   }
   const router = useRouter()
