@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function Header(props: { setOpen: any }) {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <>
       <nav className="flex justify-between pt-[2rem] md:px-[5rem] px-[1.25rem] bg-[#fafafa]">
@@ -15,7 +15,7 @@ export default function Header(props: { setOpen: any }) {
               className="inline-block object-cover hover:cursor-pointer"
               alt="feed-logo"
               onClick={() => {
-                router.push("/");
+                router.push("/")
               }}
             />
           </div>
@@ -30,16 +30,26 @@ export default function Header(props: { setOpen: any }) {
             </div>
           </Link>
         </div>
-
-        <Button
-          className="relative z-[5] inline-block  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
-          onClick={() => {
-            props.setOpen((prev: boolean) => !prev);
-          }}
-        >
-          Join waitlist!
-        </Button>
+        <div className="flex float-right z-[5]">
+          <Button
+            className="relative z-[5] inline-block mr-2 bg-black text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
+            onClick={() => {
+              // props.setOpen((prev: boolean) => !prev)
+              router.push("/signup")
+            }}
+          >
+            Signup
+          </Button>
+          <Button
+            className="relative z-[5] inline-block  bg-black text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
+            onClick={() => {
+              props.setOpen((prev: boolean) => !prev)
+            }}
+          >
+            Join waitlist!
+          </Button>
+        </div>
       </nav>
     </>
-  );
+  )
 }

@@ -545,6 +545,7 @@ export default function Profile({ params }: { params: { name: string } }) {
     }
 
     if (values.name) {
+      setName(values.name)
       document.name = values.name
     }
     if (values.profession) {
