@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useHeader } from "../context/HeaderContext"
 /* eslint-disable @next/next/no-img-element */
 export default function Header() {
   const router = useRouter()
+  const { name } = useHeader()
+  // console.log(
+  //   name,
+  //   name &&
+  //     name
+  //       .split(" ")
+  //       .map((str) => str.charAt(0).toLocaleUpperCase())
+  //       .slice(0, 2)
+  //       .join(""),
+  // )
   return (
     <>
       <div className="flex justify-between absolute top-0 w-full pb-6 pt-4 md:px-16 px-[5%] bg-transparent backdrop-blur-sm">
@@ -29,7 +40,14 @@ export default function Header() {
             alt="search"
           />
           <div className="ml-4 flex items-center justify-center text-white bg-[#6563FF]  rounded-full h-10 w-10">
-            <span>JW</span>
+            <span>
+              {name &&
+                name
+                  .split(" ")
+                  .map((str) => str.charAt(0).toLocaleUpperCase())
+                  .slice(0, 2)
+                  .join("")}
+            </span>
           </div>
         </div>
       </div>

@@ -99,7 +99,7 @@ export default function View({ params }: { params: { id: string } }) {
         const docRef = doc(db, "users", current!, "projects", params.id)
         const docRes = await getDoc(docRef)
         if (docRes.exists()) {
-          console.log(docRes.data())
+          // console.log(docRes.data())
           const assets: any[] = docRes.data().assets
           if (docRes.data().projectName) {
             setProjectName(docRes.data().projectName)

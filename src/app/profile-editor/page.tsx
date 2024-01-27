@@ -82,6 +82,7 @@ import {
 } from "firebase/firestore"
 import { MultiSelect } from "react-multi-select-component"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useHeader } from "../context/HeaderContext"
 
 // export async function getStaticProps(params:type) {
 
@@ -587,6 +588,9 @@ export default function Profile({ params }: { params: { name: string } }) {
       })
       .catch((error) => console.error(error))
   }
+
+  const { name, setName } = useHeader()
+
   useEffect(() => {
     if (!current) {
       router.push("/login")
@@ -599,6 +603,7 @@ export default function Profile({ params }: { params: { name: string } }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "data")
+        // if()
         setProfileData(data)
         if (!imageUrl && data.image) {
           setImageUrl(data.image)
@@ -608,6 +613,8 @@ export default function Profile({ params }: { params: { name: string } }) {
         }
         // var c: userInfo
         if (data.name) {
+          setName(data.name)
+          console.log("name", data.name)
           form.setValue("name", data.name)
         }
         if (data.location) {

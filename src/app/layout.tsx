@@ -7,6 +7,7 @@ import { HubspotProvider } from "next-hubspot"
 const inter = Inter({ subsets: ["latin"] })
 import Script from "next/script"
 import { AuthContextProvider } from "./context/AuthContext"
+import { HeaderContextProvider } from "./context/HeaderContext"
 export const metadata: Metadata = {
   title: "Smortr",
   description: "We're Building Smortr",
@@ -51,7 +52,9 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} bg-[#FAFAFA] fafafa`}>
-        <AuthContextProvider>{children}</AuthContextProvider>
+        <HeaderContextProvider>
+          <AuthContextProvider>{children}</AuthContextProvider>
+        </HeaderContextProvider>
       </body>
     </html>
   )

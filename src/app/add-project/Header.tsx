@@ -2,10 +2,11 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useHeader } from "../context/HeaderContext"
 /* eslint-disable @next/next/no-img-element */
 export default function Header() {
   const router = useRouter()
-
+  const { name } = useHeader()
   return (
     <>
       <div className="flex justify-between w-full pb-4 pt-4 md:px-16 px-[5%] bg-[#1C1C1C]">
@@ -31,7 +32,14 @@ export default function Header() {
             alt="search"
           />
           <div className="ml-4 flex items-center justify-center text-white bg-[#6563FF]  rounded-full h-[2rem] w-[2rem]">
-            <span className="text-[0.8rem]">JW</span>
+            <span className="text-[0.8rem]">
+              {name &&
+                name
+                  .split(" ")
+                  .map((str) => str.charAt(0).toLocaleUpperCase())
+                  .slice(0, 2)
+                  .join()}
+            </span>
           </div>
         </div>
       </div>
