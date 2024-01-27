@@ -29,10 +29,10 @@ export default function SearchBar({
 
   function sortFiles(key: boolean) {
     if (key) {
-      let value = visibleFiles.toSorted()
+      let value = visibleFiles.sort()
       setVisibleFiles(value)
     } else {
-      let value = visibleFiles.toSorted().toReversed()
+      let value = visibleFiles.sort().reverse()
       setVisibleFiles(value)
     }
   }
