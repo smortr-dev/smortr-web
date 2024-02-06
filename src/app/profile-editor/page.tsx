@@ -369,9 +369,9 @@ export default function Profile({ params }: { params: { name: string } }) {
   const router = useRouter()
 
   const { current } = useContext(AuthContext)
-  // if (!current) {
-  //   router.push("/login")
-  // }
+  if (!current) {
+    router.push("/login")
+  }
 
   let fetchMonth = function (date: Date) {
     let monthList = [
