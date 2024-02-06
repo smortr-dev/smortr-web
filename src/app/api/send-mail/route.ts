@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     const body: { path: string } = await req.json()
 
     const path = body.path
+    console.log(process.env.TWILIO_API_KEY)
     const TWILIO_API_KEY = process.env.TWILIO_API_KEY || ""
     sgMail.setApiKey(TWILIO_API_KEY)
     const msg = {
