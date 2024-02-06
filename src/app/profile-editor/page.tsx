@@ -3,17 +3,14 @@
 import clsx from "clsx"
 import { Option } from "react-multi-select-component"
 const languagesArray: Option[] = [
-  { label: "Malayalam", value: "Malayalam" },
+  // { label: "Malayalam", value: "Malayalam" },
   { label: "English", value: "English" },
-  { label: "English", value: "English" },
-
-  { label: "English", value: "English" },
-  { label: "English", value: "English" },
-  { label: "English", value: "English" },
-  { label: "English", value: "English" },
-  { label: "English", value: "English" },
-  { label: "English", value: "English" },
-  { label: "English", value: "English" },
+  { label: "Tamil", value: "Tamil" },
+  { label: "Hindi", value: "Hindi" },
+  { label: "Gujarati", value: "Gujarati" },
+  { label: "French", value: "French" },
+  { label: "Spanish", value: "Spanish" },
+  { label: "German", value: "German" },
 ]
 type workPreferencesElements = "Current Location" | "Remote" | "Hybrid"
 const workPreferences = new Array<workPreferencesElements>(
@@ -25,7 +22,7 @@ import { HubspotProvider } from "next-hubspot"
 import { styled } from "@mui/material/styles"
 import { Button } from "@/components/ui/button"
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
-import { error, profile, profileEnd } from "console"
+// import { error, profile, profileEnd } from "console"
 // import { type } from "os";
 import { useContext, useEffect, useState } from "react"
 import Header from "./Header"
@@ -83,6 +80,8 @@ import {
 import { MultiSelect } from "react-multi-select-component"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useHeader } from "../context/HeaderContext"
+// import Setting from "./Settings"
+import Setting from "./Settings"
 
 // export async function getStaticProps(params:type) {
 
@@ -259,9 +258,9 @@ const StyledTabs = styled((props: StyledTabsProps) => (
   },
 })
 
-interface StyledTabProps {
-  label: string
-}
+// interface StyledTabProps {
+//   label: string
+// }
 
 // const StyledTab = styled((props: StyledTabProps) => (
 //   <Tab disableRipple {...props} />
@@ -368,39 +367,12 @@ const formSchema = z.object({
 
 export default function Profile({ params }: { params: { name: string } }) {
   const router = useRouter()
+
   const { current } = useContext(AuthContext)
   // if (!current) {
   //   router.push("/login")
   // }
-  const [tabValue, setTabValue] = React.useState<number>(0)
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue)
-  }
-  let portfolioClassResolver = (portfolioObject: {
-    image: string
-    type: string
-  }): string => {
-    if (portfolioObject.type == "normal") {
-      return "h-[45vh]"
-    } else if (portfolioObject.type == "wide") {
-      return "row-span-2 min-h-[calc(90vh+2.5rem)]"
-    } else {
-      return "col-span-2 max-h-[45vh]"
-    }
-  }
-  let portfolioClassResolverAlt = (portfolioObject: {
-    image: string
-    type: string
-  }): string => {
-    if (portfolioObject.type == "normal") {
-      return "h-[45vh]"
-    } else if (portfolioObject.type == "wide") {
-      return "col-span-2 h-[45vh] "
-    } else {
-      return "h-[calc(90vh+1.25rem)]"
-    }
-  }
   let fetchMonth = function (date: Date) {
     let monthList = [
       "January",
@@ -427,6 +399,7 @@ export default function Profile({ params }: { params: { name: string } }) {
   const [qualificationSelection, setQualificationSelection] =
     useState<qualificationSelectionOption>("education")
   const [profileData, setProfileData] = useState<any>()
+  // const [cover]
   const [imageUrl, setImageUrl] = useState<string | undefined>("")
   const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>("")
   const [open, setOpen] = useState(false)
@@ -472,13 +445,13 @@ export default function Profile({ params }: { params: { name: string } }) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log("Upload is " + progress + "% done")
+          // console.log("Upload is " + progress + "% done")
           switch (snapshot.state) {
             case "paused":
-              console.log("Upload is paused")
+              // console.log("Upload is paused")
               break
             case "running":
-              console.log("Upload is running")
+              // console.log("Upload is running")
               break
           }
         },
@@ -491,7 +464,7 @@ export default function Profile({ params }: { params: { name: string } }) {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             const docRef = doc(db, "users", current!)
             setImageUrl(downloadURL)
-            console.log("File available at", downloadURL)
+            // console.log("File available at", downloadURL)
             form.setValue("image", [])
             return updateDoc(docRef, {
               image: downloadURL,
@@ -501,7 +474,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         },
       )
     }
-    console.log("background file", values.background)
+    // console.log("background file", values.background)
 
     if (values.background.length > 0) {
       const name = new Date().getTime().toString()
@@ -514,13 +487,13 @@ export default function Profile({ params }: { params: { name: string } }) {
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log("Upload is " + progress + "% done")
+          // console.log("Upload is " + progress + "% done")
           switch (snapshot.state) {
             case "paused":
-              console.log("Upload is paused")
+              // console.log("Upload is paused")
               break
             case "running":
-              console.log("Upload is running")
+              // console.log("Upload is running")
               break
           }
         },
@@ -533,7 +506,7 @@ export default function Profile({ params }: { params: { name: string } }) {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             const docRef = doc(db, "users", current!)
             setBackgroundUrl(downloadURL)
-            console.log("File available at background", downloadURL)
+            // console.log("File available at background", downloadURL)
             form.setValue("background", [])
             return updateDoc(docRef, {
               background: downloadURL,
@@ -569,20 +542,23 @@ export default function Profile({ params }: { params: { name: string } }) {
     if (values.workPreference) {
       document.workPreference = values.workPreference
     }
+    // document.progress = 0
 
     const docRef = doc(db, "users", current!)
     await updateDoc(docRef, document)
     const docSaved = await getDoc(docRef)
-    console.log(docSaved.data(), "docSaved")
+    // console.log(docSaved.data(), "docSaved")
     setProfileData(docSaved.data())
   }
   async function addProject() {
-    console.log("clicked")
+    // console.log("clicked")
     addDoc(collection(db, "users", current!, "projects"), {
+      progress: 0,
       timestamp: serverTimestamp(),
       owner: current,
       stage: "upload",
       published: false,
+      // status:""
     })
       .then((docRef) => {
         router.push(`/add-project/upload/${docRef.id}`)
@@ -592,19 +568,50 @@ export default function Profile({ params }: { params: { name: string } }) {
 
   const { name, setName } = useHeader()
 
+  // await fetch()
+
   useEffect(() => {
     if (!current) {
       router.push("/login")
       return
     }
+    console.log("refresh called")
     fetch("/api/profile-editor", {
       method: "POST",
+      cache: "no-store",
+      next: { revalidate: 0 },
       body: JSON.stringify({ uid: current }),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(async (data) => {
         console.log(data, "data")
+        // console.log(data, "data")
         // if()
+        await Promise.all(
+          data?.projects?.map(async (project: any, index: number) => {
+            if (project.cover) {
+              const storageRef = ref(storage, project.cover)
+              try {
+                const res = await getDownloadURL(storageRef)
+                // console.log(res, project)
+                const image = new Image()
+                image.src = res
+                await image.decode()
+                data.projects[index] = {
+                  ...data.projects[index],
+                  coverLink: res,
+                  aspectRatio: image.width / image.height,
+                }
+                URL.revokeObjectURL(image.src)
+              } catch (err) {
+                console.log(err, "asset", index, "not found")
+              }
+
+              // data.projects[index].coverLink = res
+            }
+          }),
+        )
+        // console.log(data.projects, "projectData")
         setProfileData(data)
         if (!imageUrl && data.image) {
           setImageUrl(data.image)
@@ -615,7 +622,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         // var c: userInfo
         if (data.name) {
           setName(data.name)
-          console.log("name", data.name)
+          // console.log("name", data.name)
           form.setValue("name", data.name)
         }
         if (data.location) {
@@ -637,18 +644,19 @@ export default function Profile({ params }: { params: { name: string } }) {
           form.setValue("profession", data.position)
         }
         if (data.workPreference) {
-          console.log("workPreference", data.workPreference)
+          // console.log("workPreference", data.workPreference)
 
           form.setValue("workPreference", data.workPreference)
         }
         if (data.status) {
           form.setValue("status", data.status)
         }
+
         // console.log(data);
         setLoad(false)
       })
       .catch((error) => {
-        console.log(error)
+        // console.log(error)
       })
   }, [])
 
@@ -945,7 +953,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                             setBackgroundUrl(
                               URL.createObjectURL(e.target.files[0]),
                             )
-                            console.log(e.target.files)
+                            // console.log(e.target.files)
 
                             form.setValue("background", [e.target.files[0]])
                           } else {
@@ -1024,7 +1032,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                           form.setValue("image", [])
                         } else if (e.target?.files[0]) {
                           setImageUrl(URL.createObjectURL(e.target.files[0]))
-                          console.log(e.target.files)
+                          // console.log(e.target.files)
                           form.setValue("image", [e.target.files[0]])
                         } else {
                           if (profileData && profileData.image) {
@@ -1191,6 +1199,50 @@ export default function Profile({ params }: { params: { name: string } }) {
                           </p>
                         </div>
                       </div>
+                      {profileData?.projects.map(
+                        (project: any, index: number) => {
+                          return (
+                            // <>
+                            <div className="px-4" key={index}>
+                              <div className="relative group max-h-[50vh] min-h-[30vh] w-full  overflow-clip transition-all ease-in-out  rounded-[1.13rem] bg-gray-300 ">
+                                {/* <img
+                                  src="/plus.png"
+                                  className="h-8 w-8"
+                                  alt="plus"
+                                /> */}
+                                {project.coverLink && (
+                                  <img
+                                    alt=""
+                                    src={`${project.coverLink}`}
+                                    className={` object-cover w-full max-h-[50vh] aspect-${project.aspectRatio}}`}
+                                  />
+                                )}
+                                <div className="absolute top-0 opacity-60 transition-colors h-full w-full group-hover:bg-black"></div>
+                                <Setting
+                                  uid={project.uid}
+                                  index={index}
+                                  setProfileData={setProfileData}
+                                />
+                              </div>
+                              {(project.projectName || project.description) && (
+                                <div className="mt-2 ">
+                                  {project.projectName && (
+                                    <h3 className="font-[500] text-[1.5rem] tracking-tight">
+                                      {project.projectName}
+                                    </h3>
+                                  )}
+                                  {project.description && (
+                                    <p className="text-[#848484] text-[0.875rem] font-[500]">
+                                      {project.description}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                            // </>
+                          )
+                        },
+                      )}
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>
@@ -1207,3 +1259,4 @@ export default function Profile({ params }: { params: { name: string } }) {
     )
   else null
 }
+// export const revalidate = 0

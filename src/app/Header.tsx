@@ -32,13 +32,13 @@ export default function Header(props: { setOpen: any }) {
         </div>
         <div className="flex float-right z-[5]">
           <Button
-            className="relative z-[5] inline-block mr-2 bg-black text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
+            className="relative z-[5] inline-block mr-2 bg-white text-black border-2 border-black rounded-[6px] hover:text-white hover:bg-black hover:border-white"
             onClick={() => {
               // props.setOpen((prev: boolean) => !prev)
-              router.push("/signup")
+              router.push("/login")
             }}
           >
-            Signup
+            Login
           </Button>
           <Button
             className="relative z-[5] inline-block  bg-black text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"

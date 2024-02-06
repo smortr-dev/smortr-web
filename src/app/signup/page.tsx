@@ -71,6 +71,7 @@ export default function Signup() {
         email: res.user.email,
         timestamp: serverTimestamp(),
       })
+      router.push("/login")
     } catch (error: any) {
       setError(error.message)
     }

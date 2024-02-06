@@ -1,7 +1,12 @@
 import { cva } from "class-variance-authority"
 import clsx from "clsx"
+import { usePathname, useRouter } from "next/navigation"
+import { useMemo } from "react"
+
 const link = cva(
-  ["px-12 py-4 relative text-center text-[0.875rem] tracking-wide bg-white"],
+  [
+    "px-12 py-4 relative text-center text-[0.875rem] tracking-wide bg-white hover:bg-gray-300 transition-colors cursor-pointer",
+  ],
   {
     variants: {
       intent: {
@@ -13,11 +18,21 @@ const link = cva(
 )
 
 export default function Section({ active }: { active: string }) {
+  const router = useRouter()
+  const path = usePathname()
+  const id = useMemo(() => path.split("/").splice(-1).join(""), [path])
   return (
     <>
       <div className="flex justify-center">
         <div className="flex justify-center rounded-[0.88rem] bg-white overflow-clip drop-shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)]">
           <div
+            onClick={() => {
+              if (active != "upload") {
+                // console.log(id, "clicked")
+
+                router.push(`/add-project/upload/${id}`)
+              }
+            }}
             className={clsx(
               active == "upload"
                 ? link({ intent: "active" })
@@ -35,6 +50,13 @@ export default function Section({ active }: { active: string }) {
             </span>
           </div>
           <div
+            onClick={() => {
+              if (active != "edit") {
+                // console.log(id, "clicked")
+
+                router.push(`/add-project/edit/${id}`)
+              }
+            }}
             className={clsx(
               active == "edit"
                 ? link({ intent: "active" })
@@ -52,6 +74,13 @@ export default function Section({ active }: { active: string }) {
             </span>
           </div>
           <div
+            onClick={() => {
+              if (active != "view") {
+                // router.push()
+                // console.log(id, "clicked")
+                router.push(`/add-project/view/${id}`)
+              }
+            }}
             className={clsx(
               active == "view"
                 ? link({ intent: "active" })

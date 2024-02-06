@@ -1,3 +1,4 @@
+// "use client"
 import "../globals.css"
 // import { Metadata } from "next";
 // import { Metadata } from "next";
@@ -14,6 +15,9 @@ import Script from "next/script"
 // };
 
 import type { Metadata, ResolvingMetadata } from "next"
+import { UserAuth } from "../context/AuthContext"
+import { storage } from "@/lib/firebase"
+import { getDownloadURL, ref } from "firebase/storage"
 // import { profile } from "console";
 
 type Props = {
@@ -71,11 +75,122 @@ type Props = {
 //   };
 // }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // const { current } = UserAuth()
+
+  // const res = await fetch("/api/profile-editor", {
+  //   cache: "no-store",
+  //   next: { revalidate: 0 },
+  //   method: "POST",
+  //   body: JSON.stringify({ uid: current }),
+  // })
+  // let data = await res.json()
+
+  // await Promise.all(
+  //   data?.projects?.map(async (project: any, index: number) => {
+  //     if (project.cover) {
+  //       const storageRef = ref(storage, project.cover)
+  //       try {
+  //         const res = await getDownloadURL(storageRef)
+  //         // console.log(res, project)
+  //         const image = new Image()
+  //         image.src = res
+  //         await image.decode()
+  //         data.projects[index] = {
+  //           ...data.projects[index],
+  //           coverLink: res,
+  //           aspectRatio: image.width / image.height,
+  //         }
+  //         URL.revokeObjectURL(image.src)
+  //       } catch (err) {
+  //         console.log(err, "asset", index, "not found")
+  //       }
+
+  //       // data.projects[index].coverLink = res
+  //     }
+  //   }),
+  // )
+  // .then((res) => res.json())
+  // .then(async (data) => {
+  //   console.log(data, "data")
+  //   // console.log(data, "data")
+  //   // if()
+  //   await Promise.all(
+  //     data?.projects?.map(async (project: any, index: number) => {
+  //       if (project.cover) {
+  //         const storageRef = ref(storage, project.cover)
+  //         try {
+  //           const res = await getDownloadURL(storageRef)
+  //           // console.log(res, project)
+  //           const image = new Image()
+  //           image.src = res
+  //           await image.decode()
+  //           data.projects[index] = {
+  //             ...data.projects[index],
+  //             coverLink: res,
+  //             aspectRatio: image.width / image.height,
+  //           }
+  //           URL.revokeObjectURL(image.src)
+  //         } catch (err) {
+  //           console.log(err, "asset", index, "not found")
+  //         }
+
+  //         // data.projects[index].coverLink = res
+  //       }
+  //     }),
+  //   )
+  //   // console.log(data.projects, "projectData")
+  //   setProfileData(data)
+  //   if (!imageUrl && data.image) {
+  //     setImageUrl(data.image)
+  //   }
+  //   if (!backgroundUrl && data.background) {
+  //     setBackgroundUrl(data.background)
+  //   }
+  //   // var c: userInfo
+  //   if (data.name) {
+  //     setName(data.name)
+  //     // console.log("name", data.name)
+  //     form.setValue("name", data.name)
+  //   }
+  //   if (data.location) {
+  //     form.setValue("location", data.location)
+  //   }
+  //   if (data.language) {
+  //     form.setValue("language", data.language)
+  //     // console.log("language", data.language)
+  //   }
+  //   if (data.pronouns) {
+  //     form.setValue("pronouns", data.pronouns)
+  //   }
+
+  //   if (data.profession) {
+  //     form.setValue("profession", data.profession)
+  //   }
+
+  //   if (data.position) {
+  //     form.setValue("profession", data.position)
+  //   }
+  //   if (data.workPreference) {
+  //     // console.log("workPreference", data.workPreference)
+
+  //     form.setValue("workPreference", data.workPreference)
+  //   }
+  //   if (data.status) {
+  //     form.setValue("status", data.status)
+  //   }
+
+  //   // console.log(data);
+  //   setLoad(false)
+  // })
+  // .catch((error) => {
+  //   // console.log(error)
+  // })
+
   return (
     // <html lang="en">
     //   <link rel="shortcut icon apple-icon" href="/images/favicon.ico" />

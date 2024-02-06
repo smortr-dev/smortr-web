@@ -157,6 +157,30 @@ body {
   background-color: #d4aa70;
   border-radius: 100px;
 }
+
+.view-input-scrollbar::-webkit-scrollbar-track:hover {
+  cursor: pointer;
+}
+
+.view-input-scrollbar::-webkit-scrollbar {
+  width: 7px;
+  /* margin-right: 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  height: 30%; */
+}
+.view-input-scrollbar::-webkit-scrollbar-track {
+  /* background-color: #e4e4e4; */
+  position: relative !important;
+  right: 100px !important;
+  border-radius: 18px;
+}
+.view-input-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #818181;
+  border-radius: 100px;
+  margin-right: 20px;
+}
+
 img.conver {
   object-fit: cover;
   width: auto;

@@ -22,7 +22,7 @@ const MultiLineInput = React.forwardRef<HTMLTextAreaElement, InputProps>(
             rows={rows}
             // type={type}
             className={`${cn(
-              "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+              "flex w-full  rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
               className,
             )} resize-none`}
             placeholder={placeholder}
@@ -45,14 +45,14 @@ const MultiLineInputProject = React.forwardRef<HTMLTextAreaElement, InputProps>(
     const { error, formMessageId } = useFormField()
     return (
       <>
-        <div className="relative">
+        <div className="relative rounded-[0.88rem] bg-[#EAEAEA] p-2">
           <textarea
             maxLength={maxLength}
             // rows={3}
             rows={rows}
             // type={type}
             className={`${cn(
-              "flex w-full rounded-[0.88rem] bg-[#EAEAEA] px-3 py-6 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-[rgba(6,6,6,0.40)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+              "flex w-full relative view-input-scrollbar rounded-[0.88rem] bg-[#EAEAEA] px-3 py-6 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder-[rgba(6,6,6,0.40)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
               className,
             )} resize-none`}
             placeholder={`Description

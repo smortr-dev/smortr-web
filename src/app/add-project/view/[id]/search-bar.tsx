@@ -6,36 +6,62 @@ import { FormItem } from "@/components/ui/form"
 import { InputFeed } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FormControl, FormLabel } from "@mui/material"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 export default function SearchBar({
   files,
   visibleFiles,
   setVisibleFiles,
 }: {
-  files: string[]
-  visibleFiles: string[]
-  setVisibleFiles: Dispatch<SetStateAction<string[]>>
+  files: { fileName: string; filePath: string }[]
+  visibleFiles: { fileName: string; filePath: string }[]
+  setVisibleFiles: Dispatch<
+    SetStateAction<{ fileName: string; filePath: string }[]>
+  >
 }) {
+  // const [count, setCount] = useState(0)
+  const [key, setKey] = useState("")
+  const [sort, setSort] = useState(true)
   function searchFiles(key: string) {
-    let value: string[] = []
+    // if (!key) return
+    let value: { fileName: string; filePath: string }[] = []
+    console.log(files, "files")
     files.forEach((file) => {
-      if (file.match("key")) {
+      if (file.fileName.match(key)) {
         value.push(file)
       }
     })
     setVisibleFiles(value)
   }
 
-  function sortFiles(key: boolean) {
-    if (key) {
-      let value = visibleFiles.sort()
+  function sortFiles() {
+    if (sort) {
+      let value = visibleFiles.sort(function (a, b) {
+        let a_last = a.fileName.split("/")[-1]
+        let b_last = b.fileName.split("/")[-1]
+        return a_last.localeCompare(b_last)
+      })
       setVisibleFiles(value)
     } else {
-      let value = visibleFiles.sort().reverse()
+      let value = visibleFiles
+        .sort(function (a, b) {
+          let a_last = a.fileName.split("/")[-1]
+          let b_last = b.fileName.split("/")[-1]
+          return a_last.localeCompare(b_last)
+        })
+        .reverse()
       setVisibleFiles(value)
     }
   }
+  useEffect(() => {
+    console.log("called sort", sort)
+    sortFiles()
+  }, [sort])
+
+  // useEffect(() => {
+  //   setCount((prev) => prev + 1)
+  // }, [])
+
   return (
     <div className="flex mx-3 mt-2">
       <div className="flex items-center grow-[18]  border border-[#181818] rounded-[0.38rem]">
@@ -51,11 +77,22 @@ export default function SearchBar({
           name="view-search"
           id="view-search"
           className="border-0 px-1"
+          value={key}
+          onChange={(e) => {
+            console.log(e.target.value)
+            setKey(e.target.value)
+            // sortFiles()
+            searchFiles(e.target.value)
+          }}
           placeholder="Describe what you are searching for..."
         />
       </div>
       <Button
-        type="submit"
+        // type="submit"
+        onClick={(e) => {
+          e.preventDefault()
+          setSort((prev) => !prev)
+        }}
         className="border grow-[1] border-[#060606] bg-white text-[#060606] ml-3 hover:bg-[#060606] transition-colors hover:text-white"
       >
         Sort

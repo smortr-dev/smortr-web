@@ -57,6 +57,7 @@ export default function Signup() {
         const user = userCredential.user
         setError(undefined)
         dispatch({ type: "LOGIN", payload: user.uid })
+        router.push("/profile-editor")
         // console.log(user)
       })
       .catch((error) => {

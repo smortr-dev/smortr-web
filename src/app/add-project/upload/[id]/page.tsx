@@ -16,25 +16,279 @@ import {
 import { InputProject } from "@/components/ui/input"
 import Previews from "../../Dropzone"
 // import { GetServerSideProps, InferGetServerSidePropsType } from "next"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/app/context/AuthContext"
-import { arrayUnion, doc, updateDoc } from "firebase/firestore"
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore"
 import { db, storage } from "@/lib/firebase"
 import { ref, uploadBytesResumable } from "firebase/storage"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+import { Select, SelectGroup, SelectItem } from "@/components/ui/select"
+import {
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import clsx from "clsx"
+import { SelectLabel } from "@radix-ui/react-select"
+// import { formatRFC3339 } from "date-fns"
+const design_sector: string[] = [
+  "Architecture",
+  "Interior Design",
+  "Urban Design",
+  "Landscape Design",
+  "Construction Technology",
+  "Infrastructure",
+  "Services",
+  "Visualization",
+  "Concept Design",
+  "Art",
+]
+// const typology: string[] = []
+const typology: { label: string; options?: string[] }[] = [
+  {
+    label: "Residence",
+    options: [
+      "House",
+      "Villa",
+      "Apartment",
+      "Rooms",
+      "Coliving",
+      "Social housing",
+      "Township",
+    ],
+  },
+  {
+    label: "Commercial",
+    options: [
+      "Retail",
+      "Store",
+      "Showroom",
+      "Shopping center",
+      "Market",
+      "Exhibit",
+      "Station",
+      "Bank",
+      "Office",
+      "Workspace",
+      "Institutional",
+    ],
+  },
+  {
+    label: "Hospitality",
+    options: [
+      "Restaurant",
+      "Bar",
+      "Cafe",
+      "Eatery",
+      "Pub",
+      "Club",
+      "Hotel",
+      "Hostel",
+      "Cabin",
+      "Tourism",
+    ],
+  },
+  {
+    label: "Sports",
+    options: [
+      "Gymnasium",
+      "Sports field",
+      "Recreation",
+      "Fitness",
+      "Stadium",
+      "Indoor hall",
+    ],
+  },
+  {
+    label: "Healthcare",
+    options: [
+      "Hospital",
+      "Clinic",
+      "Medical facilities",
+      "Rehabilitation",
+      "Asylum",
+      "Spa",
+      "Sauna",
+      "Veterinary",
+      "Shelter",
+      "Laboratory",
+    ],
+  },
+  {
+    label: "Education",
+    options: [
+      "School",
+      "Kindergarten",
+      "Nursery",
+      "Library",
+      "University",
+      "College",
+      "Institute",
+      "Research center",
+      "Coaching center",
+      "Dorms",
+    ],
+  },
+  {
+    label: "Cultural",
+    options: [
+      "Theater",
+      "Auditorium",
+      "Pavilion",
+      "Gallery",
+      "Exhibition center",
+      "Installation",
+      "Stall",
+      "Forum",
+      "Cinema",
+      "Concert venue",
+      "Hall",
+      "Performing arts center",
+      "Theme park",
+      "Arcade",
+      "Gaming",
+      "Cultural center",
+      "Museum",
+      "Heritage",
+      "Memorial",
+      "Tower",
+      "Zoo",
+      "Aquarium",
+      "Planetarium",
+      "Interpretation center",
+    ],
+  },
+  {
+    label: "Public",
+    options: [
+      "Administration buildings",
+      "Government buildings",
+      "Public service buildings",
+      "Courthouse",
+      "Town & city hall",
+      "Municipal building",
+      "Fire station",
+      "Police station",
+      "Emergency services facility",
+      "Headquarters",
+      "Training facility",
+      "Community center",
+      "Monument",
+    ],
+  },
+  {
+    label: "Religious",
+    options: [
+      "Temple",
+      "Church",
+      "Mosque",
+      "Chapel",
+      "Monastery",
+      "Cathedral",
+      "Synagogue",
+      "Praying room",
+      "Memorial center",
+      "Cemetery",
+      "Crematorium",
+      "Grave",
+    ],
+  },
+  {
+    label: "Industrial",
+    options: [
+      "Factory",
+      "Workshop",
+      "Industry",
+      "Warehouse",
+      "Plant",
+      "Godown",
+      "Brewery",
+      "Barn",
+      "Storage",
+    ],
+  },
+  {
+    label: "Infrastructure",
+    options: [
+      "Bridges",
+      "Transit station",
+      "Waste management",
+      "Aviation",
+      "Telecommunications",
+      "Water management",
+    ],
+  },
+  {
+    label: "Urbanism",
+    options: [
+      "Urban planning",
+      "Masterplan",
+      "Parks",
+      "Campus",
+      "Public space",
+      "Transport corridors",
+    ],
+  },
+  {
+    label: "Landscape",
+    options: [
+      "Greenways",
+      "Green belt",
+      "Garden",
+      "Ground",
+      "Layout",
+      "Forestry design",
+      "Land reclamation",
+      "Flood protection",
+    ],
+  },
+  {
+    label: "Refurbishment",
+    options: ["Renovation", "Extension", "Adaptive reuse", "Restoration"],
+  },
+]
+const scope_role: string[] = [
+  "Architectural Designer",
+  "Designer",
+  "Intern",
+  "Engineer",
+  "Consultant",
+  "Freelancer",
+  "Service Provider",
+  "Research",
+  "Visualization",
+  "Student",
+  "Contractor",
+  "Production",
+  "Furniture Designer",
+  "Data Analysis",
+  "Instructor",
+]
+const project_type: string[] = ["Hypothetical", "Real-life"]
 export default function Upload({ params }: { params: { id: string } }) {
   const router = useRouter()
+  const [load, setLoad] = useState(false)
+  const [move, setMove] = useState(false)
+  const [preventSubmit, setPreventSubmit] = useState(false)
   const { current } = useContext(AuthContext)
   const formSchema = z.object({
     projectName: z.string().min(1),
     description: z.string().optional(),
     files: z.any().array(),
+    design_sector: z.string().optional(),
+    typology: z.string().optional(),
+    scope_role: z.string().optional(),
+    project_type: z.string().optional(),
+    // privacy: privacy,
   })
+  // form.register
+  // const form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       files: [],
+      // privacy: "private",
     },
   })
   useEffect(() => {
@@ -46,13 +300,45 @@ export default function Upload({ params }: { params: { id: string } }) {
           body: JSON.stringify({ user: current!, uid: params.id }),
         })
         const preData = await res.json()
-        console.log("preData", preData)
+        // console.log("preData", preData)
+        // form.setValue(preData)
         if (preData?.projectName) {
           form.setValue("projectName", preData.projectName)
         }
         if (preData?.description) {
           form.setValue("description", preData.description)
         }
+        if (preData?.scope_role) {
+          form.setValue("scope_role", preData.scope_role)
+        }
+        if (preData?.design_sector) {
+          form.setValue("design_sector", preData.design_sector)
+        }
+        if (preData?.project_type) {
+          form.setValue("project_type", preData.design_sector)
+        }
+        if (preData?.typology) {
+          form.setValue("typology", preData.typology)
+        }
+
+        if (!preData.progress || preData?.progress == 0) {
+          console.log("move", false)
+          setMove(false)
+        } else {
+          console.log("move", true)
+          setMove(true)
+        }
+        console.log(preData, "predata")
+        if (preData?.status == "submitted") {
+          console.log("preventstatus", true)
+          setPreventSubmit(true)
+        } else {
+          console.log("preventstatus", false)
+          setPreventSubmit(false)
+        }
+        setLoad(true)
+        // if()
+        // if(preDa)
       } catch (err) {
         console.log(err)
       }
@@ -62,9 +348,13 @@ export default function Upload({ params }: { params: { id: string } }) {
   async function uploadContent(values: z.infer<typeof formSchema>) {
     let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
+    let foundCover = false
+
     try {
+      const doc_ = await getDoc(docRef)
+      if (doc_.exists() && doc_.data().cover) foundCover = true
       if (values.files.length > 0) {
-        values.files.forEach((file: File) => {
+        values.files.forEach(async (file: File) => {
           const name =
             file.name.split(".").slice(0, -1).join() +
             new Date().getTime() +
@@ -82,13 +372,13 @@ export default function Upload({ params }: { params: { id: string } }) {
               // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
               const progress =
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              console.log("Upload is " + progress + "% done")
+              // console.log("Upload is " + progress + "% done")
               switch (snapshot.state) {
                 case "paused":
-                  console.log("Upload is paused")
+                  // console.log("Upload is paused")
                   break
                 case "running":
-                  console.log("Upload is running")
+                  // console.log("Upload is running")
                   break
               }
             },
@@ -117,6 +407,19 @@ export default function Upload({ params }: { params: { id: string } }) {
               })
             },
           )
+          if (
+            !foundCover &&
+            file.type.split("/").splice(0, 1).join("") == "image"
+          ) {
+            try {
+              await updateDoc(docRef, {
+                cover: `user-assets/${current}/projects/${params.id}/${name}`,
+              })
+            } catch (err) {
+              console.error(err)
+            }
+            foundCover = true
+          }
         })
       }
       if (values.description) {
@@ -125,24 +428,75 @@ export default function Upload({ params }: { params: { id: string } }) {
       if (values.projectName) {
         document.projectName = values.projectName
       }
-      await updateDoc(docRef, document)
+      await updateDoc(docRef, { ...document, status: "submitted" })
     } catch (err) {
       console.log(err)
     }
   }
   async function submitHandler(values: z.infer<typeof formSchema>) {
+    // if()
+    console.log("values", values)
     await uploadContent(values)
-    router.push(`/add-project/edit/${params.id}`)
+    setPreventSubmit(true)
+    await fetch("/api/send-mail", {
+      method: "POST",
+      body: JSON.stringify({
+        path: `users/${current!}/projects/${params.id}`,
+      }),
+    })
+    if (move) {
+      router.push(`/add-project/edit/${params.id}`)
+    }
   }
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(submitHandler)}>
-          <div className="py-8">
-            <div className="flex justify-between">
-              <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem] mb-6">
+          <div className="pt-4">
+            <div className="flex justify-between items-center  mb-6">
+              <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
                 {form.watch("projectName", "New Project")}
               </h3>
+
+              <div className="flex">
+                <Button
+                  disabled={!load || preventSubmit}
+                  onClick={async () => {
+                    await form.handleSubmit(uploadContent)()
+                  }}
+                  className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+                >
+                  Save
+                </Button>
+                <Button
+                  disabled={!load}
+                  onClick={async () => {
+                    await form.handleSubmit(
+                      async (values: z.infer<typeof formSchema>) => {
+                        try {
+                          if (!preventSubmit) await uploadContent(values)
+                          const docRef = doc(
+                            db,
+                            "users",
+                            current!,
+                            "projects",
+                            params.id,
+                          )
+                          await updateDoc(docRef, {
+                            published: true,
+                          })
+                          router.push("/profile-editor")
+                        } catch (err) {
+                          console.error(err)
+                        }
+                      },
+                    )()
+                  }}
+                  className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+                >
+                  Publish
+                </Button>
+              </div>
             </div>
             <Section active="upload" />
 
@@ -203,6 +557,143 @@ export default function Upload({ params }: { params: { id: string } }) {
               />
             </div>
           </div>
+
+          <div className="my-4 grid grid-cols-4 gap-x-2">
+            <FormField
+              control={form.control}
+              name={`design_sector`}
+              render={({ field, fieldState }) => {
+                return (
+                  <>
+                    <FormItem>
+                      {/* <FormLabel></FormLabel> */}
+                      <FormControl>
+                        <Select onValueChange={field.onChange}>
+                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                            <SelectValue placeholder="Design Sector" />
+                          </SelectTrigger>
+                          <SelectContent className="overflow-y-scroll max-h-[40vh]">
+                            {design_sector.map((option, index) => {
+                              return (
+                                // <>
+                                <SelectItem key={index} value={option}>
+                                  {option}
+                                </SelectItem>
+                                // </>
+                              )
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  </>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name={`typology`}
+              render={({ field, fieldState }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange}>
+                        <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                          <SelectValue placeholder="Typology" />
+                        </SelectTrigger>
+                        <SelectContent className="overflow-y-scroll max-h-[40vh]">
+                          {typology.map((group, index) => {
+                            return (
+                              <SelectGroup key={index}>
+                                <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
+                                  {group.label}
+                                </SelectLabel>
+                                {group.options?.map((item, index) => {
+                                  return (
+                                    <SelectItem key={index} value={item}>
+                                      {item}
+                                    </SelectItem>
+                                  )
+                                })}
+                              </SelectGroup>
+                            )
+                          })}
+                          {/* {typology.map((option, index) => {
+                            return (
+                              <SelectItem key={index} value={option}>
+                                {option}
+                              </SelectItem>
+                            )
+                          })} */}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name={`scope_role`}
+              render={({ field, fieldState }) => {
+                return (
+                  <>
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange}>
+                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                            <SelectValue placeholder="Scope/Role" />
+                          </SelectTrigger>
+                          <SelectContent className="overflow-y-scroll max-h-[40vh]">
+                            {scope_role.map((option, index) => {
+                              return (
+                                // <>
+                                <SelectItem key={index} value={option}>
+                                  {option}
+                                </SelectItem>
+                                // </>
+                              )
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  </>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name={`project_type`}
+              render={({ field, fieldState }) => {
+                return (
+                  <>
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange}>
+                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem]">
+                            <SelectValue placeholder="Project Type" />
+                          </SelectTrigger>
+                          <SelectContent className="overflow-y-scroll max-h-[40vh]">
+                            {project_type.map((option, index) => {
+                              return (
+                                // <>
+                                <SelectItem key={index} value={option}>
+                                  {option}
+                                </SelectItem>
+                                // </>
+                              )
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  </>
+                )
+              }}
+            />
+          </div>
+
           <div className="p-4 bg-white rounded-[0.88rem]">
             <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
             <Previews
@@ -211,11 +702,21 @@ export default function Upload({ params }: { params: { id: string } }) {
               form={form}
             />
           </div>
-          <div className="my-2 relative ">
+          <div className="my-2 relative flex justify-end items-center mt-3">
+            <div
+              className={clsx(
+                "inline-block mr-6 text-[#cc3057] ",
+                !preventSubmit ? "hidden" : "",
+              )}
+            >
+              We will email you when your content has been processed
+            </div>
             <Button
               // onClick={()=>}
+              // disabled={ }
+              disabled={!load || (preventSubmit && !move)}
               type="submit"
-              className="inline-block absolute right-0 py-2 mt-3 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
+              className="py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
             >
               Next
             </Button>
