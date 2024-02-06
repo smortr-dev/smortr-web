@@ -574,7 +574,7 @@ export default function Profile({ params }: { params: { name: string } }) {
       router.push("/login")
       return
     }
-    console.log("refresh called")
+    // console.log("refresh called")
     fetch("/api/profile-editor", {
       method: "POST",
       cache: "no-store",
@@ -583,7 +583,7 @@ export default function Profile({ params }: { params: { name: string } }) {
     })
       .then((res) => res.json())
       .then(async (data) => {
-        console.log(data, "data")
+        // console.log(data, "data")
         // console.log(data, "data")
         // if()
         await Promise.all(

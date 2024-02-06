@@ -56,12 +56,12 @@ export default function Setting({
               })
                 .then((res) => res.json())
                 .then((data: any) => {
-                  console.log(data, "data response")
+                  // console.log(data, "data response")
                   if (data?.status == "successful") {
                     setProfileData((prev: any) => {
-                      console.log(index)
+                      // console.log(index)
                       prev.projects.splice(index, 1)
-                      console.log(prev, "new prev")
+                      // console.log(prev, "new prev")
                       return { ...prev }
                     })
                   }
