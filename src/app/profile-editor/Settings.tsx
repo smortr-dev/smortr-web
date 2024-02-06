@@ -60,6 +60,7 @@ export default function Setting({
                   if (data?.status == "successful") {
                     setProfileData((prev: any) => {
                       console.log(index)
+                      console.log(prev.projects.splice(index, 1))
                       prev.projects = prev.projects.splice(index, 1)
                       console.log(prev, "new prev")
                       return { ...prev }

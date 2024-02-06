@@ -1,6 +1,7 @@
 import { db } from "@/lib/firebase"
 import { doc, getDoc } from "firebase/firestore"
 import { redirect } from "next/navigation"
+require("dotenv").config()
 import sgMail from "@sendgrid/mail"
 // import { redirect } from 'next/dist/server/api-utils';
 import { NextResponse } from "next/server"
