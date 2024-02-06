@@ -1,4 +1,5 @@
 import { db, storage } from "@/lib/firebase"
+import { error } from "console"
 import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore"
 import { deleteObject, ref } from "firebase/storage"
 import { NextResponse } from "next/server"
@@ -31,6 +32,8 @@ export async function POST(req: Request) {
     // console.log(new URL("../profile-editor", req.url).href)
     return NextResponse.json({ status: "successful" })
   } catch (err) {
+    return NextResponse.json({ status: "failed", error: err })
+
     console.log(err)
   }
   return NextResponse.json({ status: "failed" })
