@@ -107,19 +107,28 @@ export default function View({ params }: { params: { id: string } }) {
   const [api1, setApi1] = useState<CarouselApi>()
   const [api2, setApi2] = useState<CarouselApi>()
 
-  const [files, setFiles] = useState<{ fileName: string; filePath: string }[]>(
-    [],
-  )
+  const [files, setFiles] = useState<
+    { fileName: string; filePath: string; index: number }[]
+  >([])
   const [count, setCount] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleFiles, setVisibleFiles] = useState<
     {
       fileName: string
       filePath: string
+      index: number
     }[]
   >([])
   const [projectName, setProjectName] = useState("New Project")
   // const [selectedIndex, setSelectedIndex] = useState(0)
+  function findIndex(k: number): number {
+    for (let i = 0; i < visibleFiles.length; i++) {
+      if (visibleFiles[i].index == k) {
+        return i
+      }
+    }
+    return 0
+  }
   useEffect(() => {
     if (!api1 || !api2) {
       return
@@ -161,8 +170,9 @@ export default function View({ params }: { params: { id: string } }) {
           // user-assets/o1MWNdo2xweMsSPP60fWfQoeZVn2/projects/6Womfe0BRcx7wUGIcfno/test1706262702654.png
           // console.log(assets, "assets")
           if (assets) {
-            console.log(assets, "assets")
-            let save: { fileName: string; filePath: string }[] = []
+            // console.log(assets, "assets")
+            let save: { fileName: string; filePath: string; index: number }[] =
+              []
             // console.log(assets, "inside")
             await Promise.all(
               assets.map(async (asset, index) => {
@@ -171,14 +181,16 @@ export default function View({ params }: { params: { id: string } }) {
                 // console.log(asset, asset.split("/").splice(-1), "asset")
                 // form.
                 save.push({
+                  index: index,
                   filePath: res,
                   fileName:
-                    docRes.data()[index]?.name ||
+                    docRes.data()?.files[index]?.name ||
                     asset.split("/").slice(-1).join(),
                 })
               }),
             )
             // delete
+            // console.log(save, "files save")
             setFiles([...save])
             setVisibleFiles([...save])
 
@@ -195,21 +207,28 @@ export default function View({ params }: { params: { id: string } }) {
               // filePath?: string
               phase?: string | undefined
             }[] = docRes.data()?.files || []
+            // fileData.forEach((file, index) => {
+            //   if (!file.privacy) {
+            //     fileData[index].privacy = "private"
+            //   }
+            // })
             form.setValue("files", fileData)
-            assets.forEach((asset, index) => {
-              if (!form.getValues(`files.${index}.name`)) {
-                form.setValue(
-                  `files.${index}.name`,
-                  asset
-                    .split("/")
-                    .slice(-1)
-                    .join()
-                    .split(".")
-                    .slice(-1)
-                    .join(""),
-                )
-              }
-            })
+            // console.log(form.getValues("files"), "files")
+
+            // assets.forEach((asset, index) => {
+            //   if (!form.getValues(`files.${index}.name`)) {
+            //     form.setValue(
+            //       `files.${index}.name`,
+            //       asset
+            //         .split("/")
+            //         .slice(-1)
+            //         .join()
+            //         .split(".")
+            //         .slice(0, 1)
+            //         .join(""),
+            //     )
+            //   }
+            // })
           } else {
             throw Error("Assets Not Found")
           }
@@ -247,9 +266,7 @@ export default function View({ params }: { params: { id: string } }) {
 
     // return
     try {
-      await updateDoc(docRef, {
-        ...values,
-      })
+      await updateDoc(docRef, { ...values })
     } catch (err) {
       console.error(err)
     }
@@ -308,9 +325,11 @@ export default function View({ params }: { params: { id: string } }) {
                   <div className="h-[100vh] relative justify-center items-center flex flex-col">
                     <div className="px-16 flex justify-between w-full">
                       {/* <div></div> */}
-                      <span className="inline-block text-[1.25rem] font-[500]">
-                        {form.watch(`files.${currentIndex}.name`, "Name") ||
-                          "Name"}
+                      <span className="inline-block text-[1.15rem] font-[600] py-4">
+                        {form.watch(
+                          `files.${visibleFiles[currentIndex].index}.name`,
+                          "Name",
+                        ) || "Name"}
                       </span>
                       <DialogPrimitive.Close className="inline-block right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                         <X className="h-4 w-4" />
@@ -384,13 +403,15 @@ export default function View({ params }: { params: { id: string } }) {
                     </Carousel>
                   </div>
                   <div className="py-10 px-6  h-[100vh] w-full bg-[#BCBCBC] overflow-y-scroll">
-                    {form.watch("files", []).map((file, index) => {
+                    {files.map((file, index) => {
                       return (
                         // <>
                         <div
                           key={index}
                           className={clsx(
-                            index == currentIndex ? "" : "hidden",
+                            index == visibleFiles[currentIndex].index
+                              ? ""
+                              : "hidden",
                           )}
                         >
                           <div className="flex justify-between">
@@ -645,25 +666,30 @@ export default function View({ params }: { params: { id: string } }) {
                     return (
                       <div
                         key={index}
-                        className="inline-block max-w-[7.25rem] ml-2 upload-preview"
+                        className="inline-block w-[7.25rem] ml-2 upload-preview"
                       >
-                        <div className="px-2 py-8">
-                          <img
-                            src={file.filePath}
-                            className="max-h-[6.25rem] max-w-[6.25rem] inline-block"
-                            // Revoke data uri after image is loaded
-                            onClick={() => {
-                              // console.log("clicked")
-                              // if (!api2) return
-                              // api2.scrollTo(index)
-                              setCurrentIndex(index)
-                            }}
-                            alt="test"
-                          />
+                        <div className="flex max-w-[6.25rem] flex-col px-2 py-8 ">
+                          <div className="flex justify-center w-full">
+                            <img
+                              src={file.filePath}
+                              className="max-h-[6.25rem] inline-block max-w-[6.25rem]"
+                              // Revoke data uri after image is loaded
+                              onClick={() => {
+                                // console.log("clicked")
+                                // if (!api2) return
+                                // api2.scrollTo(index)
+                                setCurrentIndex(index)
+                              }}
+                              alt="test"
+                            />
+                          </div>
                           <p className="text-center mt-2 text-[0.625rem] font-[400] tracking-[0.00625rem] break-all">
-                            {form.watch(`files.${index}.name`) || file.fileName}
+                            {form.watch(
+                              `files.${visibleFiles[index].index}.name`,
+                            ) || file.fileName}
                           </p>
                         </div>
+
                         {/* <p className="text-center text-[0.625rem] font-[400] tracking-[0.00625rem] break-all">
                 {file.name}
               </p> */}

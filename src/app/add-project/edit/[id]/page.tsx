@@ -23,14 +23,15 @@ import { db } from "@/lib/firebase"
 import { count } from "console"
 import clsx from "clsx"
 import { useHeader } from "@/app/context/HeaderContext"
-const questions: string[] = [
-  "Who was your client, and how did you engage with them?",
-  "What was the primary purpose of this project?",
-  "Where did you face a challenge, and how was it overcome?",
-  "When working on this project, was it a team effort or did you work alone?",
-  "What is the proposed Return on Investment (ROI) for the end user? Consider financial, lifestyle, and mental aspects.",
-]
+// const questions: string[] = [
+//   "Who was your client, and how did you engage with them?",
+//   "What was the primary purpose of this project?",
+//   "Where did you face a challenge, and how was it overcome?",
+//   "When working on this project, was it a team effort or did you work alone?",
+//   "What is the proposed Return on Investment (ROI) for the end user? Consider financial, lifestyle, and mental aspects.",
+// ]
 export default function Edit({ params }: { params: { id: string } }) {
+  const [questions, setQuestions] = useState<string[]>([])
   const [load, setLoad] = useState(false)
   // const [submitStatus, setSubmitStatus] = useState(true)
   const [projectName, setProjectName] = useState()
@@ -100,9 +101,21 @@ export default function Edit({ params }: { params: { id: string } }) {
   }
   useEffect(() => {
     if (!current) return
+
     // if (typeof window === "undefined") return
     async function getData() {
       try {
+        const questions_res = await fetch("/api/get-questions", {
+          method: "POST",
+          body: JSON.stringify({ user: current!, uid: params.id }),
+        })
+        const questions_data = await questions_res.json()
+        // console.log(questions_data, "questions_data")
+        if (!questions_data.error) {
+          setQuestions(questions_data.questions)
+        } else {
+          setQuestions([])
+        }
         const docRef = doc(db, "users", current!, "projects", params.id)
         const docRes = await getDoc(docRef)
         if (docRes.exists()) {

@@ -13,10 +13,10 @@ export default function SearchBar({
   visibleFiles,
   setVisibleFiles,
 }: {
-  files: { fileName: string; filePath: string }[]
-  visibleFiles: { fileName: string; filePath: string }[]
+  files: { fileName: string; filePath: string; index: number }[]
+  visibleFiles: { fileName: string; filePath: string; index: number }[]
   setVisibleFiles: Dispatch<
-    SetStateAction<{ fileName: string; filePath: string }[]>
+    SetStateAction<{ fileName: string; filePath: string; index: number }[]>
   >
 }) {
   // const [count, setCount] = useState(0)
@@ -24,10 +24,10 @@ export default function SearchBar({
   const [sort, setSort] = useState(true)
   function searchFiles(key: string) {
     // if (!key) return
-    let value: { fileName: string; filePath: string }[] = []
+    let value: { fileName: string; filePath: string; index: number }[] = []
     console.log(files, "files")
     files.forEach((file) => {
-      if (file.fileName.match(key)) {
+      if (file.fileName.toLocaleLowerCase().match(key)) {
         value.push(file)
       }
     })
@@ -35,23 +35,17 @@ export default function SearchBar({
   }
 
   function sortFiles() {
-    if (sort) {
-      let value = visibleFiles.sort(function (a, b) {
-        let a_last = a.fileName.split("/")[-1]
-        let b_last = b.fileName.split("/")[-1]
-        return a_last.localeCompare(b_last)
-      })
-      setVisibleFiles(value)
-    } else {
-      let value = visibleFiles
-        .sort(function (a, b) {
-          let a_last = a.fileName.split("/")[-1]
-          let b_last = b.fileName.split("/")[-1]
-          return a_last.localeCompare(b_last)
-        })
-        .reverse()
-      setVisibleFiles(value)
-    }
+    let value = visibleFiles.sort(function (a, b) {
+      // console.log(a, b)
+      // console.log(a.filePath)
+      // console.log(b.filePath)
+
+      let a_last = a.fileName
+      let b_last = b.fileName
+      return a_last.localeCompare(b_last)
+    })
+    if (!sort) value.reverse()
+    setVisibleFiles([...value])
   }
   useEffect(() => {
     console.log("called sort", sort)

@@ -31,6 +31,7 @@ export async function POST(req: Request) {
         let robj: projectData = { uid: project.id }
 
         const doc = project.data()
+        if(!doc.projectName && !doc.cover) return
         if (doc.projectName) {
           robj["projectName"] = doc.projectName
         }

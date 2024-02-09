@@ -313,27 +313,28 @@ export default function Upload({ params }: { params: { id: string } }) {
         }
         if (preData?.design_sector) {
           form.setValue("design_sector", preData.design_sector)
+          // console.log(form.getValues("design_sector"))
         }
         if (preData?.project_type) {
-          form.setValue("project_type", preData.design_sector)
+          form.setValue("project_type", preData.project_type)
         }
         if (preData?.typology) {
           form.setValue("typology", preData.typology)
         }
 
         if (!preData.progress || preData?.progress == 0) {
-          console.log("move", false)
+          // console.log("move", false)
           setMove(false)
         } else {
-          console.log("move", true)
+          // console.log("move", true)
           setMove(true)
         }
-        console.log(preData, "predata")
+        // console.log(preData, "predata")
         if (preData?.status == "submitted") {
-          console.log("preventstatus", true)
+          // console.log("preventstatus", true)
           setPreventSubmit(true)
         } else {
-          console.log("preventstatus", false)
+          // console.log("preventstatus", false)
           setPreventSubmit(false)
         }
         setLoad(true)
@@ -404,6 +405,10 @@ export default function Upload({ params }: { params: { id: string } }) {
                 assets: arrayUnion(
                   `user-assets/${current}/projects/${params.id}/${name}`,
                 ),
+                files: arrayUnion({
+                  privacy: "private",
+                  name: `${name}`,
+                }),
               })
             },
           )
@@ -422,12 +427,16 @@ export default function Upload({ params }: { params: { id: string } }) {
           }
         })
       }
-      if (values.description) {
-        document.description = values.description
-      }
-      if (values.projectName) {
-        document.projectName = values.projectName
-      }
+      // if (values.description) {
+      //   document.description = values.description
+      // }
+      // if (values.projectName) {
+      //   document.projectName = values.projectName
+      // }
+      document = values
+      document.files = undefined
+      // console.log(document, "document")
+      // , status: "submitted"
       await updateDoc(docRef, { ...document, status: "submitted" })
     } catch (err) {
       console.log(err)
@@ -435,7 +444,7 @@ export default function Upload({ params }: { params: { id: string } }) {
   }
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // if()
-    console.log("values", values)
+    // console.log("values", values)
     await uploadContent(values)
     setPreventSubmit(true)
     await fetch("/api/send-mail", {
@@ -568,7 +577,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                     <FormItem>
                       {/* <FormLabel></FormLabel> */}
                       <FormControl>
-                        <Select onValueChange={field.onChange}>
+                        <Select {...field} onValueChange={field.onChange}>
                           <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
                             <SelectValue placeholder="Design Sector" />
                           </SelectTrigger>
@@ -597,7 +606,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                 return (
                   <FormItem>
                     <FormControl>
-                      <Select onValueChange={field.onChange}>
+                      <Select {...field} onValueChange={field.onChange}>
                         <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
                           <SelectValue placeholder="Typology" />
                         </SelectTrigger>
@@ -640,7 +649,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                   <>
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange}>
+                        <Select {...field} onValueChange={field.onChange}>
                           <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
                             <SelectValue placeholder="Scope/Role" />
                           </SelectTrigger>
@@ -670,7 +679,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                   <>
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange}>
+                        <Select {...field} onValueChange={field.onChange}>
                           <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem]">
                             <SelectValue placeholder="Project Type" />
                           </SelectTrigger>

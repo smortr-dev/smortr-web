@@ -2,6 +2,13 @@
 "use client"
 import clsx from "clsx"
 import { Option } from "react-multi-select-component"
+const questions: string[] = [
+  "Who was your client, and how did you engage with them?",
+  "What was the primary purpose of this project?",
+  "Where did you face a challenge, and how was it overcome?",
+  "When working on this project, was it a team effort or did you work alone?",
+  "What is the proposed Return on Investment (ROI) for the end user? Consider financial, lifestyle, and mental aspects.",
+]
 const languagesArray: Option[] = [
   // { label: "Malayalam", value: "Malayalam" },
   { label: "English", value: "English" },
@@ -64,6 +71,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+
 import { Label } from "@/components/ui/label"
 import { userInfo } from "os"
 import { AuthContext } from "@/app/context/AuthContext"
@@ -547,7 +555,7 @@ export default function Profile({ params }: { params: { name: string } }) {
     await updateDoc(docRef, document)
     const docSaved = await getDoc(docRef)
     // console.log(docSaved.data(), "docSaved")
-    setProfileData(docSaved.data())
+    await getData()
   }
   async function addProject() {
     // console.log("clicked")
@@ -557,6 +565,7 @@ export default function Profile({ params }: { params: { name: string } }) {
       owner: current,
       stage: "upload",
       published: false,
+      questions: questions,
       // status:""
     })
       .then((docRef) => {
@@ -568,13 +577,8 @@ export default function Profile({ params }: { params: { name: string } }) {
   const { name, setName } = useHeader()
 
   // await fetch()
-
-  useEffect(() => {
-    if (!current) {
-      router.push("/login")
-      return
-    }
-    // console.log("refresh called")
+  async function getData() {
+    // console.log("called")
     fetch("/api/profile-editor", {
       method: "POST",
       cache: "no-store",
@@ -657,6 +661,15 @@ export default function Profile({ params }: { params: { name: string } }) {
       .catch((error) => {
         // console.log(error)
       })
+  }
+
+  useEffect(() => {
+    if (!current) {
+      router.push("/login")
+      return
+    }
+    // console.log("refresh called")
+    getData()
   }, [])
 
   // const profileData: Profile = await getData();
@@ -1167,14 +1180,14 @@ export default function Profile({ params }: { params: { name: string } }) {
                         <span className="font-[700]">
                           {form
                             .watch("workPreference")
-                            .map((item: any, index: any) => {
-                              if (
-                                index !=
-                                profileData.workPreference.length - 1
-                              ) {
-                                return <>{item}, </>
-                              } else return <>{item}</>
-                            })}
+                            .map((item: any, index: any) => (
+                              <span key={index} className="font-[700]">
+                                {item}
+                                {profileData.workPreference.length - 1 > index
+                                  ? ", "
+                                  : null}
+                              </span>
+                            ))}
                         </span>
                       </div>
                     </div>
@@ -1232,7 +1245,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                                   )}
                                   {project.description && (
                                     <p className="text-[#848484] text-[0.875rem] font-[500]">
-                                      {project.description}
+                                      {project.description.substring(0, 20)}
                                     </p>
                                   )}
                                 </div>
