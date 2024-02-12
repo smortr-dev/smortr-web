@@ -900,6 +900,16 @@ export default function Profile({ params }: { params: { name: string } }) {
                       )
                     }}
                   />
+                  <div className="flex justify-end my-2">
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpen((prev) => !prev)
+                      }}
+                    >
+                      Done
+                    </Button>
+                  </div>
                 </DialogContent>
               </Dialog>
               <Dialog open={openStatus} onOpenChange={setOpenStatus}>
@@ -939,6 +949,16 @@ export default function Profile({ params }: { params: { name: string } }) {
                       )
                     }}
                   />
+                  <div className="flex justify-end my-2">
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setOpenStatus((prev) => !prev)
+                      }}
+                    >
+                      Done
+                    </Button>
+                  </div>
                 </DialogContent>
               </Dialog>
               <div className="relative min-h-[60vh] ">
