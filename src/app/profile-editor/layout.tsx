@@ -225,7 +225,10 @@ export default async function RootLayout({
     //   </head>
 
     //   <body className={`${inter.className} bg-[#FAFAFA] fafafa`}>
-    <>{children}</>
+
+    <body>{children}</body>
+    // </html>
+
     //   {/* </body>
     // </html> */}
   )
