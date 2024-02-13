@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
+import { UseFormReturn } from "react-hook-form"
 const thumbsContainer = {
   display: "flex",
   marginTop: 16,
@@ -31,7 +32,22 @@ const img = {
 }
 
 //props
-export default function Previews(props: any) {
+export default function Previews(props: {
+  form: UseFormReturn<
+    {
+      files: any[]
+      projectName: string
+      description?: string | undefined
+      design_sector?: string | undefined
+      typology?: string | undefined
+      scope_role?: string | undefined
+      project_type?: string | undefined
+    },
+    any,
+    undefined
+  >
+  [key: string]: any
+}) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],

@@ -20,7 +20,12 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/app/context/AuthContext"
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore"
 import { db, storage } from "@/lib/firebase"
-import { ref, uploadBytesResumable } from "firebase/storage"
+import {
+  getDownloadURL,
+  getMetadata,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { Select, SelectGroup, SelectItem } from "@/components/ui/select"
@@ -31,6 +36,8 @@ import {
 } from "@/components/ui/select"
 import clsx from "clsx"
 import { SelectLabel } from "@radix-ui/react-select"
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher"
+import UploadedSection from "../../UploadedSection"
 // import { formatRFC3339 } from "date-fns"
 const design_sector: string[] = [
   "Architecture",
@@ -269,6 +276,16 @@ const project_type: string[] = ["Hypothetical", "Real-life"]
 export default function Upload({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [load, setLoad] = useState(false)
+  const [uploadedFiles, setUploadedFiles] = useState<
+    {
+      contentType?: string
+      url?: string
+      path: string
+      user: string
+      project: string
+    }[]
+  >([])
+
   const [move, setMove] = useState(false)
   const [preventSubmit, setPreventSubmit] = useState(false)
   const { current } = useContext(AuthContext)
@@ -288,6 +305,9 @@ export default function Upload({ params }: { params: { id: string } }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       files: [],
+      projectName: "",
+      description: "",
+
       // privacy: "private",
     },
   })
@@ -336,6 +356,52 @@ export default function Upload({ params }: { params: { id: string } }) {
         } else {
           // console.log("preventstatus", false)
           setPreventSubmit(false)
+        }
+        if (preData?.assets) {
+          let uploadFileData: {
+            contentType?: string
+            url?: string
+            project: string
+            user: string
+            path: string
+          }[] = []
+          Promise.all(
+            preData.assets.map(async (asset: string, index: number) => {
+              let assetRef = ref(storage, asset)
+              let uploadFile: {
+                contentType?: string
+                url?: string
+                project: string
+                user: string
+                path: string
+              } = {
+                path: asset,
+                user: current!,
+                project: params.id,
+              }
+              try {
+                const metaData = await getMetadata(assetRef)
+                uploadFile["contentType"] = metaData.contentType
+                if (metaData.contentType?.split("/")[0] == "image") {
+                  const url = await getDownloadURL(assetRef)
+                  uploadFile["url"] = url
+                }
+                console.log(index, uploadFile)
+                uploadFileData.push(uploadFile)
+              } catch (err) {
+                console.log(err)
+              }
+            }),
+          )
+            .then(() => {
+              console.log(uploadFileData, "uploadFileData")
+              setUploadedFiles(uploadFileData)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+
+          // setUploadedFiles(preData.assets)
         }
         setLoad(true)
         // if()
@@ -458,142 +524,77 @@ export default function Upload({ params }: { params: { id: string } }) {
     }
   }
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(submitHandler)}>
-          <div className="pt-4">
-            <div className="flex justify-between items-center  mb-6">
-              <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
-                {form.watch("projectName", "New Project")}
-              </h3>
+    // <>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(submitHandler)}>
+        <div className="pt-4">
+          <div className="flex justify-between items-center  mb-6">
+            <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
+              {form.watch("projectName", "New Project")}
+            </h3>
 
-              <div className="flex">
-                <Button
-                  disabled={!load || preventSubmit}
-                  onClick={async () => {
-                    await form.handleSubmit(uploadContent)()
-                  }}
-                  className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
-                >
-                  Save
-                </Button>
-                <Button
-                  disabled={!load}
-                  onClick={async () => {
-                    await form.handleSubmit(
-                      async (values: z.infer<typeof formSchema>) => {
-                        try {
-                          if (!preventSubmit) await uploadContent(values)
-                          const docRef = doc(
-                            db,
-                            "users",
-                            current!,
-                            "projects",
-                            params.id,
-                          )
-                          await updateDoc(docRef, {
-                            published: true,
-                          })
-                          router.push("/profile-editor")
-                        } catch (err) {
-                          console.error(err)
-                        }
-                      },
-                    )()
-                  }}
-                  className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-                >
-                  Publish
-                </Button>
-              </div>
-            </div>
-            <Section active="upload" />
-
-            <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
-              <FormField
-                control={form.control}
-                name={`projectName`}
-                render={({ field, fieldState }) => {
-                  return (
-                    <>
-                      <FormItem>
-                        <FormControl>
-                          <InputProject
-                            {...field}
-                            className={` w-[100%]  ${
-                              fieldState.error
-                                ? "border-[#CC3057]"
-                                : " border-[#848484]"
-                            }`}
-                            required
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs text-[#CC3057]" />
-                      </FormItem>
-                    </>
-                  )
+            <div className="flex">
+              <Button
+                disabled={!load || preventSubmit}
+                onClick={async () => {
+                  await form.handleSubmit(uploadContent)()
                 }}
-              />
-              <FormField
-                control={form.control}
-                name={`description`}
-                render={({ field, fieldState }) => {
-                  return (
-                    <>
-                      <FormItem className="text-left  mt-4 w-[100%]">
-                        <FormControl>
-                          <MultiLineInputProject
-                            placeholder={`Description
-
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                            maxLength={200}
-                            rows={6}
-                            {...field}
-                            className={` ${
-                              fieldState.error
-                                ? "border-[#CC3057]"
-                                : "  border-[#848484]"
-                            }`}
-                            required
-                          />
-                          {/* <span>{}</span> */}
-                        </FormControl>
-                        <FormMessage className="text-xs text-[#CC3057]" />
-                      </FormItem>
-                    </>
-                  )
+                className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+              >
+                Save
+              </Button>
+              <Button
+                disabled={!load}
+                onClick={async () => {
+                  await form.handleSubmit(
+                    async (values: z.infer<typeof formSchema>) => {
+                      try {
+                        if (!preventSubmit) await uploadContent(values)
+                        const docRef = doc(
+                          db,
+                          "users",
+                          current!,
+                          "projects",
+                          params.id,
+                        )
+                        await updateDoc(docRef, {
+                          published: true,
+                        })
+                        router.push("/profile-editor")
+                      } catch (err) {
+                        console.error(err)
+                      }
+                    },
+                  )()
                 }}
-              />
+                className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+              >
+                Publish
+              </Button>
             </div>
           </div>
+          <Section active="upload" />
 
-          <div className="my-4 grid grid-cols-4 gap-x-2">
+          <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
             <FormField
               control={form.control}
-              name={`design_sector`}
+              name={`projectName`}
               render={({ field, fieldState }) => {
                 return (
                   <>
                     <FormItem>
-                      {/* <FormLabel></FormLabel> */}
                       <FormControl>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                            <SelectValue placeholder="Design Sector" />
-                          </SelectTrigger>
-                          <SelectContent className="overflow-y-scroll max-h-[40vh]">
-                            {design_sector.map((option, index) => {
-                              return (
-                                // <>
-                                <SelectItem key={index} value={option}>
-                                  {option}
-                                </SelectItem>
-                                // </>
-                              )
-                            })}
-                          </SelectContent>
-                        </Select>
+                        <InputProject
+                          {...field}
+                          className={` w-[100%]  ${
+                            fieldState.error
+                              ? "border-[#CC3057]"
+                              : " border-[#848484]"
+                          }`}
+                          required
+                        />
                       </FormControl>
+                      <FormMessage className="text-xs text-[#CC3057]" />
                     </FormItem>
                   </>
                 )
@@ -601,137 +602,203 @@ export default function Upload({ params }: { params: { id: string } }) {
             />
             <FormField
               control={form.control}
-              name={`typology`}
+              name={`description`}
               render={({ field, fieldState }) => {
                 return (
+                  <>
+                    <FormItem className="text-left  mt-4 w-[100%]">
+                      <FormControl>
+                        <MultiLineInputProject
+                          placeholder={`Description
+
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
+                          maxLength={200}
+                          rows={6}
+                          {...field}
+                          className={` ${
+                            fieldState.error
+                              ? "border-[#CC3057]"
+                              : "  border-[#848484]"
+                          }`}
+                          required
+                        />
+                        {/* <span>{}</span> */}
+                      </FormControl>
+                      <FormMessage className="text-xs text-[#CC3057]" />
+                    </FormItem>
+                  </>
+                )
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="my-4 grid grid-cols-4 gap-x-2">
+          <FormField
+            control={form.control}
+            name={`design_sector`}
+            render={({ field, fieldState }) => {
+              return (
+                <>
                   <FormItem>
                     <FormControl>
                       <Select {...field} onValueChange={field.onChange}>
                         <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                          <SelectValue placeholder="Typology" />
+                          <SelectValue placeholder="Design Sector" />
                         </SelectTrigger>
-                        <SelectContent className="overflow-y-scroll max-h-[40vh]">
-                          {typology.map((group, index) => {
+                        <SelectContent className="overflow-y-auto max-h-[40vh]">
+                          {design_sector.map((option, index) => {
                             return (
-                              <SelectGroup key={index}>
-                                <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
-                                  {group.label}
-                                </SelectLabel>
-                                {group.options?.map((item, index) => {
-                                  return (
-                                    <SelectItem key={index} value={item}>
-                                      {item}
-                                    </SelectItem>
-                                  )
-                                })}
-                              </SelectGroup>
-                            )
-                          })}
-                          {/* {typology.map((option, index) => {
-                            return (
+                              // <>
                               <SelectItem key={index} value={option}>
                                 {option}
                               </SelectItem>
+                              // </>
                             )
-                          })} */}
+                          })}
                         </SelectContent>
                       </Select>
                     </FormControl>
                   </FormItem>
-                )
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={`scope_role`}
-              render={({ field, fieldState }) => {
-                return (
-                  <>
-                    <FormItem>
-                      <FormControl>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                            <SelectValue placeholder="Scope/Role" />
-                          </SelectTrigger>
-                          <SelectContent className="overflow-y-scroll max-h-[40vh]">
-                            {scope_role.map((option, index) => {
-                              return (
-                                // <>
-                                <SelectItem key={index} value={option}>
-                                  {option}
-                                </SelectItem>
-                                // </>
-                              )
-                            })}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  </>
-                )
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={`project_type`}
-              render={({ field, fieldState }) => {
-                return (
-                  <>
-                    <FormItem>
-                      <FormControl>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem]">
-                            <SelectValue placeholder="Project Type" />
-                          </SelectTrigger>
-                          <SelectContent className="overflow-y-scroll max-h-[40vh]">
-                            {project_type.map((option, index) => {
-                              return (
-                                // <>
-                                <SelectItem key={index} value={option}>
-                                  {option}
-                                </SelectItem>
-                                // </>
-                              )
-                            })}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  </>
-                )
-              }}
-            />
-          </div>
+                </>
+              )
+            }}
+          />
+          <FormField
+            control={form.control}
+            name={`typology`}
+            render={({ field, fieldState }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <Select {...field} onValueChange={field.onChange}>
+                      <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                        <SelectValue placeholder="Typology" />
+                      </SelectTrigger>
+                      <SelectContent className="overflow-y-auto max-h-[40vh]">
+                        {typology.map((group, index) => {
+                          return (
+                            <SelectGroup key={index}>
+                              <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
+                                {group.label}
+                              </SelectLabel>
+                              {group.options?.map((item, index) => {
+                                return (
+                                  <SelectItem key={index} value={item}>
+                                    {item}
+                                  </SelectItem>
+                                )
+                              })}
+                            </SelectGroup>
+                          )
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )
+            }}
+          />
+          <FormField
+            control={form.control}
+            name={`scope_role`}
+            render={({ field, fieldState }) => {
+              return (
+                <>
+                  <FormItem>
+                    <FormControl>
+                      <Select {...field} onValueChange={field.onChange}>
+                        <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                          <SelectValue placeholder="Scope/Role" />
+                        </SelectTrigger>
+                        <SelectContent className="overflow-y-auto max-h-[40vh]">
+                          {scope_role.map((option, index) => {
+                            return (
+                              // <>
+                              <SelectItem key={index} value={option}>
+                                {option}
+                              </SelectItem>
+                              // </>
+                            )
+                          })}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                </>
+              )
+            }}
+          />
+          <FormField
+            control={form.control}
+            name={`project_type`}
+            render={({ field, fieldState }) => {
+              return (
+                <>
+                  <FormItem>
+                    <FormControl>
+                      <Select {...field} onValueChange={field.onChange}>
+                        <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                          <SelectValue placeholder="Project Type" />
+                        </SelectTrigger>
+                        <SelectContent className="overflow-y-auto max-h-[40vh]">
+                          {project_type.map((option, index) => {
+                            return (
+                              // <>
+                              <SelectItem key={index} value={option}>
+                                {option}
+                              </SelectItem>
+                              // </>
+                            )
+                          })}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                </>
+              )
+            }}
+          />
+        </div>
 
-          <div className="p-4 bg-white rounded-[0.88rem]">
-            <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
-            <Previews
-              setFiles={form.setValue}
-              getValues={form.getValues}
-              form={form}
-            />
+        {/* <div className="p-4 bg-white rounded-[0.88rem]">
+            {uploadedFiles}
+          </div> */}
+        {/* {uploadedFiles && uploadedFiles.length > 0 && ( */}
+        <UploadedSection
+          uploadedFiles={uploadedFiles}
+          setUploadedFiles={setUploadedFiles}
+        />
+        {/* )} */}
+        <div className="p-4 bg-white rounded-[0.88rem]">
+          <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
+          <Previews
+            setFiles={form.setValue}
+            getValues={form.getValues}
+            form={form}
+          />
+        </div>
+        <div className="my-2 relative flex justify-end items-center mt-3">
+          <div
+            className={clsx(
+              "inline-block mr-6 text-[#cc3057] ",
+              !preventSubmit ? "hidden" : "",
+            )}
+          >
+            We will email you when your content has been processed
           </div>
-          <div className="my-2 relative flex justify-end items-center mt-3">
-            <div
-              className={clsx(
-                "inline-block mr-6 text-[#cc3057] ",
-                !preventSubmit ? "hidden" : "",
-              )}
-            >
-              We will email you when your content has been processed
-            </div>
-            <Button
-              // onClick={()=>}
-              // disabled={ }
-              disabled={!load || (preventSubmit && !move)}
-              type="submit"
-              className="py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
-            >
-              Next
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </>
+          <Button
+            // onClick={()=>}
+            // disabled={ }
+            disabled={!load || (preventSubmit && !move)}
+            type="submit"
+            className="py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
+          >
+            Next
+          </Button>
+        </div>
+      </form>
+    </Form>
+    // </>
   )
 }

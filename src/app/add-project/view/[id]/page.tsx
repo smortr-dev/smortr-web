@@ -176,17 +176,21 @@ export default function View({ params }: { params: { id: string } }) {
             // console.log(assets, "inside")
             await Promise.all(
               assets.map(async (asset, index) => {
-                const storeRef = ref(storage, asset)
-                const res = await getDownloadURL(storeRef)
-                // console.log(asset, asset.split("/").splice(-1), "asset")
-                // form.
-                save.push({
-                  index: index,
-                  filePath: res,
-                  fileName:
-                    docRes.data()?.files[index]?.name ||
-                    asset.split("/").slice(-1).join(),
-                })
+                try {
+                  const storeRef = ref(storage, asset)
+                  const res = await getDownloadURL(storeRef)
+                  // console.log(asset, asset.split("/").splice(-1), "asset")
+                  // form.
+                  save.push({
+                    index: index,
+                    filePath: res,
+                    fileName:
+                      docRes.data()?.files[index]?.name ||
+                      asset.split("/").slice(-1).join(),
+                  })
+                } catch (err) {
+                  console.log(err)
+                }
               }),
             )
             // delete
@@ -402,7 +406,7 @@ export default function View({ params }: { params: { id: string } }) {
                       <CarouselNext className="border-2 border-black" />
                     </Carousel>
                   </div>
-                  <div className="py-10 px-6  h-[100vh] w-full bg-[#BCBCBC] overflow-y-scroll">
+                  <div className="py-10 px-6  h-[100vh] w-full bg-[#BCBCBC] overflow-y-auto">
                     {files.map((file, index) => {
                       return (
                         // <>

@@ -242,29 +242,29 @@ export type { bio, experience, certificationOrLicense, portfolio, education }
 //   }),
 // )
 
-interface StyledTabsProps {
-  children?: React.ReactNode
-  value: number
-  onChange: (event: React.SyntheticEvent, newValue: number) => void
-}
+// interface StyledTabsProps {
+//   children?: React.ReactNode
+//   value: number
+//   onChange: (event: React.SyntheticEvent, newValue: number) => void
+// }
 
-const StyledTabs = styled((props: StyledTabsProps) => (
-  <Tabs
-    {...props}
-    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
-  />
-))({
-  "& .MuiTabs-indicator": {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-  },
-  "& .MuiTabs-indicatorSpan": {
-    maxWidth: 40,
-    width: "100%",
-    backgroundColor: "#635ee7",
-  },
-})
+// const StyledTabs = styled((props: StyledTabsProps) => (
+//   <Tabs
+//     {...props}
+//     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+//   />
+// ))({
+//   "& .MuiTabs-indicator": {
+//     display: "flex",
+//     justifyContent: "center",
+//     backgroundColor: "transparent",
+//   },
+//   "& .MuiTabs-indicatorSpan": {
+//     maxWidth: 40,
+//     width: "100%",
+//     backgroundColor: "#635ee7",
+//   },
+// })
 
 // interface StyledTabProps {
 //   label: string
@@ -403,15 +403,15 @@ export default function Profile({ params }: { params: { name: string } }) {
     | "experience"
     | "certificationOrLicense"
 
-  const [qualificationSelection, setQualificationSelection] =
-    useState<qualificationSelectionOption>("education")
+  // const [qualificationSelection, setQualificationSelection] =
+  //   useState<qualificationSelectionOption>("education")
   const [profileData, setProfileData] = useState<any>()
   // const [cover]
   const [imageUrl, setImageUrl] = useState<string | undefined>("")
   const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>("")
   const [open, setOpen] = useState(false)
   const [openStatus, setOpenStatus] = useState(false)
-  const [allData, setAllData] = useState<data>()
+  // const [allData, setAllData] = useState<data>()
   const [load, setLoad] = useState(true)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
