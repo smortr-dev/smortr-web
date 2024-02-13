@@ -72,7 +72,7 @@ export default function RootLayout({
           <AuthContextProvider>{children}</AuthContextProvider>
         </HeaderContextProvider>
       </body>
-      <GoogleTagManager gtmId="G-MR4MYT001T" />
+      <GoogleTagManager gtmId="GTM-NP8L3ZG5" />
     </html>
   )
 }
