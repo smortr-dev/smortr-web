@@ -1,14 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { HubspotProvider } from "next-hubspot";
-import { Button } from "@/components/ui/button";
-import Header from "./Header";
+"use client"
+// import { GoogleTagManager } from "@next/third-parties/google"
+import { GoogleAnalytics } from "@next/third-parties/google"
+import { HubspotProvider } from "next-hubspot"
+import { Button } from "@/components/ui/button"
+import Header from "./Header"
 // import { Swiper } from "swiper/types";
-import Swiper from "./Swiper";
-import Script from "next/script";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Form from "./Form";
+import Swiper from "./Swiper"
+import Script from "next/script"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import Form from "./Form"
 import {
   Dialog,
   DialogContent,
@@ -16,15 +18,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog-landing";
-import { useState } from "react";
+} from "@/components/ui/dialog-landing"
+import { useState } from "react"
 
 export default function LandingPage() {
-  const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const router = useRouter()
+  const [open, setOpen] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false)
   return (
     <>
+      {/* <GoogleTagManager gtmId="" /> */}
+      <GoogleAnalytics gaId="G-2JZKN3E3KP" />
       <HubspotProvider>
         <Header setOpen={setOpen} />
         {/* <Script
@@ -93,20 +97,15 @@ export default function LandingPage() {
                 Document faster, showcase better. All in one window.
               </h1>
               <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] 2k:leading-[1.85rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
-                Say goodbye to composition and format troubles. We’re building Smortr, 
-                an AI-assisted portfolio platform for building designers to compile, showcase and share, 
-                focused on improving discoverability.
-
-
-
-
-                
-
+                Say goodbye to composition and format troubles. We’re building
+                Smortr, an AI-assisted portfolio platform for building designers
+                to compile, showcase and share, focused on improving
+                discoverability.
               </p>
               <Button
                 className="relative z-[5] 2k:mt-6 lg:mt-4 md:mt-4 mt-8 block w-[100%]  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
                 onClick={() => {
-                  setOpen((prev: boolean) => !prev);
+                  setOpen((prev: boolean) => !prev)
                 }}
               >
                 Join waitlist!
@@ -255,7 +254,7 @@ export default function LandingPage() {
             <Button
               className="relative w-[70vw] hd:w-[40vw] uhd:w-[25vw] z-[5] lg:mt-8 md:mt-4 mt-8 block  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
               onClick={() => {
-                setOpen((prev: boolean) => !prev);
+                setOpen((prev: boolean) => !prev)
               }}
             >
               Join Waitlist
@@ -264,5 +263,5 @@ export default function LandingPage() {
         </div>
       </HubspotProvider>
     </>
-  );
+  )
 }
