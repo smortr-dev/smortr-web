@@ -90,6 +90,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useHeader } from "../context/HeaderContext"
 // import Setting from "./Settings"
 import Setting from "./Settings"
+import { profileEnd } from "console"
 
 // export async function getStaticProps(params:type) {
 
@@ -1262,6 +1263,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                                 )}
                                 <div className="absolute top-0 opacity-60 transition-colors h-full w-full group-hover:bg-black"></div>
                                 <Setting
+                                  profileData={profileData}
                                   uid={project.uid}
                                   index={index}
                                   setProfileData={setProfileData}

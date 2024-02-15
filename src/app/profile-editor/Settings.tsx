@@ -10,9 +10,11 @@ export default function Setting({
   uid,
   index,
   setProfileData,
+  profileData,
 }: {
   uid: string
   index: number
+  profileData: any
   setProfileData: Dispatch<any>
 }) {
   const { current } = UserAuth()
@@ -48,24 +50,23 @@ export default function Setting({
             // onClick={() => {
             //   router.push(`/add-project/upload/${uid}`)
             // }}
-            onClick={async () => {
-              fetch("/api/delete-project", {
+            onClick={async (e) => {
+              e.preventDefault()
+              const res = await fetch("/api/delete-project", {
                 redirect: "follow",
                 method: "POST",
                 body: JSON.stringify({ projectId: uid, caller: current }),
               })
-                .then((res) => res.json())
-                .then((data: any) => {
-                  // console.log(data, "data response")
-                  if (data?.status == "successful") {
-                    setProfileData((prev: any) => {
-                      // console.log(index)
-                      prev.projects.splice(index, 1)
-                      // console.log(prev, "new prev")
-                      return { ...prev }
-                    })
-                  }
-                })
+              const resObj = await res.json()
+              if (resObj?.status == "successful") {
+                console.log(resObj)
+                let obj = profileData
+                obj.projects.splice(index, 1)
+
+                setProfileData({ ...obj, projects: [...obj.projects] })
+              }
+              // .then((res) => res.json())
+
               // console.log(res)
             }}
           >

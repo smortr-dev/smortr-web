@@ -782,7 +782,7 @@ export default function Upload({ params }: { params: { id: string } }) {
           <div
             className={clsx(
               "inline-block mr-6 text-[#cc3057] ",
-              !preventSubmit ? "hidden" : "",
+              preventSubmit && !move ? "" : "hidden",
             )}
           >
             We will email you when your content has been processed
