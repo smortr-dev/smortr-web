@@ -407,8 +407,12 @@ export default function Profile({ params }: { params: { name: string } }) {
   //   useState<qualificationSelectionOption>("education")
   const [profileData, setProfileData] = useState<any>()
   // const [cover]
-  const [imageUrl, setImageUrl] = useState<string | undefined>("")
-  const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>("")
+  const [imageUrl, setImageUrl] = useState<string | undefined>(
+    "/user-thumbnail.png",
+  )
+  const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>(
+    "/image-thumbnail.png",
+  )
   const [open, setOpen] = useState(false)
   const [openStatus, setOpenStatus] = useState(false)
   // const [allData, setAllData] = useState<data>()
@@ -440,7 +444,7 @@ export default function Profile({ params }: { params: { name: string } }) {
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // console.log("called")
     let document: any = {}
-
+    console.log(values, "values")
     if (values.image.length > 0) {
       const name = values.image[0].name + new Date().getTime()
       const storageRef = ref(storage, `user-assets/${current}/${name}`)
@@ -515,6 +519,7 @@ export default function Profile({ params }: { params: { name: string } }) {
             setBackgroundUrl(downloadURL)
             // console.log("File available at background", downloadURL)
             form.setValue("background", [])
+
             return updateDoc(docRef, {
               background: downloadURL,
               backgroundName: `user-assets/${current}/${name}`,
@@ -587,6 +592,7 @@ export default function Profile({ params }: { params: { name: string } }) {
     })
       .then((res) => res.json())
       .then(async (data) => {
+        console.log(data)
         // console.log(data, "data")
         // console.log(data, "data")
         // if()
@@ -616,10 +622,12 @@ export default function Profile({ params }: { params: { name: string } }) {
         )
         // console.log(data.projects, "projectData")
         setProfileData(data)
-        if (!imageUrl && data.image) {
+        if (data.image) {
           setImageUrl(data.image)
+          console.log("data get image", data.image)
         }
-        if (!backgroundUrl && data.background) {
+        if (data.background) {
+          console.log("data get background", data.background)
           setBackgroundUrl(data.background)
         }
         // var c: userInfo
@@ -978,14 +986,14 @@ export default function Profile({ params }: { params: { name: string } }) {
                             setBackgroundUrl(
                               profileData && profileData.background
                                 ? profileData.background
-                                : "",
+                                : "/image-thumbnail.png",
                             )
                             form.setValue("background", [])
                           } else if (e.target?.files[0]) {
                             setBackgroundUrl(
                               URL.createObjectURL(e.target.files[0]),
                             )
-                            // console.log(e.target.files)
+                            // console.log(e.target.files, "background")
 
                             form.setValue("background", [e.target.files[0]])
                           } else {
@@ -995,7 +1003,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               setBackgroundUrl(
                                 profileData && profileData.background
                                   ? profileData.background
-                                  : "",
+                                  : "/image-thumbnail.png",
                               )
                             }
                           }
