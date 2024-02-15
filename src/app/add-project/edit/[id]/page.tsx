@@ -41,7 +41,9 @@ export default function Edit({ params }: { params: { id: string } }) {
     answer: z.record(z.optional(z.string())),
     summary: z.string().optional(),
   })
-  function assignAnswer(): { [x: string]: string | undefined } {
+  function assignAnswer(questions: string[]): {
+    [x: string]: string | undefined
+  } {
     let object: { [x: string]: string | undefined } = {}
     questions.map((question) => {
       object[question] = ""
@@ -53,17 +55,17 @@ export default function Edit({ params }: { params: { id: string } }) {
     // defaultValues: {
     //   answer: assignAnswer(),
     // },
-    // defaultValues: {
-    //   answer: assignAnswer(),
-    // },
+    defaultValues: {
+      answer: {},
+    },
   })
-  form.register
+  // form.register
 
   const { setName } = useHeader()
   const { current } = UserAuth()
 
   async function uploadContent(values: z.infer<typeof formSchema>) {
-    // console.log(values, "values")
+    console.log(values.answer, "values")
     let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
     try {
@@ -97,7 +99,7 @@ export default function Edit({ params }: { params: { id: string } }) {
         path: `users/${current!}/projects/${params.id}`,
       }),
     })
-    router.push(`/add-project/view/${params.id}`)
+    // router.push(`/add-project/view/${params.id}`)
   }
   useEffect(() => {
     if (!current) return
@@ -126,6 +128,10 @@ export default function Edit({ params }: { params: { id: string } }) {
             router.push(`/add-project/upload/${params.id}`)
             return
           }
+          // if (data?.progress == 0) {
+          //   router.push(`/add-project/upload/${params.id}`)
+          //   return
+          // }
           if (data.projectName) {
             setProjectName(docRes.data().projectName)
           }
@@ -135,10 +141,6 @@ export default function Edit({ params }: { params: { id: string } }) {
           }
           if (data.summary) {
             form.setValue("summary", data.summary)
-          }
-          if (data?.progress == 0) {
-            router.push(`/add-project/upload/${params.id}`)
-            return
           }
           // if (data.status) {
           //   if (data.status == "generated") {
