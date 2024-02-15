@@ -28,8 +28,11 @@ export async function POST(req: Request) {
       document.data()?.assets.includes(path)
     ) {
       let update = document.data()
+      console.log(path, "path")
+      console.log(update?.assets, "assets")
       const index = update?.assets?.indexOf(path)
-      if (!index || index == -1) {
+      console.log(index, "index")
+      if (index == -1) {
         throw Error("File Not Found")
       }
       update?.assets?.splice(index, 1)

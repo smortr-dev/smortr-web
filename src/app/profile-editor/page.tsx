@@ -624,10 +624,10 @@ export default function Profile({ params }: { params: { name: string } }) {
         setProfileData(data)
         if (data.image) {
           setImageUrl(data.image)
-          console.log("data get image", data.image)
+          // console.log("data get image", data.image)
         }
         if (data.background) {
-          console.log("data get background", data.background)
+          // console.log("data get backgrousnd", data.background)
           setBackgroundUrl(data.background)
         }
         // var c: userInfo

@@ -68,13 +68,12 @@ export default function UploadedSection({
       const resBody = await res.json()
       if (resBody.status == "successful") {
         setUploadedFiles((prev) => {
-          return prev?.splice(index, 1)
+          let change = prev
+          change?.splice(index, 1)
+          console.log(change)
+          return [...change]
         })
       }
-      let test = uploadedFiles
-      test.splice(index, 1)
-      console.log(test)
-      setUploadedFiles([...test])
     } catch (err) {
       console.log(err)
     }

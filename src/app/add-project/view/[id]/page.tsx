@@ -22,7 +22,7 @@ import { AuthContext } from "@/app/context/AuthContext"
 import { db, storage } from "@/lib/firebase"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 // import { error } from "console"
-import { getBlob, getDownloadURL, ref } from "firebase/storage"
+import { getBlob, getDownloadURL, getMetadata, ref } from "firebase/storage"
 import {
   Carousel,
   CarouselContent,
@@ -178,7 +178,13 @@ export default function View({ params }: { params: { id: string } }) {
               assets.map(async (asset, index) => {
                 try {
                   const storeRef = ref(storage, asset)
-                  const res = await getDownloadURL(storeRef)
+                  const meta = await getMetadata(storeRef)
+                  let res = ""
+                  if (meta.contentType?.split("/")[0] == "image") {
+                    res = await getDownloadURL(storeRef)
+                  } else if (meta.contentType?.split("/")[1] == "pdf") {
+                    res = "/pdf.png"
+                  }
                   // console.log(asset, asset.split("/").splice(-1), "asset")
                   // form.
                   save.push({
@@ -330,10 +336,12 @@ export default function View({ params }: { params: { id: string } }) {
                     <div className="px-16 flex justify-between w-full">
                       {/* <div></div> */}
                       <span className="inline-block text-[1.15rem] font-[600] py-4">
-                        {form.watch(
-                          `files.${visibleFiles[currentIndex].index}.name`,
-                          "Name",
-                        ) || "Name"}
+                        {(currentIndex < visibleFiles.length &&
+                          form.watch(
+                            `files.${visibleFiles[currentIndex].index}.name`,
+                            "Name",
+                          )) ||
+                          "Name"}
                       </span>
                       <DialogPrimitive.Close className="inline-block right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                         <X className="h-4 w-4" />
@@ -391,7 +399,7 @@ export default function View({ params }: { params: { id: string } }) {
                             className="basis-1/6 hover:cursor-pointer max-h-[20vh]"
                           >
                             <Card className="bg-transparent border-0 flex justify-center items-center">
-                              <CardContent className="flex p-0 aspect-square items-center justify-center max-h-[20vh]">
+                              <CardContent className="flex p-0 aspect-square items-center justify-center h-[20vh]">
                                 <img
                                   src={file.filePath}
                                   alt="index"
