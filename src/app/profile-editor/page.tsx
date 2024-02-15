@@ -636,6 +636,9 @@ export default function Profile({ params }: { params: { name: string } }) {
           // console.log("name", data.name)
           form.setValue("name", data.name)
         }
+        if (data.description) {
+          form.setValue("description", data.description)
+        }
         if (data.location) {
           form.setValue("location", data.location)
         }
