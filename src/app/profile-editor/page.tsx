@@ -25,6 +25,8 @@ const workPreferences = new Array<workPreferencesElements>(
   "Remote",
   "Hybrid",
 )
+import { toast, useToast } from "@/components/ui/use-toast"
+
 import { HubspotProvider } from "next-hubspot"
 import { styled } from "@mui/material/styles"
 import { Button } from "@/components/ui/button"
@@ -36,7 +38,7 @@ import Header from "./Header"
 import { useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, useFormState } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MultiLineInput } from "@/components/ui/multilineInput"
@@ -91,6 +93,8 @@ import { useHeader } from "../context/HeaderContext"
 // import Setting from "./Settings"
 import Setting from "./Settings"
 import { profileEnd } from "console"
+import { Projector } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 // export async function getStaticProps(params:type) {
 
@@ -197,158 +201,6 @@ type dataTypes =
 type data = dataTypes[]
 
 export type { bio, experience, certificationOrLicense, portfolio, education }
-// export const getStaticProps = (async () => {
-
-// const AntTabs = styled(Tabs)({
-//   borderBottom: "1px solid #e8e8e8",
-//   "& .MuiTabs-indicator": {
-//     backgroundColor: "transparent", //6563FF
-//   },
-// })
-
-// const AntTab = styled((props: StyledTabProps) => <Tab {...props} />)(
-//   ({ theme }) => ({
-//     textTransform: "none",
-//     minWidth: 0,
-//     [theme.breakpoints.up("sm")]: {
-//       minWidth: 0,
-//     },
-//     // padding: "0.4rem",
-//     fontWeight: theme.typography.fontWeightRegular,
-//     marginRight: theme.spacing(0),
-//     color: "rgba(0, 0, 0, 0.85)",
-//     fontFamily: [
-//       "-apple-system",
-//       "BlinkMacSystemFont",
-//       '"Segoe UI"',
-//       "Roboto",
-//       '"Helvetica Neue"',
-//       "Arial",
-//       "sans-serif",
-//       '"Apple Color Emoji"',
-//       '"Segoe UI Emoji"',
-//       '"Segoe UI Symbol"',
-//     ].join(","),
-//     "&:hover": {
-//       color: "#40a9ff",
-//       opacity: 1,
-//     },
-//     "&.Mui-selected": {
-//       color: "#6563FF",
-//       fontWeight: theme.typography.fontWeightMedium,
-//     },
-//     "&.Mui-focusVisible": {
-//       backgroundColor: "#d1eaff",
-//     },
-//   }),
-// )
-
-// interface StyledTabsProps {
-//   children?: React.ReactNode
-//   value: number
-//   onChange: (event: React.SyntheticEvent, newValue: number) => void
-// }
-
-// const StyledTabs = styled((props: StyledTabsProps) => (
-//   <Tabs
-//     {...props}
-//     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
-//   />
-// ))({
-//   "& .MuiTabs-indicator": {
-//     display: "flex",
-//     justifyContent: "center",
-//     backgroundColor: "transparent",
-//   },
-//   "& .MuiTabs-indicatorSpan": {
-//     maxWidth: 40,
-//     width: "100%",
-//     backgroundColor: "#635ee7",
-//   },
-// })
-
-// interface StyledTabProps {
-//   label: string
-// }
-
-// const StyledTab = styled((props: StyledTabProps) => (
-//   <Tab disableRipple {...props} />
-// ))(({ theme }) => ({
-//   textTransform: "none",
-//   fontWeight: theme.typography.fontWeightRegular,
-//   fontSize: theme.typography.pxToRem(15),
-//   marginRight: theme.spacing(1),
-//   color: "rgba(255, 255, 255, 0.7)",
-//   "&.Mui-selected": {
-//     color: "#fff",
-//   },
-//   "&.Mui-focusVisible": {
-//     backgroundColor: "rgba(100, 95, 228, 0.32)",
-//   },
-// }))
-
-// }) satisfies GetStaticProps<{
-//   profileData: Profile;
-// }>;
-// async function getData(name: string) {
-//   // console.log("called");
-//   const res = await fetch("/api/profile", {
-//     method: "POST",
-//     body: JSON.stringify({ name: name }),
-//   })
-//   const profileData: Profile = await res.json()
-//   // console.log(profileData, "profileData");
-//   // console.log(profileData);
-//   return profileData
-// }
-
-// function getAllData(profileData: Profile) {
-//   if (!profileData) return undefined
-//   else {
-//     let bioData: data = profileData.bio.map((bio): dataTypes => {
-//       return { type: "bio", cardData: bio }
-//     })
-//     let certificationOrLicenseData: data =
-//       profileData.certificationOrLicense.map(
-//         (certificationOrLicense): dataTypes => {
-//           return {
-//             type: "certificationOrLicense",
-//             cardData: certificationOrLicense,
-//           }
-//         },
-//       )
-
-//     let experienceData: data = profileData.experience.map(
-//       (experience): dataTypes => {
-//         return { type: "experience", cardData: experience }
-//       },
-//     )
-//     let educationData: data = profileData.education.map(
-//       (education): dataTypes => {
-//         return { type: "education", cardData: education }
-//       },
-//     )
-
-//     let portfolio: data = profileData.portfolio.map((portfolio): dataTypes => {
-//       return { type: "portfolio", cardData: portfolio }
-//     })
-
-//     let totalData: data = [
-//       ...bioData,
-//       ...experienceData,
-//       ...educationData,
-//       ...portfolio,
-//       ...certificationOrLicenseData,
-//     ]
-//     totalData = totalData.sort(() => {
-//       let num: number = Math.floor(Math.random() * 2)
-//       let arr = [-1, 1]
-//       return arr[num]
-//     })
-
-//     return totalData
-//   }
-// }
 
 const formSchema = z.object({
   name: z.string().optional(), //.min(1),
@@ -362,17 +214,6 @@ const formSchema = z.object({
   workPreference: z.string().array(),
   image: z.any(),
 })
-
-// type profileEditorForm = {
-//   name?:string;
-//   profession?:string;
-//   pronouns?:string;
-//   description?:string;
-//   status?:string;
-//   background?:string;
-//   language?:string[];
-//   workPreference?:string[];
-// }
 
 export default function Profile({ params }: { params: { name: string } }) {
   const router = useRouter()
@@ -407,6 +248,7 @@ export default function Profile({ params }: { params: { name: string } }) {
   // const [qualificationSelection, setQualificationSelection] =
   //   useState<qualificationSelectionOption>("education")
   const [profileData, setProfileData] = useState<any>()
+  const [visibleProjects, setVisibleProjects] = useState<any>([])
   // const [cover]
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     "/user-thumbnail.png",
@@ -425,6 +267,7 @@ export default function Profile({ params }: { params: { name: string } }) {
       workPreference: [],
     },
   })
+  const formState = useFormState(form)
 
   // function updateForm() {
   //   if (profileData) {
@@ -444,140 +287,180 @@ export default function Profile({ params }: { params: { name: string } }) {
   // }
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // console.log("called")
-    let document: any = {}
-    console.log(values, "values")
-    if (values.image.length > 0) {
-      const name = values.image[0].name + new Date().getTime()
-      const storageRef = ref(storage, `user-assets/${current}/${name}`)
-      const uploadTask = uploadBytesResumable(storageRef, values.image[0])
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          // console.log("Upload is " + progress + "% done")
-          switch (snapshot.state) {
-            case "paused":
-              // console.log("Upload is paused")
-              break
-            case "running":
-              // console.log("Upload is running")
-              break
-          }
-        },
-        (error) => {
-          // Handle unsuccessful uploads
-        },
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            const docRef = doc(db, "users", current!)
-            setImageUrl(downloadURL)
-            // console.log("File available at", downloadURL)
-            form.setValue("image", [])
-            return updateDoc(docRef, {
-              image: downloadURL,
-              imageName: `user-assets/${current}/${name}`,
+    try {
+      let document: any = {}
+      console.log(values, "values")
+      if (values.image.length > 0) {
+        const name = values.image[0].name + new Date().getTime()
+        const storageRef = ref(storage, `user-assets/${current}/${name}`)
+        const uploadTask = uploadBytesResumable(storageRef, values.image[0])
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            // console.log("Upload is " + progress + "% done")
+            switch (snapshot.state) {
+              case "paused":
+                // console.log("Upload is paused")
+                break
+              case "running":
+                // console.log("Upload is running")
+                break
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+          },
+          () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              const docRef = doc(db, "users", current!)
+              setImageUrl(downloadURL)
+              // console.log("File available at", downloadURL)
+              form.setValue("image", [])
+              return updateDoc(docRef, {
+                image: downloadURL,
+                imageName: `user-assets/${current}/${name}`,
+              })
             })
-          })
-        },
-      )
-    }
-    // console.log("background file", values.background)
+          },
+        )
+      }
+      // console.log("background file", values.background)
 
-    if (values.background.length > 0) {
-      const name = new Date().getTime().toString()
-      const storageRef = ref(storage, `user-assets/${current}/${name}`)
-      const uploadTask = uploadBytesResumable(storageRef, values.background[0])
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          // console.log("Upload is " + progress + "% done")
-          switch (snapshot.state) {
-            case "paused":
-              // console.log("Upload is paused")
-              break
-            case "running":
-              // console.log("Upload is running")
-              break
-          }
-        },
-        (error) => {
-          // Handle unsuccessful uploads
-        },
-        async () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            const docRef = doc(db, "users", current!)
-            setBackgroundUrl(downloadURL)
-            // console.log("File available at background", downloadURL)
-            form.setValue("background", [])
+      if (values.background.length > 0) {
+        const name = new Date().getTime().toString()
+        const storageRef = ref(storage, `user-assets/${current}/${name}`)
+        const uploadTask = uploadBytesResumable(
+          storageRef,
+          values.background[0],
+        )
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            // console.log("Upload is " + progress + "% done")
+            switch (snapshot.state) {
+              case "paused":
+                // console.log("Upload is paused")
+                break
+              case "running":
+                // console.log("Upload is running")
+                break
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+          },
+          async () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              const docRef = doc(db, "users", current!)
+              setBackgroundUrl(downloadURL)
+              // console.log("File available at background", downloadURL)
+              form.setValue("background", [])
 
-            return updateDoc(docRef, {
-              background: downloadURL,
-              backgroundName: `user-assets/${current}/${name}`,
+              return updateDoc(docRef, {
+                background: downloadURL,
+                backgroundName: `user-assets/${current}/${name}`,
+              })
             })
-          })
-        },
-      )
-    }
+          },
+        )
+      }
 
-    if (values.name) {
-      setName(values.name)
-      document.name = values.name
-    }
-    if (values.profession) {
-      document.profession = values.profession
-    }
-    if (values.location) {
-      document.location = values.location
-    }
-    if (values.pronouns) {
-      document.pronouns = values.pronouns
-    }
-    if (values.description) {
-      document.description = values.description
-    }
-    if (values.status) {
-      document.status = values.status
-    }
-    if (values.language) {
-      document.language = values.language
-    }
-    if (values.workPreference) {
-      document.workPreference = values.workPreference
-    }
-    // document.progress = 0
+      if (values.name) {
+        setName(values.name)
+        document.name = values.name
+      }
+      if (values.profession) {
+        document.profession = values.profession
+      }
+      if (values.location) {
+        document.location = values.location
+      }
+      if (values.pronouns) {
+        document.pronouns = values.pronouns
+      }
+      if (values.description) {
+        document.description = values.description
+      }
+      if (values.status) {
+        document.status = values.status
+      }
+      if (values.language) {
+        document.language = values.language
+      }
+      if (values.workPreference) {
+        document.workPreference = values.workPreference
+      }
+      // document.progress = 0
 
-    const docRef = doc(db, "users", current!)
-    await updateDoc(docRef, document)
-    const docSaved = await getDoc(docRef)
-    // console.log(docSaved.data(), "docSaved")
-    await getData()
+      const docRef = doc(db, "users", current!)
+      await updateDoc(docRef, document)
+      // const docSaved = await getDoc(docRef)
+      // console.log(docSaved.data(), "docSaved")
+      await getData()
+      console.log("toast reached")
+      toast({
+        title: "Updated Successfully",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+      })
+    } catch (err) {
+      console.log(err)
+
+      toast({
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      })
+    }
   }
   async function addProject() {
     // console.log("clicked")
-    addDoc(collection(db, "users", current!, "projects"), {
-      progress: 0,
-      timestamp: serverTimestamp(),
-      owner: current,
-      stage: "upload",
-      published: false,
-      questions: questions,
-      // status:""
-    })
-      .then((docRef) => {
-        router.push(`/add-project/upload/${docRef.id}`)
+    try {
+      await addDoc(collection(db, "users", current!, "projects"), {
+        progress: 0,
+        timestamp: serverTimestamp(),
+        owner: current,
+        stage: "upload",
+        published: false,
+        questions: questions,
+        // status:""
       })
-      .catch((error) => console.error(error))
+        .then((docRef) => {
+          return fetch("api/add-project/generate-thread", {
+            method: "POST",
+            body: JSON.stringify({ userId: current!, projectId: docRef.id }),
+          })
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            return res.json()
+          } else {
+            return Promise.reject(new Error("An error occured during API call"))
+          }
+        })
+        .then((res_body) => {
+          console.log(res_body)
+          router.push(`/add-project/edit/${res_body.projectId}`)
+        })
+        .catch((error) => console.error(error))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const { name, setName } = useHeader()
@@ -622,7 +505,10 @@ export default function Profile({ params }: { params: { name: string } }) {
           }),
         )
         // console.log(data.projects, "projectData")
+
         setProfileData(data)
+        setVisibleProjects(data.projects || [])
+
         if (data.image) {
           setImageUrl(data.image)
           // console.log("data get image", data.image)
@@ -674,7 +560,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         // console.log(error)
       })
   }
-
+  const { toast } = useToast()
   useEffect(() => {
     if (!current) {
       router.push("/login")
@@ -975,9 +861,13 @@ export default function Profile({ params }: { params: { name: string } }) {
               </Dialog>
               <div className="relative min-h-[60vh] ">
                 <div className="overflow-clip md:h-[60vh] h-[30vh] bg-[#8c8c8c] relative">
-                  <Header />
+                  <Header
+                    profileData={profileData}
+                    visibleProjects={visibleProjects}
+                    setVisibleProjects={setVisibleProjects}
+                  />
 
-                  <div className="inline-block px-4 py-2 text-white font-[500] text-[0.875rem] bg-[#484747] border-2 border-white hover:border-2 hover:border-transparent absolute bottom-2 right-16 rounded-[0.38rem] transition-colors hover:bg-slate-900">
+                  <div className="inline-block px-4 py-2 text-white font-[500] text-[0.875rem] opacity-50 bg-[#484747] border-2 border-white hover:border-2 hover:border-transparent absolute bottom-2 right-16 rounded-[0.38rem] transition-colors hover:bg-slate-900">
                     {profileData.background ? "Edit " : "Add "}Cover Image
                     <label className=" h-full w-full block absolute top-0 left-0 cursor-pointer">
                       <input
@@ -1243,51 +1133,49 @@ export default function Profile({ params }: { params: { name: string } }) {
                           </p>
                         </div>
                       </div>
-                      {profileData?.projects.map(
-                        (project: any, index: number) => {
-                          return (
-                            // <>
-                            <div className="px-4" key={index}>
-                              <div className="relative group max-h-[50vh] min-h-[30vh] w-full  overflow-clip transition-all ease-in-out  rounded-[1.13rem] bg-gray-300 ">
-                                {/* <img
+                      {visibleProjects.map((project: any, index: number) => {
+                        return (
+                          // <>
+                          <div className="px-4" key={index}>
+                            <div className="relative group max-h-[50vh] min-h-[30vh] w-full  overflow-clip transition-all ease-in-out  rounded-[1.13rem] bg-gray-300 ">
+                              {/* <img
                                   src="/plus.png"
                                   className="h-8 w-8"
                                   alt="plus"
                                 /> */}
-                                {project.coverLink && (
-                                  <img
-                                    alt=""
-                                    src={`${project.coverLink}`}
-                                    className={` object-cover w-full max-h-[50vh] aspect-${project.aspectRatio}}`}
-                                  />
-                                )}
-                                <div className="absolute top-0 opacity-60 transition-colors h-full w-full group-hover:bg-black"></div>
-                                <Setting
-                                  profileData={profileData}
-                                  uid={project.uid}
-                                  index={index}
-                                  setProfileData={setProfileData}
+                              {project.coverLink && (
+                                <img
+                                  alt=""
+                                  src={`${project.coverLink}`}
+                                  className={` object-cover w-full max-h-[50vh] aspect-${project.aspectRatio}}`}
                                 />
-                              </div>
-                              {(project.projectName || project.description) && (
-                                <div className="mt-2 ">
-                                  {project.projectName && (
-                                    <h3 className="font-[500] text-[1.5rem] tracking-tight">
-                                      {project.projectName}
-                                    </h3>
-                                  )}
-                                  {project.description && (
-                                    <p className="text-[#848484] text-[0.875rem] font-[500]">
-                                      {project.description.substring(0, 20)}
-                                    </p>
-                                  )}
-                                </div>
                               )}
+                              <div className="absolute top-0 opacity-60 transition-colors h-full w-full group-hover:bg-black"></div>
+                              <Setting
+                                profileData={profileData}
+                                uid={project.uid}
+                                index={index}
+                                setProfileData={setProfileData}
+                              />
                             </div>
-                            // </>
-                          )
-                        },
-                      )}
+                            {(project.projectName || project.description) && (
+                              <div className="mt-2 ">
+                                {project.projectName && (
+                                  <h3 className="font-[500] text-[1.5rem] tracking-tight">
+                                    {project.projectName}
+                                  </h3>
+                                )}
+                                {project.description && (
+                                  <p className="text-[#848484] text-[0.875rem] font-[500]">
+                                    {project.description.substring(0, 20)}
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                          // </>
+                        )
+                      })}
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>
@@ -1295,7 +1183,11 @@ export default function Profile({ params }: { params: { name: string } }) {
                 {/* <div className="h-[4rem]"></div> */}
               </div>
             </div>
-            <Button type="submit" className="fixed bottom-2 right-8">
+            <Button
+              type="submit"
+              disabled={formState.isSubmitting}
+              className="fixed bottom-2 right-8"
+            >
               Update Details
             </Button>
           </form>

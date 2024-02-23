@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app"
 import { getAnalytics } from "firebase/analytics"
 import { getAuth } from "firebase/auth"
 import { getFirestore, initializeFirestore } from "firebase/firestore"
-
+require("dotenv").config()
 import { GoogleAuthProvider } from "firebase/auth"
 import { getStorage } from "firebase/storage"
 // TODO: Add SDKs for Firebase products that you want to use
@@ -21,7 +21,9 @@ import { getStorage } from "firebase/storage"
 //   appId: "1:44243960474:web:72e3e077037b9f1b5bd523",
 //   measurementId: "G-HZPQ92611Y",
 // }
+// const firebase_api_key = process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.toString()
 
+// console.log(firebase_api_key)
 const firebaseConfig = {
   apiKey: "AIzaSyC7WqRz-qH4RLmpGz1PRXta0kxKw6cgfRI",
   authDomain: "smortr-sign-up.firebaseapp.com",

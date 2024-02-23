@@ -1,9 +1,19 @@
 "use client"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import Section from "../../Section"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { MultiLineInputProject } from "@/components/ui/multilineInput"
 import {
   Form,
@@ -39,7 +49,22 @@ import { SelectLabel } from "@radix-ui/react-select"
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher"
 import UploadedSection from "../../UploadedSection"
 // import { formatRFC3339 } from "date-fns"
-const design_sector: string[] = [
+
+import { MultiSelect, Option } from "react-multi-select-component"
+function convertToOptions(props: string[] | undefined): Option[] {
+  if (!props) return []
+  let temp: Option[] = props.map((item): Option => {
+    return { label: item, value: item }
+  })
+  return temp
+}
+function optionCreator(array: string[]) {
+  return array.map((item) => {
+    let returnValue: Option = { label: item, value: item }
+    return returnValue
+  })
+}
+const design_sector: Option[] = optionCreator([
   "Architecture",
   "Interior Design",
   "Urban Design",
@@ -50,7 +75,7 @@ const design_sector: string[] = [
   "Visualization",
   "Concept Design",
   "Art",
-]
+])
 // const typology: string[] = []
 const typology: { label: string; options?: string[] }[] = [
   {
@@ -255,7 +280,11 @@ const typology: { label: string; options?: string[] }[] = [
     options: ["Renovation", "Extension", "Adaptive reuse", "Restoration"],
   },
 ]
-const scope_role: string[] = [
+function convertToValues(props: Option[]): string[] {
+  let temp: string[] = props.map((item): string => item.value)
+  return temp
+}
+const scope_role: Option[] = optionCreator([
   "Architectural Designer",
   "Designer",
   "Intern",
@@ -271,11 +300,13 @@ const scope_role: string[] = [
   "Furniture Designer",
   "Data Analysis",
   "Instructor",
-]
+])
 const project_type: string[] = ["Hypothetical", "Real-life"]
 export default function Upload({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [load, setLoad] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [deleteStatus, setDeleteStatus] = useState(false)
   const [uploadedFiles, setUploadedFiles] = useState<
     {
       contentType?: string
@@ -293,14 +324,15 @@ export default function Upload({ params }: { params: { id: string } }) {
     projectName: z.string().min(1),
     description: z.string().optional(),
     files: z.any().array(),
-    design_sector: z.string().optional(),
+    design_sector: z.string().array().optional(),
     typology: z.string().optional(),
-    scope_role: z.string().optional(),
+    scope_role: z.string().array().optional(),
     project_type: z.string().optional(),
     // privacy: privacy,
   })
   // form.register
   // const form
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -424,6 +456,7 @@ export default function Upload({ params }: { params: { id: string } }) {
         values.files.forEach(async (file: File) => {
           const name =
             file.name.split(".").slice(0, -1).join() +
+            "-" +
             new Date().getTime() +
             "." +
             file.name.split(".").slice(-1).join()
@@ -612,7 +645,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                           placeholder={`Description
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                          maxLength={200}
+                          maxLength={600}
                           rows={6}
                           {...field}
                           className={` ${
@@ -634,7 +667,7 @@ export default function Upload({ params }: { params: { id: string } }) {
         </div>
 
         <div className="my-4 grid grid-cols-4 gap-x-2">
-          <FormField
+          {/* <FormField
             control={form.control}
             name={`design_sector`}
             render={({ field, fieldState }) => {
@@ -663,7 +696,28 @@ export default function Upload({ params }: { params: { id: string } }) {
                 </>
               )
             }}
+          /> */}
+          <Controller
+            control={form.control}
+            name="design_sector"
+            render={({ field, fieldState }) => {
+              return (
+                <MultiSelect
+                  className="text-black design-sector-view"
+                  overrideStrings={{ selectSomeItems: "Design Sector" }}
+                  labelledBy="Design Sector"
+                  options={design_sector}
+                  // value={field.value ? field.value : []}
+                  value={convertToOptions(field.value)}
+                  // control={form.control}
+                  onChange={(props: Option[]) => {
+                    return field.onChange(convertToValues(props))
+                  }}
+                />
+              )
+            }}
           />
+
           <FormField
             control={form.control}
             name={`typology`}
@@ -699,7 +753,7 @@ export default function Upload({ params }: { params: { id: string } }) {
               )
             }}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name={`scope_role`}
             render={({ field, fieldState }) => {
@@ -726,6 +780,26 @@ export default function Upload({ params }: { params: { id: string } }) {
                     </FormControl>
                   </FormItem>
                 </>
+              )
+            }}
+          /> */}
+          <Controller
+            control={form.control}
+            name="scope_role"
+            render={({ field, fieldState }) => {
+              return (
+                <MultiSelect
+                  className="scope-role-view text-black scop-role-view"
+                  overrideStrings={{ selectSomeItems: "Scope Role" }}
+                  labelledBy="Scope Role"
+                  options={scope_role}
+                  // value={field.value ? field.value : []}
+                  value={convertToOptions(field.value)}
+                  // control={form.control}
+                  onChange={(props: Option[]) => {
+                    return field.onChange(convertToValues(props))
+                  }}
+                />
               )
             }}
           />
@@ -787,12 +861,61 @@ export default function Upload({ params }: { params: { id: string } }) {
           >
             We will email you when your content has been processed
           </div>
+          <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+            <AlertDialogTrigger asChild>
+              {/* <Button variant="outline">Show Dialog</Button> */}
+              <Button className="py-2 rounded-[0.38rem] text-red-500  hover:text-white hover:bg-red-500 transition-colors px-8 border border-red-500 bg-white cursor-pointer">
+                Delete
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete? Your content will be lost
+                  forever.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button
+                  disabled={deleteStatus}
+                  className="bg-black text-white hover:bg-gray-900"
+                  onClick={async () => {
+                    try {
+                      setDeleteStatus(true)
+                      const res = await fetch(
+                        "/api/add-project/delete-project",
+                        {
+                          method: "POST",
+                          body: JSON.stringify({
+                            projectId: params.id,
+                            caller: current!,
+                          }),
+                        },
+                      )
+                      setDeleteStatus(false)
+                      const res_body = await res.json()
+                      // console.log(res_body)
+                      setDeleteOpen(false)
+                      router.push("/profile-editor")
+                    } catch {
+                      setDeleteStatus(false)
+                    }
+                  }}
+                >
+                  Continue
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
           <Button
             // onClick={()=>}
             // disabled={ }
             disabled={!load || (preventSubmit && !move)}
             type="submit"
-            className="py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
+            className="ml-2 py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
           >
             Next
           </Button>

@@ -330,7 +330,10 @@ export default function View({ params }: { params: { id: string } }) {
                   </Button>
                 </div>
               </div>
-              <Dialog open={open} onOpenChange={setOpen}>
+              <Dialog
+                open={open && visibleFiles.length > 0}
+                onOpenChange={setOpen}
+              >
                 <DialogContentAddProjectView className="bg-[#FFFFFFE5]">
                   <div className="h-[100vh] relative justify-center items-center flex flex-col">
                     <div className="px-16 flex justify-between w-full">
@@ -415,247 +418,246 @@ export default function View({ params }: { params: { id: string } }) {
                     </Carousel>
                   </div>
                   <div className="py-10 px-6  h-[100vh] w-full bg-[#BCBCBC] overflow-y-auto">
-                    {files.map((file, index) => {
-                      return (
-                        // <>
-                        <div
-                          key={index}
-                          className={clsx(
-                            index == visibleFiles[currentIndex].index
-                              ? ""
-                              : "hidden",
-                          )}
-                        >
-                          <div className="flex justify-between">
-                            <h3 className="inline-block text-[1.25rem] font-[500] ml-2">
-                              Details
-                            </h3>
-                            <Toggle form={form} currentIndex={index} />
-                          </div>
-
-                          <FormField
-                            control={form.control}
-                            name={`files.${index}.name`}
-                            render={({ field, fieldState }) => {
-                              return (
-                                <>
-                                  <FormItem className="mt-4">
-                                    <FormLabel className="text-[0.875rem] ml-2 font-[500] text-black">
-                                      Name
-                                    </FormLabel>
-
-                                    <FormControl>
-                                      <InputProject
-                                        placeholder="File Name"
-                                        {...field}
-                                        className={` w-[100%]  ${
-                                          fieldState.error
-                                            ? "border-[#CC3057]"
-                                            : " border-[#848484]"
-                                        }`}
-                                        required
-                                      />
-                                    </FormControl>
-                                    <FormMessage className="text-xs text-[#CC3057]" />
-                                  </FormItem>
-                                </>
-                              )
-                            }}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name={`files.${index}.description`}
-                            render={({ field, fieldState }) => {
-                              return (
-                                <>
-                                  <FormItem className="text-left mt-4 w-[100%]">
-                                    <FormLabel className="ml-2">
-                                      Description
-                                    </FormLabel>
-                                    <FormControl>
-                                      <MultiLineInputProject
-                                        placeholder={`Description
-
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                        maxLength={200}
-                                        rows={9}
-                                        {...field}
-                                        className={` ${
-                                          fieldState.error
-                                            ? "border-[#CC3057]"
-                                            : "  border-[#848484]"
-                                        }`}
-                                        required
-                                      />
-                                      {/* <span>{}</span> */}
-                                    </FormControl>
-                                    <FormMessage className="text-xs text-[#CC3057]" />
-                                  </FormItem>
-                                </>
-                              )
-                            }}
-                          />
-                          <FormField
-                            control={form.control}
-                            name={`files.${index}.content_type`}
-                            render={({ field, fieldState }) => (
-                              <FormItem className="mt-4 w-full">
-                                <FormLabel>Content Type</FormLabel>
-                                {/* <FormLabel>Profession</FormLabel> */}
-                                <Select
-                                  onValueChange={field.onChange}
-                                  defaultValue={field.value}
-                                >
-                                  {/* defaultValue={field.value} */}
-                                  <FormControl>
-                                    <SelectTrigger
-                                      className={`prompt bg-white rounded-[0.88rem] w-full border-2  view ${
-                                        fieldState.error
-                                          ? "border-[#CC3057]"
-                                          : "  border-transparent"
-                                      }`}
-                                    >
-                                      <SelectValue
-                                        placeholder="Select your category"
-                                        className="text-[#848484] text-[0.875rem] font-[400]"
-                                      />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <FormMessage className="text-xs text-[#CC3057]" />
-                                  <SelectContent className="hover:opacity-1 bg-white">
-                                    <SelectItem
-                                      value="render"
-                                      className="bg-white text-[0.875rem] font-[500] hover:cursor-pointer hover:bg-gray-100"
-                                    >
-                                      Render
-                                    </SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </FormItem>
+                    {visibleFiles.length > currentIndex &&
+                      visibleFiles.map((file, index) => {
+                        return (
+                          // <>
+                          <div
+                            key={index}
+                            className={clsx(
+                              index == currentIndex ? "" : "hidden",
                             )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name={`files.${index}.share`}
-                            render={({ field, fieldState }) => {
-                              return (
-                                <>
-                                  <FormItem className="text-left mt-4 w-[100%]">
-                                    <div className="flex justify-between items-center">
-                                      <FormLabel className="ml-2 inline-block">
-                                        Share it with
+                          >
+                            <div className="flex justify-between">
+                              <h3 className="inline-block text-[1.25rem] font-[500] ml-2">
+                                Details
+                              </h3>
+                              <Toggle form={form} currentIndex={file.index} />
+                            </div>
+
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.name`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="mt-4">
+                                      <FormLabel className="text-[0.875rem] ml-2 font-[500] text-black">
+                                        Name
                                       </FormLabel>
 
-                                      <div className="flex items-center">
-                                        {trigger && (
-                                          <span className="text-[0.75rem] font-[500] text-[#818181]">
-                                            Copied To Clipboard!
-                                          </span>
-                                        )}
-                                        <img
-                                          src="/share.svg"
-                                          onClick={() => {
-                                            // console.log(trigger)
-                                            setTrigger(true)
-                                            navigator.clipboard.writeText(
-                                              form.getValues(
-                                                `files.${index}.share`,
-                                              ) || "",
-                                            )
-                                            // setVisible(true)
-                                          }}
-                                          alt="share"
-                                          className="ml-2 cursor-pointer h-4 w-4 mr-2"
+                                      <FormControl>
+                                        <InputProject
+                                          placeholder="File Name"
+                                          {...field}
+                                          className={` w-[100%]  ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : " border-[#848484]"
+                                          }`}
+                                          required
                                         />
-                                      </div>
-                                    </div>
-                                    <FormControl>
-                                      <MultiLineInputProject
-                                        placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                        maxLength={200}
-                                        rows={4}
-                                        {...field}
-                                        className={` ${
-                                          fieldState.error
-                                            ? "border-[#CC3057]"
-                                            : "  border-[#848484]"
-                                        }`}
-                                        required
-                                      />
-                                      {/* <span>{}</span> */}
-                                    </FormControl>
-                                    <FormMessage className="text-xs text-[#CC3057]" />
-                                  </FormItem>
-                                </>
-                              )
-                            }}
-                          />
-                          <FormField
-                            control={form.control}
-                            name={`files.${index}.phase`}
-                            render={({ field, fieldState }) => {
-                              return (
-                                <>
-                                  <FormItem className="mt-4">
-                                    <FormLabel className="text-[0.875rem] ml-2 font-[500] text-black">
-                                      Phase
-                                    </FormLabel>
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
+                            />
 
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.description`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="text-left mt-4 w-[100%]">
+                                      <FormLabel className="ml-2">
+                                        Description
+                                      </FormLabel>
+                                      <FormControl>
+                                        <MultiLineInputProject
+                                          placeholder={`Description
+
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
+                                          maxLength={200}
+                                          rows={9}
+                                          {...field}
+                                          className={` ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : "  border-[#848484]"
+                                          }`}
+                                          required
+                                        />
+                                        {/* <span>{}</span> */}
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.content_type`}
+                              render={({ field, fieldState }) => (
+                                <FormItem className="mt-4 w-full">
+                                  <FormLabel>Content Type</FormLabel>
+                                  {/* <FormLabel>Profession</FormLabel> */}
+                                  <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                  >
+                                    {/* defaultValue={field.value} */}
                                     <FormControl>
-                                      <InputProject
-                                        placeholder="Phase"
-                                        {...field}
-                                        className={` w-[100%]  ${
+                                      <SelectTrigger
+                                        className={`prompt bg-white rounded-[0.88rem] w-full border-2  view ${
                                           fieldState.error
                                             ? "border-[#CC3057]"
-                                            : " border-[#848484]"
+                                            : "  border-transparent"
                                         }`}
-                                        required
-                                      />
+                                      >
+                                        <SelectValue
+                                          placeholder="Select your category"
+                                          className="text-[#848484] text-[0.875rem] font-[400]"
+                                        />
+                                      </SelectTrigger>
                                     </FormControl>
                                     <FormMessage className="text-xs text-[#CC3057]" />
-                                  </FormItem>
-                                </>
-                              )
-                            }}
-                          />
-                          <Skills form={form} index={index} />
-                          <FormField
-                            control={form.control}
-                            name={`files.${index}.notes`}
-                            render={({ field, fieldState }) => {
-                              return (
-                                <>
-                                  <FormItem className="text-left mt-4 w-[100%]">
-                                    <FormLabel className="ml-2">
-                                      Notes
-                                    </FormLabel>
-                                    <FormControl>
-                                      <MultiLineInputProject
-                                        placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                        maxLength={200}
-                                        rows={10}
-                                        {...field}
-                                        className={` ${
-                                          fieldState.error
-                                            ? "border-[#CC3057]"
-                                            : "  border-[#848484]"
-                                        }`}
-                                        required
-                                      />
-                                      {/* <span>{}</span> */}
-                                    </FormControl>
-                                    <FormMessage className="text-xs text-[#CC3057]" />
-                                  </FormItem>
-                                </>
-                              )
-                            }}
-                          />
-                        </div>
-                        // </>
-                      )
-                    })}
+                                    <SelectContent className="hover:opacity-1 bg-white">
+                                      <SelectItem
+                                        value="render"
+                                        className="bg-white text-[0.875rem] font-[500] hover:cursor-pointer hover:bg-gray-100"
+                                      >
+                                        Render
+                                      </SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.share`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="text-left mt-4 w-[100%]">
+                                      <div className="flex justify-between items-center">
+                                        <FormLabel className="ml-2 inline-block">
+                                          Share it with
+                                        </FormLabel>
+
+                                        <div className="flex items-center">
+                                          {trigger && (
+                                            <span className="text-[0.75rem] font-[500] text-[#818181]">
+                                              Copied To Clipboard!
+                                            </span>
+                                          )}
+                                          <img
+                                            src="/share.svg"
+                                            onClick={() => {
+                                              // console.log(trigger)
+                                              setTrigger(true)
+                                              navigator.clipboard.writeText(
+                                                form.getValues(
+                                                  `files.${index}.share`,
+                                                ) || "",
+                                              )
+                                              // setVisible(true)
+                                            }}
+                                            alt="share"
+                                            className="ml-2 cursor-pointer h-4 w-4 mr-2"
+                                          />
+                                        </div>
+                                      </div>
+                                      <FormControl>
+                                        <MultiLineInputProject
+                                          placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
+                                          maxLength={200}
+                                          rows={4}
+                                          {...field}
+                                          className={` ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : "  border-[#848484]"
+                                          }`}
+                                          required
+                                        />
+                                        {/* <span>{}</span> */}
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.phase`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="mt-4">
+                                      <FormLabel className="text-[0.875rem] ml-2 font-[500] text-black">
+                                        Phase
+                                      </FormLabel>
+
+                                      <FormControl>
+                                        <InputProject
+                                          placeholder="Phase"
+                                          {...field}
+                                          className={` w-[100%]  ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : " border-[#848484]"
+                                          }`}
+                                          required
+                                        />
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
+                            />
+                            <Skills form={form} index={file.index} />
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.notes`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="text-left mt-4 w-[100%]">
+                                      <FormLabel className="ml-2">
+                                        Notes
+                                      </FormLabel>
+                                      <FormControl>
+                                        <MultiLineInputProject
+                                          placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
+                                          maxLength={200}
+                                          rows={10}
+                                          {...field}
+                                          className={` ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : "  border-[#848484]"
+                                          }`}
+                                          required
+                                        />
+                                        {/* <span>{}</span> */}
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
+                            />
+                          </div>
+                          // </>
+                        )
+                      })}
 
                     {/* })} */}
                     {/* </form>
@@ -669,6 +671,7 @@ export default function View({ params }: { params: { id: string } }) {
                   Files
                 </h3>
                 <SearchBar
+                  setCurrentIndex={setCurrentIndex}
                   files={files}
                   setVisibleFiles={setVisibleFiles}
                   visibleFiles={visibleFiles}
@@ -696,9 +699,8 @@ export default function View({ params }: { params: { id: string } }) {
                             />
                           </div>
                           <p className="text-center mt-2 text-[0.625rem] font-[400] tracking-[0.00625rem] break-all">
-                            {form.watch(
-                              `files.${visibleFiles[index].index}.name`,
-                            ) || file.fileName}
+                            {form.watch(`files.${file.index}.name`) ||
+                              file.fileName}
                           </p>
                         </div>
 

@@ -12,7 +12,9 @@ export default function SearchBar({
   files,
   visibleFiles,
   setVisibleFiles,
+  setCurrentIndex,
 }: {
+  setCurrentIndex: Dispatch<SetStateAction<number>>
   files: { fileName: string; filePath: string; index: number }[]
   visibleFiles: { fileName: string; filePath: string; index: number }[]
   setVisibleFiles: Dispatch<
@@ -31,6 +33,7 @@ export default function SearchBar({
         value.push(file)
       }
     })
+    setCurrentIndex(0)
     setVisibleFiles(value)
   }
 
@@ -47,6 +50,9 @@ export default function SearchBar({
     if (!sort) value.reverse()
     setVisibleFiles([...value])
   }
+  useEffect(() => {
+    sortFiles()
+  }, [])
   useEffect(() => {
     console.log("called sort", sort)
     sortFiles()

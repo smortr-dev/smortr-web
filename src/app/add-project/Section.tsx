@@ -2,6 +2,8 @@ import { cva } from "class-variance-authority"
 import clsx from "clsx"
 import { usePathname, useRouter } from "next/navigation"
 import { useMemo } from "react"
+// import { Button } from "react-day-picker"
+import { Button } from "@/components/ui/button"
 
 const link = cva(
   [
@@ -23,7 +25,19 @@ export default function Section({ active }: { active: string }) {
   const id = useMemo(() => path.split("/").splice(-1).join(""), [path])
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center relative">
+        <div className="inline-block absolute left-0 translate-y-[-50%] top-[50%] ">
+          {/* rounded-[0.88rem] bg-gray-500 border-black */}
+          <Button
+            className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
+            onClick={(e) => {
+              e.preventDefault()
+              router.push("/project-editor")
+            }}
+          >
+            <span>Close Project Editor</span>
+          </Button>
+        </div>
         <div className="flex justify-center rounded-[0.88rem] bg-white overflow-clip drop-shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)]">
           <div
             onClick={() => {

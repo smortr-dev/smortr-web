@@ -35,12 +35,12 @@ const img = {
 export default function Previews(props: {
   form: UseFormReturn<
     {
-      files: any[]
       projectName: string
+      files: any[]
       description?: string | undefined
-      design_sector?: string | undefined
+      design_sector?: string[] | undefined
       typology?: string | undefined
-      scope_role?: string | undefined
+      scope_role?: string[] | undefined
       project_type?: string | undefined
     },
     any,

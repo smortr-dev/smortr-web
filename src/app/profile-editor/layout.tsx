@@ -19,7 +19,7 @@ import { UserAuth } from "../context/AuthContext"
 import { storage } from "@/lib/firebase"
 import { getDownloadURL, ref } from "firebase/storage"
 // import { profile } from "console";
-
+import { Toaster } from "@/components/ui/toaster"
 type Props = {
   params: { name: string }
 }
@@ -226,7 +226,10 @@ export default async function RootLayout({
 
     //   <body className={`${inter.className} bg-[#FAFAFA] fafafa`}>
 
-    <body>{children}</body>
+    <body>
+      {children}
+      <Toaster />
+    </body>
     // </html>
 
     //   {/* </body>

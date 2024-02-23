@@ -71,7 +71,7 @@ export default function Signup() {
         email: res.user.email,
         timestamp: serverTimestamp(),
       })
-      router.push("/login")
+      router.push("/profile-editor")
     } catch (error: any) {
       setError(error.message)
     }

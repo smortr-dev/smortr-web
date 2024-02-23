@@ -14,7 +14,7 @@ interface projectData {
 }
 
 export async function POST(req: Request) {
-  console.log("called")
+  // console.log("called")
   try {
     const body: { uid: string } = await req.json()
 
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         let robj: projectData = { uid: project.id }
 
         const doc = project.data()
-        if(!doc.projectName && !doc.cover) return
+        if (!doc.projectName && !doc.cover) return
         if (doc.projectName) {
           robj["projectName"] = doc.projectName
         }
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
       //   let returnobj = {}
 
       // })
-      console.log({ ...data, projects: [...projectData] })
+      // console.log({ ...data, projects: [...projectData] })
       // console.log(data)
       return NextResponse.json({ ...data, projects: [...projectData] })
     } else {
