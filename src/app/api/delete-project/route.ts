@@ -2,6 +2,7 @@ import { db, storage } from "@/lib/firebase"
 import { error } from "console"
 import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore"
 import { deleteObject, ref } from "firebase/storage"
+import { stat } from "fs"
 import { NextResponse } from "next/server"
 export async function POST(req: Request) {
   const { projectId, caller }: { projectId: string; caller: string } =
@@ -19,6 +20,10 @@ export async function POST(req: Request) {
               await deleteObject(assetRef)
             } catch (err) {
               console.log("asset", err, "number", index)
+              NextResponse.json(
+                { status: "Button Not Working!" },
+                { status: 500 },
+              )
               return
             }
           }),
@@ -32,7 +37,7 @@ export async function POST(req: Request) {
     // console.log(new URL("../profile-editor", req.url).href)
     return NextResponse.json({ status: "successful" })
   } catch (err) {
-    return NextResponse.json({ status: "failed", error: err })
+    return NextResponse.json({ status: "failed", error: err }, { status: 500 })
 
     console.log(err)
   }

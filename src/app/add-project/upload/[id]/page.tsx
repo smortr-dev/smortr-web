@@ -52,11 +52,15 @@ import UploadedSection from "../../UploadedSection"
 
 import { MultiSelect, Option } from "react-multi-select-component"
 function convertToOptions(props: string[] | undefined): Option[] {
+  // console.log(props, "props")
   if (!props) return []
-  let temp: Option[] = props.map((item): Option => {
-    return { label: item, value: item }
-  })
-  return temp
+  else {
+    let temp: Option[] = props.map((item): Option => {
+      return { label: item, value: item }
+    })
+    return temp
+  }
+  return []
 }
 function optionCreator(array: string[]) {
   return array.map((item) => {
@@ -361,11 +365,14 @@ export default function Upload({ params }: { params: { id: string } }) {
           form.setValue("description", preData.description)
         }
         if (preData?.scope_role) {
-          form.setValue("scope_role", preData.scope_role)
+          if (typeof preData?.scope_role == "string") {
+            form.setValue("scope_role", [preData.scope_role])
+          } else form.setValue("scope_role", preData.scope_role)
         }
         if (preData?.design_sector) {
-          form.setValue("design_sector", preData.design_sector)
-          // console.log(form.getValues("design_sector"))
+          if (typeof preData?.design_sector == "string") {
+            form.setValue("design_sector", [preData.design_sector])
+          } else form.setValue("design_sector", preData.design_sector)
         }
         if (preData?.project_type) {
           form.setValue("project_type", preData.project_type)
@@ -896,9 +903,22 @@ export default function Upload({ params }: { params: { id: string } }) {
                       )
                       setDeleteStatus(false)
                       const res_body = await res.json()
+                      if (res_body.status == 200) {
+                        setDeleteStatus(false)
+                        router.push("/profile-editor")
+                      } else {
+                        const res = await fetch(
+                          "/api/add-project/delete-project",
+                          {
+                            method: "POST",
+                            body: JSON.stringify({
+                              projectId: params.id,
+                              caller: current!,
+                            }),
+                          },
+                        )
+                      }
                       // console.log(res_body)
-                      setDeleteOpen(false)
-                      router.push("/profile-editor")
                     } catch {
                       setDeleteStatus(false)
                     }
