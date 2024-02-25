@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const docRef = doc(db, "users", user, "projects", uid)
     const document = await getDoc(docRef)
     if (document.exists()) {
-      console.log("document api question", document.data())
+      // console.log("document api question", document.data())
       return NextResponse.json({ questions: document.data().questions || [] })
     } else {
       throw Error("Document Doesn't Exist")

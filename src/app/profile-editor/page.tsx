@@ -438,6 +438,10 @@ export default function Profile({ params }: { params: { name: string } }) {
         stage: "upload",
         published: false,
         questions: questions,
+        Context: "",
+        Conflict: "",
+        Resolution: "",
+        Reaction: "",
         // status:""
       })
         .then((docRef) => {

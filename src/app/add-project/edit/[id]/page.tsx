@@ -39,7 +39,10 @@ export default function Edit({ params }: { params: { id: string } }) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const formSchema = z.object({
     answer: z.record(z.optional(z.string())),
-    summary: z.string().optional(),
+    Context: z.string().optional(),
+    Conflict: z.string().optional(),
+    Resolution: z.string().optional(),
+    Reaction: z.string().optional(),
   })
   function assignAnswer(questions: string[]): {
     [x: string]: string | undefined
@@ -66,23 +69,24 @@ export default function Edit({ params }: { params: { id: string } }) {
 
   async function uploadContent(values: z.infer<typeof formSchema>) {
     console.log(values.answer, "values")
-    let document: any = {}
+    // let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
     try {
-      if (values.answer) {
-        document.answer = values.answer
-      }
-      if (values.summary) {
-        document.summary = values.summary
-      }
+      // if (values.answer) {
+      //   document.answer = values.answer
+      // }
+      // if (values.summary) {
+      //   document.summary = values.summary
+      // }
       // document.status = "submitted"
       // setSubmitStatus(true)
-      await updateDoc(docRef, document)
+      await updateDoc(docRef, { ...values })
       // console.log("Upload Done")
     } catch (err) {
       console.log(err)
     }
   }
+
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // if (submitStatus) return
     await uploadContent(values)
@@ -101,6 +105,7 @@ export default function Edit({ params }: { params: { id: string } }) {
     })
     // router.push(`/add-project/view/${params.id}`)
   }
+
   useEffect(() => {
     if (!current) return
 
@@ -139,9 +144,21 @@ export default function Edit({ params }: { params: { id: string } }) {
             form.setValue("answer", data.answer)
             // console.log(form.getValues("answer"))
           }
-          if (data.summary) {
-            form.setValue("summary", data.summary)
+          if (data.Context) {
+            form.setValue("Context", data.Context)
           }
+          if (data.Conflict) {
+            form.setValue("Conflict", data.Conflict)
+          }
+          if (data.Resolution) {
+            form.setValue("Resolution", data.Resolution)
+          }
+          if (data.Reaction) {
+            form.setValue("Reaction", data.Reaction)
+          }
+          // if (data.summary) {
+          //   form.setValue("summary", data.summary)
+          // }
           // if (data.status) {
           //   if (data.status == "generated") {
           //     setSubmitStatus(false)
@@ -181,7 +198,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
               <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
                 <div className="flex justify-between items-center text-[0.875rem] font-[400] text-[##060606]">
-                  <div className="inline-block select-none">
+                  <div className="inline-block select-none text-[1rem] font-[600]">
                     {/* What was the initial inspiration behind the Thamizh Futurism
                   movement and this gallery show? */}
                     {questions[currentQuestion]}
@@ -269,7 +286,7 @@ export default function Edit({ params }: { params: { id: string } }) {
         <form> */}
             <div className="px-8 pt-6 pb-4 bg-white rounded-[0.88rem]">
               <div className="flex justify-between items-center">
-                <span className="inline-block px-3 font-[400] text-[0.875rem] text-[#060606]">
+                <span className="inline-block font-[600] text-[1rem] text-[#060606]">
                   Summary of narrative
                 </span>
                 <div className="flex items-center font-[500] text-[0.875rem]">
@@ -289,16 +306,129 @@ export default function Edit({ params }: { params: { id: string } }) {
               </div>
               <FormField
                 control={form.control}
-                name={`summary`}
+                name={`Context`}
                 render={({ field, fieldState }) => {
                   return (
                     <>
                       <FormItem className="text-left  mt-4 w-[100%]">
+                        <FormField
+                          control={form.control}
+                          name={`Context`}
+                          render={({ field, fieldState }) => {
+                            return (
+                              <>
+                                <FormItem className="text-left  mt-4 w-[100%]">
+                                  <FormLabel className="pl-4 text-[0.95rem] font-[500]">
+                                    Context
+                                  </FormLabel>
+                                  <FormControl>
+                                    <MultiLineInputProject
+                                      placeholder={`Write your answers here..`}
+                                      // maxLength={3000}
+
+                                      rows={5}
+                                      {...field}
+                                      className={` ${
+                                        fieldState.error
+                                          ? "border-[#CC3057]"
+                                          : "  border-[#848484]"
+                                      }`}
+                                      // required
+                                    />
+                                    {/* <span>{}</span> */}
+                                  </FormControl>
+                                  <FormMessage className="text-xs text-[#CC3057]" />
+                                </FormItem>
+                              </>
+                            )
+                          }}
+                        />
+                        <FormMessage className="text-xs text-[#CC3057]" />
+                      </FormItem>
+                    </>
+                  )
+                }}
+              />
+              <FormField
+                control={form.control}
+                name={`Conflict`}
+                render={({ field, fieldState }) => {
+                  return (
+                    <>
+                      <FormItem className="text-left  mt-4 w-[100%]">
+                        <FormLabel className="pl-4 text-[0.95rem] font-[500]">
+                          Conflict
+                        </FormLabel>
                         <FormControl>
                           <MultiLineInputProject
                             placeholder={`Write your answers here..`}
-                            maxLength={3000}
-                            rows={20}
+                            // maxLength={3000}
+
+                            rows={5}
+                            {...field}
+                            className={` ${
+                              fieldState.error
+                                ? "border-[#CC3057]"
+                                : "  border-[#848484]"
+                            }`}
+                            // required
+                          />
+                          {/* <span>{}</span> */}
+                        </FormControl>
+                        <FormMessage className="text-xs text-[#CC3057]" />
+                      </FormItem>
+                    </>
+                  )
+                }}
+              />
+              <FormField
+                control={form.control}
+                name={`Resolution`}
+                render={({ field, fieldState }) => {
+                  return (
+                    <>
+                      <FormItem className="text-left  mt-4 w-[100%]">
+                        <FormLabel className="pl-4 text-[0.95rem] font-[500]">
+                          Resolution
+                        </FormLabel>
+                        <FormControl>
+                          <MultiLineInputProject
+                            placeholder={`Write your answers here..`}
+                            // maxLength={3000}
+
+                            rows={5}
+                            {...field}
+                            className={` ${
+                              fieldState.error
+                                ? "border-[#CC3057]"
+                                : "  border-[#848484]"
+                            }`}
+                            // required
+                          />
+                          {/* <span>{}</span> */}
+                        </FormControl>
+                        <FormMessage className="text-xs text-[#CC3057]" />
+                      </FormItem>
+                    </>
+                  )
+                }}
+              />
+              <FormField
+                control={form.control}
+                name={`Reaction`}
+                render={({ field, fieldState }) => {
+                  return (
+                    <>
+                      <FormItem className="text-left  mt-4 w-[100%]">
+                        <FormLabel className="pl-4 text-[0.95rem] font-[500]">
+                          Reaction
+                        </FormLabel>
+                        <FormControl>
+                          <MultiLineInputProject
+                            placeholder={`Write your answers here..`}
+                            // maxLength={3000}
+
+                            rows={5}
                             {...field}
                             className={` ${
                               fieldState.error

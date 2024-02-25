@@ -7,7 +7,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   placeholder: string
   rows: number
-  maxLength: number
+  // maxLength: number
 }
 
 const MultiLineInput = React.forwardRef<HTMLTextAreaElement, InputProps>(
@@ -41,13 +41,13 @@ const MultiLineInput = React.forwardRef<HTMLTextAreaElement, InputProps>(
 MultiLineInput.displayName = "Input"
 
 const MultiLineInputProject = React.forwardRef<HTMLTextAreaElement, InputProps>(
-  ({ className, type, placeholder, rows, maxLength, ...props }, ref) => {
+  ({ className, type, placeholder, rows, ...props }, ref) => {
     const { error, formMessageId } = useFormField()
     return (
       <>
         <div className="relative rounded-[0.88rem] bg-[#EAEAEA] p-2">
           <textarea
-            maxLength={maxLength}
+            // maxLength={props.maxLength}
             // rows={3}
             rows={rows}
             // type={type}

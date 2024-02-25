@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/form"
 import { InputProject } from "@/components/ui/input"
 import Previews from "../../Dropzone"
+import { initialQuestionGenerate } from "@/app/actions/actions"
 // import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/app/context/AuthContext"
@@ -552,6 +553,16 @@ export default function Upload({ params }: { params: { id: string } }) {
     // if()
     // console.log("values", values)
     await uploadContent(values)
+    try {
+      const generate_res = initialQuestionGenerate(current!, params.id)
+      console.log(generate_res)
+    } catch (err) {
+      console.log(err)
+    }
+    // const res = await fetch("/api/add-project/initial-generate-questions", {
+    //   method: "POST",
+    //   body: JSON.stringify({ userId: current!, projectId: params.id }),
+    // })
     setPreventSubmit(true)
     await fetch("/api/send-mail", {
       method: "POST",
@@ -891,32 +902,32 @@ export default function Upload({ params }: { params: { id: string } }) {
                   onClick={async () => {
                     try {
                       setDeleteStatus(true)
-                      const res = await fetch(
-                        "/api/add-project/delete-project",
-                        {
-                          method: "POST",
-                          body: JSON.stringify({
-                            projectId: params.id,
-                            caller: current!,
-                          }),
-                        },
-                      )
+                      const res = await fetch("/api/delete-project", {
+                        method: "POST",
+                        body: JSON.stringify({
+                          projectId: params.id,
+                          caller: current!,
+                        }),
+                      })
+                      console.log(res, "delete-project")
                       setDeleteStatus(false)
                       const res_body = await res.json()
-                      if (res_body.status == 200) {
+                      console.log(res_body, "res_body")
+                      if (res.status == 200) {
+                        console.log("status")
                         setDeleteStatus(false)
                         router.push("/profile-editor")
                       } else {
-                        const res = await fetch(
-                          "/api/add-project/delete-project",
-                          {
-                            method: "POST",
-                            body: JSON.stringify({
-                              projectId: params.id,
-                              caller: current!,
-                            }),
-                          },
-                        )
+                        // const res = await fetch(
+                        //   "/api/add-project/delete-project",
+                        //   {
+                        //     method: "POST",
+                        //     body: JSON.stringify({
+                        //       projectId: params.id,
+                        //       caller: current!,
+                        //     }),
+                        //   },
+                        // )
                       }
                       // console.log(res_body)
                     } catch {
