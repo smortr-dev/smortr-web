@@ -7,7 +7,7 @@ function SpecificError() {}
 
 SpecificError.prototype = new Error()
 import { sendMessage } from "@/lib/sendMessage"
-export async function handler(req: Request) {
+export async function POST(req: Request) {
   //   console.log("called igq")
   const { userId, projectId }: { userId: string; projectId: string } =
     await req.json()
