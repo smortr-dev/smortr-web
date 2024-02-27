@@ -446,7 +446,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         // status:""
       })
         .then((docRef) => {
-          return fetch("api/add-project/generate-thread", {
+          return fetch("/api/add-project/generate-thread", {
             method: "POST",
             body: JSON.stringify({ userId: current!, projectId: docRef.id }),
           })
@@ -462,7 +462,7 @@ export default function Profile({ params }: { params: { name: string } }) {
           console.log(res_body)
           router.push(`/add-project/edit/${res_body.projectId}`)
         })
-        .catch((error) => console.error(error))
+        .catch((error) => console.error(error, "catched error"))
     } catch (err) {
       console.log(err)
     }
