@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form"
 import Section from "../../Section"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "@/components/ui/use-toast"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -554,7 +555,7 @@ export default function Upload({ params }: { params: { id: string } }) {
     // console.log("values", values)
     await uploadContent(values)
     try {
-      const generate_res = initialQuestionGenerate(current!, params.id)
+      const generate_res = await initialQuestionGenerate(current!, params.id)
       console.log(generate_res)
     } catch (err) {
       console.log(err)
@@ -564,15 +565,15 @@ export default function Upload({ params }: { params: { id: string } }) {
     //   body: JSON.stringify({ userId: current!, projectId: params.id }),
     // })
     setPreventSubmit(true)
-    await fetch("/api/send-mail", {
-      method: "POST",
-      body: JSON.stringify({
-        path: `users/${current!}/projects/${params.id}`,
-      }),
-    })
-    if (move) {
-      router.push(`/add-project/edit/${params.id}`)
-    }
+    // await fetch("/api/send-mail", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     path: `users/${current!}/projects/${params.id}`,
+    //   }),
+    // })
+    // if (move) {
+    //   router.push(`/add-project/edit/${params.id}`)
+    // }
   }
   return (
     // <>
@@ -586,9 +587,12 @@ export default function Upload({ params }: { params: { id: string } }) {
 
             <div className="flex">
               <Button
-                disabled={!load || preventSubmit}
+                disabled={!load}
                 onClick={async () => {
-                  await form.handleSubmit(uploadContent)()
+                  await form.handleSubmit(submitHandler)()
+                  // if (move) {
+                  //   router.push(`/add-project/edit/${params.id}`)
+                  // }
                 }}
                 className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
               >
@@ -945,7 +949,13 @@ export default function Upload({ params }: { params: { id: string } }) {
             // onClick={()=>}
             // disabled={ }
             disabled={!load || (preventSubmit && !move)}
-            type="submit"
+            onClick={async () => {
+              await form.handleSubmit(submitHandler)()
+              if (move) {
+                router.push(`/add-project/edit/${params.id}`)
+              }
+            }}
+            // type="submit"
             className="ml-2 py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
           >
             Next

@@ -48,12 +48,12 @@ export default function Skills({ form, index }: SkillsProps) {
             }
           }}
         />
-        <div className="flex mt-3">
+        <div className=" w-full flex mt-3 flex-wrap gap-y-2">
           {form.watch(`files.${index}.skills`, [])?.map((skill, index) => {
             return (
               <div
                 key={index}
-                className="inline-block first:ml-0 px-2 font-[300] mr-2 tracking-wide py-1 rounded-[0.38rem] bg-[#6563FF] text-white text-[0.875rem]"
+                className=" break-words max-w-full inline-block first:ml-0 px-2 font-[300] mr-2 tracking-wide py-1 rounded-[0.38rem] bg-[#6563FF] text-white text-[0.875rem]"
               >
                 {skill}
               </div>

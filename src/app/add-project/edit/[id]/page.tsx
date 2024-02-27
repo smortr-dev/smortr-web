@@ -23,6 +23,7 @@ import { db } from "@/lib/firebase"
 import { count } from "console"
 import clsx from "clsx"
 import { useHeader } from "@/app/context/HeaderContext"
+import { regenerateNarrative, sendMail } from "@/app/actions/actions"
 // const questions: string[] = [
 //   "Who was your client, and how did you engage with them?",
 //   "What was the primary purpose of this project?",
@@ -60,6 +61,10 @@ export default function Edit({ params }: { params: { id: string } }) {
     // },
     defaultValues: {
       answer: {},
+      Context: "",
+      Conflict: "",
+      Resolution: "",
+      Reaction: "",
     },
   })
   // form.register
@@ -68,7 +73,8 @@ export default function Edit({ params }: { params: { id: string } }) {
   const { current } = UserAuth()
 
   async function uploadContent(values: z.infer<typeof formSchema>) {
-    console.log(values.answer, "values")
+    // console.log(values.answer, "values")
+    // console.log("upload called")
     // let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
     try {
@@ -82,6 +88,7 @@ export default function Edit({ params }: { params: { id: string } }) {
       // setSubmitStatus(true)
       await updateDoc(docRef, { ...values })
       // console.log("Upload Done")
+      // console.log("don")
     } catch (err) {
       console.log(err)
     }
@@ -89,20 +96,28 @@ export default function Edit({ params }: { params: { id: string } }) {
 
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // if (submitStatus) return
-    await uploadContent(values)
-    // const res = await fetch("/api/profile", {
-    //     method: "POST",
-    //     body: JSON.stringify({ name: name }),
-    //   })
-    //   const profileData: Profile = await res.json()
-    //   // console.log(profileData, "profileData");
-    //   // console.log(profileData);
-    await fetch("/api/send-mail", {
-      method: "POST",
-      body: JSON.stringify({
-        path: `users/${current!}/projects/${params.id}`,
-      }),
-    })
+    // console.log("init")
+    try {
+      // console.log("initiated")
+      await uploadContent(values)
+      // console.log("called submit")
+      // const res = await fetch("/api/profile", {
+      //     method: "POST",
+      //     body: JSON.stringify({ name: name }),
+      //   })
+      //   const profileData: Profile = await res.json()
+      //   // console.log(profileData, "profileData");
+      //   // console.log(profileData);
+      // await fetch("/api/send-mail", {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     path: `users/${current!}/projects/${params.id}`,
+      //   }),
+      // })
+      // await sendMail(current!, params.id)
+    } catch (err) {
+      console.log(err)
+    }
     // router.push(`/add-project/view/${params.id}`)
   }
 
@@ -134,7 +149,6 @@ export default function Edit({ params }: { params: { id: string } }) {
             return
           }
           // if (data?.progress == 0) {
-          //   router.push(`/add-project/upload/${params.id}`)
           //   return
           // }
           if (data.projectName) {
@@ -185,12 +199,69 @@ export default function Edit({ params }: { params: { id: string } }) {
     load && (
       <>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(submitHandler)}>
+          <form
+            onSubmit={form.handleSubmit(submitHandler, (err, e) =>
+              console.log(err, e),
+            )}
+          >
             <div className="py-8">
               <div className="flex justify-between">
                 <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem] mb-6">
                   {projectName}
                 </h3>
+                <div className="flex">
+                  <Button
+                    disabled={!load}
+                    onClick={async () => {
+                      try {
+                        // console.log("clicked")
+                        // form.trigger()
+                        // console.log("form values", form.getValues())
+                        // console.log(form.formState.errors, "errors")
+                        await form.handleSubmit(submitHandler)()
+                        // // form.trigger()
+                        // if (form.formState.isValid)
+                        // await submitHandler(form.getValues())
+                      } catch (err) {
+                        console.log(err)
+                      }
+                      // if (move) {
+                      //   router.push(`/add-project/edit/${params.id}`)
+                      // }
+                    }}
+                    className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    disabled={!load}
+                    onClick={async () => {
+                      await form.handleSubmit(
+                        async (values: z.infer<typeof formSchema>) => {
+                          try {
+                            await uploadContent(values)
+                            const docRef = doc(
+                              db,
+                              "users",
+                              current!,
+                              "projects",
+                              params.id,
+                            )
+                            await updateDoc(docRef, {
+                              published: true,
+                            })
+                            router.push("/profile-editor")
+                          } catch (err) {
+                            console.error(err)
+                          }
+                        },
+                      )()
+                    }}
+                    className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+                  >
+                    Publish
+                  </Button>
+                </div>
                 {/* <div></div> */}
               </div>
 
@@ -211,7 +282,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                         // console.log(form.getValues())
                         setCurrentQuestion((prev) => currentQuestion - 1)
                       }}
-                      type="submit"
+                      // type="submit"
                       className="select-none border border-[#6563FF] bg-[#EAEAEA] px-8 text-[#6563FF] hover:bg-[#6563FF] transition-colors hover:text-white"
                     >
                       Back
@@ -223,7 +294,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                         // console.log(form.getValues())
                         setCurrentQuestion((prev) => currentQuestion + 1)
                       }}
-                      type="submit"
+                      // type="submit"
                       className="select-none border ml-2 border-[#6563FF] px-8 hover:bg-white hover:text-[#6563FF] bg-[#6563FF] transition-colors text-white"
                     >
                       Next
@@ -252,8 +323,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                                   maxLength={200}
                                   rows={6}
                                   {...field}
-                                  // defaultValue={""}
-                                  value={field.value}
+                                  value={field.value || ""}
                                   onChange={(e) => {
                                     // console.log("called")
                                     // let prev = form.getValues("answer")
@@ -280,6 +350,25 @@ export default function Edit({ params }: { params: { id: string } }) {
                     />
                   )
                 })}
+                <div className="flex my-2 justify-end">
+                  <Button
+                    className="inline-block"
+                    onClick={async (e) => {
+                      // print("submit")
+                      // console.log("submit")
+                      e.preventDefault()
+                      console.log(form.getValues(), "submite Values")
+                      try {
+                        await uploadContent(form.getValues())
+                        // console.log("submission complete")
+                      } catch (err) {
+                        console.log(err, "submit error")
+                      }
+                    }}
+                  >
+                    Submit Changes
+                  </Button>
+                </div>
               </div>
             </div>
             {/* <Form {...form2}>
@@ -297,7 +386,22 @@ export default function Edit({ params }: { params: { id: string } }) {
                 )} */}
                   <Button
                     // disabled={submitStatus}
+                    // type="submit"
                     type="submit"
+                    onClick={async (e) => {
+                      e.preventDefault()
+                      try {
+                        console.log("clicked")
+                        await form.handleSubmit(uploadContent)()
+                        const res = await regenerateNarrative(
+                          current!,
+                          params.id,
+                        )
+                        console.log("regenerate", res)
+                      } catch (err) {
+                        console.log(err, "error")
+                      }
+                    }}
                     className="border border-[#6563FF] bg-[#EAEAEA] text-[#6563FF] hover:bg-[#6563FF] transition-colors hover:text-white"
                   >
                     Regenerate
@@ -328,6 +432,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
                                       rows={5}
                                       {...field}
+                                      // defaultValue={""}
                                       className={` ${
                                         fieldState.error
                                           ? "border-[#CC3057]"
@@ -366,6 +471,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
                             rows={5}
                             {...field}
+                            // defaultValue={""}
                             className={` ${
                               fieldState.error
                                 ? "border-[#CC3057]"
@@ -398,6 +504,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
                             rows={5}
                             {...field}
+                            // defaultValue={""}
                             className={` ${
                               fieldState.error
                                 ? "border-[#CC3057]"
@@ -430,6 +537,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
                             rows={5}
                             {...field}
+                            // defaultValue={""}
                             className={` ${
                               fieldState.error
                                 ? "border-[#CC3057]"
@@ -460,9 +568,10 @@ export default function Edit({ params }: { params: { id: string } }) {
                   Back
                 </Button>
                 <Button
-                  onClick={() => {
-                    router.push(`/add-project/view/${params.id}`)
-                  }}
+                  // onClick={async () => {
+                  //   await form.handleSubmit(uploadContent)()
+                  //   router.push(`/add-project/view/${params.id}`)
+                  // }}
                   type="submit"
                   className="border ml-2 border-[#6563FF] px-8 hover:bg-white hover:text-[#6563FF] bg-[#6563FF] transition-colors text-white"
                 >

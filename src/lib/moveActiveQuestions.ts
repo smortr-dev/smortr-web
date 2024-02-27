@@ -19,7 +19,7 @@ export async function moveActiveQuestions(userId: string, projectId: string) {
         }
       })
       await updateDoc(projectRef, {
-        answered_questions: arrayUnion(arrayToAdd),
+        answered_questions: arrayUnion(...arrayToAdd),
         questions: [],
         answer: [],
       })

@@ -5,10 +5,13 @@ import { sendMessage } from "@/lib/sendMessage"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { moveActiveQuestions } from "@/lib/moveActiveQuestions"
 import { revalidatePath } from "next/cache"
+require("dotenv").config()
+import sgMail from "@sendgrid/mail"
 export async function initialQuestionGenerate(
   userId: string,
   projectId: string,
 ) {
+  console.log("called intitial generate")
   //   const { userId, projectId }: { userId: string; projectId: string } =
   //   await req.json()
   try {
@@ -17,7 +20,16 @@ export async function initialQuestionGenerate(
     const projectSnap = await getDoc(
       doc(db, "users", userId, "projects", projectId),
     )
+
     if (userSnap.exists() && projectSnap.exists()) {
+      if (projectSnap.data().progress == 1) {
+        return { status: "successful" }
+      } else {
+        await sendMail(userId, projectId)
+        await updateDoc(doc(db, "users", userId, "projects", projectId), {
+          progress: 1,
+        })
+      }
       //   console.log("inside")
       const assistant_id = userSnap.data().assistant_id
       const thread_id = projectSnap.data().thread_id
@@ -69,7 +81,7 @@ export async function initialQuestionGenerate(
         // parsed_message.Question.map((question))
       } catch (err) {
         console.log(err)
-        return { error: "Something Happened" }
+        return { error: "Something Happened", status: "failed" }
       }
 
       //   console.log(thread_out, "thread_out")
@@ -97,6 +109,7 @@ export async function initialQuestionGenerate(
   }
 }
 export async function regenerateNarrative(userId: string, projectId: string) {
+  
   try {
     const projectSnap = await getDoc(
       doc(db, "users", userId, "projects", projectId),
@@ -132,8 +145,36 @@ export async function regenerateNarrative(userId: string, projectId: string) {
           revalidatePath(`/add-project/edit/${projectId}`)
         }
       }
+      return { status: "successful" }
     }
   } catch (err) {
-    return { error: "An error occured" as string }
+    return { status: "failed", error: "An error occured" as string }
   }
+}
+export async function sendMail(userId: string, projectId: string) {
+  try {
+    const path = `users/${userId}/projects/${projectId}`
+    // const body: { path: string } = await req.json()
+
+    // const path = body.path
+    console.log(process.env.TWILIO_API_KEY)
+    const TWILIO_API_KEY = process.env.TWILIO_API_KEY || ""
+    sgMail.setApiKey(TWILIO_API_KEY)
+    const msg = {
+      to: "smortrportfolios@gmail.com",
+      from: "rookie26092003@gmail.com",
+      subject: "New User Project Regenerate",
+      text: path,
+    }
+    await sgMail.send(msg)
+    console.log("mail sent")
+    // return NextResponse.json({})
+    return
+    // console.log(name);
+    // Get the path of the json file
+  } catch (err) {
+    console.log(err)
+  }
+  // return NextResponse.json({})
+  return
 }

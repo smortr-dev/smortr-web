@@ -409,7 +409,7 @@ export default function Profile({ params }: { params: { name: string } }) {
       // const docSaved = await getDoc(docRef)
       // console.log(docSaved.data(), "docSaved")
       await getData()
-      console.log("toast reached")
+      // console.log("toast reached")
       toast({
         title: "Updated Successfully",
         className: cn(
@@ -436,6 +436,7 @@ export default function Profile({ params }: { params: { name: string } }) {
         timestamp: serverTimestamp(),
         owner: current,
         stage: "upload",
+        answer: {},
         published: false,
         questions: questions,
         Context: "",
