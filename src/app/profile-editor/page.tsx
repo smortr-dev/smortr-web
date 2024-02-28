@@ -444,25 +444,24 @@ export default function Profile({ params }: { params: { name: string } }) {
         Resolution: "",
         Reaction: "",
         // status:""
-      })
-        .then((docRef) => {
-          return fetch("/api/add-project/generate-thread", {
+      }).then(async (docRef) => {
+        try {
+          const res = await fetch("/api/add-project/generate-thread", {
             method: "POST",
             body: JSON.stringify({ userId: current!, projectId: docRef.id }),
           })
-        })
-        .then((res) => {
+          // if(res.status)
           if (res.status == 200) {
-            return res.json()
+            const res_body = await res.json()
+            console.log(res_body)
+            router.push(`/add-project/edit/${res_body.projectId}`)
           } else {
-            return Promise.reject(new Error("An error occured during API call"))
+            throw new Error("Status 500")
           }
-        })
-        .then((res_body) => {
-          console.log(res_body)
-          router.push(`/add-project/edit/${res_body.projectId}`)
-        })
-        .catch((error) => console.error(error, "catched error"))
+        } catch (err) {
+          console.log("error", err)
+        }
+      })
     } catch (err) {
       console.log(err)
     }
