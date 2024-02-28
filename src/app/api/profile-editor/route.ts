@@ -14,7 +14,7 @@ interface projectData {
 }
 
 export async function POST(req: Request) {
-  // console.log("called")
+  // console.log("called ")
   try {
     const body: { uid: string } = await req.json()
 
