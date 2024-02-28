@@ -8,10 +8,11 @@ export async function POST(req: Request) {
   const { userId, projectId }: { userId: string; projectId: string } =
     await req.json()
   const docRef = doc(db, "users", userId, "projects", projectId)
-  const user_doc = await getDoc(doc(db, "users", userId))
-  let assistant_id = undefined
   try {
+    const user_doc = await getDoc(doc(db, "users", userId))
+    let assistant_id = undefined
     if (user_doc.exists()) {
+      console.log("inside exist")
       if (user_doc.data().assistant_id) {
         assistant_id = user_doc.data().assistant_id
       } else {
@@ -27,10 +28,12 @@ export async function POST(req: Request) {
       }
       // if()
       try {
+        console.log("thread creation init")
         const thread = await openai.beta.threads.create()
         await updateDoc(docRef, {
           thread_id: thread.id,
         })
+        console.log("thread creation end")
         //   console.log("inside")
 
         return NextResponse.json(
