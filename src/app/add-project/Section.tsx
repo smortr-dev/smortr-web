@@ -32,7 +32,7 @@ export default function Section({ active }: { active: string }) {
             className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
             onClick={(e) => {
               e.preventDefault()
-              router.push("/project-editor")
+              router.push("/profile-editor")
             }}
           >
             <span>Close Project Editor</span>
