@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-
+import { deleteAsset } from "../actions/actions"
 import { Dispatch, SetStateAction, useEffect } from "react"
 import { UserAuth } from "../context/AuthContext"
 // import { error } from "console"
@@ -54,23 +54,31 @@ export default function UploadedSection({
       path: string
     },
   ) {
-    console.log(index, asset, uploadedFiles)
+    // console.log(index, asset, uploadedFiles)
     // return
     try {
-      const res = await fetch("/api/add-project/delete-asset", {
-        method: "POST",
-        body: JSON.stringify({
-          user: current,
-          project: asset.project,
-          path: asset.path,
-        }),
+      // const res = await fetch("/api/add-project/delete-asset", {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     user: current,
+      //     project: asset.project,
+      //     path: asset.path,
+      //   }),
+      // })
+      const resBody = await deleteAsset({
+        user: current!,
+        project: asset.project,
+        path: asset.path,
       })
-      const resBody = await res.json()
+      // const resBody = await res.json()
       if (resBody.status == "successful") {
         setUploadedFiles((prev) => {
+          const found = prev.find((obj) => obj.url == asset.url)
+          let foundIndex = prev.indexOf(found!)
+
           let change = prev
-          change?.splice(index, 1)
-          console.log(change)
+          change?.splice(foundIndex, 1)
+          // console.log(change)
           return [...change]
         })
       }

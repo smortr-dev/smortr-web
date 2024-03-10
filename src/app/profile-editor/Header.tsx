@@ -98,11 +98,19 @@ export default function Header({
           {/* hover:bg-gray-500 */}
           <div className="flex items-center bg-white rounded-md h-10 py-2">
             <Input
+              onKeyDown={(e) => {
+                console.log(e.code)
+                if (e.code == "Enter") {
+                  e.preventDefault()
+                }
+              }}
               id="search"
               placeholder="Search For Projects..."
               className="inline-block w-[10rem] px-2"
               value={searchParam}
               onChange={(e) => {
+                // console.log(e.target.value)
+                e.preventDefault()
                 setSearchParam(e.target.value)
                 filter(e.target.value)
               }}

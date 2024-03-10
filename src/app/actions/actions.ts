@@ -1,6 +1,6 @@
 "use server"
 
-import { db } from "@/lib/firebase"
+import { db, storage } from "@/lib/firebase"
 import { sendMessage } from "@/lib/sendMessage"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { moveActiveQuestions } from "@/lib/moveActiveQuestions"
@@ -26,9 +26,6 @@ export async function initialQuestionGenerate(
         return { status: "successful" }
       } else {
         await sendMail(userId, projectId)
-        await updateDoc(doc(db, "users", userId, "projects", projectId), {
-          progress: 1,
-        })
       }
       //   console.log("inside")
       const assistant_id = userSnap.data().assistant_id
@@ -77,6 +74,7 @@ export async function initialQuestionGenerate(
           ...parsed_message,
           Question: undefined,
           questions: parsed_message.Question,
+          progress: 1,
         })
         // parsed_message.Question.map((question))
       } catch (err) {
@@ -109,7 +107,6 @@ export async function initialQuestionGenerate(
   }
 }
 export async function regenerateNarrative(userId: string, projectId: string) {
-  
   try {
     const projectSnap = await getDoc(
       doc(db, "users", userId, "projects", projectId),
@@ -136,6 +133,7 @@ export async function regenerateNarrative(userId: string, projectId: string) {
           )
           const json_message = (thread_out.data[0].content[0] as any).text.value
           const parsed_message = await JSON.parse(json_message)
+          console.log(json_message, parsed_message)
           await moveActiveQuestions(userId, projectId)
           await updateDoc(doc(db, "users", userId, "projects", projectId), {
             ...parsed_message,
@@ -177,4 +175,65 @@ export async function sendMail(userId: string, projectId: string) {
   }
   // return NextResponse.json({})
   return
+}
+
+import { deleteObject, getMetadata, ref } from "firebase/storage"
+// import { deleteObject, getMetadata, ref } from "firebase/storage"
+// import { NextResponse } from "next/server"
+export async function deleteAsset({
+  user,
+  project,
+  path,
+  ...rest
+}: {
+  user: string
+  project: string
+  path: string
+  [key: string]: unknown
+}) {
+  try {
+    const docRef = doc(db, "users", user, "projects", project)
+    const document = await getDoc(docRef)
+    if (
+      document &&
+      document.data()?.assets &&
+      document.data()?.files &&
+      document.data()?.assets.includes(path)
+    ) {
+      let update = document.data()
+      console.log(path, "path")
+      console.log(update?.assets, "assets")
+      const index = update?.assets?.indexOf(path)
+      console.log(index, "index")
+      if (index == -1) {
+        throw Error("File Not Found")
+      }
+      update?.assets?.splice(index, 1)
+      update?.files?.splice(index, 1)
+      let cover: string | undefined = undefined
+      await Promise.all(
+        update?.assets?.map(async (asset: string, index: number) => {
+          const assetRef = ref(storage, asset)
+          const meta = await getMetadata(assetRef)
+          if (meta.contentType?.split("/")[0] == "image" && !cover) {
+            cover = asset
+          }
+        }),
+      )
+      await updateDoc(docRef, {
+        assets: update?.assets!,
+        files: update?.files!,
+        cover: cover,
+      })
+      const assetRef = ref(storage, path)
+      await deleteObject(assetRef)
+      // return NextResponse.json({ status: "successful" })
+      return { status: "successful" }
+    }
+  } catch (err) {
+    console.error(err)
+    // return NextResponse.json()
+    return { error: err, status: "error" }
+  }
+  return { status: "error" }
 }

@@ -349,191 +349,251 @@ export default function Upload({ params }: { params: { id: string } }) {
       // privacy: "private",
     },
   })
+  async function loadInitialValues() {
+    console.log("called initial values")
+    try {
+      const res = await fetch("/api/add-project/view", {
+        method: "POST",
+        body: JSON.stringify({ user: current!, uid: params.id }),
+      })
+      const preData = await res.json()
+      // console.log("preData", preData)
+      // form.setValue(preData)
+      if (preData?.projectName) {
+        form.setValue("projectName", preData.projectName)
+      }
+      if (preData?.description) {
+        form.setValue("description", preData.description)
+      }
+      if (preData?.scope_role) {
+        if (typeof preData?.scope_role == "string") {
+          form.setValue("scope_role", [preData.scope_role])
+        } else form.setValue("scope_role", preData.scope_role)
+      }
+      if (preData?.design_sector) {
+        if (typeof preData?.design_sector == "string") {
+          form.setValue("design_sector", [preData.design_sector])
+        } else form.setValue("design_sector", preData.design_sector)
+      }
+      if (preData?.project_type) {
+        form.setValue("project_type", preData.project_type)
+      }
+      if (preData?.typology) {
+        form.setValue("typology", preData.typology)
+      }
+
+      if (!preData.progress || preData?.progress == 0) {
+        // console.log("move", false)
+        setMove(false)
+      } else {
+        // console.log("move", true)
+        setMove(true)
+      }
+      // console.log(preData, "predata")
+      if (preData?.status == "submitted") {
+        // console.log("preventstatus", true)
+        setPreventSubmit(true)
+      } else {
+        // console.log("preventstatus", false)
+        setPreventSubmit(false)
+      }
+      if (preData?.assets) {
+        let uploadFileData: {
+          contentType?: string
+          url?: string
+          project: string
+          user: string
+          path: string
+        }[] = []
+        console.log(preData.assets)
+        Promise.all(
+          preData.assets.map(async (asset: string, index: number) => {
+            let assetRef = ref(storage, asset)
+            let uploadFile: {
+              contentType?: string
+              url?: string
+              project: string
+              user: string
+              path: string
+            } = {
+              path: asset,
+              user: current!,
+              project: params.id,
+            }
+            try {
+              const metaData = await getMetadata(assetRef)
+              uploadFile["contentType"] = metaData.contentType
+              if (metaData.contentType?.split("/")[0] == "image") {
+                const url = await getDownloadURL(assetRef)
+                uploadFile["url"] = url
+              }
+              // console.log(index, uploadFile)
+              uploadFileData.push(uploadFile)
+            } catch (err) {
+              console.log(err)
+            }
+          }),
+        )
+          .then(() => {
+            // console.log(uploadFileData, "uploadFileData")
+            setUploadedFiles(uploadFileData)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+
+        // setUploadedFiles(preData.assets)
+      }
+      setLoad(true)
+      // if()
+      // if(preDa)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   useEffect(() => {
     if (!current) return
-    async function loadInitialValues() {
-      try {
-        const res = await fetch("/api/add-project/view", {
-          method: "POST",
-          body: JSON.stringify({ user: current!, uid: params.id }),
-        })
-        const preData = await res.json()
-        // console.log("preData", preData)
-        // form.setValue(preData)
-        if (preData?.projectName) {
-          form.setValue("projectName", preData.projectName)
-        }
-        if (preData?.description) {
-          form.setValue("description", preData.description)
-        }
-        if (preData?.scope_role) {
-          if (typeof preData?.scope_role == "string") {
-            form.setValue("scope_role", [preData.scope_role])
-          } else form.setValue("scope_role", preData.scope_role)
-        }
-        if (preData?.design_sector) {
-          if (typeof preData?.design_sector == "string") {
-            form.setValue("design_sector", [preData.design_sector])
-          } else form.setValue("design_sector", preData.design_sector)
-        }
-        if (preData?.project_type) {
-          form.setValue("project_type", preData.project_type)
-        }
-        if (preData?.typology) {
-          form.setValue("typology", preData.typology)
-        }
 
-        if (!preData.progress || preData?.progress == 0) {
-          // console.log("move", false)
-          setMove(false)
-        } else {
-          // console.log("move", true)
-          setMove(true)
-        }
-        // console.log(preData, "predata")
-        if (preData?.status == "submitted") {
-          // console.log("preventstatus", true)
-          setPreventSubmit(true)
-        } else {
-          // console.log("preventstatus", false)
-          setPreventSubmit(false)
-        }
-        if (preData?.assets) {
-          let uploadFileData: {
-            contentType?: string
-            url?: string
-            project: string
-            user: string
-            path: string
-          }[] = []
-          Promise.all(
-            preData.assets.map(async (asset: string, index: number) => {
-              let assetRef = ref(storage, asset)
-              let uploadFile: {
-                contentType?: string
-                url?: string
-                project: string
-                user: string
-                path: string
-              } = {
-                path: asset,
-                user: current!,
-                project: params.id,
-              }
-              try {
-                const metaData = await getMetadata(assetRef)
-                uploadFile["contentType"] = metaData.contentType
-                if (metaData.contentType?.split("/")[0] == "image") {
-                  const url = await getDownloadURL(assetRef)
-                  uploadFile["url"] = url
-                }
-                console.log(index, uploadFile)
-                uploadFileData.push(uploadFile)
-              } catch (err) {
-                console.log(err)
-              }
-            }),
-          )
-            .then(() => {
-              console.log(uploadFileData, "uploadFileData")
-              setUploadedFiles(uploadFileData)
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-
-          // setUploadedFiles(preData.assets)
-        }
-        setLoad(true)
-        // if()
-        // if(preDa)
-      } catch (err) {
-        console.log(err)
-      }
-    }
     loadInitialValues()
   }, [])
   async function uploadContent(values: z.infer<typeof formSchema>) {
+    console.log("called upload")
     let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
     let foundCover = false
-
+    let files = values.files
+    form.resetField("files")
     try {
       const doc_ = await getDoc(docRef)
       if (doc_.exists() && doc_.data().cover) foundCover = true
-      if (values.files.length > 0) {
-        values.files.forEach(async (file: File) => {
-          const name =
-            file.name.split(".").slice(0, -1).join() +
-            "-" +
-            new Date().getTime() +
-            "." +
-            file.name.split(".").slice(-1).join()
-          const storageRef = ref(
-            storage,
-            `user-assets/${current}/projects/${params.id}/${name}`,
-          )
-          const uploadTask = uploadBytesResumable(storageRef, file)
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              // Observe state change events such as progress, pause, and resume
-              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-              const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              // console.log("Upload is " + progress + "% done")
-              switch (snapshot.state) {
-                case "paused":
-                  // console.log("Upload is paused")
-                  break
-                case "running":
-                  // console.log("Upload is running")
-                  break
-              }
-            },
-            (error) => {
-              // Handle unsuccessful uploads
-            },
-            async () => {
-              // Handle successful uploads on complete
-              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-              // getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              //   const docRef = doc(db, "users", current!)
-              //   setImageUrl(downloadURL)
-              //   console.log("File available at", downloadURL)
-              //   form.setValue("image", [])
-              //   return updateDoc(docRef, {
-              //     image: downloadURL,
-              //     imageName: `user-assets/${current}/${name}`,
-              //   })
-              // })
-              const docRef = doc(db, "users", current!, "projects", params.id)
+      console.log(files.length, "file length")
+      if (files.length > 0) {
+        await Promise.all(
+          files.map(async (file: File, index: number) => {
+            const name =
+              file.name.split(".").slice(0, -1).join() +
+              "-" +
+              new Date().getTime() +
+              "." +
+              file.name.split(".").slice(-1).join()
+            const storageRef = ref(
+              storage,
+              `user-assets/${current}/projects/${params.id}/${name}`,
+            )
+            const uploadTask = uploadBytesResumable(storageRef, file)
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                // Observe state change events such as progress, pause, and resume
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                const progress =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                // console.log("Upload is " + progress + "% done")
+                switch (snapshot.state) {
+                  case "paused":
+                    // console.log("Upload is paused")
+                    break
+                  case "running":
+                    // console.log("Upload is running")
+                    break
+                }
+              },
+              (error) => {
+                // Handle unsuccessful uploads
+              },
+              async () => {
+                const docRef = doc(db, "users", current!, "projects", params.id)
 
-              await updateDoc(docRef, {
-                assets: arrayUnion(
-                  `user-assets/${current}/projects/${params.id}/${name}`,
-                ),
-                files: arrayUnion({
-                  privacy: "private",
-                  name: `${name}`,
-                }),
-              })
-            },
-          )
-          if (
-            !foundCover &&
-            file.type.split("/").splice(0, 1).join("") == "image"
-          ) {
-            try {
-              await updateDoc(docRef, {
-                cover: `user-assets/${current}/projects/${params.id}/${name}`,
-              })
-            } catch (err) {
-              console.error(err)
-            }
-            foundCover = true
-          }
-        })
+                await updateDoc(docRef, {
+                  assets: arrayUnion(
+                    `user-assets/${current}/projects/${params.id}/${name}`,
+                  ),
+                  files: arrayUnion({
+                    privacy: "private",
+                    name: `${name}`,
+                  }),
+                })
+                console.log("done updating", index)
+                if (
+                  !foundCover &&
+                  file.type.split("/").splice(0, 1).join("") == "image"
+                ) {
+                  try {
+                    await updateDoc(docRef, {
+                      cover: `user-assets/${current}/projects/${params.id}/${name}`,
+                    })
+                  } catch (err) {
+                    console.error(err)
+                  }
+                  foundCover = true
+                }
+                await loadInitialValues()
+              },
+            )
+            // console.log("here agter update")
+          }),
+        )
+        // values.files.forEach(async (file: File) => {
+        //   const name =
+        //     file.name.split(".").slice(0, -1).join() +
+        //     "-" +
+        //     new Date().getTime() +
+        //     "." +
+        //     file.name.split(".").slice(-1).join()
+        //   const storageRef = ref(
+        //     storage,
+        //     `user-assets/${current}/projects/${params.id}/${name}`,
+        //   )
+        //   const uploadTask = uploadBytesResumable(storageRef, file)
+        //   uploadTask.on(
+        //     "state_changed",
+        //     (snapshot) => {
+        //       // Observe state change events such as progress, pause, and resume
+        //       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        //       const progress =
+        //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        //       // console.log("Upload is " + progress + "% done")
+        //       switch (snapshot.state) {
+        //         case "paused":
+        //           // console.log("Upload is paused")
+        //           break
+        //         case "running":
+        //           // console.log("Upload is running")
+        //           break
+        //       }
+        //     },
+        //     (error) => {
+        //       // Handle unsuccessful uploads
+        //     },
+        //     async () => {
+        //       const docRef = doc(db, "users", current!, "projects", params.id)
+
+        //       await updateDoc(docRef, {
+        //         assets: arrayUnion(
+        //           `user-assets/${current}/projects/${params.id}/${name}`,
+        //         ),
+        //         files: arrayUnion({
+        //           privacy: "private",
+        //           name: `${name}`,
+        //         }),
+        //       })
+        //       console.log("done updating")
+        //     },
+        //   )
+        //   if (
+        //     !foundCover &&
+        //     file.type.split("/").splice(0, 1).join("") == "image"
+        //   ) {
+        //     try {
+        //       await updateDoc(docRef, {
+        //         cover: `user-assets/${current}/projects/${params.id}/${name}`,
+        //       })
+        //     } catch (err) {
+        //       console.error(err)
+        //     }
+        //     foundCover = true
+        //   }
+        // })
       }
       // if (values.description) {
       //   document.description = values.description
@@ -552,11 +612,12 @@ export default function Upload({ params }: { params: { id: string } }) {
   }
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // if()
+    console.log("called submit Handler")
     // console.log("values", values)
     await uploadContent(values)
     try {
       const generate_res = await initialQuestionGenerate(current!, params.id)
-      console.log(generate_res)
+      // console.log(generate_res)
     } catch (err) {
       console.log(err)
     }
@@ -588,8 +649,10 @@ export default function Upload({ params }: { params: { id: string } }) {
             <div className="flex">
               <Button
                 disabled={!load}
-                onClick={async () => {
+                onClick={async (e) => {
+                  e.preventDefault()
                   await form.handleSubmit(submitHandler)()
+                  // await loadInitialValues()
                   // if (move) {
                   //   router.push(`/add-project/edit/${params.id}`)
                   // }
@@ -886,7 +949,7 @@ export default function Upload({ params }: { params: { id: string } }) {
           <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
             <AlertDialogTrigger asChild>
               {/* <Button variant="outline">Show Dialog</Button> */}
-              <Button className="py-2 rounded-[0.38rem] text-red-500  hover:text-white hover:bg-red-500 transition-colors px-8 border border-red-500 bg-white cursor-pointer">
+              <Button className="py-2 rounded-[0.38rem] text-white bg-red-500 hover:bg-red-200 transition-colors px-8 border hover:opacity-60 cursor-pointer">
                 Delete
               </Button>
             </AlertDialogTrigger>
@@ -949,8 +1012,10 @@ export default function Upload({ params }: { params: { id: string } }) {
             // onClick={()=>}
             // disabled={ }
             disabled={!load || (preventSubmit && !move)}
-            onClick={async () => {
+            onClick={async (e) => {
+              e.preventDefault()
               await form.handleSubmit(submitHandler)()
+              console.log("done calling handleSubmit")
               if (move) {
                 router.push(`/add-project/edit/${params.id}`)
               }

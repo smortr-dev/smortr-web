@@ -26,6 +26,7 @@ async function sendMessage(
   assistant_id: string,
   message: string,
 ) {
+  console.log("message received ", message)
   const message_gpt = await openai.beta.threads.messages.create(thread_id, {
     role: "user",
     content: message,

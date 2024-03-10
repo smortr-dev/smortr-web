@@ -95,6 +95,7 @@ import Setting from "./Settings"
 import { profileEnd } from "console"
 import { Projector } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 // export async function getStaticProps(params:type) {
 
@@ -919,7 +920,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                     />
                   ) : null}
                 </div>
-                <div className="flex justify-center md:p-4 p-4  items-center absolute bg-white md:min-h-[10%] rounded-[6px] lg:w-[30%] md:w-[50%] w-[70%] md:left-[25%] lg:left-[35%] left-[15%] lg:translate-y-[calc(-85%-7.8rem)] translate-y-[calc(-85%-6rem)] shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
+                <div className="flex justify-center md:p-4 p-4  items-center absolute bg-white md:min-h-[8rem] rounded-[6px] lg:w-[30%] md:w-[50%] w-[70%] md:left-[25%] lg:left-[35%] left-[15%] lg:translate-y-[calc(-85%-7.8rem)] translate-y-[calc(-85%-6rem)] shadow-[0_10px_50px_rgba(0,0,0,0.25)]">
                   <span
                     className="inline-block absolute top-2 p-[0.15rem] right-2 rounded-[0.5rem] bg-gray-200 hover:bg-gray-300 transition-colors cursor-pointer"
                     onClick={() => {
@@ -1117,6 +1118,19 @@ export default function Profile({ params }: { params: { name: string } }) {
                         </span>
                       </div>
                     </div>
+                    <div className="flex justify-end">
+                      <Button
+                        type="button"
+                        onClick={async (e) => {
+                          e.preventDefault()
+                          await form.handleSubmit(submitHandler)()
+                        }}
+                        disabled={formState.isSubmitting}
+                        className="bottom-2 right-8"
+                      >
+                        Update Details
+                      </Button>
+                    </div>
                   </div>
                 </div>
                 <div className="px-16 pt-16 pb-16 ">
@@ -1183,17 +1197,43 @@ export default function Profile({ params }: { params: { name: string } }) {
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>
-
-                {/* <div className="h-[4rem]"></div> */}
+                <Link
+                  target="blank"
+                  href={"https://forms.gle/Q1VXeZ6Huk5Ch7Rm7"}
+                >
+                  <Button
+                    className="fixed bottom-14 h-10 right-6 bg-red-500"
+                    type="button"
+                    // onClick={() => {
+                    //   console.log("clicked")
+                    // }}
+                  >
+                    <img
+                      className="inline-block w-5"
+                      src="alert.png"
+                      alt="alert"
+                    />
+                    <span className="inline-block ml-2">Report Issues</span>
+                  </Button>
+                </Link>
+                <Link
+                  href={"https://forms.gle/AVa3vPzdqFPtadRQA"}
+                  target="blank"
+                >
+                  <Button
+                    className="fixed bottom-2 h-10 right-6 bg-blue-700"
+                    type="button"
+                  >
+                    <img
+                      className="inline-block w-4"
+                      src="pencil.png"
+                      alt="alert"
+                    />
+                    <span className="inline-block ml-2">Give Feedback!</span>
+                  </Button>
+                </Link>
               </div>
             </div>
-            <Button
-              type="submit"
-              disabled={formState.isSubmitting}
-              className="fixed bottom-2 right-8"
-            >
-              Update Details
-            </Button>
           </form>
         </Form>
       </>
