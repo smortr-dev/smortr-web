@@ -51,6 +51,7 @@ import Toggle from "../../Toggle"
 import { FONT_MANIFEST } from "next/dist/shared/lib/constants"
 import clsx from "clsx"
 import Skills from "../../Skills"
+import PDFViewer from "./Pdf-viewer"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
   files: z
@@ -108,15 +109,25 @@ export default function View({ params }: { params: { id: string } }) {
   const [api2, setApi2] = useState<CarouselApi>()
 
   const [files, setFiles] = useState<
-    { fileName: string; filePath: string; index: number }[]
+    {
+      fileName: string
+      // filePath: string
+      preview: string
+      filePath: string
+      index: number
+      type: string
+    }[]
   >([])
   const [count, setCount] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleFiles, setVisibleFiles] = useState<
     {
       fileName: string
+      // filePath: string
+      preview: string
       filePath: string
       index: number
+      type: string
     }[]
   >([])
   const [projectName, setProjectName] = useState("New Project")
@@ -171,8 +182,14 @@ export default function View({ params }: { params: { id: string } }) {
           // console.log(assets, "assets")
           if (assets) {
             // console.log(assets, "assets")
-            let save: { fileName: string; filePath: string; index: number }[] =
-              []
+            let save: {
+              fileName: string
+              // filePath: string
+              preview: string
+              filePath: string
+              index: number
+              type: string
+            }[] = []
             // console.log(assets, "inside")
             await Promise.all(
               assets.map(async (asset, index) => {
@@ -180,16 +197,23 @@ export default function View({ params }: { params: { id: string } }) {
                   const storeRef = ref(storage, asset)
                   const meta = await getMetadata(storeRef)
                   let res = ""
+                  let type = ""
+                  let filePath = await getDownloadURL(storeRef)
                   if (meta.contentType?.split("/")[0] == "image") {
-                    res = await getDownloadURL(storeRef)
+                    res = filePath
+                    type = meta.contentType?.split("/")[0]
                   } else if (meta.contentType?.split("/")[1] == "pdf") {
                     res = "/pdf.png"
+                    type = meta.contentType?.split("/")[1]
                   }
                   // console.log(asset, asset.split("/").splice(-1), "asset")
                   // form.
+                  console.log(filePath)
                   save.push({
+                    type: type,
                     index: index,
-                    filePath: res,
+                    preview: res,
+                    filePath: filePath,
                     fileName:
                       docRes.data()?.files[index]?.name ||
                       asset.split("/").slice(-1).join(),
@@ -354,28 +378,37 @@ export default function View({ params }: { params: { id: string } }) {
 
                     <Carousel
                       setApi={setApi1}
-                      className="h-[65vh] max-w-full px-16"
+                      className="h-[65vh] flex align-center justify-center max-w-full px-8"
                       opts={{
                         align: "center",
                       }}
                     >
-                      <CarouselContent className="max-h-[60vh] relative">
+                      <CarouselContent className="h-full relative">
                         {visibleFiles.map((file, index) => (
                           <CarouselItem
                             key={index}
-                            className="flex justify-center"
+                            className="flex justify-center items-center"
                             onClick={() => {
-                              // if(api)
-                              // api1?.scrollTo(index)
-                              // api2?.scrollTo(index)
                               setCurrentIndex(index)
                             }}
                           >
-                            <img
-                              src={file.filePath}
-                              alt="img"
-                              className="object-contain max-h-[60vh] "
-                            />
+                            {file.type == "image" && (
+                              <img
+                                src={file.filePath}
+                                alt="img"
+                                className="object-contain"
+                              />
+                            )}
+                            {file.type == "pdf" && (
+                              <object
+                                className="object-contain h-full w-full"
+                                data={file.filePath}
+                                type="application/pdf"
+                              ></object>
+                            )}
+                            {/* {file.type == "pdf" && (
+                              <PDFViewer file={file.filePath} />
+                            )} */}
                           </CarouselItem>
                         ))}
                       </CarouselContent>
@@ -404,9 +437,9 @@ export default function View({ params }: { params: { id: string } }) {
                             <Card className="bg-transparent border-0 flex justify-center items-center">
                               <CardContent className="flex p-0 aspect-square items-center justify-center h-[20vh]">
                                 <img
-                                  src={file.filePath}
+                                  src={file.preview}
                                   alt="index"
-                                  className="inline-block max-h-[20vh] w-auto"
+                                  className="inline-block max-h-[18vh] w-auto"
                                 />
                               </CardContent>
                             </Card>
@@ -686,7 +719,7 @@ export default function View({ params }: { params: { id: string } }) {
                         <div className="flex max-w-[6.25rem] flex-col px-2 py-8 ">
                           <div className="flex justify-center w-full">
                             <img
-                              src={file.filePath}
+                              src={file.preview}
                               className="max-h-[6.25rem] inline-block max-w-[6.25rem]"
                               // Revoke data uri after image is loaded
                               onClick={() => {

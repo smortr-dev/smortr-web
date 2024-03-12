@@ -22,6 +22,7 @@ export default function UploadedSection({
   setUploadedFiles,
 }: {
   uploadedFiles: {
+    name?: string
     contentType?: string
     url?: string
     project: string
@@ -31,6 +32,7 @@ export default function UploadedSection({
   setUploadedFiles: Dispatch<
     SetStateAction<
       {
+        name?: string
         contentType?: string | undefined
         url?: string | undefined
         path: string
@@ -93,13 +95,16 @@ export default function UploadedSection({
         {uploadedFiles.map((asset, index) => (
           <div
             key={index}
-            className="group hover:bg-gray-200  transition-colors relative w-[8.5rem] h-[8.5rem] p-2 rounded-[0.33rem] flex justify-center items-center"
+            className="group flex-col hover:bg-gray-200  transition-colors relative w-[8.5rem] p-2 rounded-[0.33rem] flex justify-center items-center"
           >
             <img
               className="max-w-[7rem] max-h-[7rem] text-center"
               alt="asset"
               src={returnPreview(asset)}
             />
+            <p className="text-center mt-2 text-[0.65rem] w-full break-words text-wrap">
+              {asset.name}
+            </p>
             <img
               src="/delete.svg"
               className="w-[1.5rem] border hover:border-gray-400 transition-colors border-1 border-transparent h-[1.5rem] absolute top-0 right-0 hidden group-hover:inline-block cursor-pointer rounded-full p-[0.15rem] bg-white"

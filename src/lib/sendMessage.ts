@@ -45,7 +45,7 @@ async function sendMessage(
             // let status = true
             //   setTimeout(() => {
             // while (status) {
-            console.log("loop")
+            // console.log("loop")
 
             function recursiveCheckStatus(num: number): Promise<Run> {
               return new Promise((res, rej) => {

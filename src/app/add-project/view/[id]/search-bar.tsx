@@ -15,10 +15,30 @@ export default function SearchBar({
   setCurrentIndex,
 }: {
   setCurrentIndex: Dispatch<SetStateAction<number>>
-  files: { fileName: string; filePath: string; index: number }[]
-  visibleFiles: { fileName: string; filePath: string; index: number }[]
+  files: {
+    fileName: string
+    filePath: string
+    index: number
+    type: string
+    preview: string
+  }[]
+  visibleFiles: {
+    fileName: string
+    filePath: string
+    index: number
+    type: string
+    preview: string
+  }[]
   setVisibleFiles: Dispatch<
-    SetStateAction<{ fileName: string; filePath: string; index: number }[]>
+    SetStateAction<
+      {
+        fileName: string
+        filePath: string
+        index: number
+        type: string
+        preview: string
+      }[]
+    >
   >
 }) {
   // const [count, setCount] = useState(0)
@@ -26,7 +46,13 @@ export default function SearchBar({
   const [sort, setSort] = useState(true)
   function searchFiles(key: string) {
     // if (!key) return
-    let value: { fileName: string; filePath: string; index: number }[] = []
+    let value: {
+      fileName: string
+      filePath: string
+      index: number
+      type: string
+      preview: string
+    }[] = []
     console.log(files, "files")
     files.forEach((file) => {
       if (file.fileName.toLocaleLowerCase().match(key)) {

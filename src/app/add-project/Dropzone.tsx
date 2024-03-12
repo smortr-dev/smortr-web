@@ -54,6 +54,9 @@ export default function Previews(props: {
       "application/pdf": [],
     },
     onDrop: (acceptedFiles: any) => {
+      // if (acceptedFiles == "undefined") {
+      //   props.setFiles("files", [])
+      // }
       console.log(acceptedFiles)
       props.setFiles(
         "files",

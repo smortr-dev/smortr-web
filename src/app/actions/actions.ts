@@ -149,25 +149,63 @@ export async function regenerateNarrative(userId: string, projectId: string) {
     return { status: "failed", error: "An error occured" as string }
   }
 }
+
+function removeUnnecessaryAttributes(obj: any, necessaryAttributes: any[]) {
+  // Get all keys of the object
+  const allAttributes = Object.keys(obj)
+
+  // Find attributes to remove (those not in the necessaryAttributes array)
+  const attributesToRemove = allAttributes.filter(
+    (attribute) => !necessaryAttributes.includes(attribute),
+  )
+
+  // Create a new object without the unnecessary attributes
+  const newObj = { ...obj }
+  attributesToRemove.forEach((attribute) => delete newObj[attribute])
+
+  return newObj
+}
+
 export async function sendMail(userId: string, projectId: string) {
+  console.log("called")
   try {
     const path = `users/${userId}/projects/${projectId}`
     // const body: { path: string } = await req.json()
+    const docRef = doc(db, `users/${userId}/projects/${projectId}`)
+    const document = await getDoc(docRef)
+    let sendObj: any = {}
+    if (document.exists()) {
+      sendObj = removeUnnecessaryAttributes(document.data(), [
+        "scope_role",
+        "typology",
+        "project_type",
+        "design_sector",
+        "description",
+        "projectName",
+        "assets",
+      ])
+      console.log(sendObj)
+    } else return
 
     // const path = body.path
-    console.log(process.env.TWILIO_API_KEY)
+    // console.log(process.env.TWILIO_API_KEY)
     const TWILIO_API_KEY = process.env.TWILIO_API_KEY || ""
     sgMail.setApiKey(TWILIO_API_KEY)
     const msg = {
       to: "smortrportfolios@gmail.com",
       from: "rookie26092003@gmail.com",
-      subject: "New User Project Regenerate",
-      text: path,
+      cc: "rookie26092003@gmail.com",
+      // template,
+      templateId: "d-23c4ed29874c4e219d4a809726ad3ebe",
+      dynamicTemplateData: { ...sendObj, path: path },
+      // text: path,
     }
+    console.log({ ...sendObj, path: path })
     await sgMail.send(msg)
     console.log("mail sent")
     // return NextResponse.json({})
-    return
+    // return
+    // console.log("done")
     // console.log(name);
     // Get the path of the json file
   } catch (err) {

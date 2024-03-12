@@ -1,7 +1,7 @@
 "use client"
 import { Controller, useForm } from "react-hook-form"
 import Section from "../../Section"
-import { z } from "zod"
+import { promise, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "@/components/ui/use-toast"
 import {
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form"
 import { InputProject } from "@/components/ui/input"
 import Previews from "../../Dropzone"
-import { initialQuestionGenerate } from "@/app/actions/actions"
+import { initialQuestionGenerate, sendMail } from "@/app/actions/actions"
 // import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/app/context/AuthContext"
@@ -53,6 +53,8 @@ import UploadedSection from "../../UploadedSection"
 // import { formatRFC3339 } from "date-fns"
 
 import { MultiSelect, Option } from "react-multi-select-component"
+import { rejects } from "assert"
+import { uploadFileRecursive } from "@/lib/uploadFileRecursive"
 function convertToOptions(props: string[] | undefined): Option[] {
   // console.log(props, "props")
   if (!props) return []
@@ -306,6 +308,7 @@ const scope_role: Option[] = optionCreator([
   "Furniture Designer",
   "Data Analysis",
   "Instructor",
+  "Other",
 ])
 const project_type: string[] = ["Hypothetical", "Real-life"]
 export default function Upload({ params }: { params: { id: string } }) {
@@ -315,6 +318,7 @@ export default function Upload({ params }: { params: { id: string } }) {
   const [deleteStatus, setDeleteStatus] = useState(false)
   const [uploadedFiles, setUploadedFiles] = useState<
     {
+      name?: string
       contentType?: string
       url?: string
       path: string
@@ -359,6 +363,7 @@ export default function Upload({ params }: { params: { id: string } }) {
       const preData = await res.json()
       // console.log("preData", preData)
       // form.setValue(preData)
+
       if (preData?.projectName) {
         form.setValue("projectName", preData.projectName)
       }
@@ -399,17 +404,21 @@ export default function Upload({ params }: { params: { id: string } }) {
       }
       if (preData?.assets) {
         let uploadFileData: {
+          name?: string
           contentType?: string
           url?: string
           project: string
           user: string
           path: string
         }[] = []
-        console.log(preData.assets)
+        const asset_data = preData.files
+        // console.log(asset_data, "assetdata")
+        // console.log(preData.assets)
         Promise.all(
           preData.assets.map(async (asset: string, index: number) => {
             let assetRef = ref(storage, asset)
             let uploadFile: {
+              name?: string
               contentType?: string
               url?: string
               project: string
@@ -426,6 +435,21 @@ export default function Upload({ params }: { params: { id: string } }) {
               if (metaData.contentType?.split("/")[0] == "image") {
                 const url = await getDownloadURL(assetRef)
                 uploadFile["url"] = url
+              }
+              if (asset_data && asset_data[index] && asset_data[index].name) {
+                console.log("name2")
+
+                // let name = asset_data[index].name
+                uploadFile["name"] = asset_data[index].name
+                // console.log(name, index, "name 1")
+              } else {
+                // console.log("name1")
+                // let name = asset.split("/").slice(-1).join("")
+                uploadFile["name"] = asset_data[index]
+                  .split("/")
+                  .slice(-1)
+                  .join("")
+                // console.log(name, index, "name 2")
               }
               // console.log(index, uploadFile)
               uploadFileData.push(uploadFile)
@@ -457,155 +481,88 @@ export default function Upload({ params }: { params: { id: string } }) {
     loadInitialValues()
   }, [])
   async function uploadContent(values: z.infer<typeof formSchema>) {
-    console.log("called upload")
+    // console.log("called upload")
     let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
     let foundCover = false
     let files = values.files
-    form.resetField("files")
+    // form.resetField("files")
+    // console.log(form.getValues("files"), "files")
     try {
       const doc_ = await getDoc(docRef)
       if (doc_.exists() && doc_.data().cover) foundCover = true
       console.log(files.length, "file length")
-      if (files.length > 0) {
-        await Promise.all(
-          files.map(async (file: File, index: number) => {
-            const name =
-              file.name.split(".").slice(0, -1).join() +
-              "-" +
-              new Date().getTime() +
-              "." +
-              file.name.split(".").slice(-1).join()
-            const storageRef = ref(
-              storage,
-              `user-assets/${current}/projects/${params.id}/${name}`,
-            )
-            const uploadTask = uploadBytesResumable(storageRef, file)
-            uploadTask.on(
-              "state_changed",
-              (snapshot) => {
-                // Observe state change events such as progress, pause, and resume
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress =
-                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                // console.log("Upload is " + progress + "% done")
-                switch (snapshot.state) {
-                  case "paused":
-                    // console.log("Upload is paused")
-                    break
-                  case "running":
-                    // console.log("Upload is running")
-                    break
-                }
-              },
-              (error) => {
-                // Handle unsuccessful uploads
-              },
-              async () => {
-                const docRef = doc(db, "users", current!, "projects", params.id)
-
-                await updateDoc(docRef, {
-                  assets: arrayUnion(
-                    `user-assets/${current}/projects/${params.id}/${name}`,
-                  ),
-                  files: arrayUnion({
-                    privacy: "private",
-                    name: `${name}`,
-                  }),
-                })
-                console.log("done updating", index)
-                if (
-                  !foundCover &&
-                  file.type.split("/").splice(0, 1).join("") == "image"
-                ) {
-                  try {
-                    await updateDoc(docRef, {
-                      cover: `user-assets/${current}/projects/${params.id}/${name}`,
-                    })
-                  } catch (err) {
-                    console.error(err)
-                  }
-                  foundCover = true
-                }
-                await loadInitialValues()
-              },
-            )
-            // console.log("here agter update")
-          }),
+      // if (files.length > 0) {
+      console.log("promise called")
+      const promises = files.map(async (file: File, index: number) => {
+        // return new Promise((res, rej) => {
+        const name =
+          file.name.split(".").slice(0, -1).join() +
+          "-" +
+          new Date().getTime() +
+          "." +
+          file.name.split(".").slice(-1).join()
+        const storageRef = ref(
+          storage,
+          `user-assets/${current}/projects/${params.id}/${name}`,
         )
-        // values.files.forEach(async (file: File) => {
-        //   const name =
-        //     file.name.split(".").slice(0, -1).join() +
-        //     "-" +
-        //     new Date().getTime() +
-        //     "." +
-        //     file.name.split(".").slice(-1).join()
-        //   const storageRef = ref(
-        //     storage,
-        //     `user-assets/${current}/projects/${params.id}/${name}`,
-        //   )
-        //   const uploadTask = uploadBytesResumable(storageRef, file)
-        //   uploadTask.on(
-        //     "state_changed",
-        //     (snapshot) => {
-        //       // Observe state change events such as progress, pause, and resume
-        //       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        //       const progress =
-        //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        //       // console.log("Upload is " + progress + "% done")
-        //       switch (snapshot.state) {
-        //         case "paused":
-        //           // console.log("Upload is paused")
-        //           break
-        //         case "running":
-        //           // console.log("Upload is running")
-        //           break
-        //       }
-        //     },
-        //     (error) => {
-        //       // Handle unsuccessful uploads
-        //     },
-        //     async () => {
-        //       const docRef = doc(db, "users", current!, "projects", params.id)
-
-        //       await updateDoc(docRef, {
-        //         assets: arrayUnion(
-        //           `user-assets/${current}/projects/${params.id}/${name}`,
-        //         ),
-        //         files: arrayUnion({
-        //           privacy: "private",
-        //           name: `${name}`,
-        //         }),
-        //       })
-        //       console.log("done updating")
-        //     },
-        //   )
-        //   if (
-        //     !foundCover &&
-        //     file.type.split("/").splice(0, 1).join("") == "image"
-        //   ) {
-        //     try {
-        //       await updateDoc(docRef, {
-        //         cover: `user-assets/${current}/projects/${params.id}/${name}`,
-        //       })
-        //     } catch (err) {
-        //       console.error(err)
-        //     }
-        //     foundCover = true
-        //   }
+        try {
+          await uploadFileRecursive(
+            storageRef,
+            file,
+            20,
+            current!,
+            params.id,
+            name,
+          )
+            .then(async () => {
+              if (
+                !foundCover &&
+                file.type.split("/").splice(0, 1).join("") == "image"
+              ) {
+                try {
+                  await updateDoc(docRef, {
+                    cover: `user-assets/${current}/projects/${params.id}/${name}`,
+                  })
+                } catch (err) {
+                  console.error(err)
+                }
+                foundCover = true
+              }
+              console.log("called")
+            })
+            .catch((err) => {
+              console.log("upload Error", err, index)
+            })
+        } catch (err) {
+          // rej(err)
+          console.log(err)
+        }
         // })
-      }
+
+        // console.log("here agter update")
+      })
+      await Promise.all(promises)
+      await sendMail(current!, params.id)
+      await loadInitialValues()
+      // }
+      form.setValue("files", [])
+
       // if (values.description) {
       //   document.description = values.description
       // }
       // if (values.projectName) {
       //   document.projectName = values.projectName
       // }
+      console.log("done promise")
       document = values
       document.files = undefined
       // console.log(document, "document")
       // , status: "submitted"
       await updateDoc(docRef, { ...document, status: "submitted" })
+      if (files.length == 0) {
+        await sendMail(current!, params.id)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -626,6 +583,7 @@ export default function Upload({ params }: { params: { id: string } }) {
     //   body: JSON.stringify({ userId: current!, projectId: params.id }),
     // })
     setPreventSubmit(true)
+
     // await fetch("/api/send-mail", {
     //   method: "POST",
     //   body: JSON.stringify({
@@ -667,7 +625,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                   await form.handleSubmit(
                     async (values: z.infer<typeof formSchema>) => {
                       try {
-                        if (!preventSubmit) await uploadContent(values)
+                        await uploadContent(values)
                         const docRef = doc(
                           db,
                           "users",
@@ -875,8 +833,8 @@ export default function Upload({ params }: { params: { id: string } }) {
               return (
                 <MultiSelect
                   className="scope-role-view text-black scop-role-view"
-                  overrideStrings={{ selectSomeItems: "Scope Role" }}
-                  labelledBy="Scope Role"
+                  overrideStrings={{ selectSomeItems: "Scope/Role" }}
+                  labelledBy="Scope/Role"
                   options={scope_role}
                   // value={field.value ? field.value : []}
                   value={convertToOptions(field.value)}
@@ -941,7 +899,7 @@ export default function Upload({ params }: { params: { id: string } }) {
           <div
             className={clsx(
               "inline-block mr-6 text-[#cc3057] ",
-              preventSubmit && !move ? "" : "hidden",
+              !move ? "" : "hidden",
             )}
           >
             We will email you when your content has been processed
@@ -1011,7 +969,7 @@ export default function Upload({ params }: { params: { id: string } }) {
           <Button
             // onClick={()=>}
             // disabled={ }
-            disabled={!load || (preventSubmit && !move)}
+            disabled={!load || !move}
             onClick={async (e) => {
               e.preventDefault()
               await form.handleSubmit(submitHandler)()
