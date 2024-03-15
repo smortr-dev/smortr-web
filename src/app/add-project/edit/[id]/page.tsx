@@ -26,6 +26,7 @@ import { useHeader } from "@/app/context/HeaderContext"
 import { regenerateNarrative, sendMail } from "@/app/actions/actions"
 import { toast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
+import Regenerate from "@/components/ui/Regenerate"
 // const questions: string[] = [
 //   "Who was your client, and how did you engage with them?",
 //   "What was the primary purpose of this project?",
@@ -379,12 +380,12 @@ export default function Edit({ params }: { params: { id: string } }) {
                 })}
                 <div className="flex my-2 justify-end">
                   <Button
-                    className="inline-block"
+                    className="inline p-1 px-2 rounded-md text-sm bg-black text-white border-black border"
                     onClick={async (e) => {
                       // print("submit")
                       // console.log("submit")
                       e.preventDefault()
-                      console.log(form.getValues(), "submite Values")
+                      // console.log(form.getValues(), "submite Values")
                       try {
                         await uploadContent(form.getValues())
                         // console.log("submission complete")
@@ -395,6 +396,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                   >
                     Submit Changes
                   </Button>
+                  {/* <Regenerate handler={} /> */}
                 </div>
               </div>
             </div>
@@ -411,7 +413,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                     We will email you when your content has been processed
                   </span>
                 )} */}
-                  <Button
+                  {/* <Button
                     // disabled={submitStatus}
                     // type="submit"
                     type="submit"
@@ -432,7 +434,23 @@ export default function Edit({ params }: { params: { id: string } }) {
                     className="border border-[#6563FF] bg-[#EAEAEA] text-[#6563FF] hover:bg-[#6563FF] transition-colors hover:text-white"
                   >
                     Regenerate
-                  </Button>
+                  </Button> */}
+                  <Regenerate
+                    handler={async (e) => {
+                      e.preventDefault()
+                      try {
+                        console.log("clicked")
+                        await form.handleSubmit(uploadContent)()
+                        const res = await regenerateNarrative(
+                          current!,
+                          params.id,
+                        )
+                        console.log("regenerate", res)
+                      } catch (err) {
+                        console.log(err, "error")
+                      }
+                    }}
+                  />
                 </div>
               </div>
               <FormField

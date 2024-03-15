@@ -83,6 +83,7 @@ import { Projector } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { uploadFile } from "@/lib/uploadFile"
+import FeedbackBugFloat from "@/components/ui/feedback-bugs-float"
 
 // export async function getStaticProps(params:type) {
 
@@ -596,6 +597,8 @@ export default function Profile({ params }: { params: { name: string } }) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(submitHandler)}>
             <div className="relative">
+              <FeedbackBugFloat />
+              {/* <FeedbackBugFloat /> */}
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent className="sm:max-w-[425px] md:max-w-[40%]">
                   <DialogHeader>
@@ -1225,41 +1228,6 @@ export default function Profile({ params }: { params: { name: string } }) {
                     </Masonry>
                   </ResponsiveMasonry>
                 </div>
-                <Link
-                  target="blank"
-                  href={"https://forms.gle/Q1VXeZ6Huk5Ch7Rm7"}
-                >
-                  <Button
-                    className="fixed bottom-14 h-10 right-6 bg-red-500"
-                    type="button"
-                    // onClick={() => {
-                    //   console.log("clicked")
-                    // }}
-                  >
-                    <img
-                      className="inline-block w-5"
-                      src="alert.png"
-                      alt="alert"
-                    />
-                    <span className="inline-block ml-2">Report Issues</span>
-                  </Button>
-                </Link>
-                <Link
-                  href={"https://forms.gle/AVa3vPzdqFPtadRQA"}
-                  target="blank"
-                >
-                  <Button
-                    className="fixed bottom-2 h-10 right-6 bg-blue-700"
-                    type="button"
-                  >
-                    <img
-                      className="inline-block w-4"
-                      src="pencil.png"
-                      alt="alert"
-                    />
-                    <span className="inline-block ml-2">Give Feedback!</span>
-                  </Button>
-                </Link>
               </div>
             </div>
           </form>

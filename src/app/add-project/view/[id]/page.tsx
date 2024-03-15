@@ -54,6 +54,7 @@ import Skills from "../../Skills"
 import PDFViewer from "./Pdf-viewer"
 import { cn } from "@/lib/utils"
 import { toast } from "@/components/ui/use-toast"
+import CarouselDisplay from "./CarouselDisplay"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
   files: z
@@ -400,33 +401,19 @@ export default function View({ params }: { params: { id: string } }) {
                         align: "center",
                       }}
                     >
-                      <CarouselContent className="h-full relative">
+                      <CarouselContent className="h-[72vh] relative">
                         {visibleFiles.map((file, index) => (
                           <CarouselItem
                             key={index}
-                            className="flex justify-center items-center"
+                            className="flex justify-center h-full items-cente overflow-scrollr"
                             onClick={() => {
                               setCurrentIndex(index)
                             }}
                           >
-                            {file.type == "image" && (
-                              <img
-                                src={file.filePath}
-                                alt="img"
-                                className="object-contain"
-                              />
-                            )}
+                            <CarouselDisplay file={file} />
                             {/* {file.type == "pdf" && (
-                              <object
-                                draggable={true}
-                                className="object-contain h-full w-full"
-                                data={file.filePath}
-                                type="application/pdf"
-                              ></object>
-                            )} */}
-                            {file.type == "pdf" && (
                               <PDFViewer file={file.filePath} />
-                            )}
+                            )} */}
                           </CarouselItem>
                         ))}
                       </CarouselContent>
