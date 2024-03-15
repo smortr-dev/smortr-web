@@ -349,6 +349,7 @@ export default function Upload({ params }: { params: { id: string } }) {
     ]),
   )
   const [load, setLoad] = useState(false)
+  const [save, setSave] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteStatus, setDeleteStatus] = useState(false)
   const [uploadedFiles, setUploadedFiles] = useState<
@@ -406,6 +407,7 @@ export default function Upload({ params }: { params: { id: string } }) {
         form.setValue("description", preData.description)
       }
       if (preData?.scope_role) {
+        // console.log(preData.scope_role, scope_role)
         if (typeof preData?.scope_role == "string") {
           form.setValue("scope_role", [preData.scope_role])
         } else {
@@ -418,7 +420,7 @@ export default function Upload({ params }: { params: { id: string } }) {
             // console.log(res, "res")
             // console.log(test, "test")
             let test = convertToOptions([...res, ...convertToValues(prev)])
-            console.log(test)
+            console.log(test, "scope_role test")
             return test
           })
           // scope_role = convertToOptions([...options, res])
@@ -439,7 +441,7 @@ export default function Upload({ params }: { params: { id: string } }) {
             // console.log(res, "res")
             // console.log(test, "test")
             let test = convertToOptions([...res, ...convertToValues(prev)])
-            // console.log(test)
+            console.log(test, "Design sector test")
             return test
           })
           // scope_role = convertToOptions([...options, res])
@@ -503,7 +505,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                 uploadFile["url"] = url
               }
               if (asset_data && asset_data[index] && asset_data[index].name) {
-                console.log("name2")
+                // console.log("name2")
 
                 // let name = asset_data[index].name
                 uploadFile["name"] = asset_data[index].name
@@ -649,15 +651,18 @@ export default function Upload({ params }: { params: { id: string } }) {
   }
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // if()
+
     console.log("called submit Handler")
+    setSave(true)
     // console.log("values", values)
-    await uploadContent(values)
     try {
+      await uploadContent(values)
       // const generate_res = await initialQuestionGenerate(current!, params.id)
       // console.log(generate_res)
     } catch (err) {
       console.log(err)
     }
+    setSave(false)
     // const res = await fetch("/api/add-project/initial-generate-questions", {
     //   method: "POST",
     //   body: JSON.stringify({ userId: current!, projectId: params.id }),
@@ -688,7 +693,7 @@ export default function Upload({ params }: { params: { id: string } }) {
 
               <div className="flex">
                 <Button
-                  disabled={!load}
+                  disabled={!load || save}
                   onClick={async (e) => {
                     e.preventDefault()
                     await form.handleSubmit(submitHandler)()
@@ -702,7 +707,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                   Save
                 </Button>
                 <Button
-                  disabled={!load}
+                  disabled={!load || save}
                   onClick={async () => {
                     await form.handleSubmit(
                       async (values: z.infer<typeof formSchema>) => {
@@ -829,14 +834,10 @@ export default function Upload({ params }: { params: { id: string } }) {
                 return (
                   <MultiSelect
                     isCreatable={true}
-                    onCreateOption={(value: string): Option => ({
-                      label: value,
-                      value: value,
-                    })}
                     className="text-black design-sector-view"
                     overrideStrings={{ selectSomeItems: "Design Sector" }}
                     labelledBy="Design Sector"
-                    options={design_sector}
+                    options={design_sector || []}
                     // value={field.value ? field.value : []}
                     value={convertToOptions(field.value)}
                     // control={form.control}
@@ -891,18 +892,10 @@ export default function Upload({ params }: { params: { id: string } }) {
                 return (
                   <MultiSelect
                     isCreatable={true}
-                    onCreateOption={(value: string) => {
-                      setScopeRole((prev: Option[]) => {
-                        return convertToOptions([
-                          value,
-                          ...convertToValues(prev),
-                        ])
-                      })
-                    }}
                     className="scope-role-view text-black scop-role-view"
                     overrideStrings={{ selectSomeItems: "Scope/Role" }}
                     labelledBy="Scope/Role"
-                    options={[...scope_role]}
+                    options={scope_role}
                     // value={field.value ? field.value : []}
                     value={convertToOptions(field.value)}
                     // control={form.control}
@@ -1047,7 +1040,7 @@ export default function Upload({ params }: { params: { id: string } }) {
             <Button
               // onClick={()=>}
               // disabled={ }
-              disabled={!load || (!move && preventSubmit)}
+              disabled={!load || (!move && preventSubmit) || save}
               onClick={async (e) => {
                 e.preventDefault()
                 await form.handleSubmit(submitHandler)()

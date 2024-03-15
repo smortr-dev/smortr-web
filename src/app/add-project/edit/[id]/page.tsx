@@ -88,6 +88,7 @@ export default function Edit({ params }: { params: { id: string } }) {
       // }
       // document.status = "submitted"
       // setSubmitStatus(true)
+
       await updateDoc(docRef, { ...values })
       // console.log("Upload Done")
       // console.log("don")
@@ -112,6 +113,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
   async function submitHandler(values: z.infer<typeof formSchema>) {
     // if (submitStatus) return
+    // console.log(values)
     // console.log("init")
     try {
       // console.log("initiated")
@@ -171,7 +173,16 @@ export default function Edit({ params }: { params: { id: string } }) {
             setProjectName(docRes.data().projectName)
           }
           if (data.answer) {
-            form.setValue("answer", data.answer)
+            if (Array.isArray(data.answer)) {
+              let obj: any = {}
+              data.answer.map((item, index) => {
+                obj[`${index}`] = item
+              })
+              await updateDoc(docRef, { answer: obj })
+              form.setValue("answer", obj)
+            } else {
+              form.setValue("answer", data.answer)
+            }
             // console.log(form.getValues("answer"))
           }
           if (data.Context) {

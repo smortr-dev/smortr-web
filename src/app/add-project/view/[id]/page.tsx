@@ -175,6 +175,7 @@ export default function View({ params }: { params: { id: string } }) {
             router.push(`/add-project/upload/${params.id}`)
             return
           }
+
           // console.log(docRes.data())
           const assets: string[] = docRes.data()?.assets || []
           if (docRes.data().projectName) {

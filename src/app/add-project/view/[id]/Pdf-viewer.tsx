@@ -23,10 +23,10 @@ export default function PDFViewer({ file }: { file: string }) {
     setNumPages(numPages)
   }
   return (
-    <div className="pdf-scroll h-[65vh] flex justify-center items-center flex-col">
+    <div className="pdf-scroll h-[70vh] flex justify-center items-center flex-col">
       {/* "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" */}
       <Document
-        className="overflow-scroll h-[58vh] w-[50vw] pdf-scroll"
+        className="overflow-scroll h-[68vh] w-[50vw] pdf-scroll"
         // style={{
 
         // }}
@@ -41,7 +41,7 @@ export default function PDFViewer({ file }: { file: string }) {
             <img
               src="/arrow_prev.svg"
               alt="prev"
-              className="inline-block h-10 aspect-square"
+              className="inline-block h-8 aspect-square"
             />
           </div>
           <div className="inline-block px-2">Page {pageNumber}</div>
@@ -49,7 +49,7 @@ export default function PDFViewer({ file }: { file: string }) {
             <img
               src="/arrow_next.svg"
               alt="next"
-              className="inline-block h-10 aspect-square"
+              className="inline-block h-8 aspect-square"
             />
           </div>
         </div>
