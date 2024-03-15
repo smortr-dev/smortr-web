@@ -49,6 +49,7 @@ export default function Previews(props: {
   [key: string]: any
 }) {
   const { getRootProps, getInputProps } = useDropzone({
+    noClick: true,
     accept: {
       "image/*": [],
       "application/pdf": [],
@@ -57,7 +58,7 @@ export default function Previews(props: {
       // if (acceptedFiles == "undefined") {
       //   props.setFiles("files", [])
       // }
-      console.log(acceptedFiles)
+      // console.log(acceptedFiles)
       props.setFiles("files", [
         ...props.form.getValues("files"),
         ...acceptedFiles.map((file: File) => {
@@ -97,37 +98,54 @@ export default function Previews(props: {
   return (
     <>
       <div
+        // onClick={() => {}}
         {...getRootProps({
           className:
-            "dropzone border-dashed border-[1px] border-[rgba(0,0,0,0.25)] rounded-[0.63rem] p-4 relative mt-4",
+            "dropzone z-[1] border-dashed border-[1px] border-[rgba(0,0,0,0.25)] rounded-[0.63rem] p-4 relative mt-4",
         })}
       >
         <input id="dropzone" {...getInputProps()} />
         <div className="flex justify-start upload-container h-[50vh] flex-wrap overscroll-x-none overflow-x-scroll view-dropzone">
-          {props.form.watch("files", []).map((file: CustomFile) => (
-            <div
-              key={file.name}
-              className="inline-block max-w-[7.25rem] ml-2 upload-preview"
-            >
-              <div className="p-2">
+          {props.form
+            .watch("files", [])
+            .map((file: CustomFile, index: number) => (
+              <div
+                key={file.name}
+                className="relative group inline-block max-w-[7.25rem] ml-2 upload-preview z-[80]"
+              >
                 <img
-                  src={file.preview}
-                  className="max-h-[6.25rem] max-w-[6.25rem] inline-block"
-                  // Revoke data uri after image is loaded
-                  onLoad={() => {
-                    URL.revokeObjectURL(file.preview!)
+                  src="/delete.svg"
+                  className="w-[1.5rem]  border-red-600 hover:bg-gray-200 transition-colors border  h-[1.5rem] absolute top-0 right-0 cursor-pointer rounded-full p-[0.15rem] bg-white"
+                  alt="delete"
+                  onClick={() => {
+                    // console.log("clicked")
+                    let files = props.form.getValues("files")
+                    // console.log(files, "files")
+                    // console.log(index, "index")
+                    files.splice(index, 1)
+                    // console.log(files, "update")
+                    props.form.setValue("files", files)
                   }}
-                  alt="test"
                 />
+                <div className="p-2">
+                  <img
+                    src={file.preview}
+                    className="max-h-[6.25rem] max-w-[6.25rem] inline-block"
+                    // Revoke data uri after image is loaded
+                    onLoad={() => {
+                      URL.revokeObjectURL(file.preview!)
+                    }}
+                    alt="test"
+                  />
+                </div>
+                <p className="text-center text-[0.625rem] font-[400] tracking-[0.00625rem] break-all">
+                  {file.name}
+                </p>
               </div>
-              <p className="text-center text-[0.625rem] font-[400] tracking-[0.00625rem] break-all">
-                {file.name}
-              </p>
-            </div>
-          ))}
+            ))}
         </div>
 
-        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[100]">
           <div className="select-none flex flex-col justify-center items-center">
             <img
               className="inline-block h-[3rem] w-[3rem]"
@@ -141,9 +159,12 @@ export default function Previews(props: {
               JPG, PNG or PDF, file size no more than 30MB
             </p>
             {props.form.watch("files", []).length == 0 ? (
-              <div className="inline-block py-2 mt-3 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-4 border border-transparent bg-[#6563FF] cursor-pointer">
+              <label
+                htmlFor="dropzone"
+                className="inline-block py-2 mt-3 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-4 border border-transparent bg-[#6563FF] cursor-pointer"
+              >
                 Select File
-              </div>
+              </label>
             ) : null}
           </div>
         </div>
