@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import { UseFormReturn } from "react-hook-form"
+import { Form, UseFormReturn } from "react-hook-form"
 const thumbsContainer = {
   display: "flex",
   marginTop: 16,
@@ -58,9 +58,9 @@ export default function Previews(props: {
       //   props.setFiles("files", [])
       // }
       console.log(acceptedFiles)
-      props.setFiles(
-        "files",
-        acceptedFiles.map((file: File) => {
+      props.setFiles("files", [
+        ...props.form.getValues("files"),
+        ...acceptedFiles.map((file: File) => {
           if (file.type == "application/pdf") {
             return Object.assign(file, {
               preview: "/pdf.png",
@@ -70,7 +70,7 @@ export default function Previews(props: {
             preview: URL.createObjectURL(file),
           })
         }),
-      )
+      ])
     },
   })
 

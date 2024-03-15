@@ -612,7 +612,6 @@ export default function Upload({ params }: { params: { id: string } }) {
       })
       await Promise.all(promises)
       await sendMail(current!, params.id)
-      await loadInitialValues()
       // }
       form.setValue("files", [])
 
@@ -631,6 +630,8 @@ export default function Upload({ params }: { params: { id: string } }) {
       if (files.length == 0) {
         await sendMail(current!, params.id)
       }
+      await loadInitialValues()
+
       toast({
         // variant: "destructive",
         title: "Updated Successfully",
@@ -842,6 +843,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                     value={convertToOptions(field.value)}
                     // control={form.control}
                     onChange={(props: Option[]) => {
+                      console.log(props)
                       return field.onChange(convertToValues(props))
                     }}
                   />
