@@ -24,6 +24,8 @@ import { count } from "console"
 import clsx from "clsx"
 import { useHeader } from "@/app/context/HeaderContext"
 import { regenerateNarrative, sendMail } from "@/app/actions/actions"
+import { toast } from "@/components/ui/use-toast"
+import { cn } from "@/lib/utils"
 // const questions: string[] = [
 //   "Who was your client, and how did you engage with them?",
 //   "What was the primary purpose of this project?",
@@ -89,7 +91,21 @@ export default function Edit({ params }: { params: { id: string } }) {
       await updateDoc(docRef, { ...values })
       // console.log("Upload Done")
       // console.log("don")
+      toast({
+        // variant: "destructive",
+        title: "Updated Successfully",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+      })
     } catch (err) {
+      toast({
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      })
       console.log(err)
     }
   }
@@ -320,7 +336,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                               <FormControl>
                                 <MultiLineInputProject
                                   placeholder={`Write your answers here..`}
-                                  maxLength={200}
+                                  maxLength={1000}
                                   rows={6}
                                   {...field}
                                   value={field.value || ""}
@@ -468,7 +484,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                           <MultiLineInputProject
                             placeholder={`Write your answers here..`}
                             // maxLength={3000}
-
+                            // maxLength={3000}
                             rows={5}
                             {...field}
                             // defaultValue={""}
@@ -501,7 +517,6 @@ export default function Edit({ params }: { params: { id: string } }) {
                           <MultiLineInputProject
                             placeholder={`Write your answers here..`}
                             // maxLength={3000}
-
                             rows={5}
                             {...field}
                             // defaultValue={""}
@@ -534,7 +549,6 @@ export default function Edit({ params }: { params: { id: string } }) {
                           <MultiLineInputProject
                             placeholder={`Write your answers here..`}
                             // maxLength={3000}
-
                             rows={5}
                             {...field}
                             // defaultValue={""}

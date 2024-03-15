@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app"
 import { getAnalytics } from "firebase/analytics"
 import { getAuth } from "firebase/auth"
+
 import { getFirestore, initializeFirestore } from "firebase/firestore"
 require("dotenv").config()
 import { GoogleAuthProvider } from "firebase/auth"

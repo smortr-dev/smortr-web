@@ -55,6 +55,7 @@ import UploadedSection from "../../UploadedSection"
 import { MultiSelect, Option } from "react-multi-select-component"
 import { rejects } from "assert"
 import { uploadFileRecursive } from "@/lib/uploadFileRecursive"
+import { cn } from "@/lib/utils"
 function convertToOptions(props: string[] | undefined): Option[] {
   // console.log(props, "props")
   if (!props) return []
@@ -72,20 +73,20 @@ function optionCreator(array: string[]) {
     return returnValue
   })
 }
-const design_sector: Option[] = optionCreator([
-  "Architecture",
-  "Interior Design",
-  "Urban Design",
-  "Landscape Design",
-  "Construction Technology",
-  "Infrastructure",
-  "Services",
-  "Visualization",
-  "Concept Design",
-  "Art",
-])
+// let design_sector: Option[] = optionCreator([
+//   "Architecture",
+//   "Interior Design",
+//   "Urban Design",
+//   "Landscape Design",
+//   "Construction Technology",
+//   "Infrastructure",
+//   "Services",
+//   "Visualization",
+//   "Concept Design",
+//   "Art",
+// ])
 // const typology: string[] = []
-const typology: { label: string; options?: string[] }[] = [
+let typology: { label: string; options?: string[] }[] = [
   {
     label: "Residence",
     options: [
@@ -292,27 +293,61 @@ function convertToValues(props: Option[]): string[] {
   let temp: string[] = props.map((item): string => item.value)
   return temp
 }
-const scope_role: Option[] = optionCreator([
-  "Architectural Designer",
-  "Designer",
-  "Intern",
-  "Engineer",
-  "Consultant",
-  "Freelancer",
-  "Service Provider",
-  "Research",
-  "Visualization",
-  "Student",
-  "Contractor",
-  "Production",
-  "Furniture Designer",
-  "Data Analysis",
-  "Instructor",
-  "Other",
-])
-const project_type: string[] = ["Hypothetical", "Real-life"]
+// let scope_role: Option[] = optionCreator([
+//   "Architectural Designer",
+//   "Designer",
+//   "Intern",
+//   "Engineer",
+//   "Consultant",
+//   "Freelancer",
+//   "Service Provider",
+//   "Research",
+//   "Visualization",
+//   "Student",
+//   "Contractor",
+//   "Production",
+//   "Furniture Designer",
+//   "Data Analysis",
+//   "Instructor",
+//   "Other",
+// ])
+let project_type: string[] = ["Hypothetical", "Real-life"]
 export default function Upload({ params }: { params: { id: string } }) {
   const router = useRouter()
+  const [design_sector, setDesignSector] = useState<Option[]>(
+    optionCreator([
+      "Architecture",
+      "Interior Design",
+      "Urban Design",
+      "Landscape Design",
+      "Construction Technology",
+      "Infrastructure",
+      "Services",
+      "Visualization",
+      "Concept Design",
+      "Art",
+    ]),
+  )
+  const [scope_role, setScopeRole] = useState<Option[]>(
+    optionCreator([
+      "Architectural Designer",
+      "Designer",
+      "Intern",
+      "Engineer",
+      "Consultant",
+      "Freelancer",
+      "Service Provider",
+      "Research",
+      "Visualization",
+      "Student",
+      "Contractor",
+      "Production",
+      "Furniture Designer",
+      "Data Analysis",
+      "Instructor",
+      "Other",
+    ]),
+  )
   const [load, setLoad] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteStatus, setDeleteStatus] = useState(false)
@@ -373,12 +408,43 @@ export default function Upload({ params }: { params: { id: string } }) {
       if (preData?.scope_role) {
         if (typeof preData?.scope_role == "string") {
           form.setValue("scope_role", [preData.scope_role])
-        } else form.setValue("scope_role", preData.scope_role)
+        } else {
+          let options = convertToValues(scope_role)
+          let res = preData.scope_role.filter(
+            (item: string) => !options.includes(item),
+          )
+          setScopeRole((prev) => {
+            // let test = convertToOptions([...res, ...convertToValues(prev)])
+            // console.log(res, "res")
+            // console.log(test, "test")
+            let test = convertToOptions([...res, ...convertToValues(prev)])
+            console.log(test)
+            return test
+          })
+          // scope_role = convertToOptions([...options, res])
+          form.setValue("scope_role", preData.scope_role)
+        }
       }
       if (preData?.design_sector) {
         if (typeof preData?.design_sector == "string") {
           form.setValue("design_sector", [preData.design_sector])
-        } else form.setValue("design_sector", preData.design_sector)
+        } else {
+          // form.setValue("design_sector", preData.design_sector)
+          let options = convertToValues(design_sector)
+          let res = preData.design_sector.filter(
+            (item: string) => !options.includes(item),
+          )
+          setDesignSector((prev) => {
+            // let test = convertToOptions([...res, ...convertToValues(prev)])
+            // console.log(res, "res")
+            // console.log(test, "test")
+            let test = convertToOptions([...res, ...convertToValues(prev)])
+            // console.log(test)
+            return test
+          })
+          // scope_role = convertToOptions([...options, res])
+          form.setValue("design_sector", preData.design_sector)
+        }
       }
       if (preData?.project_type) {
         form.setValue("project_type", preData.project_type)
@@ -414,7 +480,7 @@ export default function Upload({ params }: { params: { id: string } }) {
         const asset_data = preData.files
         // console.log(asset_data, "assetdata")
         // console.log(preData.assets)
-        Promise.all(
+        await Promise.all(
           preData.assets.map(async (asset: string, index: number) => {
             let assetRef = ref(storage, asset)
             let uploadFile: {
@@ -563,7 +629,21 @@ export default function Upload({ params }: { params: { id: string } }) {
       if (files.length == 0) {
         await sendMail(current!, params.id)
       }
+      toast({
+        // variant: "destructive",
+        title: "Updated Successfully",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+      })
     } catch (err) {
+      toast({
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      })
       console.log(err)
     }
   }
@@ -573,7 +653,7 @@ export default function Upload({ params }: { params: { id: string } }) {
     // console.log("values", values)
     await uploadContent(values)
     try {
-      const generate_res = await initialQuestionGenerate(current!, params.id)
+      // const generate_res = await initialQuestionGenerate(current!, params.id)
       // console.log(generate_res)
     } catch (err) {
       console.log(err)
@@ -595,122 +675,124 @@ export default function Upload({ params }: { params: { id: string } }) {
     // }
   }
   return (
-    // <>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitHandler)}>
-        <div className="pt-4">
-          <div className="flex justify-between items-center  mb-6">
-            <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
-              {form.watch("projectName", "New Project")}
-            </h3>
+    load && (
+      // <>
 
-            <div className="flex">
-              <Button
-                disabled={!load}
-                onClick={async (e) => {
-                  e.preventDefault()
-                  await form.handleSubmit(submitHandler)()
-                  // await loadInitialValues()
-                  // if (move) {
-                  //   router.push(`/add-project/edit/${params.id}`)
-                  // }
-                }}
-                className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
-              >
-                Save
-              </Button>
-              <Button
-                disabled={!load}
-                onClick={async () => {
-                  await form.handleSubmit(
-                    async (values: z.infer<typeof formSchema>) => {
-                      try {
-                        await uploadContent(values)
-                        const docRef = doc(
-                          db,
-                          "users",
-                          current!,
-                          "projects",
-                          params.id,
-                        )
-                        await updateDoc(docRef, {
-                          published: true,
-                        })
-                        router.push("/profile-editor")
-                      } catch (err) {
-                        console.error(err)
-                      }
-                    },
-                  )()
-                }}
-                className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-              >
-                Publish
-              </Button>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(submitHandler)}>
+          <div className="pt-4">
+            <div className="flex justify-between items-center  mb-6">
+              <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
+                {form.watch("projectName", "New Project")}
+              </h3>
+
+              <div className="flex">
+                <Button
+                  disabled={!load}
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    await form.handleSubmit(submitHandler)()
+                    // await loadInitialValues()
+                    // if (move) {
+                    //   router.push(`/add-project/edit/${params.id}`)
+                    // }
+                  }}
+                  className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+                >
+                  Save
+                </Button>
+                <Button
+                  disabled={!load}
+                  onClick={async () => {
+                    await form.handleSubmit(
+                      async (values: z.infer<typeof formSchema>) => {
+                        try {
+                          await uploadContent(values)
+                          const docRef = doc(
+                            db,
+                            "users",
+                            current!,
+                            "projects",
+                            params.id,
+                          )
+                          await updateDoc(docRef, {
+                            published: true,
+                          })
+                          router.push("/profile-editor")
+                        } catch (err) {
+                          console.error(err)
+                        }
+                      },
+                    )()
+                  }}
+                  className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+                >
+                  Publish
+                </Button>
+              </div>
             </div>
-          </div>
-          <Section active="upload" />
+            <Section active="upload" />
 
-          <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
-            <FormField
-              control={form.control}
-              name={`projectName`}
-              render={({ field, fieldState }) => {
-                return (
-                  <>
-                    <FormItem>
-                      <FormControl>
-                        <InputProject
-                          {...field}
-                          className={` w-[100%]  ${
-                            fieldState.error
-                              ? "border-[#CC3057]"
-                              : " border-[#848484]"
-                          }`}
-                          required
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs text-[#CC3057]" />
-                    </FormItem>
-                  </>
-                )
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={`description`}
-              render={({ field, fieldState }) => {
-                return (
-                  <>
-                    <FormItem className="text-left  mt-4 w-[100%]">
-                      <FormControl>
-                        <MultiLineInputProject
-                          placeholder={`Description
+            <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
+              <FormField
+                control={form.control}
+                name={`projectName`}
+                render={({ field, fieldState }) => {
+                  return (
+                    <>
+                      <FormItem>
+                        <FormControl>
+                          <InputProject
+                            {...field}
+                            className={` w-[100%]  ${
+                              fieldState.error
+                                ? "border-[#CC3057]"
+                                : " border-[#848484]"
+                            }`}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs text-[#CC3057]" />
+                      </FormItem>
+                    </>
+                  )
+                }}
+              />
+              <FormField
+                control={form.control}
+                name={`description`}
+                render={({ field, fieldState }) => {
+                  return (
+                    <>
+                      <FormItem className="text-left  mt-4 w-[100%]">
+                        <FormControl>
+                          <MultiLineInputProject
+                            placeholder={`Description
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                          maxLength={600}
-                          rows={6}
-                          {...field}
-                          className={` ${
-                            fieldState.error
-                              ? "border-[#CC3057]"
-                              : "  border-[#848484]"
-                          }`}
-                          required
-                        />
-                        {/* <span>{}</span> */}
-                      </FormControl>
-                      <FormMessage className="text-xs text-[#CC3057]" />
-                    </FormItem>
-                  </>
-                )
-              }}
-            />
+                            maxLength={600}
+                            rows={6}
+                            {...field}
+                            className={` ${
+                              fieldState.error
+                                ? "border-[#CC3057]"
+                                : "  border-[#848484]"
+                            }`}
+                            required
+                          />
+                          {/* <span>{}</span> */}
+                        </FormControl>
+                        <FormMessage className="text-xs text-[#CC3057]" />
+                      </FormItem>
+                    </>
+                  )
+                }}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="my-4 grid grid-cols-4 gap-x-2">
-          {/* <FormField
+          <div className="my-4 grid grid-cols-4 gap-x-2">
+            {/* <FormField
             control={form.control}
             name={`design_sector`}
             render={({ field, fieldState }) => {
@@ -740,252 +822,249 @@ export default function Upload({ params }: { params: { id: string } }) {
               )
             }}
           /> */}
-          <Controller
-            control={form.control}
-            name="design_sector"
-            render={({ field, fieldState }) => {
-              return (
-                <MultiSelect
-                  className="text-black design-sector-view"
-                  overrideStrings={{ selectSomeItems: "Design Sector" }}
-                  labelledBy="Design Sector"
-                  options={design_sector}
-                  // value={field.value ? field.value : []}
-                  value={convertToOptions(field.value)}
-                  // control={form.control}
-                  onChange={(props: Option[]) => {
-                    return field.onChange(convertToValues(props))
-                  }}
-                />
-              )
-            }}
-          />
+            <Controller
+              control={form.control}
+              name="design_sector"
+              render={({ field, fieldState }) => {
+                return (
+                  <MultiSelect
+                    isCreatable={true}
+                    onCreateOption={(value: string): Option => ({
+                      label: value,
+                      value: value,
+                    })}
+                    className="text-black design-sector-view"
+                    overrideStrings={{ selectSomeItems: "Design Sector" }}
+                    labelledBy="Design Sector"
+                    options={design_sector}
+                    // value={field.value ? field.value : []}
+                    value={convertToOptions(field.value)}
+                    // control={form.control}
+                    onChange={(props: Option[]) => {
+                      return field.onChange(convertToValues(props))
+                    }}
+                  />
+                )
+              }}
+            />
 
-          <FormField
-            control={form.control}
-            name={`typology`}
-            render={({ field, fieldState }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <Select {...field} onValueChange={field.onChange}>
-                      <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                        <SelectValue placeholder="Typology" />
-                      </SelectTrigger>
-                      <SelectContent className="overflow-y-auto max-h-[40vh]">
-                        {typology.map((group, index) => {
-                          return (
-                            <SelectGroup key={index}>
-                              <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
-                                {group.label}
-                              </SelectLabel>
-                              {group.options?.map((item, index) => {
-                                return (
-                                  <SelectItem key={index} value={item}>
-                                    {item}
-                                  </SelectItem>
-                                )
-                              })}
-                            </SelectGroup>
-                          )
-                        })}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )
-            }}
-          />
-          {/* <FormField
-            control={form.control}
-            name={`scope_role`}
-            render={({ field, fieldState }) => {
-              return (
-                <>
+            <FormField
+              control={form.control}
+              name={`typology`}
+              render={({ field, fieldState }) => {
+                return (
                   <FormItem>
                     <FormControl>
                       <Select {...field} onValueChange={field.onChange}>
                         <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                          <SelectValue placeholder="Scope/Role" />
+                          <SelectValue placeholder="Typology" />
                         </SelectTrigger>
                         <SelectContent className="overflow-y-auto max-h-[40vh]">
-                          {scope_role.map((option, index) => {
+                          {typology.map((group, index) => {
                             return (
-                              // <>
-                              <SelectItem key={index} value={option}>
-                                {option}
-                              </SelectItem>
-                              // </>
+                              <SelectGroup key={index}>
+                                <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
+                                  {group.label}
+                                </SelectLabel>
+                                {group.options?.map((item, index) => {
+                                  return (
+                                    <SelectItem key={index} value={item}>
+                                      {item}
+                                    </SelectItem>
+                                  )
+                                })}
+                              </SelectGroup>
                             )
                           })}
                         </SelectContent>
                       </Select>
                     </FormControl>
                   </FormItem>
-                </>
-              )
-            }}
-          /> */}
-          <Controller
-            control={form.control}
-            name="scope_role"
-            render={({ field, fieldState }) => {
-              return (
-                <MultiSelect
-                  className="scope-role-view text-black scop-role-view"
-                  overrideStrings={{ selectSomeItems: "Scope/Role" }}
-                  labelledBy="Scope/Role"
-                  options={scope_role}
-                  // value={field.value ? field.value : []}
-                  value={convertToOptions(field.value)}
-                  // control={form.control}
-                  onChange={(props: Option[]) => {
-                    return field.onChange(convertToValues(props))
-                  }}
-                />
-              )
-            }}
-          />
-          <FormField
-            control={form.control}
-            name={`project_type`}
-            render={({ field, fieldState }) => {
-              return (
-                <>
-                  <FormItem>
-                    <FormControl>
-                      <Select {...field} onValueChange={field.onChange}>
-                        <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                          <SelectValue placeholder="Project Type" />
-                        </SelectTrigger>
-                        <SelectContent className="overflow-y-auto max-h-[40vh]">
-                          {project_type.map((option, index) => {
-                            return (
-                              // <>
-                              <SelectItem key={index} value={option}>
-                                {option}
-                              </SelectItem>
-                              // </>
-                            )
-                          })}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                </>
-              )
-            }}
-          />
-        </div>
+                )
+              }}
+            />
 
-        {/* <div className="p-4 bg-white rounded-[0.88rem]">
+            <Controller
+              control={form.control}
+              name="scope_role"
+              render={({ field, fieldState }) => {
+                return (
+                  <MultiSelect
+                    isCreatable={true}
+                    onCreateOption={(value: string) => {
+                      setScopeRole((prev: Option[]) => {
+                        return convertToOptions([
+                          value,
+                          ...convertToValues(prev),
+                        ])
+                      })
+                    }}
+                    className="scope-role-view text-black scop-role-view"
+                    overrideStrings={{ selectSomeItems: "Scope/Role" }}
+                    labelledBy="Scope/Role"
+                    options={[...scope_role]}
+                    // value={field.value ? field.value : []}
+                    value={convertToOptions(field.value)}
+                    // control={form.control}
+                    onChange={(props: Option[]) => {
+                      // console.log("trigger")
+                      return field.onChange(convertToValues(props))
+                    }}
+                  />
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name={`project_type`}
+              render={({ field, fieldState }) => {
+                return (
+                  <>
+                    <FormItem>
+                      <FormControl>
+                        <Select {...field} onValueChange={field.onChange}>
+                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                            <SelectValue placeholder="Project Type" />
+                          </SelectTrigger>
+                          <SelectContent className="overflow-y-auto max-h-[40vh]">
+                            {project_type.map((option, index) => {
+                              return (
+                                // <>
+                                <SelectItem key={index} value={option}>
+                                  {option}
+                                </SelectItem>
+                                // </>
+                              )
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  </>
+                )
+              }}
+            />
+          </div>
+
+          {/* <div className="p-4 bg-white rounded-[0.88rem]">
             {uploadedFiles}
           </div> */}
-        {/* {uploadedFiles && uploadedFiles.length > 0 && ( */}
-        <UploadedSection
-          uploadedFiles={uploadedFiles}
-          setUploadedFiles={setUploadedFiles}
-        />
-        {/* )} */}
-        <div className="p-4 bg-white rounded-[0.88rem]">
-          <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
-          <Previews
-            setFiles={form.setValue}
-            getValues={form.getValues}
-            form={form}
+          {/* {uploadedFiles && uploadedFiles.length > 0 && ( */}
+          <UploadedSection
+            uploadedFiles={uploadedFiles}
+            setUploadedFiles={setUploadedFiles}
           />
-        </div>
-        <div className="my-2 relative flex justify-end items-center mt-3">
-          <div
-            className={clsx(
-              "inline-block mr-6 text-[#cc3057] ",
-              !move ? "" : "hidden",
-            )}
-          >
-            We will email you when your content has been processed
+          {/* )} */}
+          <div className="p-4 bg-white rounded-[0.88rem]">
+            <div className="flex justify-between items-center">
+              <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
+              <label
+                className={`hover:cursor-pointer inline-block font-[500] text-sm bg-black hover:bg-white text-white hover:text-black transition-colors p-2 border border-black rounded-md ${
+                  form.watch("files", []).length > 0 ? "visible" : "hidden"
+                }`}
+                htmlFor="dropzone"
+              >
+                Attach More Files
+              </label>
+            </div>
+            <Previews
+              setFiles={form.setValue}
+              getValues={form.getValues}
+              form={form}
+            />
           </div>
-          <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-            <AlertDialogTrigger asChild>
-              {/* <Button variant="outline">Show Dialog</Button> */}
-              <Button className="py-2 rounded-[0.38rem] text-white bg-red-500 hover:bg-red-200 transition-colors px-8 border hover:opacity-60 cursor-pointer">
-                Delete
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete? Your content will be lost
-                  forever.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <Button
-                  disabled={deleteStatus}
-                  className="bg-black text-white hover:bg-gray-900"
-                  onClick={async () => {
-                    try {
-                      setDeleteStatus(true)
-                      const res = await fetch("/api/delete-project", {
-                        method: "POST",
-                        body: JSON.stringify({
-                          projectId: params.id,
-                          caller: current!,
-                        }),
-                      })
-                      console.log(res, "delete-project")
-                      setDeleteStatus(false)
-                      const res_body = await res.json()
-                      console.log(res_body, "res_body")
-                      if (res.status == 200) {
-                        console.log("status")
-                        setDeleteStatus(false)
-                        router.push("/profile-editor")
-                      } else {
-                        // const res = await fetch(
-                        //   "/api/add-project/delete-project",
-                        //   {
-                        //     method: "POST",
-                        //     body: JSON.stringify({
-                        //       projectId: params.id,
-                        //       caller: current!,
-                        //     }),
-                        //   },
-                        // )
-                      }
-                      // console.log(res_body)
-                    } catch {
-                      setDeleteStatus(false)
-                    }
-                  }}
-                >
-                  Continue
+          <div className="my-2 relative flex justify-end items-center mt-3">
+            <div
+              className={clsx(
+                "inline-block mr-6 text-[#cc3057] ",
+                !move && preventSubmit ? "" : "hidden",
+              )}
+            >
+              We will email you when your content has been processed
+            </div>
+            <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+              <AlertDialogTrigger asChild>
+                {/* <Button variant="outline">Show Dialog</Button> */}
+                <Button className="py-2 rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors px-8 border cursor-pointer">
+                  Delete
                 </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete? Your content will be lost
+                    forever.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <Button
+                    disabled={deleteStatus}
+                    className="bg-black text-white hover:bg-gray-900"
+                    onClick={async () => {
+                      try {
+                        setDeleteStatus(true)
+                        const res = await fetch("/api/delete-project", {
+                          method: "POST",
+                          body: JSON.stringify({
+                            projectId: params.id,
+                            caller: current!,
+                          }),
+                        })
+                        console.log(res, "delete-project")
+                        setDeleteStatus(false)
+                        const res_body = await res.json()
+                        console.log(res_body, "res_body")
+                        if (res.status == 200) {
+                          console.log("status")
+                          setDeleteStatus(false)
+                          router.push("/profile-editor")
+                        } else {
+                          // const res = await fetch(
+                          //   "/api/add-project/delete-project",
+                          //   {
+                          //     method: "POST",
+                          //     body: JSON.stringify({
+                          //       projectId: params.id,
+                          //       caller: current!,
+                          //     }),
+                          //   },
+                          // )
+                        }
+                        // console.log(res_body)
+                      } catch {
+                        setDeleteStatus(false)
+                      }
+                    }}
+                  >
+                    Continue
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
-          <Button
-            // onClick={()=>}
-            // disabled={ }
-            disabled={!load || !move}
-            onClick={async (e) => {
-              e.preventDefault()
-              await form.handleSubmit(submitHandler)()
-              console.log("done calling handleSubmit")
-              if (move) {
-                router.push(`/add-project/edit/${params.id}`)
-              }
-            }}
-            // type="submit"
-            className="ml-2 py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
-          >
-            Next
-          </Button>
-        </div>
-      </form>
-    </Form>
-    // </>
+            <Button
+              // onClick={()=>}
+              // disabled={ }
+              disabled={!load || (!move && preventSubmit)}
+              onClick={async (e) => {
+                e.preventDefault()
+                await form.handleSubmit(submitHandler)()
+                console.log("done calling handleSubmit")
+                if (move) {
+                  router.push(`/add-project/edit/${params.id}`)
+                }
+              }}
+              // type="submit"
+              className="ml-2 py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
+            >
+              Next
+            </Button>
+          </div>
+        </form>
+      </Form>
+      // </>
+    )
   )
 }

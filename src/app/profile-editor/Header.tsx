@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useHeader } from "../context/HeaderContext"
-import { Dispatch, useState } from "react"
+import { Dispatch, useRef, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 // import
 import {
+  FloatingArrow,
+  arrow,
   useFloating,
   useFocus,
   useHover,
@@ -26,10 +28,16 @@ export default function Header({
   profileData: any
 }) {
   const [floatOpen, setFloatOpen] = useState(false)
+  const arrowRef = useRef(null)
 
   const { refs, floatingStyles, context } = useFloating({
     open: floatOpen,
     onOpenChange: setFloatOpen,
+    middleware: [
+      arrow({
+        element: arrowRef,
+      }),
+    ],
   })
   const hover = useHover(context)
   const focus = useFocus(context)
@@ -137,6 +145,7 @@ export default function Header({
               style={{ ...floatingStyles, top: "10px" }}
               {...getFloatingProps()}
             >
+              <FloatingArrow ref={arrowRef} context={context} fill="white" />
               Feature is coming soon!
             </div>
           )}

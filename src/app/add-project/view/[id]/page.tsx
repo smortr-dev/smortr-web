@@ -52,6 +52,8 @@ import { FONT_MANIFEST } from "next/dist/shared/lib/constants"
 import clsx from "clsx"
 import Skills from "../../Skills"
 import PDFViewer from "./Pdf-viewer"
+import { cn } from "@/lib/utils"
+import { toast } from "@/components/ui/use-toast"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
   files: z
@@ -301,7 +303,21 @@ export default function View({ params }: { params: { id: string } }) {
     // return
     try {
       await updateDoc(docRef, { ...values })
+      toast({
+        // variant: "destructive",
+        title: "Updated Successfully",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+      })
     } catch (err) {
+      toast({
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        ),
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      })
       console.error(err)
     }
     // console.log("submission done")
@@ -360,9 +376,9 @@ export default function View({ params }: { params: { id: string } }) {
               >
                 <DialogContentAddProjectView className="bg-[#FFFFFFE5]">
                   <div className="h-[100vh] relative justify-center items-center flex flex-col">
-                    <div className="px-16 flex justify-between w-full">
+                    <div className="px-16 flex justify-between w-full max-h-[8vh]">
                       {/* <div></div> */}
-                      <span className="inline-block text-[1.15rem] font-[600] py-4">
+                      <span className="inline-block text-[1.15rem] font-[600] py-2">
                         {(currentIndex < visibleFiles.length &&
                           form.watch(
                             `files.${visibleFiles[currentIndex].index}.name`,
@@ -378,7 +394,7 @@ export default function View({ params }: { params: { id: string } }) {
 
                     <Carousel
                       setApi={setApi1}
-                      className="h-[65vh] flex align-center justify-center max-w-full px-8"
+                      className="h-[72vh] flex align-center justify-center max-w-full px-8"
                       opts={{
                         align: "center",
                       }}
@@ -399,16 +415,17 @@ export default function View({ params }: { params: { id: string } }) {
                                 className="object-contain"
                               />
                             )}
-                            {file.type == "pdf" && (
+                            {/* {file.type == "pdf" && (
                               <object
+                                draggable={true}
                                 className="object-contain h-full w-full"
                                 data={file.filePath}
                                 type="application/pdf"
                               ></object>
-                            )}
-                            {/* {file.type == "pdf" && (
-                              <PDFViewer file={file.filePath} />
                             )} */}
+                            {file.type == "pdf" && (
+                              <PDFViewer file={file.filePath} />
+                            )}
                           </CarouselItem>
                         ))}
                       </CarouselContent>
@@ -434,12 +451,12 @@ export default function View({ params }: { params: { id: string } }) {
                             // md:basis-1/2
                             className="basis-1/6 hover:cursor-pointer max-h-[20vh]"
                           >
-                            <Card className="bg-transparent border-0 flex justify-center items-center">
+                            <Card className="bg-transparent max-h-[20vh] border-0 flex hover:bg-gray-400 rounded-md transition-colors justify-center items-center">
                               <CardContent className="flex p-0 aspect-square items-center justify-center h-[20vh]">
                                 <img
                                   src={file.preview}
                                   alt="index"
-                                  className="inline-block max-h-[18vh] w-auto"
+                                  className="inline-block object-contain max-h-[18vh] max-w-[18vh]"
                                 />
                               </CardContent>
                             </Card>
@@ -498,7 +515,7 @@ export default function View({ params }: { params: { id: string } }) {
                               }}
                             />
 
-                            <FormField
+                            {/* <FormField
                               control={form.control}
                               name={`files.${file.index}.description`}
                               render={({ field, fieldState }) => {
@@ -513,7 +530,62 @@ export default function View({ params }: { params: { id: string } }) {
                                           placeholder={`Description
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                          maxLength={200}
+                                          maxLength={500}
+                                          rows={9}
+                                          {...field}
+                                          className={` ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : "  border-[#848484]"
+                                          }`}
+                                          required
+                                        />
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
+                            />*/}
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.description`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="text-left mt-4 w-[100%]">
+                                      <div className="flex justify-between items-center">
+                                        <FormLabel className="ml-2 inline-block">
+                                          Share it with
+                                        </FormLabel>
+
+                                        {/* <div className="flex items-center">
+                                          {trigger && (
+                                            <span className="text-[0.75rem] font-[500] text-[#818181]">
+                                              Copied To Clipboard!
+                                            </span>
+                                          )}
+                                          <img
+                                            src="/share.svg"
+                                            onClick={() => {
+                                              // console.log(trigger)
+                                              setTrigger(true)
+                                              navigator.clipboard.writeText(
+                                                form.getValues(
+                                                  `files.${index}.share`,
+                                                ) || "",
+                                              )
+                                              // setVisible(true)
+                                            }}
+                                            alt="share"
+                                            className="ml-2 cursor-pointer h-4 w-4 mr-2"
+                                          />
+                                        </div> */}
+                                      </div>
+                                      <FormControl>
+                                        <MultiLineInputProject
+                                          placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
+                                          maxLength={500}
                                           rows={9}
                                           {...field}
                                           className={` ${
@@ -531,18 +603,18 @@ export default function View({ params }: { params: { id: string } }) {
                                 )
                               }}
                             />
-                            <FormField
+                            {/* <FormField
                               control={form.control}
                               name={`files.${file.index}.content_type`}
                               render={({ field, fieldState }) => (
                                 <FormItem className="mt-4 w-full">
                                   <FormLabel>Content Type</FormLabel>
-                                  {/* <FormLabel>Profession</FormLabel> */}
+
                                   <Select
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
                                   >
-                                    {/* defaultValue={field.value} */}
+                                    
                                     <FormControl>
                                       <SelectTrigger
                                         className={`prompt bg-white rounded-[0.88rem] w-full border-2  view ${
@@ -569,6 +641,62 @@ export default function View({ params }: { params: { id: string } }) {
                                   </Select>
                                 </FormItem>
                               )}
+                            /> */}
+                            <FormField
+                              control={form.control}
+                              name={`files.${file.index}.content_type`}
+                              render={({ field, fieldState }) => {
+                                return (
+                                  <>
+                                    <FormItem className="text-left mt-4 w-[100%]">
+                                      <div className="flex justify-between items-center">
+                                        <FormLabel className="ml-2 inline-block">
+                                          Content Type
+                                        </FormLabel>
+
+                                        {/* <div className="flex items-center">
+                                          {trigger && (
+                                            <span className="text-[0.75rem] font-[500] text-[#818181]">
+                                              Copied To Clipboard!
+                                            </span>
+                                          )}
+                                          <img
+                                            src="/share.svg"
+                                            onClick={() => {
+                                              // console.log(trigger)
+                                              setTrigger(true)
+                                              navigator.clipboard.writeText(
+                                                form.getValues(
+                                                  `files.${index}.share`,
+                                                ) || "",
+                                              )
+                                              // setVisible(true)
+                                            }}
+                                            alt="share"
+                                            className="ml-2 cursor-pointer h-4 w-4 mr-2"
+                                          />
+                                        </div> */}
+                                      </div>
+                                      <FormControl>
+                                        <MultiLineInputProject
+                                          placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
+                                          maxLength={200}
+                                          rows={4}
+                                          {...field}
+                                          className={` ${
+                                            fieldState.error
+                                              ? "border-[#CC3057]"
+                                              : "  border-[#848484]"
+                                          }`}
+                                          required
+                                        />
+                                        {/* <span>{}</span> */}
+                                      </FormControl>
+                                      <FormMessage className="text-xs text-[#CC3057]" />
+                                    </FormItem>
+                                  </>
+                                )
+                              }}
                             />
                             <FormField
                               control={form.control}
@@ -594,9 +722,7 @@ export default function View({ params }: { params: { id: string } }) {
                                               // console.log(trigger)
                                               setTrigger(true)
                                               navigator.clipboard.writeText(
-                                                form.getValues(
-                                                  `files.${index}.share`,
-                                                ) || "",
+                                                file.filePath,
                                               )
                                               // setVisible(true)
                                             }}

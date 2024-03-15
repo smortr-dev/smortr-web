@@ -41,6 +41,14 @@ export async function uploadFileRecursive(
           ),
           files: arrayUnion({
             privacy: "private",
+            description: "",
+            content_type: "",
+            share: "",
+            // privacy: "",
+            note: "",
+            // phase:
+            phase: "",
+            skills: [],
             name: `${name}`,
           }),
         })

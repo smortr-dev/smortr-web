@@ -102,7 +102,7 @@ export default function Previews(props: {
             "dropzone border-dashed border-[1px] border-[rgba(0,0,0,0.25)] rounded-[0.63rem] p-4 relative mt-4",
         })}
       >
-        <input {...getInputProps()} />
+        <input id="dropzone" {...getInputProps()} />
         <div className="flex justify-start upload-container h-[50vh] flex-wrap overscroll-x-none overflow-x-scroll view-dropzone">
           {props.form.watch("files", []).map((file: CustomFile) => (
             <div
@@ -126,26 +126,27 @@ export default function Previews(props: {
             </div>
           ))}
         </div>
-        {props.form.watch("files", []).length == 0 ? (
-          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <div className="select-none flex flex-col justify-center items-center">
-              <img
-                className="inline-block h-[3rem] w-[3rem]"
-                alt="upload"
-                src="/upload.svg"
-              />
-              <h4 className="mt-2 font-[400] text-[0.8125rem] text-center">
-                Select a file or drag and drop here
-              </h4>
-              <p className="text-[rgba(0,0,0,0.4)] text-[0.75rem] font-[400] mt-2 text-center">
-                JPG, PNG or PDF, file size no more than 30MB
-              </p>
+
+        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <div className="select-none flex flex-col justify-center items-center">
+            <img
+              className="inline-block h-[3rem] w-[3rem]"
+              alt="upload"
+              src="/upload.svg"
+            />
+            <h4 className="mt-2 font-[400] text-[0.8125rem] text-center">
+              Select a file or drag and drop here
+            </h4>
+            <p className="text-[rgba(0,0,0,0.4)] text-[0.75rem] font-[400] mt-2 text-center">
+              JPG, PNG or PDF, file size no more than 30MB
+            </p>
+            {props.form.watch("files", []).length == 0 ? (
               <div className="inline-block py-2 mt-3 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-4 border border-transparent bg-[#6563FF] cursor-pointer">
                 Select File
               </div>
-            </div>
+            ) : null}
           </div>
-        ) : null}
+        </div>
       </div>
     </>
     // </section>

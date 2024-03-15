@@ -27,34 +27,20 @@ const workPreferences = new Array<workPreferencesElements>(
 )
 import { toast, useToast } from "@/components/ui/use-toast"
 
-import { HubspotProvider } from "next-hubspot"
-import { styled } from "@mui/material/styles"
+// import { HubspotProvider } from "next-hubspot"
+// import { styled } from "@mui/material/styles"
 import { Button } from "@/components/ui/button"
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
-// import { error, profile, profileEnd } from "console"
-// import { type } from "os";
 import { useContext, useEffect, useState } from "react"
 import Header from "./Header"
 import { useRouter } from "next/navigation"
-
 import { Input } from "@/components/ui/input"
 import { Controller, useForm, useFormState } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MultiLineInput } from "@/components/ui/multilineInput"
 import * as React from "react"
-import Box from "@mui/material/Box"
-import Tab from "@mui/material/Tab"
-import TabContext from "@mui/lab/TabContext"
-import TabList from "@mui/lab/TabList"
-import TabPanel from "@mui/lab/TabPanel"
-import CertificationOrLicense from "./CertificationOrLicense"
-import Bio from "./Bio"
-import Education from "./Education"
-import Experience from "./Experience"
-import Portfolio from "./Portfolio"
-import Tabs from "@mui/material/Tabs"
-import { useStepContext } from "@mui/material"
+
 import {
   Form,
   FormControl,
@@ -96,6 +82,7 @@ import { profileEnd } from "console"
 import { Projector } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { uploadFile } from "@/lib/uploadFile"
 
 // export async function getStaticProps(params:type) {
 
@@ -254,9 +241,7 @@ export default function Profile({ params }: { params: { name: string } }) {
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     "/user-thumbnail.png",
   )
-  const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>(
-    "/image-thumbnail.png",
-  )
+  const [backgroundUrl, setBackgroundUrl] = useState<string | undefined>()
   const [open, setOpen] = useState(false)
   const [openStatus, setOpenStatus] = useState(false)
   // const [allData, setAllData] = useState<data>()
@@ -287,6 +272,7 @@ export default function Profile({ params }: { params: { name: string } }) {
   //   }
   // }
   async function submitHandler(values: z.infer<typeof formSchema>) {
+    const timeout = 20
     // console.log("called")
     try {
       let document: any = {}
@@ -294,88 +280,114 @@ export default function Profile({ params }: { params: { name: string } }) {
       if (values.image.length > 0) {
         const name = values.image[0].name + new Date().getTime()
         const storageRef = ref(storage, `user-assets/${current}/${name}`)
-        const uploadTask = uploadBytesResumable(storageRef, values.image[0])
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            // console.log("Upload is " + progress + "% done")
-            switch (snapshot.state) {
-              case "paused":
-                // console.log("Upload is paused")
-                break
-              case "running":
-                // console.log("Upload is running")
-                break
-            }
-          },
-          (error) => {
-            // Handle unsuccessful uploads
-          },
-          () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              const docRef = doc(db, "users", current!)
-              setImageUrl(downloadURL)
-              // console.log("File available at", downloadURL)
-              form.setValue("image", [])
-              return updateDoc(docRef, {
-                image: downloadURL,
-                imageName: `user-assets/${current}/${name}`,
-              })
-            })
-          },
-        )
+        // await uploadFile(storageRef, values.image[0], 6, current!, name, undefined, )
+        await new Promise((res, rej) => {
+          const uploadTask = uploadBytesResumable(storageRef, values.image[0])
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              // console.log("Upload is " + progress + "% done")
+              switch (snapshot.state) {
+                case "paused":
+                  // console.log("Upload is paused")
+                  break
+                case "running":
+                  // console.log("Upload is running")
+                  break
+              }
+            },
+            (error) => {
+              rej(error)
+              // Handle unsuccessful uploads
+            },
+            async () => {
+              // Handle successful uploads on complete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              getDownloadURL(uploadTask.snapshot.ref)
+                .then((downloadURL) => {
+                  const docRef = doc(db, "users", current!)
+                  setImageUrl(downloadURL)
+                  // console.log("File available at", downloadURL)
+                  form.setValue("image", [])
+                  return updateDoc(docRef, {
+                    image: downloadURL,
+                    imageName: `user-assets/${current}/${name}`,
+                  })
+                })
+                .then(() => {
+                  res("done")
+                })
+                .catch((err) => {
+                  rej(err)
+                })
+            },
+          )
+          for (let i = 0; i < timeout; i++) {
+            setTimeout(() => {}, 1000)
+          }
+        })
       }
       // console.log("background file", values.background)
 
       if (values.background.length > 0) {
         const name = new Date().getTime().toString()
         const storageRef = ref(storage, `user-assets/${current}/${name}`)
-        const uploadTask = uploadBytesResumable(
-          storageRef,
-          values.background[0],
-        )
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            // console.log("Upload is " + progress + "% done")
-            switch (snapshot.state) {
-              case "paused":
-                // console.log("Upload is paused")
-                break
-              case "running":
-                // console.log("Upload is running")
-                break
-            }
-          },
-          (error) => {
-            // Handle unsuccessful uploads
-          },
-          async () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              const docRef = doc(db, "users", current!)
-              setBackgroundUrl(downloadURL)
-              // console.log("File available at background", downloadURL)
-              form.setValue("background", [])
+        await new Promise((res, rej) => {
+          const uploadTask = uploadBytesResumable(
+            storageRef,
+            values.background[0],
+          )
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              // console.log("Upload is " + progress + "% done")
+              switch (snapshot.state) {
+                case "paused":
+                  // console.log("Upload is paused")
+                  break
+                case "running":
+                  // console.log("Upload is running")
+                  break
+              }
+            },
+            (error) => {
+              rej(error)
+              // Handle unsuccessful uploads
+            },
+            async () => {
+              // Handle successful uploads on complete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                const docRef = doc(db, "users", current!)
+                setBackgroundUrl(downloadURL)
+                // console.log("File available at background", downloadURL)
+                form.setValue("background", [])
 
-              return updateDoc(docRef, {
-                background: downloadURL,
-                backgroundName: `user-assets/${current}/${name}`,
+                return updateDoc(docRef, {
+                  background: downloadURL,
+                  backgroundName: `user-assets/${current}/${name}`,
+                })
+                  .then(() => {
+                    res("done")
+                  })
+                  .catch((err) => {
+                    rej(err)
+                  })
               })
-            })
-          },
-        )
+            },
+          )
+          for (let i = 0; i < timeout; i++) {
+            setTimeout(() => {}, 1000)
+          }
+        })
       }
 
       if (values.name) {
@@ -412,6 +424,7 @@ export default function Profile({ params }: { params: { name: string } }) {
       await getData()
       // console.log("toast reached")
       toast({
+        // variant: "destructive",
         title: "Updated Successfully",
         className: cn(
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
@@ -805,8 +818,10 @@ export default function Profile({ params }: { params: { name: string } }) {
                   />
                   <div className="flex justify-end my-2">
                     <Button
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.preventDefault()
+                        // e.preventDefault()
+                        await form.handleSubmit(submitHandler)()
                         setOpen((prev) => !prev)
                       }}
                     >
@@ -854,8 +869,10 @@ export default function Profile({ params }: { params: { name: string } }) {
                   />
                   <div className="flex justify-end my-2">
                     <Button
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.preventDefault()
+                        // e.preventDefault()
+                        await form.handleSubmit(submitHandler)()
                         setOpenStatus((prev) => !prev)
                       }}
                     >
@@ -865,7 +882,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                 </DialogContent>
               </Dialog>
               <div className="relative min-h-[60vh] ">
-                <div className="overflow-clip md:h-[60vh] h-[30vh] bg-[#8c8c8c] relative">
+                <div className="overflow-clip md:h-[60vh] h-[30vh] bg-[#7696F2] relative">
                   <Header
                     profileData={profileData}
                     visibleProjects={visibleProjects}
@@ -880,12 +897,13 @@ export default function Profile({ params }: { params: { name: string } }) {
                         accept="image/*,audio/*,video/*"
                         {...form.register(`background`)}
                         className="hidden h-full absolute w-full top-0 left-0"
-                        onChange={(e) => {
+                        onChange={async (e) => {
+                          console.log(e.target.files, "file")
                           if (!e.target.files) {
                             setBackgroundUrl(
                               profileData && profileData.background
                                 ? profileData.background
-                                : "/image-thumbnail.png",
+                                : undefined,
                             )
                             form.setValue("background", [])
                           } else if (e.target?.files[0]) {
@@ -895,6 +913,8 @@ export default function Profile({ params }: { params: { name: string } }) {
                             // console.log(e.target.files, "background")
 
                             form.setValue("background", [e.target.files[0]])
+                            await form.handleSubmit(submitHandler)()
+                            // await getData()
                           } else {
                             if (profileData && profileData.background) {
                               setBackgroundUrl(profileData.background)
@@ -902,7 +922,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               setBackgroundUrl(
                                 profileData && profileData.background
                                   ? profileData.background
-                                  : "/image-thumbnail.png",
+                                  : undefined,
                               )
                             }
                           }
@@ -911,6 +931,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       />
                     </label>
                   </div>
+                  {/* {backgroundUrl == undefined ? console.log("undefined") : null} */}
                   {backgroundUrl ? (
                     <img
                       loading="lazy"
@@ -941,17 +962,17 @@ export default function Profile({ params }: { params: { name: string } }) {
                 <div className="inline-block absolute w-[0.3rem] h-[0.3rem] rounded-full bg-white lg:left-[calc(50%-3rem)]  left-[calc(50%-2.5rem)] lg:translate-y-[-5rem] translate-y-[-3.8rem]"></div>
                 <div className="inline-block absolute w-[0.5rem] h-[0.5rem] rounded-full bg-white lg:left-[calc(50%-3.8rem)]  left-[calc(50%-3.2rem)] lg:translate-y-[-5.5rem] translate-y-[-4.1rem]"></div>
                 <div className="inline-block absolute w-[0.67rem] h-[0.67rem] rounded-full bg-white lg:left-[calc(50%-4.5rem)]  left-[calc(50%-3.8rem)] lg:translate-y-[-6.2rem] translate-y-[-4.9rem]"></div>
-                <div className="flex items-center justify-center absolute lg:h-[10rem] lg:w-[10rem] h-[8rem] bg-[rgba(217,217,217,0.80)] w-[8rem] rounded-full  lg:left-[calc(50%-5rem)]  left-[calc(50%-4rem)] lg:translate-y-[-5rem] translate-y-[-4rem] z-20">
+                <div className="flex items-center overflow-clip justify-center absolute lg:h-[10rem] lg:w-[10rem] h-[8rem] bg-[rgba(217,217,217,0.80)] w-[8rem] rounded-full  lg:left-[calc(50%-5rem)]  left-[calc(50%-4rem)] lg:translate-y-[-5rem] translate-y-[-4rem] z-20">
                   <img
                     className="inline-block h-4 w-4"
                     src="/plus.png"
                     alt="plus"
                   />
-                  <label className=" h-full w-full block absolute top-0 left-0 cursor-pointer">
+                  <label className=" h-full  w-full flex justify-center items-center absolute top-0 left-0 cursor-pointer">
                     {imageUrl ? (
                       <img
                         loading="lazy"
-                        className="object-cover rounded-full h-full"
+                        className="object-cover  h-full"
                         src={imageUrl}
                         alt="img"
                       />
@@ -961,8 +982,9 @@ export default function Profile({ params }: { params: { name: string } }) {
                       accept="image/*,audio/*,video/*"
                       {...form.register(`image`)}
                       className="hidden h-full absolute w-full top-0 left-0"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         if (!e.target.files) {
+                          console.log("0")
                           setImageUrl(
                             profileData && profileData.image
                               ? profileData.image
@@ -970,10 +992,15 @@ export default function Profile({ params }: { params: { name: string } }) {
                           )
                           form.setValue("image", [])
                         } else if (e.target?.files[0]) {
+                          console.log("1")
+
                           setImageUrl(URL.createObjectURL(e.target.files[0]))
                           // console.log(e.target.files)
                           form.setValue("image", [e.target.files[0]])
+                          await form.handleSubmit(submitHandler)()
+                          // await getData()
                         } else {
+                          console.log("2")
                           if (profileData && profileData.image) {
                             setImageUrl(profileData.image)
                           } else {
@@ -1096,7 +1123,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                           .map((language: any, index: any) => (
                             <span key={language} className="font-[700]">
                               {language}
-                              {profileData.language.length - 1 > index
+                              {form.watch("language", []).length - 1 > index
                                 ? ", "
                                 : null}
                             </span>
@@ -1106,11 +1133,12 @@ export default function Profile({ params }: { params: { name: string } }) {
                         Work Preference:{" "}
                         <span className="font-[700]">
                           {form
-                            .watch("workPreference")
+                            .watch("workPreference", [])
                             .map((item: any, index: any) => (
                               <span key={index} className="font-[700]">
                                 {item}
-                                {profileData.workPreference.length - 1 > index
+                                {form.watch("workPreference", []).length - 1 >
+                                index
                                   ? ", "
                                   : null}
                               </span>
@@ -1118,7 +1146,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                         </span>
                       </div>
                     </div>
-                    <div className="flex justify-end">
+                    {/* <div className="flex justify-end">
                       <Button
                         type="button"
                         onClick={async (e) => {
@@ -1130,7 +1158,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                       >
                         Update Details
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="px-16 pt-16 pb-16 ">
