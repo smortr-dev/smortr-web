@@ -38,18 +38,6 @@ export default function Section({
   return (
     <>
       <div className="flex justify-center relative">
-        <div className="inline-block absolute left-0 translate-y-[-50%] top-[50%] ">
-          {/* rounded-[0.88rem] bg-gray-500 border-black */}
-          <Button
-            className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
-            onClick={(e) => {
-              e.preventDefault()
-              router.push("/profile-editor")
-            }}
-          >
-            <span>Close Project Editor</span>
-          </Button>
-        </div>
         <div className="flex justify-center rounded-[0.88rem] bg-white overflow-clip drop-shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)]">
           <div
             onClick={() => {

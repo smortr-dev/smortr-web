@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 import { Controller, useForm } from "react-hook-form"
 import Section from "../../Section"
@@ -691,12 +692,12 @@ export default function Upload({ params }: { params: { id: string } }) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(submitHandler)}>
           <div className="pt-4">
-            <div className="flex justify-between items-center  mb-6">
+            <div className="flex justify-start items-center  mb-6">
               <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
                 {form.watch("projectName", "New Project")}
               </h3>
 
-              <div className="flex">
+              {/* <div className="flex">
                 <Button
                   disabled={!load || save}
                   onClick={async (e) => {
@@ -739,7 +740,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                 >
                   Publish
                 </Button>
-              </div>
+              </div> */}
             </div>
             <Section active="upload" move={move} load={load} />
 
@@ -980,15 +981,7 @@ export default function Upload({ params }: { params: { id: string } }) {
               save={save}
             />
           </div>
-          <div className="my-2 relative flex justify-end items-center mt-3">
-            <div
-              className={clsx(
-                "inline-block mr-6 text-[#cc3057] ",
-                !move && preventSubmit ? "" : "hidden",
-              )}
-            >
-              We will email you when your content has been processed
-            </div>
+          <div className="my-2 relative flex justify-center items-center mt-3">
             <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
               <AlertDialogTrigger asChild>
                 {/* <Button variant="outline">Show Dialog</Button> */}
@@ -1050,7 +1043,57 @@ export default function Upload({ params }: { params: { id: string } }) {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-
+            <Button
+              // onClick={()=>}
+              // disabled={ }
+              disabled={false}
+              // type="submit"
+              className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+            >
+              <img src="/arrow_prev.svg" className="w-8" alt="next" />
+            </Button>
+            <Button
+              disabled={!load || save}
+              onClick={async (e) => {
+                e.preventDefault()
+                await form.handleSubmit(submitHandler)()
+                // await loadInitialValues()
+                // if (move) {
+                //   router.push(`/add-project/edit/${params.id}`)
+                // }
+              }}
+              className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+            >
+              Save
+            </Button>
+            <Button
+              disabled={!load || save}
+              onClick={async () => {
+                await form.handleSubmit(
+                  async (values: z.infer<typeof formSchema>) => {
+                    try {
+                      await uploadContent(values)
+                      const docRef = doc(
+                        db,
+                        "users",
+                        current!,
+                        "projects",
+                        params.id,
+                      )
+                      await updateDoc(docRef, {
+                        published: true,
+                      })
+                      router.push("/profile-editor")
+                    } catch (err) {
+                      console.error(err)
+                    }
+                  },
+                )()
+              }}
+              className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+            >
+              Publish
+            </Button>
             <Button
               // onClick={()=>}
               // disabled={ }
@@ -1064,10 +1107,29 @@ export default function Upload({ params }: { params: { id: string } }) {
                 }
               }}
               // type="submit"
-              className="ml-2 py-2 rounded-[0.38rem] text-white hover:border-[#6563FF] hover:bg-white hover:text-[#6563FF] transition-colors px-8 border border-transparent bg-[#6563FF] cursor-pointer"
+              className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
             >
-              Next
+              <img src="/arrow_next.svg" className="w-8" alt="next" />
             </Button>
+            <Button
+              className="border-2 ml-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
+              onClick={(e) => {
+                e.preventDefault()
+                router.push("/profile-editor")
+              }}
+            >
+              <span>Close Project Editor</span>
+            </Button>
+          </div>
+          <div className="flex justify-center">
+            <div
+              className={clsx(
+                "inline-block mr-6 text-[#cc3057] ",
+                !move && preventSubmit ? "" : "hidden",
+              )}
+            >
+              We will email you when your content has been processed
+            </div>
           </div>
         </form>
       </Form>
