@@ -376,7 +376,7 @@ export default function View({ params }: { params: { id: string } }) {
                 open={open && visibleFiles.length > 0}
                 onOpenChange={setOpen}
               >
-                <DialogContentAddProjectView className="bg-[#FFFFFFE5]">
+                <DialogContentAddProjectView className="bg-[#FFFFFFE5] z-[250]">
                   <div className="h-[100vh] relative justify-center items-center flex flex-col">
                     <div className="px-16 flex justify-between w-full max-h-[8vh]">
                       {/* <div></div> */}

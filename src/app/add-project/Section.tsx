@@ -19,7 +19,13 @@ const link = cva(
   },
 )
 
-export default function Section({ active }: { active: string }) {
+export default function Section({
+  active,
+  move,
+}: {
+  active: string
+  move?: boolean
+}) {
   const router = useRouter()
   const path = usePathname()
   const id = useMemo(() => path.split("/").splice(-1).join(""), [path])

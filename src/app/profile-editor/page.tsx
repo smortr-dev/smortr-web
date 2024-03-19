@@ -618,7 +618,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               <FormLabel>Name</FormLabel>
                               <FormControl>
                                 <Input
-                                  placeholder="Example: Harvard"
+                                  placeholder="Example: Catherine"
                                   {...field}
                                   className={`rounded-[0.38rem] border-[1px] w-[100%]  ${
                                     fieldState.error
@@ -644,7 +644,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               <FormLabel>Profession</FormLabel>
                               <FormControl>
                                 <Input
-                                  placeholder="Example: Harvard"
+                                  placeholder="Example: Interior Designer"
                                   {...field}
                                   className={`rounded-[0.38rem] border-[1px] w-[100%]  ${
                                     fieldState.error
@@ -672,7 +672,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               <FormLabel>Location</FormLabel>
                               <FormControl>
                                 <Input
-                                  placeholder="Example: Harvard"
+                                  placeholder="Example: Paris"
                                   {...field}
                                   className={`rounded-[0.38rem] border-[1px] w-[100%]  ${
                                     fieldState.error
@@ -698,7 +698,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                               <FormLabel>Pronouns</FormLabel>
                               <FormControl>
                                 <Input
-                                  placeholder="Example: Harvard"
+                                  placeholder="Example: He/Him"
                                   {...field}
                                   className={`rounded-[0.38rem] border-[1px] w-[100%]  ${
                                     fieldState.error

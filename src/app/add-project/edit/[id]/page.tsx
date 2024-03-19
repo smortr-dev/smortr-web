@@ -611,10 +611,10 @@ export default function Edit({ params }: { params: { id: string } }) {
                   Back
                 </Button>
                 <Button
-                  // onClick={async () => {
-                  //   await form.handleSubmit(uploadContent)()
-                  //   router.push(`/add-project/view/${params.id}`)
-                  // }}
+                  onClick={async () => {
+                    await form.handleSubmit(uploadContent)()
+                    router.push(`/add-project/view/${params.id}`)
+                  }}
                   type="submit"
                   className="border ml-2 border-[#6563FF] px-8 hover:bg-white hover:text-[#6563FF] bg-[#6563FF] transition-colors text-white"
                 >

@@ -548,6 +548,7 @@ export default function Upload({ params }: { params: { id: string } }) {
 
     loadInitialValues()
   }, [])
+  // form
   async function uploadContent(values: z.infer<typeof formSchema>) {
     // console.log("called upload")
     let document: any = {}
@@ -582,6 +583,8 @@ export default function Upload({ params }: { params: { id: string } }) {
             current!,
             params.id,
             name,
+            form,
+            index,
           )
             .then(async () => {
               if (
@@ -614,6 +617,7 @@ export default function Upload({ params }: { params: { id: string } }) {
       await sendMail(current!, params.id)
       // }
       form.setValue("files", [])
+      console.log(form.getValues("files"), "after refresh")
 
       // if (values.description) {
       //   document.description = values.description
@@ -954,8 +958,15 @@ export default function Upload({ params }: { params: { id: string } }) {
             <div className="flex justify-between items-center">
               <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
               <label
-                className={`hover:cursor-pointer inline-block font-[500] text-sm bg-black hover:bg-white text-white hover:text-black transition-colors p-2 border border-black rounded-md ${
+                onClick={(e) => {
+                  if (save) e.preventDefault()
+                }}
+                className={`hover:cursor-pointer inline-block font-[500] text-sm bg-black  text-white  transition-colors p-2 border border-black rounded-md ${
                   form.watch("files", []).length > 0 ? "visible" : "hidden"
+                } ${
+                  save
+                    ? "opacity-70"
+                    : "opacity-100 hover:text-black hover:bg-white"
                 }`}
                 htmlFor="dropzone"
               >
@@ -966,6 +977,7 @@ export default function Upload({ params }: { params: { id: string } }) {
               setFiles={form.setValue}
               getValues={form.getValues}
               form={form}
+              save={save}
             />
           </div>
           <div className="my-2 relative flex justify-end items-center mt-3">

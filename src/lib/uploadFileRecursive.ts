@@ -2,6 +2,7 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore"
 import { StorageReference, uploadBytesResumable } from "firebase/storage"
 import { number } from "zod"
 import { db } from "./firebase"
+import { UseFormReturn } from "react-hook-form"
 
 export async function uploadFileRecursive(
   ref: StorageReference,
@@ -10,7 +11,23 @@ export async function uploadFileRecursive(
   userId: string,
   projectId: string,
   name: string,
+  form: UseFormReturn<
+    {
+      projectName: string
+      files: any[]
+      description?: string | undefined
+      design_sector?: string[] | undefined
+      typology?: string | undefined
+      scope_role?: string[] | undefined
+      project_type?: string | undefined
+    },
+    any,
+    undefined
+  >,
+  index: number,
 ) {
+  form.setValue(`files.${index}.isUploading`, true)
+  // console.log(form.getValues(`files`)[index].percentage)
   return new Promise((res, rej) => {
     const uploadTask = uploadBytesResumable(ref, files)
     uploadTask.on(
@@ -20,6 +37,9 @@ export async function uploadFileRecursive(
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         // console.log("Upload is " + progress + "% done")
+        form.setValue(`files.${index}.percentage`, progress)
+        // console.log(form.getValues(`files`)[index].progress, "test")
+
         switch (snapshot.state) {
           case "paused":
             // console.log("Upload is paused")
