@@ -741,7 +741,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                 </Button>
               </div>
             </div>
-            <Section active="upload" />
+            <Section active="upload" move={move} load={load} />
 
             <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
               <FormField

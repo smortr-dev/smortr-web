@@ -7,13 +7,17 @@ import { Button } from "@/components/ui/button"
 
 const link = cva(
   [
-    "px-12 py-4 relative text-center text-[0.875rem] tracking-wide bg-white hover:bg-gray-300 transition-colors cursor-pointer",
+    "px-12 py-4 text-[#6563FF] relative text-center text-[0.875rem] tracking-wide transition-colors",
   ],
   {
     variants: {
       intent: {
-        active: "text-[#6563FF] font-[700]",
-        passive: "text-black font-[400]",
+        active: "font-[700] bg-white hover:bg-gray-300 cursor-pointer",
+        passive: "font-[400]",
+      },
+      navigate: {
+        clickable: "bg-white hover:bg-gray-300 cursor-pointer ",
+        blocked: "bg-gray-100 cursor-not-allowed",
       },
     },
   },
@@ -22,9 +26,11 @@ const link = cva(
 export default function Section({
   active,
   move,
+  load,
 }: {
   active: string
   move?: boolean
+  load?: boolean
 }) {
   const router = useRouter()
   const path = usePathname()
@@ -47,7 +53,7 @@ export default function Section({
         <div className="flex justify-center rounded-[0.88rem] bg-white overflow-clip drop-shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)]">
           <div
             onClick={() => {
-              if (active != "upload") {
+              if (active != "upload" && !load && move) {
                 // console.log(id, "clicked")
 
                 router.push(`/add-project/upload/${id}`)
@@ -56,7 +62,9 @@ export default function Section({
             className={clsx(
               active == "upload"
                 ? link({ intent: "active" })
-                : link({ intent: "passive" }),
+                : !load && move
+                  ? link({ intent: "passive", navigate: "clickable" })
+                  : link({ intent: "passive", navigate: "blocked" }),
             )}
           >
             <span className="relative">
@@ -71,7 +79,7 @@ export default function Section({
           </div>
           <div
             onClick={() => {
-              if (active != "edit") {
+              if (active != "edit" && !load && move) {
                 // console.log(id, "clicked")
 
                 router.push(`/add-project/edit/${id}`)
@@ -80,7 +88,9 @@ export default function Section({
             className={clsx(
               active == "edit"
                 ? link({ intent: "active" })
-                : link({ intent: "passive" }),
+                : !load && move
+                  ? link({ intent: "passive", navigate: "clickable" })
+                  : link({ intent: "passive", navigate: "blocked" }),
             )}
           >
             <span className="relative">
@@ -95,7 +105,7 @@ export default function Section({
           </div>
           <div
             onClick={() => {
-              if (active != "view") {
+              if (active != "view" && !load && move) {
                 // router.push()
                 // console.log(id, "clicked")
                 router.push(`/add-project/view/${id}`)
@@ -104,7 +114,9 @@ export default function Section({
             className={clsx(
               active == "view"
                 ? link({ intent: "active" })
-                : link({ intent: "passive" }),
+                : !load && move
+                  ? link({ intent: "passive", navigate: "clickable" })
+                  : link({ intent: "passive", navigate: "blocked" }),
             )}
           >
             <span className="relative">
