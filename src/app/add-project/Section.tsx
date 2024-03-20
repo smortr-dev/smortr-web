@@ -41,7 +41,7 @@ export default function Section({
         <div className="flex justify-center rounded-[0.88rem] bg-white overflow-clip drop-shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)]">
           <div
             onClick={() => {
-              if (active != "upload" && !load && move) {
+              if (active != "upload" && load && move) {
                 // console.log(id, "clicked")
 
                 router.push(`/add-project/upload/${id}`)
@@ -50,7 +50,7 @@ export default function Section({
             className={clsx(
               active == "upload"
                 ? link({ intent: "active" })
-                : !load && move
+                : load && move
                   ? link({ intent: "passive", navigate: "clickable" })
                   : link({ intent: "passive", navigate: "blocked" }),
             )}
@@ -67,7 +67,7 @@ export default function Section({
           </div>
           <div
             onClick={() => {
-              if (active != "edit" && !load && move) {
+              if (active != "edit" && load && move) {
                 // console.log(id, "clicked")
 
                 router.push(`/add-project/edit/${id}`)
@@ -76,7 +76,7 @@ export default function Section({
             className={clsx(
               active == "edit"
                 ? link({ intent: "active" })
-                : !load && move
+                : load && move
                   ? link({ intent: "passive", navigate: "clickable" })
                   : link({ intent: "passive", navigate: "blocked" }),
             )}
@@ -93,7 +93,7 @@ export default function Section({
           </div>
           <div
             onClick={() => {
-              if (active != "view" && !load && move) {
+              if (active != "view" && load && move) {
                 // router.push()
                 // console.log(id, "clicked")
                 router.push(`/add-project/view/${id}`)
@@ -102,7 +102,7 @@ export default function Section({
             className={clsx(
               active == "view"
                 ? link({ intent: "active" })
-                : !load && move
+                : load && move
                   ? link({ intent: "passive", navigate: "clickable" })
                   : link({ intent: "passive", navigate: "blocked" }),
             )}

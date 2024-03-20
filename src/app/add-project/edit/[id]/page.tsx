@@ -27,6 +27,16 @@ import { regenerateNarrative, sendMail } from "@/app/actions/actions"
 import { toast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import Regenerate from "@/components/ui/Regenerate"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 // const questions: string[] = [
 //   "Who was your client, and how did you engage with them?",
 //   "What was the primary purpose of this project?",
@@ -74,11 +84,14 @@ export default function Edit({ params }: { params: { id: string } }) {
 
   const { setName } = useHeader()
   const { current } = UserAuth()
-
+  const [deleteStatus, setDeleteStatus] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [save, setSave] = useState(false)
   async function uploadContent(values: z.infer<typeof formSchema>) {
     // console.log(values.answer, "values")
     // console.log("upload called")
     // let document: any = {}
+    setSave(true)
     const docRef = doc(db, "users", current!, "projects", params.id)
     try {
       // if (values.answer) {
@@ -93,6 +106,7 @@ export default function Edit({ params }: { params: { id: string } }) {
       await updateDoc(docRef, { ...values })
       // console.log("Upload Done")
       // console.log("don")
+      setSave(false)
       toast({
         // variant: "destructive",
         title: "Updated Successfully",
@@ -101,6 +115,7 @@ export default function Edit({ params }: { params: { id: string } }) {
         ),
       })
     } catch (err) {
+      setSave(false)
       toast({
         className: cn(
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
@@ -223,6 +238,7 @@ export default function Edit({ params }: { params: { id: string } }) {
     }
     getData()
   }, [])
+
   return (
     load && (
       <>
@@ -237,7 +253,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                 <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem] mb-6">
                   {projectName}
                 </h3>
-                <div className="flex">
+                {/* <div className="flex">
                   <Button
                     disabled={!load}
                     onClick={async () => {
@@ -289,11 +305,11 @@ export default function Edit({ params }: { params: { id: string } }) {
                   >
                     Publish
                   </Button>
-                </div>
+                </div> */}
                 {/* <div></div> */}
               </div>
 
-              <Section active="edit" />
+              <Section active="edit" move={true} load={load} />
 
               <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
                 <div className="flex justify-between items-center text-[0.875rem] font-[400] text-[##060606]">
@@ -380,6 +396,7 @@ export default function Edit({ params }: { params: { id: string } }) {
                 })}
                 <div className="flex my-2 justify-end">
                   <Button
+                    disabled={!load || save}
                     className="inline p-1 px-2 rounded-md text-sm bg-black text-white border-black border"
                     onClick={async (e) => {
                       // print("submit")
@@ -597,31 +614,162 @@ export default function Edit({ params }: { params: { id: string } }) {
                 }}
               />
             </div>
+            <div className=" h-[1px] w-full"></div>
+            <div className="my-2 fixed bottom-2 right-0 w-[100vw] flex justify-center items-center">
+              <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+                <AlertDialogTrigger asChild>
+                  {/* <Button variant="outline">Show Dialog</Button> */}
+                  <Button className="rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors border cursor-pointer">
+                    Delete
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete? Your content will be lost
+                      forever.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <Button
+                      disabled={deleteStatus}
+                      className="bg-black text-white hover:bg-gray-900"
+                      onClick={async () => {
+                        try {
+                          setDeleteStatus(true)
+                          const res = await fetch("/api/delete-project", {
+                            method: "POST",
+                            body: JSON.stringify({
+                              projectId: params.id,
+                              caller: current!,
+                            }),
+                          })
+                          console.log(res, "delete-project")
+                          setDeleteStatus(false)
+                          const res_body = await res.json()
+                          console.log(res_body, "res_body")
+                          if (res.status == 200) {
+                            console.log("status")
+                            setDeleteStatus(false)
+                            router.push("/profile-editor")
+                          } else {
+                            // const res = await fetch(
+                            //   "/api/add-project/delete-project",
+                            //   {
+                            //     method: "POST",
+                            //     body: JSON.stringify({
+                            //       projectId: params.id,
+                            //       caller: current!,
+                            //     }),
+                            //   },
+                            // )
+                          }
+                          // console.log(res_body)
+                        } catch {
+                          setDeleteStatus(false)
+                        }
+                      }}
+                    >
+                      Continue
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <Button
+                onClick={async (e) => {
+                  e.preventDefault()
+                  await form.handleSubmit(submitHandler)()
+                  // console.log("done submitting")
+                  router.push(`/add-project/upload/${params.id}`)
+                }}
+                disabled={save}
+                // type="submit"
+                className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+              >
+                <img src="/arrow_prev.svg" className="w-8" alt="prev" />
+              </Button>
+              <Button
+                disabled={!load || save}
+                onClick={async () => {
+                  try {
+                    // console.log("clicked")
+                    // form.trigger()
+                    // console.log("form values", form.getValues())
+                    // console.log(form.formState.errors, "errors")
+                    await form.handleSubmit(submitHandler)()
+                    // // form.trigger()
+                    // if (form.formState.isValid)
+                    // await submitHandler(form.getValues())
+                  } catch (err) {
+                    console.log(err)
+                  }
+                  // if (move) {
+                  //   router.push(`/add-project/edit/${params.id}`)
+                  // }
+                }}
+                className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+              >
+                Save
+              </Button>
+              <Button
+                disabled={!load || save}
+                onClick={async () => {
+                  await form.handleSubmit(
+                    async (values: z.infer<typeof formSchema>) => {
+                      try {
+                        await uploadContent(values)
+                        const docRef = doc(
+                          db,
+                          "users",
+                          current!,
+                          "projects",
+                          params.id,
+                        )
+                        await updateDoc(docRef, {
+                          published: true,
+                        })
+                        router.push("/profile-editor")
+                      } catch (err) {
+                        console.error(err)
+                      }
+                    },
+                  )()
+                }}
+                className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+              >
+                Publish
+              </Button>
+              <Button
+                // onClick={()=>}
+                onClick={async (e) => {
+                  e.preventDefault()
+                  await form.handleSubmit(submitHandler)()
+                  router.push(`/add-project/view/${params.id}`)
+                }}
+                // disabled={ }
+                disabled={!load || save}
+                // type="submit"
+                className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+              >
+                <img src="/arrow_next.svg" className="w-8" alt="next" />
+              </Button>
+              <Button
+                disabled={!load || save}
+                className="border-2 ml-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
+                onClick={(e) => {
+                  e.preventDefault()
+                  router.push("/profile-editor")
+                }}
+              >
+                <span>Close</span>
+              </Button>
+            </div>
             {/* </form>
       </Form> */}
-            <div className="flex justify-end pt-4">
-              <div className="flex ">
-                <Button
-                  onClick={() => {
-                    router.push(`/add-project/upload/${params.id}`)
-                  }}
-                  type="submit"
-                  className="border border-[#6563FF] bg-[#EAEAEA] px-8 text-[#6563FF] hover:bg-[#6563FF] transition-colors hover:text-white"
-                >
-                  Back
-                </Button>
-                <Button
-                  onClick={async () => {
-                    await form.handleSubmit(uploadContent)()
-                    router.push(`/add-project/view/${params.id}`)
-                  }}
-                  type="submit"
-                  className="border ml-2 border-[#6563FF] px-8 hover:bg-white hover:text-[#6563FF] bg-[#6563FF] transition-colors text-white"
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
           </form>
         </Form>
       </>

@@ -1047,11 +1047,11 @@ export default function Upload({ params }: { params: { id: string } }) {
             <Button
               // onClick={()=>}
               // disabled={ }
-              disabled={false}
+              disabled={true}
               // type="submit"
               className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
             >
-              <img src="/arrow_prev.svg" className="w-8" alt="next" />
+              <img src="/arrow_prev.svg" className="w-8" alt="prev" />
             </Button>
             <Button
               disabled={!load || save}

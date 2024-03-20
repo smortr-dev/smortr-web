@@ -55,6 +55,17 @@ import PDFViewer from "./Pdf-viewer"
 import { cn } from "@/lib/utils"
 import { toast } from "@/components/ui/use-toast"
 import CarouselDisplay from "./CarouselDisplay"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+// import { AlertDialog, Alter } from "@/components/ui/alert-dialog"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
   files: z
@@ -87,6 +98,7 @@ export default function View({ params }: { params: { id: string } }) {
   const [load, setLoad] = useState(false)
   // const [visible, setVisible] = useState(false)
   const [trigger, setTrigger] = useState(false)
+  const [save, setSave] = useState(false)
   useEffect(() => {
     // console.log("called", trigger)
     // if (trigger) {
@@ -122,6 +134,8 @@ export default function View({ params }: { params: { id: string } }) {
     }[]
   >([])
   const [count, setCount] = useState(0)
+  const [deleteStatus, setDeleteStatus] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleFiles, setVisibleFiles] = useState<
     {
@@ -301,7 +315,7 @@ export default function View({ params }: { params: { id: string } }) {
     // console.log("clicked")
     const docRef = doc(db, "users", current!, "projects", params.id)
     // console.log(values, "values submit")
-
+    setSave(true)
     // return
     try {
       await updateDoc(docRef, { ...values })
@@ -322,6 +336,8 @@ export default function View({ params }: { params: { id: string } }) {
       })
       console.error(err)
     }
+    setSave(false)
+
     // console.log("submission done")
   }
   return (
@@ -334,7 +350,7 @@ export default function View({ params }: { params: { id: string } }) {
                 <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem] mb-6">
                   {projectName}
                 </h3>
-                <div className="flex">
+                {/* <div className="flex">
                   <Button
                     onClick={async () => {
                       await form.handleSubmit(submitHandler)()
@@ -370,7 +386,7 @@ export default function View({ params }: { params: { id: string } }) {
                   >
                     Publish
                   </Button>
-                </div>
+                </div> */}
               </div>
               <Dialog
                 open={open && visibleFiles.length > 0}
@@ -812,7 +828,7 @@ export default function View({ params }: { params: { id: string } }) {
                   </div>
                 </DialogContentAddProjectView>
               </Dialog>
-              <Section active="view" />
+              <Section active="view" load={load} move={true} />
               <div className="bg-white p-5 mt-8 rounded-[0.88rem] h-[100vh]">
                 <h3 className=" font-[500] text-[1.25rem] text-[#060606]">
                   Files
@@ -859,7 +875,142 @@ export default function View({ params }: { params: { id: string } }) {
                   })}
                 </div>
               </div>
-              <div className="flex justify-end pt-4">
+              <div className=" h-[1px] w-full"></div>
+              <div className="my-2 fixed bottom-2 right-0 w-[100vw] flex justify-center items-center">
+                <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+                  <AlertDialogTrigger asChild>
+                    {/* <Button variant="outline">Show Dialog</Button> */}
+                    <Button className="rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors border cursor-pointer">
+                      Delete
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete? Your content will be
+                        lost forever.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <Button
+                        disabled={deleteStatus}
+                        className="bg-black text-white hover:bg-gray-900"
+                        onClick={async () => {
+                          try {
+                            setDeleteStatus(true)
+                            const res = await fetch("/api/delete-project", {
+                              method: "POST",
+                              body: JSON.stringify({
+                                projectId: params.id,
+                                caller: current!,
+                              }),
+                            })
+                            console.log(res, "delete-project")
+                            setDeleteStatus(false)
+                            const res_body = await res.json()
+                            console.log(res_body, "res_body")
+                            if (res.status == 200) {
+                              console.log("status")
+                              setDeleteStatus(false)
+                              router.push("/profile-editor")
+                            } else {
+                              // const res = await fetch(
+                              //   "/api/add-project/delete-project",
+                              //   {
+                              //     method: "POST",
+                              //     body: JSON.stringify({
+                              //       projectId: params.id,
+                              //       caller: current!,
+                              //     }),
+                              //   },
+                              // )
+                            }
+                            // console.log(res_body)
+                          } catch {
+                            setDeleteStatus(false)
+                          }
+                        }}
+                      >
+                        Continue
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                <Button
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    await form.handleSubmit(submitHandler)()
+                    // console.log("done submitting")
+                    router.push(`/add-project/edit/${params.id}`)
+                  }}
+                  disabled={!load || save}
+                  // type="submit"
+                  className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+                >
+                  <img src="/arrow_prev.svg" className="w-8" alt="prev" />
+                </Button>
+                <Button
+                  disabled={!load || save}
+                  onClick={async () => {
+                    await form.handleSubmit(submitHandler)()
+                  }}
+                  className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+                >
+                  Save
+                </Button>
+                <Button
+                  disabled={!load || save}
+                  onClick={async () => {
+                    await form.handleSubmit(
+                      async (values: z.infer<typeof formSchema>) => {
+                        try {
+                          await submitHandler(values)
+                          const docRef = doc(
+                            db,
+                            "users",
+                            current!,
+                            "projects",
+                            params.id,
+                          )
+                          await updateDoc(docRef, {
+                            published: true,
+                          })
+                          router.push("/profile-editor")
+                        } catch (err) {
+                          console.error(err)
+                        }
+                      },
+                    )()
+                  }}
+                  className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+                >
+                  Publish
+                </Button>
+                <Button
+                  // onClick={()=>}
+                  // disabled={ }
+                  disabled={true}
+                  // type="submit"
+                  className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+                >
+                  <img src="/arrow_next.svg" className="w-8" alt="next" />
+                </Button>
+                <Button
+                  disabled={!load || save}
+                  className="border-2 ml-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    router.push("/profile-editor")
+                  }}
+                >
+                  <span>Close</span>
+                </Button>
+              </div>
+              {/* <div className="flex justify-end pt-4">
                 <Button
                   // onClick={() => {
                   //   console.log(form.getValues())
@@ -878,7 +1029,7 @@ export default function View({ params }: { params: { id: string } }) {
                 >
                   Back
                 </Button>
-              </div>
+              </div> */}
             </div>
           </form>
         </Form>
