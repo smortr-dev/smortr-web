@@ -981,7 +981,8 @@ export default function Upload({ params }: { params: { id: string } }) {
               save={save}
             />
           </div>
-          <div className="my-2 relative flex justify-center items-center mt-3">
+          <div className=" h-[1px] w-full"></div>
+          <div className="my-2 fixed bottom-2 right-0 w-[100vw] flex justify-center items-center">
             <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
               <AlertDialogTrigger asChild>
                 {/* <Button variant="outline">Show Dialog</Button> */}
