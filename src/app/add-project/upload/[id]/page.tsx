@@ -986,7 +986,7 @@ export default function Upload({ params }: { params: { id: string } }) {
             <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
               <AlertDialogTrigger asChild>
                 {/* <Button variant="outline">Show Dialog</Button> */}
-                <Button className="py-2 rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors px-8 border cursor-pointer">
+                <Button className="rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors border cursor-pointer">
                   Delete
                 </Button>
               </AlertDialogTrigger>
