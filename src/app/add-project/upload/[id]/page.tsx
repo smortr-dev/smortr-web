@@ -1119,7 +1119,7 @@ export default function Upload({ params }: { params: { id: string } }) {
                 router.push("/profile-editor")
               }}
             >
-              <span>Close Project Editor</span>
+              <span>Close</span>
             </Button>
           </div>
           <div className="flex justify-center">
