@@ -19,20 +19,20 @@ export default function Header(props: { setOpen: any }) {
               }}
             />
           </div>
-          <Link href={"/"} className="inline-block ml-10">
-            <div className="inline-block text-[1.15rem] text-[#848484]  hover:text-black hover:underline transition-all">
+          <Link href={"/"} className="inline-block md:ml-10 ml-3">
+            <div className="inline-block md:text-[1.15rem] text-[1rem] text-[#848484]  hover:text-black hover:underline transition-all">
               About
             </div>
           </Link>
-          <Link href={"/feed"} className="inline-block ml-10">
-            <div className="inline-block text-[1.15rem] text-[#848484]  hover:text-black hover:underline transition-all">
+          <Link href={"/feed"} className="inline-block md:ml-10 ml-3">
+            <div className="inline-block md:text-[1.15rem] text-[1rem] text-[#848484]  hover:text-black hover:underline transition-all">
               Feed
             </div>
           </Link>
         </div>
         <div className="flex float-right z-[5]">
           <Button
-            className="relative z-[5] inline-block mr-2 bg-white text-black border-2 border-black rounded-[6px] hover:text-white hover:bg-black hover:border-white"
+            className="relative hidden md:inline-block  px-2 py-1 text-[1rem] mr-2 bg-white text-black border-2 border-black rounded-[6px] hover:text-white hover:bg-black hover:border-white"
             onClick={() => {
               // props.setOpen((prev: boolean) => !prev)
               router.push("/login")
@@ -41,7 +41,7 @@ export default function Header(props: { setOpen: any }) {
             Login
           </Button>
           <Button
-            className="relative z-[5] inline-block  bg-black text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
+            className="relative text-[1rem] bg-black text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
             onClick={() => {
               props.setOpen((prev: boolean) => !prev)
             }}
