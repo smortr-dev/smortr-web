@@ -615,7 +615,6 @@ export default function Upload({ params }: { params: { id: string } }) {
         // console.log("here agter update")
       })
       await Promise.all(promises)
-      await sendMail(current!, params.id)
       // }
       form.setValue("files", [])
       console.log(form.getValues("files"), "after refresh")
@@ -632,9 +631,12 @@ export default function Upload({ params }: { params: { id: string } }) {
       // console.log(document, "document")
       // , status: "submitted"
       await updateDoc(docRef, { ...document, status: "submitted" })
-      if (files.length == 0) {
-        await sendMail(current!, params.id)
-      }
+      // if (files.length == 0) {
+      //   await sendMail(current!, params.id)
+      // }
+      
+      await sendMail(current!, params.id)
+
       await loadInitialValues()
 
       toast({
