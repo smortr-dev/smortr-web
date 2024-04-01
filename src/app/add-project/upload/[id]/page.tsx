@@ -560,7 +560,7 @@ export default function Upload({ params }: { params: { id: string } }) {
     // console.log(form.getValues("files"), "files")
     try {
       const doc_ = await getDoc(docRef)
-      if (doc_.exists() && doc_.data().cover) foundCover = true
+      // if (doc_.exists() && doc_.data().cover) foundCover = true
       console.log(files.length, "file length")
       // if (files.length > 0) {
       console.log("promise called")
@@ -634,7 +634,7 @@ export default function Upload({ params }: { params: { id: string } }) {
       // if (files.length == 0) {
       //   await sendMail(current!, params.id)
       // }
-      
+
       await sendMail(current!, params.id)
 
       await loadInitialValues()
@@ -642,10 +642,17 @@ export default function Upload({ params }: { params: { id: string } }) {
       toast({
         // variant: "destructive",
         title: "Updated Successfully",
-        className: cn(
-          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
-        ),
+        // className: cn("top-0 right-0 flex fixed md:max-w-[420px]"),
       })
+      if (!move) {
+        toast({
+          // variant: "destructive",
+          title: "We'll Email you once the content is processed!",
+          // className: cn(
+          //   "top-0 right-0 flex fixed md:max-w-[420px] md:top-18 md:right-4",
+          // ),
+        })
+      }
     } catch (err) {
       toast({
         className: cn(
@@ -689,17 +696,106 @@ export default function Upload({ params }: { params: { id: string } }) {
   }
   return (
     load && (
-      // <>
+      <>
+        <div className="sticky w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
+          {/* <div className="absolute translate-x-[-50%] left-[50%]"> */}
+          <div className="absolute left-16">
+            <Button
+              className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
+              onClick={(e) => {
+                e.preventDefault()
+                router.push("/profile-editor")
+              }}
+            >
+              <span>Close</span>
+            </Button>
+          </div>
+          <div className="absolute right-16">
+            <Button
+              disabled={!load || save}
+              onClick={async (e) => {
+                e.preventDefault()
+                await form.handleSubmit(submitHandler)()
+                // await loadInitialValues()
+                // if (move) {
+                //   router.push(`/add-project/edit/${params.id}`)
+                // }
+              }}
+              className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+            >
+              Save
+            </Button>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(submitHandler)}>
-          <div className="pt-4">
-            <div className="flex justify-start items-center  mb-6">
-              <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
-                {form.watch("projectName", "New Project")}
-              </h3>
+            <Button
+              disabled={!load || save}
+              onClick={async () => {
+                await form.handleSubmit(
+                  async (values: z.infer<typeof formSchema>) => {
+                    try {
+                      await uploadContent(values)
+                      const docRef = doc(
+                        db,
+                        "users",
+                        current!,
+                        "projects",
+                        params.id,
+                      )
+                      await updateDoc(docRef, {
+                        published: true,
+                      })
+                      router.push("/profile-editor")
+                    } catch (err) {
+                      console.error(err)
+                    }
+                  },
+                )()
+              }}
+              className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
+            >
+              Publish
+            </Button>
+          </div>
+          <div className="flex relative items-center">
+            <Button
+              // onClick={()=>}
+              // disabled={ }
+              disabled={true}
+              // type="submit"
+              className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+            >
+              <img src="/arrow_prev.svg" className="w-8" alt="prev" />
+            </Button>
+            <Section active="upload" move={move} load={load} />
+            <Button
+              // onClick={()=>}
+              // disabled={ }
+              disabled={!load || (!move && preventSubmit) || save}
+              onClick={async (e) => {
+                e.preventDefault()
+                await form.handleSubmit(submitHandler)()
+                console.log("done calling handleSubmit")
+                if (move) {
+                  router.push(`/add-project/edit/${params.id}`)
+                }
+              }}
+              // type="submit"
+              className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+            >
+              <img src="/arrow_next.svg" className="w-8" alt="next" />
+            </Button>
+          </div>
+          {/* </div> */}
+        </div>
+        <div className="bg-[#ECECEC] px-32 pb-20">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(submitHandler)}>
+              <div className="pt-4">
+                <div className="flex justify-start items-center  mb-6">
+                  <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
+                    {form.watch("projectName", "New Project")}
+                  </h3>
 
-              {/* <div className="flex">
+                  {/* <div className="flex">
                 <Button
                   disabled={!load || save}
                   onClick={async (e) => {
@@ -743,69 +839,68 @@ export default function Upload({ params }: { params: { id: string } }) {
                   Publish
                 </Button>
               </div> */}
-            </div>
-            <Section active="upload" move={move} load={load} />
+                </div>
 
-            <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
-              <FormField
-                control={form.control}
-                name={`projectName`}
-                render={({ field, fieldState }) => {
-                  return (
-                    <>
-                      <FormItem>
-                        <FormControl>
-                          <InputProject
-                            {...field}
-                            className={` w-[100%]  ${
-                              fieldState.error
-                                ? "border-[#CC3057]"
-                                : " border-[#848484]"
-                            }`}
-                            required
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs text-[#CC3057]" />
-                      </FormItem>
-                    </>
-                  )
-                }}
-              />
-              <FormField
-                control={form.control}
-                name={`description`}
-                render={({ field, fieldState }) => {
-                  return (
-                    <>
-                      <FormItem className="text-left  mt-4 w-[100%]">
-                        <FormControl>
-                          <MultiLineInputProject
-                            placeholder={`Description
+                <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
+                  <FormField
+                    control={form.control}
+                    name={`projectName`}
+                    render={({ field, fieldState }) => {
+                      return (
+                        <>
+                          <FormItem>
+                            <FormControl>
+                              <InputProject
+                                {...field}
+                                className={` w-[100%]  ${
+                                  fieldState.error
+                                    ? "border-[#CC3057]"
+                                    : " border-[#848484]"
+                                }`}
+                                required
+                              />
+                            </FormControl>
+                            <FormMessage className="text-xs text-[#CC3057]" />
+                          </FormItem>
+                        </>
+                      )
+                    }}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`description`}
+                    render={({ field, fieldState }) => {
+                      return (
+                        <>
+                          <FormItem className="text-left  mt-4 w-[100%]">
+                            <FormControl>
+                              <MultiLineInputProject
+                                placeholder={`Description
 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                            maxLength={600}
-                            rows={6}
-                            {...field}
-                            className={` ${
-                              fieldState.error
-                                ? "border-[#CC3057]"
-                                : "  border-[#848484]"
-                            }`}
-                            required
-                          />
-                          {/* <span>{}</span> */}
-                        </FormControl>
-                        <FormMessage className="text-xs text-[#CC3057]" />
-                      </FormItem>
-                    </>
-                  )
-                }}
-              />
-            </div>
-          </div>
+                                maxLength={600}
+                                rows={6}
+                                {...field}
+                                className={` ${
+                                  fieldState.error
+                                    ? "border-[#CC3057]"
+                                    : "  border-[#848484]"
+                                }`}
+                                required
+                              />
+                              {/* <span>{}</span> */}
+                            </FormControl>
+                            <FormMessage className="text-xs text-[#CC3057]" />
+                          </FormItem>
+                        </>
+                      )
+                    }}
+                  />
+                </div>
+              </div>
 
-          <div className="my-4 grid grid-cols-4 gap-x-2">
-            {/* <FormField
+              <div className="my-4 grid grid-cols-4 gap-x-2">
+                {/* <FormField
             control={form.control}
             name={`design_sector`}
             render={({ field, fieldState }) => {
@@ -835,308 +930,234 @@ export default function Upload({ params }: { params: { id: string } }) {
               )
             }}
           /> */}
-            <Controller
-              control={form.control}
-              name="design_sector"
-              render={({ field, fieldState }) => {
-                return (
-                  <MultiSelect
-                    isCreatable={true}
-                    className="text-black design-sector-view"
-                    overrideStrings={{ selectSomeItems: "Design Sector" }}
-                    labelledBy="Design Sector"
-                    options={design_sector || []}
-                    // value={field.value ? field.value : []}
-                    value={convertToOptions(field.value)}
-                    // control={form.control}
-                    onChange={(props: Option[]) => {
-                      console.log(props)
-                      return field.onChange(convertToValues(props))
-                    }}
-                  />
-                )
-              }}
-            />
+                <Controller
+                  control={form.control}
+                  name="design_sector"
+                  render={({ field, fieldState }) => {
+                    return (
+                      <MultiSelect
+                        isCreatable={true}
+                        className="text-black design-sector-view"
+                        overrideStrings={{ selectSomeItems: "Design Sector" }}
+                        labelledBy="Design Sector"
+                        options={design_sector || []}
+                        // value={field.value ? field.value : []}
+                        value={convertToOptions(field.value)}
+                        // control={form.control}
+                        onChange={(props: Option[]) => {
+                          console.log(props)
+                          return field.onChange(convertToValues(props))
+                        }}
+                      />
+                    )
+                  }}
+                />
 
-            <FormField
-              control={form.control}
-              name={`typology`}
-              render={({ field, fieldState }) => {
-                return (
-                  <FormItem>
-                    <FormControl>
-                      <Select {...field} onValueChange={field.onChange}>
-                        <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                          <SelectValue placeholder="Typology" />
-                        </SelectTrigger>
-                        <SelectContent className="overflow-y-auto max-h-[40vh]">
-                          {typology.map((group, index) => {
-                            return (
-                              <SelectGroup key={index}>
-                                <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
-                                  {group.label}
-                                </SelectLabel>
-                                {group.options?.map((item, index) => {
+                <FormField
+                  control={form.control}
+                  name={`typology`}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <FormItem>
+                        <FormControl>
+                          <Select {...field} onValueChange={field.onChange}>
+                            <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                              <SelectValue placeholder="Typology" />
+                            </SelectTrigger>
+                            <SelectContent className="overflow-y-auto max-h-[40vh]">
+                              {typology.map((group, index) => {
+                                return (
+                                  <SelectGroup key={index}>
+                                    <SelectLabel className="font-[500] pl-4  border-2 border-gray-100 rounded-sm">
+                                      {group.label}
+                                    </SelectLabel>
+                                    {group.options?.map((item, index) => {
+                                      return (
+                                        <SelectItem key={index} value={item}>
+                                          {item}
+                                        </SelectItem>
+                                      )
+                                    })}
+                                  </SelectGroup>
+                                )
+                              })}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )
+                  }}
+                />
+
+                <Controller
+                  control={form.control}
+                  name="scope_role"
+                  render={({ field, fieldState }) => {
+                    return (
+                      <MultiSelect
+                        isCreatable={true}
+                        className="scope-role-view text-black scop-role-view"
+                        overrideStrings={{ selectSomeItems: "Scope/Role" }}
+                        labelledBy="Scope/Role"
+                        options={scope_role}
+                        // value={field.value ? field.value : []}
+                        value={convertToOptions(field.value)}
+                        // control={form.control}
+                        onChange={(props: Option[]) => {
+                          // console.log("trigger")
+                          return field.onChange(convertToValues(props))
+                        }}
+                      />
+                    )
+                  }}
+                />
+                <FormField
+                  control={form.control}
+                  name={`project_type`}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <>
+                        <FormItem>
+                          <FormControl>
+                            <Select {...field} onValueChange={field.onChange}>
+                              <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
+                                <SelectValue placeholder="Project Type" />
+                              </SelectTrigger>
+                              <SelectContent className="overflow-y-auto max-h-[40vh]">
+                                {project_type.map((option, index) => {
                                   return (
-                                    <SelectItem key={index} value={item}>
-                                      {item}
+                                    // <>
+                                    <SelectItem key={index} value={option}>
+                                      {option}
                                     </SelectItem>
+                                    // </>
                                   )
                                 })}
-                              </SelectGroup>
-                            )
-                          })}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )
-              }}
-            />
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      </>
+                    )
+                  }}
+                />
+              </div>
 
-            <Controller
-              control={form.control}
-              name="scope_role"
-              render={({ field, fieldState }) => {
-                return (
-                  <MultiSelect
-                    isCreatable={true}
-                    className="scope-role-view text-black scop-role-view"
-                    overrideStrings={{ selectSomeItems: "Scope/Role" }}
-                    labelledBy="Scope/Role"
-                    options={scope_role}
-                    // value={field.value ? field.value : []}
-                    value={convertToOptions(field.value)}
-                    // control={form.control}
-                    onChange={(props: Option[]) => {
-                      // console.log("trigger")
-                      return field.onChange(convertToValues(props))
-                    }}
-                  />
-                )
-              }}
-            />
-            <FormField
-              control={form.control}
-              name={`project_type`}
-              render={({ field, fieldState }) => {
-                return (
-                  <>
-                    <FormItem>
-                      <FormControl>
-                        <Select {...field} onValueChange={field.onChange}>
-                          <SelectTrigger className="bg-white rounded-[0.88rem] px-4 py-6 text-[0.875rem] font-[500]">
-                            <SelectValue placeholder="Project Type" />
-                          </SelectTrigger>
-                          <SelectContent className="overflow-y-auto max-h-[40vh]">
-                            {project_type.map((option, index) => {
-                              return (
-                                // <>
-                                <SelectItem key={index} value={option}>
-                                  {option}
-                                </SelectItem>
-                                // </>
-                              )
-                            })}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  </>
-                )
-              }}
-            />
-          </div>
-
-          {/* <div className="p-4 bg-white rounded-[0.88rem]">
+              {/* <div className="p-4 bg-white rounded-[0.88rem]">
             {uploadedFiles}
           </div> */}
-          {/* {uploadedFiles && uploadedFiles.length > 0 && ( */}
-          <UploadedSection
-            uploadedFiles={uploadedFiles}
-            setUploadedFiles={setUploadedFiles}
-          />
-          {/* )} */}
-          <div className="p-4 bg-white rounded-[0.88rem]">
-            <div className="flex justify-between items-center">
-              <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
-              <label
-                onClick={(e) => {
-                  if (save) e.preventDefault()
-                }}
-                className={`hover:cursor-pointer inline-block font-[500] text-sm bg-black  text-white  transition-colors p-2 border border-black rounded-md ${
-                  form.watch("files", []).length > 0 ? "visible" : "hidden"
-                } ${
-                  save
-                    ? "opacity-70"
-                    : "opacity-100 hover:text-black hover:bg-white"
-                }`}
-                htmlFor="dropzone"
-              >
-                Attach More Files
-              </label>
-            </div>
-            <Previews
-              setFiles={form.setValue}
-              getValues={form.getValues}
-              form={form}
-              save={save}
-            />
-          </div>
-          <div className=" h-[1px] w-full"></div>
-          <div className="my-2 fixed bottom-2 right-0 w-[100vw] flex justify-center items-center">
-            <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-              <AlertDialogTrigger asChild>
-                {/* <Button variant="outline">Show Dialog</Button> */}
-                <Button className="rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors border cursor-pointer">
-                  Delete
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete? Your content will be lost
-                    forever.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button
-                    disabled={deleteStatus}
-                    className="bg-black text-white hover:bg-gray-900"
-                    onClick={async () => {
-                      try {
-                        setDeleteStatus(true)
-                        const res = await fetch("/api/delete-project", {
-                          method: "POST",
-                          body: JSON.stringify({
-                            projectId: params.id,
-                            caller: current!,
-                          }),
-                        })
-                        console.log(res, "delete-project")
-                        setDeleteStatus(false)
-                        const res_body = await res.json()
-                        console.log(res_body, "res_body")
-                        if (res.status == 200) {
-                          console.log("status")
-                          setDeleteStatus(false)
-                          router.push("/profile-editor")
-                        } else {
-                          // const res = await fetch(
-                          //   "/api/add-project/delete-project",
-                          //   {
-                          //     method: "POST",
-                          //     body: JSON.stringify({
-                          //       projectId: params.id,
-                          //       caller: current!,
-                          //     }),
-                          //   },
-                          // )
-                        }
-                        // console.log(res_body)
-                      } catch {
-                        setDeleteStatus(false)
-                      }
+              {/* {uploadedFiles && uploadedFiles.length > 0 && ( */}
+              <UploadedSection
+                uploadedFiles={uploadedFiles}
+                setUploadedFiles={setUploadedFiles}
+              />
+              {/* )} */}
+              <div className="p-4 bg-white rounded-[0.88rem]">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-[500] text-[1.25rem]">Upload Content</h3>
+                  <label
+                    onClick={(e) => {
+                      if (save) e.preventDefault()
                     }}
+                    className={`hover:cursor-pointer inline-block font-[500] text-sm bg-black  text-white  transition-colors p-2 border border-black rounded-md ${
+                      form.watch("files", []).length > 0 ? "visible" : "hidden"
+                    } ${
+                      save
+                        ? "opacity-70"
+                        : "opacity-100 hover:text-black hover:bg-white"
+                    }`}
+                    htmlFor="dropzone"
                   >
-                    Continue
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <Button
-              // onClick={()=>}
-              // disabled={ }
-              disabled={true}
-              // type="submit"
-              className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
-            >
-              <img src="/arrow_prev.svg" className="w-8" alt="prev" />
-            </Button>
-            <Button
-              disabled={!load || save}
-              onClick={async (e) => {
-                e.preventDefault()
-                await form.handleSubmit(submitHandler)()
-                // await loadInitialValues()
-                // if (move) {
-                //   router.push(`/add-project/edit/${params.id}`)
-                // }
-              }}
-              className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
-            >
-              Save
-            </Button>
-            <Button
-              disabled={!load || save}
-              onClick={async () => {
-                await form.handleSubmit(
-                  async (values: z.infer<typeof formSchema>) => {
-                    try {
-                      await uploadContent(values)
-                      const docRef = doc(
-                        db,
-                        "users",
-                        current!,
-                        "projects",
-                        params.id,
-                      )
-                      await updateDoc(docRef, {
-                        published: true,
-                      })
-                      router.push("/profile-editor")
-                    } catch (err) {
-                      console.error(err)
-                    }
-                  },
-                )()
-              }}
-              className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-            >
-              Publish
-            </Button>
-            <Button
-              // onClick={()=>}
-              // disabled={ }
-              disabled={!load || (!move && preventSubmit) || save}
-              onClick={async (e) => {
-                e.preventDefault()
-                await form.handleSubmit(submitHandler)()
-                console.log("done calling handleSubmit")
-                if (move) {
-                  router.push(`/add-project/edit/${params.id}`)
-                }
-              }}
-              // type="submit"
-              className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
-            >
-              <img src="/arrow_next.svg" className="w-8" alt="next" />
-            </Button>
-            <Button
-              className="border-2 ml-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
-              onClick={(e) => {
-                e.preventDefault()
-                router.push("/profile-editor")
-              }}
-            >
-              <span>Close</span>
-            </Button>
-          </div>
-          <div className="flex justify-center">
-            <div
-              className={clsx(
-                "inline-block mr-6 text-[#cc3057] ",
-                !move && preventSubmit ? "" : "hidden",
-              )}
-            >
-              We will email you when your content has been processed
-            </div>
-          </div>
-        </form>
-      </Form>
-      // </>
+                    Attach More Files
+                  </label>
+                </div>
+                <Previews
+                  setFiles={form.setValue}
+                  getValues={form.getValues}
+                  form={form}
+                  save={save}
+                />
+              </div>
+              <div className=" h-[1px] w-full"></div>
+
+              {/* <div className="flex justify-center">
+                <div
+                  className={clsx(
+                    "inline-block mr-6 text-[#cc3057] ",
+                    !move && preventSubmit ? "" : "hidden",
+                  )}
+                >
+                  We will email you when your content has been processed
+                </div>
+              </div> */}
+            </form>
+          </Form>
+        </div>
+      </>
     )
   )
 }
+
+// <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+//                   <AlertDialogTrigger asChild>
+//                     {/* <Button variant="outline">Show Dialog</Button> */}
+//                     <Button className="rounded-[0.38rem] text-white bg-red-500 hover:bg-red-700 transition-colors border cursor-pointer">
+//                       Delete
+//                     </Button>
+//                   </AlertDialogTrigger>
+//                   <AlertDialogContent>
+//                     <AlertDialogHeader>
+//                       <AlertDialogTitle>
+//                         Are you absolutely sure?
+//                       </AlertDialogTitle>
+//                       <AlertDialogDescription>
+//                         Are you sure you want to delete? Your content will be
+//                         lost forever.
+//                       </AlertDialogDescription>
+//                     </AlertDialogHeader>
+//                     <AlertDialogFooter>
+//                       <AlertDialogCancel>Cancel</AlertDialogCancel>
+//                       <Button
+//                         disabled={deleteStatus}
+//                         className="bg-black text-white hover:bg-gray-900"
+//                         onClick={async () => {
+//                           try {
+//                             setDeleteStatus(true)
+//                             const res = await fetch("/api/delete-project", {
+//                               method: "POST",
+//                               body: JSON.stringify({
+//                                 projectId: params.id,
+//                                 caller: current!,
+//                               }),
+//                             })
+//                             console.log(res, "delete-project")
+//                             setDeleteStatus(false)
+//                             const res_body = await res.json()
+//                             console.log(res_body, "res_body")
+//                             if (res.status == 200) {
+//                               console.log("status")
+//                               setDeleteStatus(false)
+//                               router.push("/profile-editor")
+//                             } else {
+//                               // const res = await fetch(
+//                               //   "/api/add-project/delete-project",
+//                               //   {
+//                               //     method: "POST",
+//                               //     body: JSON.stringify({
+//                               //       projectId: params.id,
+//                               //       caller: current!,
+//                               //     }),
+//                               //   },
+//                               // )
+//                             }
+//                             // console.log(res_body)
+//                           } catch {
+//                             setDeleteStatus(false)
+//                           }
+//                         }}
+//                       >
+//                         Continue
+//                       </Button>
+//                     </AlertDialogFooter>
+//                   </AlertDialogContent>
+//                 </AlertDialog>

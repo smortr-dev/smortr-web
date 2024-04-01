@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 
 const link = cva(
   [
-    "px-12 py-4 text-[#6563FF] relative text-center text-[0.875rem] tracking-wide transition-colors",
+    "px-12 py-3 text-[#6563FF] relative text-center text-[0.875rem] tracking-wide transition-colors",
   ],
   {
     variants: {
@@ -37,7 +37,7 @@ export default function Section({
   const id = useMemo(() => path.split("/").splice(-1).join(""), [path])
   return (
     <>
-      <div className="flex justify-center relative">
+      <div className="inline-block relative shadow-md rounded-[0.88rem]">
         <div className="flex justify-center rounded-[0.88rem] bg-white overflow-clip drop-shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)]">
           <div
             onClick={() => {

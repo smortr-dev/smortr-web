@@ -1185,7 +1185,13 @@ export default function Profile({ params }: { params: { name: string } }) {
                       {visibleProjects.map((project: any, index: number) => {
                         return (
                           // <>
-                          <div className="px-4" key={index}>
+                          <div
+                            className="px-4 cursor-pointer"
+                            key={index}
+                            onClick={() => {
+                              router.push(`/add-project/upload/${project.uid}`)
+                            }}
+                          >
                             <div className="relative group max-h-[50vh] min-h-[30vh] w-full  overflow-clip transition-all ease-in-out  rounded-[1.13rem] bg-gray-300 ">
                               {/* <img
                                   src="/plus.png"

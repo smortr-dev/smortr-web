@@ -25,7 +25,8 @@ export default function Setting({
       <div className="absolute top-0 transition-all h-full w-full group-hover:flex p-8 hidden items-start">
         <div
           className="flex p-1 cursor-pointer justify-center items-center bg-white rounded-full"
-          onClick={() => {
+          onClickCapture={(e) => {
+            e.stopPropagation()
             setVisibility((prev) => !prev)
           }}
         >
@@ -39,7 +40,8 @@ export default function Setting({
         >
           <div
             className="inline-block mt-0 cursor-pointer"
-            onClick={() => {
+            onClickCapture={(e) => {
+              e.stopPropagation()
               router.push(`/add-project/upload/${uid}`)
             }}
           >
@@ -50,7 +52,8 @@ export default function Setting({
             // onClick={() => {
             //   router.push(`/add-project/upload/${uid}`)
             // }}
-            onClick={async (e) => {
+            onClickCapture={async (e) => {
+              e.stopPropagation()
               e.preventDefault()
               const res = await fetch("/api/delete-project", {
                 redirect: "follow",
@@ -58,12 +61,12 @@ export default function Setting({
                 body: JSON.stringify({ projectId: uid, caller: current }),
               })
               const resObj = await res.json()
+              console.log(resObj)
               if (resObj?.status == "successful") {
                 console.log(resObj)
-                let obj = profileData
+                let obj = { ...profileData }
                 obj.projects.splice(index, 1)
-
-                setProfileData({ ...obj, projects: [...obj.projects] })
+                setProfileData({ ...obj })
               }
               // .then((res) => res.json())
 

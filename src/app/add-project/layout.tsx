@@ -8,9 +8,9 @@ import { Toaster } from "@/components/ui/toaster"
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="min-h-[100vh]">
+      <div className="relative min-h-[100vh] max-w-[100vw]">
         <Header />
-        <div className="bg-[#ECECEC] px-32 pb-20">{children}</div>
+        {children}
         <Toaster />
         <FeedbackBugFloat />
       </div>
