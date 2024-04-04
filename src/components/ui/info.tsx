@@ -13,7 +13,13 @@ import {
 import Link from "next/link"
 import { useRef, useState } from "react"
 
-export default function Feedback({ placement }: { placement?: Placement }) {
+export default function Info({
+  placement,
+  text,
+}: {
+  placement?: Placement
+  text?: string
+}) {
   const [isOpen, setOpen] = useState(false)
   const arrowRef = useRef(null)
   const { refs, floatingStyles, context } = useFloating({
@@ -35,29 +41,25 @@ export default function Feedback({ placement }: { placement?: Placement }) {
     focus,
   ])
   return (
-    <Link href={"https://forms.gle/AVa3vPzdqFPtadRQA"} target="blank">
+    <>
       <div
-        className="flex justify-center items-center p-1 w-8 bg-blue-700 rounded-full"
+        className="flex justify-center items-center p-1 w-8 bg-gray-200 rounded-full"
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <img className="inline-block w-7" src="/pencil.png" alt="feedback" />
+        <img className="inline-block w-7" src="/info.png" alt="info" />
       </div>
       {isOpen && (
         <div
-          className="inline p-1 px-2 rounded-sm text-sm bg-blue-700 text-white border-blue-700 border"
+          className="max-w-[20vw] z-40 bg-black inline p-1 px-2 rounded-sm text-sm  text-white border-gray-600 border"
           style={{ ...floatingStyles, flexWrap: "nowrap" }}
           ref={refs.setFloating}
           {...getFloatingProps()}
         >
-          <FloatingArrow
-            ref={arrowRef}
-            context={context}
-            fill="rgb(29 78 216)"
-          />
-          <span className="whitespace-nowrap">Give Feedback!</span>
+          <FloatingArrow ref={arrowRef} context={context} fill="gray" />
+          <span className="">{text ? text : ""}</span>
         </div>
       )}
-    </Link>
+    </>
   )
 }

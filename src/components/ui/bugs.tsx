@@ -19,7 +19,7 @@ export default function Bugs({ placement }: { placement?: Placement }) {
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setOpen,
-    placement: placement ? placement : "left",
+    placement: placement ? placement : "bottom",
     middleware: [
       offset(10),
       //   autoPlacement({}),

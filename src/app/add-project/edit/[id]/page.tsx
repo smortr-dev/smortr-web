@@ -39,6 +39,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import Link from "next/link"
+import Info from "@/components/ui/info"
 // const questions: string[] = [
 //   "Who was your client, and how did you engage with them?",
 //   "What was the primary purpose of this project?",
@@ -353,11 +354,20 @@ export default function Edit({ params }: { params: { id: string } }) {
               {/* <Form {...form2}>
         <form> */}
               <div className="px-8 pt-4 pb-4 bg-white rounded-[0.88rem]">
-                <div className="flex justify-between items-center">
-                  <span className="inline-block font-[600] text-[1rem] text-[#060606]">
+                <div className=" flex ">
+                  <span className="inline-block font-[600] text-[1.2rem] text-[#060606]">
                     Project Narrative
                   </span>
+                  <div className="ml-4">
+                    <Info
+                      text="A project narrative typically encompasses a detailed description of the project's objectives, background information, methods, anticipated challenges, expected results, timeline, team responsibilities, and communication strategies
 
+This breakdown allows for a clear and logical progression from setting the stage (Context), introducing challenges or obstacles (Conflict), outlining how these are addressed (Resolution), and finally, describing the outcomes or responses (Reaction). This framework helps in presenting a cohesive and engaging narrative that effectively communicates the project's journey and impact.
+"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
                   <div className="flex items-center font-[500] text-[0.875rem]">
                     {/* {load && submitStatus && (
                   <span className="mr-6 text-[#cc3057] ">
@@ -404,8 +414,10 @@ export default function Edit({ params }: { params: { id: string } }) {
                     />
                   </div>
                 </div>
-                <p className="ml-3 font-[0.875rem] text-gray-600">
-                  fasdfasdfads
+                <p className="ml-3 mt-2 text-sm text-gray-600">
+                  Crafting the project&apos;s compelling story from inception to
+                  impact, encapsulating its objectives, strategies, challenges,
+                  and achievements in a concise narrative.
                 </p>
                 <FormField
                   control={form.control}
@@ -555,7 +567,23 @@ export default function Edit({ params }: { params: { id: string } }) {
                 {/* <Section active="edit" move={true} load={load} /> */}
 
                 <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
-                  <div className="flex justify-between items-center text-[0.875rem] font-[400] text-[##060606]">
+                  <div className=" flex ">
+                    <span className="inline-block font-[600] text-[1.2rem] text-[#060606]">
+                      Questions
+                    </span>
+                    <div className="ml-4">
+                      <Info
+                        text="These questions will help in delving deeper into the project's narrative, ensuring a comprehensive and detailed account of its journey and impact.
+
+Engage users in a structured dialogue to enhance their project narrative by exploring key aspects such as goals, challenges, strategies, outcomes, timeline, team roles, communication plans and so on."
+                      />
+                    </div>
+                  </div>
+                  <p className="ml-3 mt-2 text-sm text-gray-600">
+                    Answer a series of questions that delve into the core
+                    aspects of the project to enhance the project narrative.
+                  </p>
+                  <div className="flex justify-between items-center mt-3 text-[0.875rem] font-[400] text-[##060606]">
                     <div className="inline-block select-none text-[1rem] font-[600]">
                       {/* What was the initial inspiration behind the Thamizh Futurism
                   movement and this gallery show? */}
