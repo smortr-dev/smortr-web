@@ -2,7 +2,7 @@
 
 "use client"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-
+import Link from "next/link"
 import { InputFeed, InputProject } from "@/components/ui/input"
 import Section from "../../Section"
 import {
@@ -65,6 +65,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import Bugs from "@/components/ui/bugs"
+import Feedback from "@/components/ui/feedback"
 // import { AlertDialog, Alter } from "@/components/ui/alert-dialog"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
@@ -344,18 +346,16 @@ export default function View({ params }: { params: { id: string } }) {
   return (
     load && (
       <>
-        <div className="sticky w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
+        <div className="sticky  w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
           {/* <div className="absolute translate-x-[-50%] left-[50%]"> */}
           <div className="absolute left-16">
-            <Button
-              className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
-              onClick={(e) => {
-                e.preventDefault()
-                router.push("/profile-editor")
-              }}
-            >
-              <span>Close</span>
-            </Button>
+            <Link href={`/profile-editor`}>
+              <div className=" hover:bg-gray-200 p-2 rounded-md transition-colors flex justify-center items-center font-bold text-xl">
+                <div className="inline-block  mr-2">Projects</div>
+                <div className="inline-block  mr-2">&gt;</div>
+                <div className="inline-block ">{projectName}</div>
+              </div>
+            </Link>
           </div>
           <div className="absolute right-16">
             <Button
@@ -400,10 +400,13 @@ export default function View({ params }: { params: { id: string } }) {
             <Button
               onClick={async (e) => {
                 e.preventDefault()
+                // console.log("done")
+
                 await form.handleSubmit(submitHandler)()
                 // console.log("done submitting")
-                router.push(`/add-project/edit/${params.id}`)
+                router.push(`/add-project/upload/${params.id}`)
               }}
+              // disabled={save}
               disabled={!load || save}
               className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
 
@@ -414,7 +417,12 @@ export default function View({ params }: { params: { id: string } }) {
             </Button>
             <Section active="view" load={load} move={true} />
             <Button
-              // onClick={()=>}
+              onClick={async (e) => {
+                e.preventDefault()
+                // console.log("done")
+                await form.handleSubmit(submitHandler)()
+                router.push(`/add-project/view/${params.id}`)
+              }}
               // disabled={ }
               disabled={true}
               className="ml-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
@@ -424,61 +432,19 @@ export default function View({ params }: { params: { id: string } }) {
           </div>
           {/* </div> */}
         </div>
+
         <div className="bg-[#ECECEC] px-32 pb-20">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(submitHandler)}>
               {/* <div className=""></div> */}
-              <div className="py-8">
-                <div className="flex justify-between">
-                  <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem] mb-6">
-                    {projectName}
-                  </h3>
-                  {/* <div className="flex">
-                  <Button
-                    onClick={async () => {
-                      await form.handleSubmit(submitHandler)()
-                    }}
-                    className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={async () => {
-                      await form.handleSubmit(
-                        async (values: z.infer<typeof formSchema>) => {
-                          try {
-                            await submitHandler(values)
-                            const docRef = doc(
-                              db,
-                              "users",
-                              current!,
-                              "projects",
-                              params.id,
-                            )
-                            await updateDoc(docRef, {
-                              published: true,
-                            })
-                            router.push("/profile-editor")
-                          } catch (err) {
-                            console.error(err)
-                          }
-                        },
-                      )()
-                    }}
-                    className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-                  >
-                    Publish
-                  </Button>
-                </div> */}
-                </div>
-
+              <div className="py-4">
                 <Dialog
                   open={open && visibleFiles.length > 0}
                   onOpenChange={setOpen}
                 >
                   <DialogContentAddProjectView className="bg-[#FFFFFFE5] z-[250]">
                     <div className="h-[100vh] w-[75vw] relative justify-center items-center flex flex-col">
-                      <div className="px-16 flex justify-between w-full max-h-[8vh]">
+                      <div className="px-16 flex justify-between items-center w-full max-h-[8vh]">
                         {/* <div></div> */}
                         <span className="inline-block text-[1.15rem] font-[600] py-2">
                           {(currentIndex < visibleFiles.length &&
@@ -488,10 +454,18 @@ export default function View({ params }: { params: { id: string } }) {
                             )) ||
                             "Name"}
                         </span>
-                        <DialogPrimitive.Close className="inline-block right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                          <X className="h-4 w-4" />
-                          <span className="sr-only">Close</span>
-                        </DialogPrimitive.Close>
+                        <div className="flex">
+                          <div className="mr-2">
+                            <Bugs />
+                          </div>
+                          <div className="mr-2">
+                            <Feedback />
+                          </div>
+                          <DialogPrimitive.Close className="rounded-full hover:bg-gray-100 p-1 aspect-square inline-block ml-3 right-4 top-4 opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                            <X className="h-5 w-5" />
+                            <span className="sr-only">Close</span>
+                          </DialogPrimitive.Close>
+                        </div>
                       </div>
 
                       <Carousel
@@ -644,7 +618,7 @@ export default function View({ params }: { params: { id: string } }) {
                                       <FormItem className="text-left mt-4 w-[100%]">
                                         <div className="flex justify-between items-center">
                                           <FormLabel className="ml-2 inline-block">
-                                            Share it with
+                                            Description
                                           </FormLabel>
 
                                           {/* <div className="flex items-center">
@@ -736,49 +710,22 @@ export default function View({ params }: { params: { id: string } }) {
                                 render={({ field, fieldState }) => {
                                   return (
                                     <>
-                                      <FormItem className="text-left mt-4 w-[100%]">
-                                        <div className="flex justify-between items-center">
-                                          <FormLabel className="ml-2 inline-block">
-                                            Content Type
-                                          </FormLabel>
+                                      <FormItem className="mt-4">
+                                        <FormLabel className="text-[0.875rem] ml-2 font-[500] text-black">
+                                          Content Type
+                                        </FormLabel>
 
-                                          {/* <div className="flex items-center">
-                                          {trigger && (
-                                            <span className="text-[0.75rem] font-[500] text-[#818181]">
-                                              Copied To Clipboard!
-                                            </span>
-                                          )}
-                                          <img
-                                            src="/share.svg"
-                                            onClick={() => {
-                                              // console.log(trigger)
-                                              setTrigger(true)
-                                              navigator.clipboard.writeText(
-                                                form.getValues(
-                                                  `files.${index}.share`,
-                                                ) || "",
-                                              )
-                                              // setVisible(true)
-                                            }}
-                                            alt="share"
-                                            className="ml-2 cursor-pointer h-4 w-4 mr-2"
-                                          />
-                                        </div> */}
-                                        </div>
                                         <FormControl>
-                                          <MultiLineInputProject
-                                            placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                            maxLength={200}
-                                            rows={4}
+                                          <InputProject
+                                            placeholder="Phase"
                                             {...field}
-                                            className={` ${
+                                            className={` w-[100%]  ${
                                               fieldState.error
                                                 ? "border-[#CC3057]"
-                                                : "  border-[#848484]"
+                                                : " border-[#848484]"
                                             }`}
                                             required
                                           />
-                                          {/* <span>{}</span> */}
                                         </FormControl>
                                         <FormMessage className="text-xs text-[#CC3057]" />
                                       </FormItem>
@@ -786,6 +733,7 @@ export default function View({ params }: { params: { id: string } }) {
                                   )
                                 }}
                               />
+
                               <FormField
                                 control={form.control}
                                 name={`files.${file.index}.share`}

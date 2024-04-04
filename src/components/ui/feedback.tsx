@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import {
   FloatingArrow,
+  Placement,
   arrow,
   autoPlacement,
   offset,
@@ -12,13 +13,13 @@ import {
 import Link from "next/link"
 import { useRef, useState } from "react"
 
-export default function Feedback() {
+export default function Feedback({ placement }: { placement?: Placement }) {
   const [isOpen, setOpen] = useState(false)
   const arrowRef = useRef(null)
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setOpen,
-    placement: "left",
+    placement: placement ? placement : "left",
     middleware: [
       offset(10),
       //   autoPlacement({}),

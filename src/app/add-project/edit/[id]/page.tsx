@@ -38,6 +38,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import Link from "next/link"
 // const questions: string[] = [
 //   "Who was your client, and how did you engage with them?",
 //   "What was the primary purpose of this project?",
@@ -243,18 +244,16 @@ export default function Edit({ params }: { params: { id: string } }) {
   return (
     load && (
       <>
-        <div className="sticky w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
+        <div className="sticky  mb-4 w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
           {/* <div className="absolute translate-x-[-50%] left-[50%]"> */}
           <div className="absolute left-16">
-            <Button
-              className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
-              onClick={(e) => {
-                e.preventDefault()
-                router.push("/profile-editor")
-              }}
-            >
-              <span>Close</span>
-            </Button>
+            <Link href={`/profile-editor`}>
+              <div className=" hover:bg-gray-200 p-2 rounded-md transition-colors flex justify-center items-center font-bold text-xl">
+                <div className="inline-block  mr-2">Projects</div>
+                <div className="inline-block  mr-2">&gt;</div>
+                <div className="inline-block ">{projectName}</div>
+              </div>
+            </Link>
           </div>
           <div className="absolute right-16">
             <Button
@@ -344,189 +343,21 @@ export default function Edit({ params }: { params: { id: string } }) {
           </div>
           {/* </div> */}
         </div>
-        <div className="bg-[#ECECEC] px-32 pb-20">
+        <div className="bg-[#ECECEC] pt-10 px-32 pb-20">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(submitHandler, (err, e) =>
                 console.log(err, e),
               )}
             >
-              <div className="py-8">
-                <div className="flex justify-between">
-                  <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem] mb-6">
-                    {projectName}
-                  </h3>
-                  {/* <div className="flex">
-                  <Button
-                    disabled={!load}
-                    onClick={async () => {
-                      try {
-                        // console.log("clicked")
-                        // form.trigger()
-                        // console.log("form values", form.getValues())
-                        // console.log(form.formState.errors, "errors")
-                        await form.handleSubmit(submitHandler)()
-                        // // form.trigger()
-                        // if (form.formState.isValid)
-                        // await submitHandler(form.getValues())
-                      } catch (err) {
-                        console.log(err)
-                      }
-                      // if (move) {
-                      //   router.push(`/add-project/edit/${params.id}`)
-                      // }
-                    }}
-                    className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    disabled={!load}
-                    onClick={async () => {
-                      await form.handleSubmit(
-                        async (values: z.infer<typeof formSchema>) => {
-                          try {
-                            await uploadContent(values)
-                            const docRef = doc(
-                              db,
-                              "users",
-                              current!,
-                              "projects",
-                              params.id,
-                            )
-                            await updateDoc(docRef, {
-                              published: true,
-                            })
-                            router.push("/profile-editor")
-                          } catch (err) {
-                            console.error(err)
-                          }
-                        },
-                      )()
-                    }}
-                    className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-                  >
-                    Publish
-                  </Button>
-                </div> */}
-                  {/* <div></div> */}
-                </div>
-
-                {/* <Section active="edit" move={true} load={load} /> */}
-
-                <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
-                  <div className="flex justify-between items-center text-[0.875rem] font-[400] text-[##060606]">
-                    <div className="inline-block select-none text-[1rem] font-[600]">
-                      {/* What was the initial inspiration behind the Thamizh Futurism
-                  movement and this gallery show? */}
-                      {questions[currentQuestion]}
-                    </div>
-                    <div className="flex ">
-                      <Button
-                        disabled={currentQuestion == 0}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          // console.log(form.getValues())
-                          setCurrentQuestion((prev) => currentQuestion - 1)
-                        }}
-                        // type="submit"
-                        className="select-none border border-[#6563FF] bg-[#EAEAEA] px-8 text-[#6563FF] hover:bg-[#6563FF] transition-colors hover:text-white"
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        disabled={currentQuestion == questions.length - 1}
-                        onClick={(e) => {
-                          e.preventDefault()
-                          // console.log(form.getValues())
-                          setCurrentQuestion((prev) => currentQuestion + 1)
-                        }}
-                        // type="submit"
-                        className="select-none border ml-2 border-[#6563FF] px-8 hover:bg-white hover:text-[#6563FF] bg-[#6563FF] transition-colors text-white"
-                      >
-                        Next
-                      </Button>
-                    </div>
-                  </div>
-                  {questions.map((question, index) => {
-                    return (
-                      <FormField
-                        key={index}
-                        control={form.control}
-                        name={`answer.${index}`}
-                        // name={`answer.${currentQuestion}`}
-                        render={({ field, fieldState }) => {
-                          return (
-                            <>
-                              <FormItem
-                                className={clsx(
-                                  "text-left mt-2 w-[100%]",
-                                  currentQuestion == index ? "block" : "hidden",
-                                )}
-                              >
-                                <FormControl>
-                                  <MultiLineInputProject
-                                    placeholder={`Write your answers here..`}
-                                    maxLength={1000}
-                                    rows={6}
-                                    {...field}
-                                    value={field.value || ""}
-                                    onChange={(e) => {
-                                      // console.log("called")
-                                      // let prev = form.getValues("answer")
-                                      // prev![currentQuestion] = e.target.value
-                                      // return form.setValue(`answer`, prev)
-                                      return field.onChange(e.target.value)
-                                      // console.log(form.getValues("answer"))
-                                    }}
-                                    // onChange={()}
-                                    className={` ${
-                                      fieldState.error
-                                        ? "border-[#CC3057]"
-                                        : "  border-[#848484]"
-                                    }`}
-                                    // required
-                                  />
-                                  {/* <span>{}</span> */}
-                                </FormControl>
-                                <FormMessage className="text-xs text-[#CC3057]" />
-                              </FormItem>
-                            </>
-                          )
-                        }}
-                      />
-                    )
-                  })}
-                  <div className="flex my-2 justify-end">
-                    <Button
-                      disabled={!load || save}
-                      className="inline p-1 px-2 rounded-md text-sm bg-black text-white border-black border"
-                      onClick={async (e) => {
-                        // print("submit")
-                        // console.log("submit")
-                        e.preventDefault()
-                        // console.log(form.getValues(), "submite Values")
-                        try {
-                          await uploadContent(form.getValues())
-                          // console.log("submission complete")
-                        } catch (err) {
-                          console.log(err, "submit error")
-                        }
-                      }}
-                    >
-                      Submit Changes
-                    </Button>
-                    {/* <Regenerate handler={} /> */}
-                  </div>
-                </div>
-              </div>
               {/* <Form {...form2}>
         <form> */}
-              <div className="px-8 pt-6 pb-4 bg-white rounded-[0.88rem]">
+              <div className="px-8 pt-4 pb-4 bg-white rounded-[0.88rem]">
                 <div className="flex justify-between items-center">
                   <span className="inline-block font-[600] text-[1rem] text-[#060606]">
-                    Summary of narrative
+                    Project Narrative
                   </span>
+
                   <div className="flex items-center font-[500] text-[0.875rem]">
                     {/* {load && submitStatus && (
                   <span className="mr-6 text-[#cc3057] ">
@@ -573,6 +404,9 @@ export default function Edit({ params }: { params: { id: string } }) {
                     />
                   </div>
                 </div>
+                <p className="ml-3 font-[0.875rem] text-gray-600">
+                  fasdfasdfads
+                </p>
                 <FormField
                   control={form.control}
                   name={`Context`}
@@ -716,6 +550,115 @@ export default function Edit({ params }: { params: { id: string } }) {
                     )
                   }}
                 />
+              </div>
+              <div className="py-8 pt-6">
+                {/* <Section active="edit" move={true} load={load} /> */}
+
+                <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
+                  <div className="flex justify-between items-center text-[0.875rem] font-[400] text-[##060606]">
+                    <div className="inline-block select-none text-[1rem] font-[600]">
+                      {/* What was the initial inspiration behind the Thamizh Futurism
+                  movement and this gallery show? */}
+                      {questions[currentQuestion]}
+                    </div>
+                    <div className="flex ">
+                      <Button
+                        disabled={currentQuestion == 0}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          // console.log(form.getValues())
+                          setCurrentQuestion((prev) => currentQuestion - 1)
+                        }}
+                        // type="submit"
+                        className="select-none border border-[#6563FF] bg-[#EAEAEA] px-8 text-[#6563FF] hover:bg-[#6563FF] transition-colors hover:text-white"
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        disabled={currentQuestion == questions.length - 1}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          // console.log(form.getValues())
+                          setCurrentQuestion((prev) => currentQuestion + 1)
+                        }}
+                        // type="submit"
+                        className="select-none border ml-2 border-[#6563FF] px-8 hover:bg-white hover:text-[#6563FF] bg-[#6563FF] transition-colors text-white"
+                      >
+                        Next
+                      </Button>
+                    </div>
+                  </div>
+                  {questions.map((question, index) => {
+                    return (
+                      <FormField
+                        key={index}
+                        control={form.control}
+                        name={`answer.${index}`}
+                        // name={`answer.${currentQuestion}`}
+                        render={({ field, fieldState }) => {
+                          return (
+                            <>
+                              <FormItem
+                                className={clsx(
+                                  "text-left mt-2 w-[100%]",
+                                  currentQuestion == index ? "block" : "hidden",
+                                )}
+                              >
+                                <FormControl>
+                                  <MultiLineInputProject
+                                    placeholder={`Write your answers here..`}
+                                    maxLength={1000}
+                                    rows={6}
+                                    {...field}
+                                    value={field.value || ""}
+                                    onChange={(e) => {
+                                      // console.log("called")
+                                      // let prev = form.getValues("answer")
+                                      // prev![currentQuestion] = e.target.value
+                                      // return form.setValue(`answer`, prev)
+                                      return field.onChange(e.target.value)
+                                      // console.log(form.getValues("answer"))
+                                    }}
+                                    // onChange={()}
+                                    className={` ${
+                                      fieldState.error
+                                        ? "border-[#CC3057]"
+                                        : "  border-[#848484]"
+                                    }`}
+                                    // required
+                                  />
+                                  {/* <span>{}</span> */}
+                                </FormControl>
+                                <FormMessage className="text-xs text-[#CC3057]" />
+                              </FormItem>
+                            </>
+                          )
+                        }}
+                      />
+                    )
+                  })}
+                  <div className="flex my-2 mt-4 justify-end">
+                    <Button
+                      disabled={!load || save}
+                      className="inline p-1 px-2 rounded-md text-sm bg-black text-white border-black border"
+                      onClick={async (e) => {
+                        // print("submit")
+                        // console.log("submit")
+                        e.preventDefault()
+                        // console.log(form.getValues(), "submite Values")
+                        try {
+                          await uploadContent(form.getValues())
+                          // console.log("submission complete")
+                        } catch (err) {
+                          console.log(err, "submit error")
+                        }
+                      }}
+                    >
+                      Submit Changes
+                    </Button>
+                    {/* <Regenerate handler={} /> */}
+                  </div>
+                </div>
               </div>
               <div className=" h-[1px] w-full"></div>
 

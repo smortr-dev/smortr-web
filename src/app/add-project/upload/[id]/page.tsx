@@ -57,6 +57,7 @@ import { MultiSelect, Option } from "react-multi-select-component"
 import { rejects } from "assert"
 import { uploadFileRecursive } from "@/lib/uploadFileRecursive"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 function convertToOptions(props: string[] | undefined): Option[] {
   // console.log(props, "props")
   if (!props) return []
@@ -697,10 +698,11 @@ export default function Upload({ params }: { params: { id: string } }) {
   return (
     load && (
       <>
-        <div className="sticky w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
+        <div className="sticky w-full py-1 top-0 z-[100] px-16 grid grid-cols-[1fr_2fr_1fr] bg-white">
           {/* <div className="absolute translate-x-[-50%] left-[50%]"> */}
-          <div className="absolute left-16">
-            <Button
+          {/* <div className="absolute left-16"> */}
+          <div className="flex justify-start items-center">
+            {/* <Button
               className="border-2 border-black text-black bg-white hover:bg-black hover:text-white transition-colors"
               onClick={(e) => {
                 e.preventDefault()
@@ -708,9 +710,56 @@ export default function Upload({ params }: { params: { id: string } }) {
               }}
             >
               <span>Close</span>
+            </Button> */}
+            <Link href={`/profile-editor`}>
+              <div className=" hover:bg-gray-200 p-2 rounded-md transition-colors flex justify-center items-center font-bold text-xl">
+                <div className="inline-block  mr-2">Projects</div>
+                <div className="inline-block  mr-2">&gt;</div>
+                <div className="inline-block ">
+                  {form.watch("projectName", "New Project")}
+                </div>
+              </div>
+            </Link>
+          </div>
+          <div className="flex relative items-center justify-center">
+            <Button
+              // onClick={()=>}
+              // disabled={ }
+              disabled={true}
+              // type="submit"
+              className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+            >
+              <img
+                src="/arrow_prev.svg"
+                className="w-8 inline-block"
+                alt="prev"
+              />
+            </Button>
+            <Section active="upload" move={move} load={load} />
+            <Button
+              // onClick={()=>}
+              // disabled={ }
+              disabled={!load || (!move && preventSubmit) || save}
+              onClick={async (e) => {
+                e.preventDefault()
+                await form.handleSubmit(submitHandler)()
+                console.log("done calling handleSubmit")
+                if (move) {
+                  router.push(`/add-project/edit/${params.id}`)
+                }
+              }}
+              // type="submit"
+              className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
+            >
+              <img
+                src="/arrow_next.svg"
+                className="w-8 inline-block"
+                alt="next"
+              />
             </Button>
           </div>
-          <div className="absolute right-16">
+          {/* <div className="absolute right-16"> */}
+          <div className="flex justify-end">
             <Button
               disabled={!load || save}
               onClick={async (e) => {
@@ -755,92 +804,13 @@ export default function Upload({ params }: { params: { id: string } }) {
               Publish
             </Button>
           </div>
-          <div className="flex relative items-center">
-            <Button
-              // onClick={()=>}
-              // disabled={ }
-              disabled={true}
-              // type="submit"
-              className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
-            >
-              <img src="/arrow_prev.svg" className="w-8" alt="prev" />
-            </Button>
-            <Section active="upload" move={move} load={load} />
-            <Button
-              // onClick={()=>}
-              // disabled={ }
-              disabled={!load || (!move && preventSubmit) || save}
-              onClick={async (e) => {
-                e.preventDefault()
-                await form.handleSubmit(submitHandler)()
-                console.log("done calling handleSubmit")
-                if (move) {
-                  router.push(`/add-project/edit/${params.id}`)
-                }
-              }}
-              // type="submit"
-              className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
-            >
-              <img src="/arrow_next.svg" className="w-8" alt="next" />
-            </Button>
-          </div>
+
           {/* </div> */}
         </div>
         <div className="bg-[#ECECEC] px-32 pb-20">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(submitHandler)}>
               <div className="pt-4">
-                <div className="flex justify-start items-center  mb-6">
-                  <h3 className="inline-block text-[1.375rem] font-[500] text-[#151515] tracking-[0.01375rem]">
-                    {form.watch("projectName", "New Project")}
-                  </h3>
-
-                  {/* <div className="flex">
-                <Button
-                  disabled={!load || save}
-                  onClick={async (e) => {
-                    e.preventDefault()
-                    await form.handleSubmit(submitHandler)()
-                    // await loadInitialValues()
-                    // if (move) {
-                    //   router.push(`/add-project/edit/${params.id}`)
-                    // }
-                  }}
-                  className="inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
-                >
-                  Save
-                </Button>
-                <Button
-                  disabled={!load || save}
-                  onClick={async () => {
-                    await form.handleSubmit(
-                      async (values: z.infer<typeof formSchema>) => {
-                        try {
-                          await uploadContent(values)
-                          const docRef = doc(
-                            db,
-                            "users",
-                            current!,
-                            "projects",
-                            params.id,
-                          )
-                          await updateDoc(docRef, {
-                            published: true,
-                          })
-                          router.push("/profile-editor")
-                        } catch (err) {
-                          console.error(err)
-                        }
-                      },
-                    )()
-                  }}
-                  className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-                >
-                  Publish
-                </Button>
-              </div> */}
-                </div>
-
                 <div className="mt-8 rounded-[0.88rem] px-8 bg-white py-4 ">
                   <FormField
                     control={form.control}

@@ -20,7 +20,7 @@ function CarouselDisplay({
       {file.type == "pdf" && (
         <object
           draggable={true}
-          className="object-contain h-full w-[70vw]"
+          className="object-contain h-full w-[60vw]"
           data={file.filePath}
           type="application/pdf"
         ></object>
