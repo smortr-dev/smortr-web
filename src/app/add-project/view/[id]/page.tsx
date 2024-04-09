@@ -647,7 +647,7 @@ export default function View({ params }: { params: { id: string } }) {
                                         <FormControl>
                                           <MultiLineInputProject
                                             placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                            maxLength={500}
+                                            maxLength={1000}
                                             rows={9}
                                             {...field}
                                             className={` ${
@@ -770,7 +770,7 @@ export default function View({ params }: { params: { id: string } }) {
                                         <FormControl>
                                           <MultiLineInputProject
                                             placeholder={`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `}
-                                            maxLength={200}
+                                            maxLength={500}
                                             rows={4}
                                             {...field}
                                             className={` ${

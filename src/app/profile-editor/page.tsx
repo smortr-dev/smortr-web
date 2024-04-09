@@ -1223,6 +1223,7 @@ export default function Profile({ params }: { params: { name: string } }) {
                                 {project.description && (
                                   <p className="text-[#848484] text-[0.875rem] font-[500]">
                                     {project.description.substring(0, 20)}
+                                    {project.description.length > 20 && '...'}
                                   </p>
                                 )}
                               </div>
