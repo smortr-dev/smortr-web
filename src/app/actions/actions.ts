@@ -193,7 +193,7 @@ export async function sendMail(userId: string, projectId: string) {
     sgMail.setApiKey(TWILIO_API_KEY)
     const msg = {
       to: "smortrportfolios@gmail.com",
-      from: "rookie26092003@gmail.com",
+      from: "smortrdeveloper@gmail.com",
       cc: "rookie26092003@gmail.com",
       // template,
       templateId: "d-23c4ed29874c4e219d4a809726ad3ebe",

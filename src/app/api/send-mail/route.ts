@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     sgMail.setApiKey(TWILIO_API_KEY)
     const msg = {
       to: "smortrportfolios@gmail.com",
-      from: "rookie26092003@gmail.com",
+      from: "smortrdeveloper@gmail.com",
       subject: "New User Project Regenerate",
       text: path,
     }
