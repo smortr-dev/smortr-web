@@ -295,10 +295,10 @@ type Feed = {
 };
 
 async function getData() {
-  // console.log("called");
+  console.log("called");
   const res = await fetch("/api/feed");
   const profileData: Feed = await res.json();
-  // console.log(profileData);
+  console.log(profileData);
   return profileData;
 }
 function convertToOptions(props: string[] | undefined): Option[] {
@@ -620,9 +620,9 @@ export default function Feed() {
         }
       });
     }
-    console.log(initialData, "initial data after sort");
     return initialData;
   }
+
   useEffect(() => {
     async function fetchData() {
       const feedData: Feed = await getData();
@@ -656,11 +656,9 @@ export default function Feed() {
                   defaultValue={filters.searchString}
                   onChange={(event) => {
                     let filter = {
-                      ...filterData,
                       searchString: event.target.value,
                     };
                     setFilters((prev) => {
-                      // console.log(event.target.value);
                       return { ...prev, searchString: event.target.value };
                     });
                     setPresentedData(filterData(filter, apiData));
@@ -673,12 +671,7 @@ export default function Feed() {
                 onValueChange={(props) => {
                   let returnValue: filter = { ...filters, searchType: props };
                   setPresentedData(filterData(returnValue, apiData));
-                  setFilters((prev) => {
-                    let returnValue: filter = { ...prev, searchType: props };
-                    // console.log(returnValue);
-                    return returnValue;
-                  });
-                  filterData(filters, apiData);
+                  setFilters(returnValue);
                 }}
                 defaultValue={filters.searchType}
               >

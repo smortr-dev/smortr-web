@@ -6,6 +6,7 @@ import { FormItem } from "@/components/ui/form"
 import { InputFeed } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FormControl, FormLabel } from "@mui/material"
+import faIR from "date-fns/locale/fa-IR/index"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 export default function SearchBar({
@@ -21,6 +22,12 @@ export default function SearchBar({
     index: number
     type: string
     preview: string
+    description: string
+    content_type: string
+    share: string
+    notes: string
+    phase: string
+    skills: string[]
   }[]
   visibleFiles: {
     fileName: string
@@ -28,6 +35,12 @@ export default function SearchBar({
     index: number
     type: string
     preview: string
+    description: string
+    content_type: string
+    share: string
+    notes: string
+    phase: string
+    skills: string[]
   }[]
   setVisibleFiles: Dispatch<
     SetStateAction<
@@ -37,6 +50,12 @@ export default function SearchBar({
         index: number
         type: string
         preview: string
+        description: string
+        content_type: string
+        share: string
+        notes: string
+        phase: string
+        skills: string[]
       }[]
     >
   >
@@ -52,10 +71,22 @@ export default function SearchBar({
       index: number
       type: string
       preview: string
+      description: string
+      content_type: string
+      share: string
+      notes: string
+      phase: string
+      skills: string[]
     }[] = []
-    console.log(files, "files")
+    let keyLowerCase = key.toLocaleLowerCase()
     files.forEach((file) => {
-      if (file.fileName.toLocaleLowerCase().match(key)) {
+      if (file.fileName.toLocaleLowerCase().match(keyLowerCase) ||
+      file.description.toLocaleLowerCase().match(keyLowerCase) ||
+      file.content_type.toLocaleLowerCase().match(keyLowerCase) ||
+      file.share.toLocaleLowerCase().match(keyLowerCase) ||
+      file.notes.toLocaleLowerCase().match(keyLowerCase) ||
+      file.phase.toLocaleLowerCase().match(keyLowerCase) ||
+      file.skills.some(skill => skill.toLocaleLowerCase().match(keyLowerCase))) {
         value.push(file)
       }
     })
@@ -65,9 +96,6 @@ export default function SearchBar({
 
   function sortFiles() {
     let value = visibleFiles.sort(function (a, b) {
-      // console.log(a, b)
-      // console.log(a.filePath)
-      // console.log(b.filePath)
 
       let a_last = a.fileName
       let b_last = b.fileName
@@ -80,7 +108,6 @@ export default function SearchBar({
     sortFiles()
   }, [])
   useEffect(() => {
-    console.log("called sort", sort)
     sortFiles()
   }, [sort])
 
@@ -105,7 +132,6 @@ export default function SearchBar({
           className="border-0 px-1"
           value={key}
           onChange={(e) => {
-            console.log(e.target.value)
             setKey(e.target.value)
             // sortFiles()
             searchFiles(e.target.value)

@@ -128,11 +128,16 @@ export default function View({ params }: { params: { id: string } }) {
   const [files, setFiles] = useState<
     {
       fileName: string
-      // filePath: string
       preview: string
       filePath: string
       index: number
       type: string
+      description?: string
+      content_type?: string
+      share?: string
+      notes?: string
+      phase?: string
+      skills?: string[]
     }[]
   >([])
   const [count, setCount] = useState(0)
@@ -142,11 +147,16 @@ export default function View({ params }: { params: { id: string } }) {
   const [visibleFiles, setVisibleFiles] = useState<
     {
       fileName: string
-      // filePath: string
       preview: string
       filePath: string
       index: number
       type: string
+      description?: string
+      content_type?: string
+      share?: string
+      notes?: string
+      phase?: string
+      skills?: string[]
     }[]
   >([])
   const [projectName, setProjectName] = useState("New Project")
@@ -183,126 +193,133 @@ export default function View({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (!current) return
     // if (typeof window === "undefined") return
-    async function getData() {
-      try {
-        const docRef = doc(db, "users", current!, "projects", params.id)
-        const docRes = await getDoc(docRef)
-        if (docRes.exists()) {
-          if (!docRes.data()?.progress || docRes.data()?.progress == 0) {
-            router.push(`/add-project/upload/${params.id}`)
-            return
-          }
-
-          // console.log(docRes.data())
-          const assets: string[] = docRes.data()?.assets || []
-          if (docRes.data().projectName) {
-            setProjectName(docRes.data().projectName)
-          }
-          // user-assets/o1MWNdo2xweMsSPP60fWfQoeZVn2/projects/6Womfe0BRcx7wUGIcfno/test1706262702654.png
-          // console.log(assets, "assets")
-          if (assets) {
-            // console.log(assets, "assets")
-            let save: {
-              fileName: string
-              // filePath: string
-              preview: string
-              filePath: string
-              index: number
-              type: string
-            }[] = []
-            // console.log(assets, "inside")
-            await Promise.all(
-              assets.map(async (asset, index) => {
-                try {
-                  const storeRef = ref(storage, asset)
-                  const meta = await getMetadata(storeRef)
-                  let res = ""
-                  let type = ""
-                  let filePath = await getDownloadURL(storeRef)
-                  if (meta.contentType?.split("/")[0] == "image") {
-                    res = filePath
-                    type = meta.contentType?.split("/")[0]
-                  } else if (meta.contentType?.split("/")[1] == "pdf") {
-                    res = "/pdf.png"
-                    type = meta.contentType?.split("/")[1]
-                  }
-                  // console.log(asset, asset.split("/").splice(-1), "asset")
-                  // form.
-                  console.log(filePath)
-                  save.push({
-                    type: type,
-                    index: index,
-                    preview: res,
-                    filePath: filePath,
-                    fileName:
-                      docRes.data()?.files[index]?.name ||
-                      asset.split("/").slice(-1).join(),
-                  })
-                } catch (err) {
-                  console.log(err)
-                }
-              }),
-            )
-            // delete
-            // console.log(save, "files save")
-            setFiles([...save])
-            setVisibleFiles([...save])
-            console.log([...save], "visibleFiles", currentIndex)
-
-            // if(docRes.data().)
-            const fileData: {
-              content_type?: string
-              privacy: string
-              name?: string | undefined
-              skills?: string[] | undefined
-              // link?: string | undefined
-              description?: string | undefined
-              share?: string | undefined
-              notes?: string | undefined
-              // filePath?: string
-              phase?: string | undefined
-            }[] = docRes.data()?.files || []
-            // fileData.forEach((file, index) => {
-            //   if (!file.privacy) {
-            //     fileData[index].privacy = "private"
-            //   }
-            // })
-            form.setValue("files", fileData)
-            // console.log(form.getValues("files"), "files")
-
-            // assets.forEach((asset, index) => {
-            //   if (!form.getValues(`files.${index}.name`)) {
-            //     form.setValue(
-            //       `files.${index}.name`,
-            //       asset
-            //         .split("/")
-            //         .slice(-1)
-            //         .join()
-            //         .split(".")
-            //         .slice(0, 1)
-            //         .join(""),
-            //     )
-            //   }
-            // })
-          } else {
-            throw Error("Assets Not Found")
-          }
-          // const init = assets.map((asset) => {
-          //   delete asset["filePath"]
-          //   return asset
-          // })
-          // form.setValue("files", assets)
-          // console.log(form.getValues("files"), "init")
-          setLoad(true)
-        } else {
-          throw Error("No document Exists")
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    }
     getData()
   }, [])
+
+
+  async function getData() {
+    console.log('getData called')
+    try {
+      const docRef = doc(db, "users", current!, "projects", params.id)
+      const docRes = await getDoc(docRef)
+      if (docRes.exists()) {
+        if (!docRes.data()?.progress || docRes.data()?.progress == 0) {
+          router.push(`/add-project/upload/${params.id}`)
+          return
+        }
+
+        const assets: string[] = docRes.data()?.assets || []
+        if (docRes.data().projectName) {
+          setProjectName(docRes.data().projectName)
+        }
+        if (assets) {
+          let save: {
+            fileName: string
+            // filePath: string
+            preview: string
+            filePath: string
+            index: number
+            type: string
+            description?: string
+            content_type?: string
+            share?: string
+            notes?: string
+            phase?: string
+            skills?: string[]
+          }[] = []
+          await Promise.all(
+            assets.map(async (asset, index) => {
+              try {
+                const storeRef = ref(storage, asset)
+                const meta = await getMetadata(storeRef)
+                let res = ""
+                let type = ""
+                let filePath = await getDownloadURL(storeRef)
+                if (meta.contentType?.split("/")[0] == "image") {
+                  res = filePath
+                  type = meta.contentType?.split("/")[0]
+                } else if (meta.contentType?.split("/")[1] == "pdf") {
+                  res = "/pdf.png"
+                  type = meta.contentType?.split("/")[1]
+                }
+                console.log(filePath)
+                save.push({
+                  type: type,
+                  index: index,
+                  preview: res,
+                  filePath: filePath,
+                  fileName:
+                    docRes.data()?.files[index]?.name ||
+                    asset.split("/").slice(-1).join(),
+                  description: docRes.data()?.files[index]?.description || "",
+                  content_type: docRes.data()?.files[index]?.content_type || "",
+                  share: docRes.data()?.files[index]?.share || "",
+                  notes: docRes.data()?.files[index]?.notes || "",
+                  phase: docRes.data()?.files[index]?.phase || "",
+                  skills: docRes.data()?.files[index]?.skills || [],
+                })
+              } catch (err) {
+                console.log(err)
+              }
+            }),
+          )
+          setFiles([...save])
+          setVisibleFiles([...save])
+          console.log([...save], "visibleFiles", currentIndex)
+
+          // if(docRes.data().)
+          const fileData: {
+            content_type?: string
+            privacy: string
+            name?: string | undefined
+            skills?: string[] | undefined
+            // link?: string | undefined
+            description?: string | undefined
+            share?: string | undefined
+            notes?: string | undefined
+            // filePath?: string
+            phase?: string | undefined
+          }[] = docRes.data()?.files || []
+          // fileData.forEach((file, index) => {
+          //   if (!file.privacy) {
+          //     fileData[index].privacy = "private"
+          //   }
+          // })
+          form.setValue("files", fileData)
+          // console.log(form.getValues("files"), "files")
+
+          // assets.forEach((asset, index) => {
+          //   if (!form.getValues(`files.${index}.name`)) {
+          //     form.setValue(
+          //       `files.${index}.name`,
+          //       asset
+          //         .split("/")
+          //         .slice(-1)
+          //         .join()
+          //         .split(".")
+          //         .slice(0, 1)
+          //         .join(""),
+          //     )
+          //   }
+          // })
+        } else {
+          throw Error("Assets Not Found")
+        }
+        // const init = assets.map((asset) => {
+        //   delete asset["filePath"]
+        //   return asset
+        // })
+        // form.setValue("files", assets)
+        // console.log(form.getValues("files"), "init")
+        setLoad(true)
+      } else {
+        throw Error("No document Exists")
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -315,11 +332,8 @@ export default function View({ params }: { params: { id: string } }) {
   })
 
   async function submitHandler(values: z.infer<typeof formSchema>) {
-    // console.log("clicked")
     const docRef = doc(db, "users", current!, "projects", params.id)
-    // console.log(values, "values submit")
     setSave(true)
-    // return
     try {
       await updateDoc(docRef, { ...values })
       toast({
@@ -329,6 +343,7 @@ export default function View({ params }: { params: { id: string } }) {
         //   "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4 ",
         // ),
       })
+      getData()
     } catch (err) {
       toast({
         // className: cn(
