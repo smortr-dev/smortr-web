@@ -295,10 +295,8 @@ type Feed = {
 };
 
 async function getData() {
-  console.log("called");
   const res = await fetch("/api/feed");
   const profileData: Feed = await res.json();
-  console.log(profileData);
   return profileData;
 }
 function convertToOptions(props: string[] | undefined): Option[] {
@@ -628,7 +626,6 @@ export default function Feed() {
       const feedData: Feed = await getData();
       setApiData(feedData);
       setPresentedData(filterData(filters, feedData));
-      // console.log(feedData, "feedData");
     }
     fetchData();
     // setPresentedData(filterData(filters));

@@ -132,12 +132,12 @@ export default function View({ params }: { params: { id: string } }) {
       filePath: string
       index: number
       type: string
-      description?: string
-      content_type?: string
-      share?: string
-      notes?: string
-      phase?: string
-      skills?: string[]
+      description: string
+      content_type: string
+      share: string
+      notes: string
+      phase: string
+      skills: string[]
     }[]
   >([])
   const [count, setCount] = useState(0)
@@ -151,12 +151,12 @@ export default function View({ params }: { params: { id: string } }) {
       filePath: string
       index: number
       type: string
-      description?: string
-      content_type?: string
-      share?: string
-      notes?: string
-      phase?: string
-      skills?: string[]
+      description: string
+      content_type: string
+      share: string
+      notes: string
+      phase: string
+      skills: string[]
     }[]
   >([])
   const [projectName, setProjectName] = useState("New Project")
@@ -198,7 +198,6 @@ export default function View({ params }: { params: { id: string } }) {
 
 
   async function getData() {
-    console.log('getData called')
     try {
       const docRef = doc(db, "users", current!, "projects", params.id)
       const docRes = await getDoc(docRef)
@@ -220,12 +219,12 @@ export default function View({ params }: { params: { id: string } }) {
             filePath: string
             index: number
             type: string
-            description?: string
-            content_type?: string
-            share?: string
-            notes?: string
-            phase?: string
-            skills?: string[]
+            description: string
+            content_type: string
+            share: string
+            notes: string
+            phase: string
+            skills: string[]
           }[] = []
           await Promise.all(
             assets.map(async (asset, index) => {
@@ -242,7 +241,6 @@ export default function View({ params }: { params: { id: string } }) {
                   res = "/pdf.png"
                   type = meta.contentType?.split("/")[1]
                 }
-                console.log(filePath)
                 save.push({
                   type: type,
                   index: index,
@@ -265,7 +263,6 @@ export default function View({ params }: { params: { id: string } }) {
           )
           setFiles([...save])
           setVisibleFiles([...save])
-          console.log([...save], "visibleFiles", currentIndex)
 
           // if(docRes.data().)
           const fileData: {
@@ -415,10 +412,8 @@ export default function View({ params }: { params: { id: string } }) {
             <Button
               onClick={async (e) => {
                 e.preventDefault()
-                // console.log("done")
 
                 await form.handleSubmit(submitHandler)()
-                // console.log("done submitting")
                 router.push(`/add-project/upload/${params.id}`)
               }}
               // disabled={save}
@@ -434,7 +429,6 @@ export default function View({ params }: { params: { id: string } }) {
             <Button
               onClick={async (e) => {
                 e.preventDefault()
-                // console.log("done")
                 await form.handleSubmit(submitHandler)()
                 router.push(`/add-project/view/${params.id}`)
               }}
@@ -519,9 +513,6 @@ export default function View({ params }: { params: { id: string } }) {
                           {visibleFiles.map((file, index) => (
                             <CarouselItem
                               onClick={() => {
-                                // console.log("clicked", index)
-                                // api2?.scrollTo(index)
-                                // api1?.scrollTo(index)
                                 setCurrentIndex(index)
                               }}
                               key={index}
