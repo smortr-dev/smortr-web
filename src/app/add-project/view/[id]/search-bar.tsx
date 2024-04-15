@@ -6,7 +6,6 @@ import { FormItem } from "@/components/ui/form"
 import { InputFeed } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FormControl, FormLabel } from "@mui/material"
-import faIR from "date-fns/locale/fa-IR/index"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 export default function SearchBar({
@@ -111,9 +110,6 @@ export default function SearchBar({
     sortFiles()
   }, [sort])
 
-  // useEffect(() => {
-  //   setCount((prev) => prev + 1)
-  // }, [])
 
   return (
     <div className="flex mx-3 mt-2">

@@ -379,34 +379,6 @@ export default function View({ params }: { params: { id: string } }) {
             >
               Save
             </Button>
-            <Button
-              disabled={!load || save}
-              onClick={async () => {
-                await form.handleSubmit(
-                  async (values: z.infer<typeof formSchema>) => {
-                    try {
-                      await submitHandler(values)
-                      const docRef = doc(
-                        db,
-                        "users",
-                        current!,
-                        "projects",
-                        params.id,
-                      )
-                      await updateDoc(docRef, {
-                        published: true,
-                      })
-                      router.push("/profile-editor")
-                    } catch (err) {
-                      console.error(err)
-                    }
-                  },
-                )()
-              }}
-              className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-            >
-              Publish
-            </Button>
           </div>
           <div className="flex relative items-center">
             <Button

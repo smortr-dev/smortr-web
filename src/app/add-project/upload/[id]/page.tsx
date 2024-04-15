@@ -551,8 +551,8 @@ export default function Upload({ params }: { params: { id: string } }) {
     loadInitialValues()
   }, [])
   // form
+
   async function uploadContent(values: z.infer<typeof formSchema>) {
-    // console.log("called upload")
     let document: any = {}
     const docRef = doc(db, "users", current!, "projects", params.id)
     let foundCover = false
@@ -665,36 +665,19 @@ export default function Upload({ params }: { params: { id: string } }) {
       console.log(err)
     }
   }
-  async function submitHandler(values: z.infer<typeof formSchema>) {
-    // if()
 
-    console.log("called submit Handler")
+  async function submitHandler(values: z.infer<typeof formSchema>) {
+
     setSave(true)
-    // console.log("values", values)
     try {
       await uploadContent(values)
-      // const generate_res = await initialQuestionGenerate(current!, params.id)
-      // console.log(generate_res)
     } catch (err) {
       console.log(err)
     }
     setSave(false)
-    // const res = await fetch("/api/add-project/initial-generate-questions", {
-    //   method: "POST",
-    //   body: JSON.stringify({ userId: current!, projectId: params.id }),
-    // })
     setPreventSubmit(true)
-
-    // await fetch("/api/send-mail", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     path: `users/${current!}/projects/${params.id}`,
-    //   }),
-    // })
-    // if (move) {
-    //   router.push(`/add-project/edit/${params.id}`)
-    // }
   }
+
   return (
     load && (
       <>
@@ -773,35 +756,6 @@ export default function Upload({ params }: { params: { id: string } }) {
               className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
             >
               Save
-            </Button>
-
-            <Button
-              disabled={!load || save}
-              onClick={async () => {
-                await form.handleSubmit(
-                  async (values: z.infer<typeof formSchema>) => {
-                    try {
-                      await uploadContent(values)
-                      const docRef = doc(
-                        db,
-                        "users",
-                        current!,
-                        "projects",
-                        params.id,
-                      )
-                      await updateDoc(docRef, {
-                        published: true,
-                      })
-                      router.push("/profile-editor")
-                    } catch (err) {
-                      console.error(err)
-                    }
-                  },
-                )()
-              }}
-              className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
-            >
-              Publish
             </Button>
           </div>
 
