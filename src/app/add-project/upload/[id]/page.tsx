@@ -753,11 +753,22 @@ export default function Upload({ params }: { params: { id: string } }) {
                 //   router.push(`/add-project/edit/${params.id}`)
                 // }
               }}
-              className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+              className="ml-2 inline-block bg-[#6563FF] border border-transparent text-white rounded-[0.38rem] hover:text-[#6563FF] hover:border-[#6563FF] hover:bg-white transition-colors"
             >
               Save
             </Button>
+            <Button
+              disabled={!load || save}
+              onClick={async (e) => {
+                e.preventDefault()
+                router.push("/profile-editor")
+              }}
+              className="ml-2 inline-block bg-white border border-[#6563FF] text-[#6563FF] rounded-[0.38rem] hover:text-white hover:bg-[#6563FF] hover:border-transparent transition-colors"
+            >
+              Cancel
+            </Button>
           </div>
+          
 
           {/* </div> */}
         </div>
