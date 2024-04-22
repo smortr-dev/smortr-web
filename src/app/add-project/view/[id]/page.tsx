@@ -81,6 +81,7 @@ const formSchema = z.object({
       notes: z.string().optional(),
       phase: z.string().optional(),
       skills: z.string().array().optional(),
+      original_name: z.string().optional(),
       // filePath: z.string().optional(),
     })
     .array(),
@@ -276,6 +277,7 @@ export default function View({ params }: { params: { id: string } }) {
             notes?: string | undefined
             // filePath?: string
             phase?: string | undefined
+            original_name?: string | undefined
           }[] = docRes.data()?.files || []
           // fileData.forEach((file, index) => {
           //   if (!file.privacy) {
@@ -436,14 +438,23 @@ export default function View({ params }: { params: { id: string } }) {
                     <div className="h-[100vh] w-[75vw] relative justify-center items-center flex flex-col">
                       <div className="px-16 flex justify-between items-center w-full max-h-[8vh]">
                         {/* <div></div> */}
-                        <span className="inline-block text-[1.15rem] font-[600] py-2">
-                          {(currentIndex < visibleFiles.length &&
-                            form.watch(
-                              `files.${visibleFiles[currentIndex].index}.name`,
-                              "Name",
-                            )) ||
-                            "Name"}
-                        </span>
+                        <div className="flex flex-col justify-between">
+                          <span className="inline-block text-[1.15rem] font-[600] py-2">
+                            {(currentIndex < visibleFiles.length &&
+                              form.watch(
+                                `files.${visibleFiles[currentIndex].index}.name`,
+                                "Name",
+                              ))}
+                          </span>
+                          <span className="text-[#848484] text-[0.875rem] font-[500]">
+                            {(currentIndex < visibleFiles.length &&
+                                form.watch(
+                                  `files.${visibleFiles[currentIndex].index}.original_name`,
+                                  "",
+                                ))}
+                          </span>
+                        </div>
+                        
                         <div className="flex">
                           <div className="mr-2">
                             <Bugs />

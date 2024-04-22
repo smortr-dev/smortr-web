@@ -70,6 +70,7 @@ export async function uploadFileRecursive(
             phase: "",
             skills: [],
             name: `${name}`,
+            original_name: files.name
           }),
         })
 

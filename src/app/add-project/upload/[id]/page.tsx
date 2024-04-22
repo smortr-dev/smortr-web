@@ -392,7 +392,6 @@ export default function Upload({ params }: { params: { id: string } }) {
     },
   })
   async function loadInitialValues() {
-    console.log("called initial values")
     try {
       const res = await fetch("/api/add-project/view", {
         method: "POST",
@@ -608,12 +607,9 @@ export default function Upload({ params }: { params: { id: string } }) {
               console.log("upload Error", err, index)
             })
         } catch (err) {
-          // rej(err)
           console.log(err)
         }
-        // })
 
-        // console.log("here agter update")
       })
       await Promise.all(promises)
       // }
@@ -629,8 +625,6 @@ export default function Upload({ params }: { params: { id: string } }) {
       console.log("done promise")
       document = values
       document.files = undefined
-      // console.log(document, "document")
-      // , status: "submitted"
       await updateDoc(docRef, { ...document, status: "submitted" })
       // if (files.length == 0) {
       //   await sendMail(current!, params.id)
@@ -706,10 +700,7 @@ export default function Upload({ params }: { params: { id: string } }) {
           </div>
           <div className="flex relative items-center justify-center">
             <Button
-              // onClick={()=>}
-              // disabled={ }
               disabled={true}
-              // type="submit"
               className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
             >
               <img
@@ -720,18 +711,14 @@ export default function Upload({ params }: { params: { id: string } }) {
             </Button>
             <Section active="upload" move={move} load={load} />
             <Button
-              // onClick={()=>}
-              // disabled={ }
               disabled={!load || (!move && preventSubmit) || save}
               onClick={async (e) => {
                 e.preventDefault()
                 await form.handleSubmit(submitHandler)()
-                console.log("done calling handleSubmit")
                 if (move) {
                   router.push(`/add-project/edit/${params.id}`)
                 }
               }}
-              // type="submit"
               className="mx-2 p-2 rounded-full  text-black border-gray-400 bg-white hover:bg-gray-400  transition-colors border cursor-pointer"
             >
               <img
