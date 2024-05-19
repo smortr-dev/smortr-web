@@ -97,10 +97,7 @@ export default function LandingPage() {
                 Document faster, showcase better. All in one window.
               </h1>
               <p className="uhd:mt-4 mt-2 uhd:text-[1.25rem] tab:text-[1rem] text-[1.25rem] 2k:leading-[1.85rem] uhd:leading-[1.75rem] tab:leading-[1.5rem] leading-[1.6rem] text-[#333] tracking-tight">
-                Say goodbye to composition and format troubles. We’re building
-                Smortr, an AI-assisted portfolio platform for building designers
-                to compile, showcase and share, focused on improving
-                discoverability.
+                Say goodbye to composition and format troubles. Smortr is an AI-assisted project hub that integrates documentation and showcase for the various stakeholders involved in an architectural project.
               </p>
               <Button
                 className="relative z-[5] 2k:mt-6 lg:mt-4 md:mt-4 mt-8 block w-[100%]  bg-black float-right text-white border-2 border-transparent rounded-[6px] hover:text-black hover:bg-white hover:border-black"
