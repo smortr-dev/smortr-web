@@ -551,114 +551,121 @@ export default function Upload({ params }: { params: { id: string } }) {
   }, [])
   // form
 
+  async function uploadToOpenAI(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    const response = await fetch('/api/add-project/upload', {
+      method: 'POST',
+      body: formData,
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to upload to OpenAI');
+    }
+  
+    const data = await response.json();
+    console.log('OpenAI upload response:', data);
+  }
+
+
   async function uploadContent(values: z.infer<typeof formSchema>) {
-    let document: any = {}
-    const docRef = doc(db, "users", current!, "projects", params.id)
-    let foundCover = false
-    let files = values.files
-    // form.resetField("files")
-    // console.log(form.getValues("files"), "files")
+    let document: any = {};
+    const docRef = doc(db, 'users', current!, 'projects', params.id);
+    let foundCover = false;
+    let files = values.files;
+  
     try {
-      const doc_ = await getDoc(docRef)
-      // if (doc_.exists() && doc_.data().cover) foundCover = true
-      console.log(files.length, "file length")
-      // if (files.length > 0) {
-      console.log("promise called")
+      const doc_ = await getDoc(docRef);
+      console.log(files.length, 'file length');
+      console.log('promise called');
+  
+      const filePaths: string[] = []; // Array to hold file paths
+  
       const promises = files.map(async (file: File, index: number) => {
-        // return new Promise((res, rej) => {
         const name =
-          file.name.split(".").slice(0, -1).join() +
-          "-" +
+          file.name.split('.').slice(0, -1).join() +
+          '-' +
           new Date().getTime() +
-          "." +
-          file.name.split(".").slice(-1).join()
+          '.' +
+          file.name.split('.').slice(-1).join();
         const storageRef = ref(
           storage,
-          `user-assets/${current}/projects/${params.id}/${name}`,
-        )
+          `user-assets/${current}/projects/${params.id}/${name}`
+        );
+  
         try {
-          await uploadFileRecursive(
-            storageRef,
-            file,
-            20,
-            current!,
-            params.id,
-            name,
-            form,
-            index,
-          )
-            .then(async () => {
+          await Promise.all([
+            uploadFileRecursive(
+              storageRef,
+              file,
+              20,
+              current!,
+              params.id,
+              name,
+              form,
+              index
+            ).then(async () => {
               if (
                 !foundCover &&
-                file.type.split("/").splice(0, 1).join("") == "image"
+                file.type.split('/').splice(0, 1).join('') === 'image'
               ) {
                 try {
                   await updateDoc(docRef, {
                     cover: `user-assets/${current}/projects/${params.id}/${name}`,
-                  })
+                  });
                 } catch (err) {
-                  console.error(err)
+                  console.error(err);
                 }
-                foundCover = true
+                foundCover = true;
               }
-              console.log("called")
-            })
-            .catch((err) => {
-              console.log("upload Error", err, index)
-            })
+              console.log('called');
+  
+              // Add file path to the array
+              filePaths.push(`public/user-assets/${current}/projects/${params.id}/${name}`);
+            }).catch(err => {
+              console.log('upload Error', err, index);
+            }),
+            uploadToOpenAI(file) // Upload to OpenAI
+          ]);
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
-
-      })
-      await Promise.all(promises)
-      // }
-      form.setValue("files", [])
-      console.log(form.getValues("files"), "after refresh")
-
-      // if (values.description) {
-      //   document.description = values.description
-      // }
-      // if (values.projectName) {
-      //   document.projectName = values.projectName
-      // }
-      console.log("done promise")
-      document = values
-      document.files = undefined
-      await updateDoc(docRef, { ...document, status: "submitted" })
-      // if (files.length == 0) {
-      //   await sendMail(current!, params.id)
-      // }
-
-      await sendMail(current!, params.id)
-
-      await loadInitialValues()
-
+      });
+  
+      await Promise.all(promises);
+  
+      form.setValue('files', []);
+      console.log(form.getValues('files'), 'after refresh');
+  
+      document = values;
+      document.files = undefined;
+      await updateDoc(docRef, { ...document, status: 'submitted' });
+  
+      await sendMail(current!, params.id);
+      await loadInitialValues();
+  
       toast({
-        // variant: "destructive",
-        title: "Updated Successfully",
-        // className: cn("top-0 right-0 flex fixed md:max-w-[420px]"),
-      })
+        title: 'Updated Successfully',
+      });
+  
       if (!move) {
         toast({
-          // variant: "destructive",
           title: "We'll Email you once the content is processed!",
-          // className: cn(
-          //   "top-0 right-0 flex fixed md:max-w-[420px] md:top-18 md:right-4",
-          // ),
-        })
+        });
       }
     } catch (err) {
       toast({
         className: cn(
-          "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+          'top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4'
         ),
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-      })
-      console.log(err)
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+      });
+      console.log(err);
     }
   }
+  
 
   async function submitHandler(values: z.infer<typeof formSchema>) {
 
