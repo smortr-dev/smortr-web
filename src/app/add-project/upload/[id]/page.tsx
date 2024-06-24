@@ -551,24 +551,37 @@ export default function Upload({ params }: { params: { id: string } }) {
   }, [])
   // form
 
-  async function uploadToOpenAI(file: File) {
+  async function uploadToOpenAI(file: File, userId: string | null | undefined, projectId: string) {
     const formData = new FormData();
     formData.append('file', file);
-  
-    const response = await fetch('/api/add-project/upload', {
-      method: 'POST',
-      body: formData,
-    });
-  
-    if (!response.ok) {
-      throw new Error('Failed to upload to OpenAI');
+    if (userId !== null && userId !== undefined) {
+      formData.append('userId', userId);
     }
+    formData.append('projectId', projectId);
   
-    const data = await response.json();
-    console.log('OpenAI upload response:', data);
+    try {
+      const response = await fetch('/api/add-project/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to upload to OpenAI');
+      }
+  
+      const data = await response.json();
+      console.log('OpenAI upload response:', data);
+      
+      // Handle the thread response
+      if (data.success) {
+        console.log('Thread response:', data.response);
+        // Do something with the response
+      }
+    } catch (error) {
+      console.error('Error uploading to OpenAI:', error);
+    }
   }
-
-
+  
   async function uploadContent(values: z.infer<typeof formSchema>) {
     let document: any = {};
     const docRef = doc(db, 'users', current!, 'projects', params.id);
@@ -576,57 +589,38 @@ export default function Upload({ params }: { params: { id: string } }) {
     let files = values.files;
   
     try {
-      const doc_ = await getDoc(docRef);
+      const doc = await getDoc(docRef);
       console.log(files.length, 'file length');
       console.log('promise called');
   
       const filePaths: string[] = []; // Array to hold file paths
   
       const promises = files.map(async (file: File, index: number) => {
-        const name =
-          file.name.split('.').slice(0, -1).join() +
-          '-' +
-          new Date().getTime() +
-          '.' +
-          file.name.split('.').slice(-1).join();
-        const storageRef = ref(
-          storage,
-          `user-assets/${current}/projects/${params.id}/${name}`
-        );
+        const name = file.name.split('.').slice(0, -1).join() + '-' + new Date().getTime() + '.' + file.name.split('.').slice(-1).join();
+        const storageRef = ref(storage, `user-assets/${current}/projects/${params.id}/${name}`);
   
         try {
           await Promise.all([
-            uploadFileRecursive(
-              storageRef,
-              file,
-              20,
-              current!,
-              params.id,
-              name,
-              form,
-              index
-            ).then(async () => {
-              if (
-                !foundCover &&
-                file.type.split('/').splice(0, 1).join('') === 'image'
-              ) {
-                try {
-                  await updateDoc(docRef, {
-                    cover: `user-assets/${current}/projects/${params.id}/${name}`,
-                  });
-                } catch (err) {
-                  console.error(err);
+            uploadFileRecursive(storageRef, file, 20, current!, params.id!, name, form, index)
+              .then(async () => {
+                if (!foundCover && file.type.split('/').splice(0, 1).join('') === 'image') {
+                  try {
+                    await updateDoc(docRef, {
+                      cover: `user-assets/${current}/projects/${params.id}/${name}`,
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                  foundCover = true;
                 }
-                foundCover = true;
-              }
-              console.log('called');
-  
-              // Add file path to the array
-              filePaths.push(`public/user-assets/${current}/projects/${params.id}/${name}`);
-            }).catch(err => {
-              console.log('upload Error', err, index);
-            }),
-            uploadToOpenAI(file) // Upload to OpenAI
+                console.log('called');
+                // Add file path to the array
+                filePaths.push(`public/user-assets/${current}/projects/${params.id}/${name}`);
+              })
+              .catch(err => {
+                console.log('upload Error', err, index);
+              }),
+            uploadToOpenAI(file, current!, params.id!) // Convert to string
           ]);
         } catch (err) {
           console.log(err);
@@ -656,15 +650,14 @@ export default function Upload({ params }: { params: { id: string } }) {
       }
     } catch (err) {
       toast({
-        className: cn(
-          'top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4'
-        ),
+        className: cn('top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4'),
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
       });
       console.log(err);
     }
   }
+  
   
 
   async function submitHandler(values: z.infer<typeof formSchema>) {

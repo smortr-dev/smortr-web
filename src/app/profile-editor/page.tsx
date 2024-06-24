@@ -463,6 +463,9 @@ export default function Profile({ params }: { params: { name: string } }) {
         try {
           const res = await fetch("/api/add-project/generate-thread", {
             method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({ userId: current!, projectId: docRef.id }),
           })
           // if(res.status)
