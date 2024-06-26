@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/form"
 import { InputProject } from "@/components/ui/input"
 import Previews from "../../Dropzone"
-import { initialQuestionGenerate, sendMail } from "@/app/actions/actions"
+// import { initialQuestionGenerate, sendMail } from "@/app/actions/actions"
 // import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/app/context/AuthContext"
@@ -636,7 +636,7 @@ export default function Upload({ params }: { params: { id: string } }) {
       document.files = undefined;
       await updateDoc(docRef, { ...document, status: 'submitted' });
   
-      await sendMail(current!, params.id);
+      // await sendMail(current!, params.id);
       await loadInitialValues();
   
       toast({

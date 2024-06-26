@@ -45,7 +45,7 @@
     "multiparty": "^4.2.3",
     "next": "^14.0.4",
     "next-hubspot": "^1.1.6",
-    "openai": "^4.49.1",
+    "openai": "^4.52.1",
     "prettier": "^3.1.1",
     "radix-ui": "^1.0.1",
     "react": "^18.2.0",
