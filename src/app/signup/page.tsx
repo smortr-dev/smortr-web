@@ -21,13 +21,13 @@ import {
 const formSchema = z.object({
   email: z
     .string({
-      required_error: "Name is required",
-      invalid_type_error: "Name must be a string",
+      required_error: "Email is required",
+      invalid_type_error: "Email must be a string",
     })
     .email({ message: "Invalid email address" }),
   password: z.string({
-    required_error: "Name is required",
-    invalid_type_error: "Name must be a string",
+    required_error: "Password is required",
+    invalid_type_error: "Password must be a string",
   }),
 })
 import Swiper from "./Swiper"
@@ -45,6 +45,7 @@ import {
   setDoc,
 } from "firebase/firestore"
 import { useRouter } from "next/navigation"
+
 export default function Signup() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,6 +56,12 @@ export default function Signup() {
   })
   const [error, setError] = useState<undefined | string>()
   const { current, dispatch } = useContext(AuthContext)
+  const router = useRouter()
+
+  // Function to generate a UID from an email address
+  function generateUID(email: string) {
+    return email.replace(/[^a-zA-Z0-9]/g, "_")
+  }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
@@ -62,12 +69,13 @@ export default function Signup() {
       const res = await createUserWithEmailAndPassword(
         auth,
         values.email,
-        values.password,
+        values.password
       )
 
-      dispatch({ type: "LOGIN", payload: res.user.uid })
-      await setDoc(doc(db, "users", res.user.uid), {
-        uid: res.user.uid,
+      const uid = generateUID(values.email)
+      dispatch({ type: "LOGIN", payload: uid })
+      await setDoc(doc(db, "users", uid), {
+        uid,
         email: res.user.email,
         timestamp: serverTimestamp(),
       })
@@ -76,24 +84,18 @@ export default function Signup() {
       setError(error.message)
     }
   }
-  const router = useRouter()
+
   async function googleAuth() {
     signInWithPopup(auth, googleProvider)
       .then(async (result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result)!
-        const token = credential.accessToken
-        // The signed-in user info.
         const user = result.user
-        console.log(user)
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        let docRef = doc(db, "users", user.uid)
-        dispatch({ type: "LOGIN", payload: user.uid })
+        const uid = generateUID(user.email || user.uid)
+        dispatch({ type: "LOGIN", payload: uid })
+        let docRef = doc(db, "users", uid)
         const docResult = await getDoc(docRef)
         if (!docResult.exists()) {
-          await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
+          await setDoc(doc(db, "users", uid), {
+            uid,
             email: user.email,
             timestamp: serverTimestamp(),
           })
@@ -102,17 +104,10 @@ export default function Signup() {
         router.push("/profile-editor")
       })
       .catch((error) => {
-        // Handle Errors here.
         setError(error.message)
-        const errorCode = error.code
-        const errorMessage = error.message
-        // // The email of the user's account used.
-        // const email = error.customData.email
-        // // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error)
-        // ...
       })
   }
+
   return (
     <>
       <div className="flex flex-row ">
@@ -206,29 +201,6 @@ export default function Signup() {
                   ) : null}
                   <Button
                     type="submit"
-                    // onClick={async (e) => {
-                    //   e.preventDefault()
-                    //   console.log("clicked")
-                    //   console.log(form.formState.errors)
-                    //   if (form.formState.isValid) {
-                    //     await createUserWithEmailAndPassword(
-                    //       auth,
-                    //       form.getValues("email"),
-                    //       form.getValues("password"),
-                    //     )
-                    //       .then((userCredential) => {
-                    //         // Signed up
-                    //         const user = userCredential.user
-                    //         console.log(user)
-                    //         // ...
-                    //       })
-                    //       .catch((error) => {
-                    //         const errorCode = error.code
-                    //         const errorMessage = error.message
-                    //         // ..
-                    //       })
-                    //   }
-                    // }}
                     className="hover:text-black hover:border-2 hover:bg-gray-100 hover:border-black text-white bg-black w-[100%] rounded-[0.38rem]"
                   >
                     Continue
@@ -247,6 +219,4 @@ export default function Signup() {
       </div>
     </>
   )
-  // return(<>
-  // hello</>)
 }

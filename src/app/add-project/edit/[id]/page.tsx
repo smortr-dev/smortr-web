@@ -24,7 +24,7 @@ import { db } from "@/lib/firebase"
 import { count } from "console"
 import clsx from "clsx"
 import { useHeader } from "@/app/context/HeaderContext"
-import { regenerateNarrative, sendMail } from "@/app/actions/actions"
+// import { regenerateNarrative, sendMail } from "@/app/actions/actions"
 import { toast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import Regenerate from "@/components/ui/Regenerate"
@@ -377,7 +377,7 @@ This breakdown allows for a clear and logical progression from setting the stage
                   >
                     Regenerate
                   </Button> */}
-                    <Regenerate
+                    {/* <Regenerate
                       handler={async (e) => {
                         e.preventDefault()
                         try {
@@ -392,7 +392,7 @@ This breakdown allows for a clear and logical progression from setting the stage
                           console.log(err, "error")
                         }
                       }}
-                    />
+                    /> */}
                   </div>
                 </div>
                 <p className="ml-3 mt-2 text-sm text-gray-600">

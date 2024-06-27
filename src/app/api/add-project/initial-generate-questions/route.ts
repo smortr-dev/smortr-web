@@ -6,7 +6,7 @@ import { NextResponse } from "next/server"
 function SpecificError() {}
 
 SpecificError.prototype = new Error()
-import { sendMessage } from "@/lib/sendMessage"
+// import { sendMessage } from "@/lib/sendMessage"
 export async function POST(req: Request) {
   //   console.log("called igq")
   const { userId, projectId }: { userId: string; projectId: string } =
@@ -52,8 +52,8 @@ export async function POST(req: Request) {
         msg_str += `Project Phase:\n ${data.project_type}\n`
       }
       console.log(msg_str)
-      const thread_out = await sendMessage(thread_id, assistant_id, msg_str)
-      const json_message = thread_out.data[0].content[0]
+      // const thread_out = await sendMessage(thread_id, assistant_id, msg_str)
+      // const json_message = thread_out.data[0].content[0]
       // thread_out.data.map((dataSnip, index) => {
       //   dataSnip.content.map((content, index) => {
       //     console.log(content)

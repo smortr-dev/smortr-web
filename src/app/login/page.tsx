@@ -40,6 +40,7 @@ import {
 import { AuthContext } from "../context/AuthContext"
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore"
 import { useRouter } from "next/navigation"
+import Link from 'next/link'
 export default function Signup() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -206,8 +207,8 @@ export default function Signup() {
                 Forgot Password?
               </a>
               <p className="text-[#848484] text-xs mt-16 text-center">
-                Don’t have an account? Sign up{" "}
-                <a className="text-[#482DB1]">Sign Up</a>
+                Don’t have an account? {" "}
+                <Link href={"/signup"} className = "text-[#482DB1]">Sign Up</Link>
               </p>
             </div>
           </div>
@@ -216,5 +217,6 @@ export default function Signup() {
     </>
   )
   // return(<>
+  // hello</>)
   // hello</>)
 }
