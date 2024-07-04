@@ -552,7 +552,7 @@ export default function Upload({ params }: { params: { id: string } }) {
   // form
 
     
-  async function assetTagging(files: File[], userId: string | null | undefined, projectId: string) {
+  async function assetTagging(files: File[], userId: string | null | undefined, projectId: string, fileURL: string[]) {
     console.log("Entered assetTag");
 
     try {
@@ -569,9 +569,10 @@ export default function Upload({ params }: { params: { id: string } }) {
         const projectData = projectSnapshot.data();
         console.log("Assets fetched:", projectData.assets);
         const assets = projectData.assets || [];
-        let fileIndex = assets.length;
+        //let fileIndex = assets.length-1;
 
-        for (fileIndex; fileIndex < files.length; fileIndex++) {
+        for (let fileIndex =0; fileIndex < files.length; fileIndex++) {
+            console.log("Entered for loop");
             const file = files[fileIndex];
             const fileName = file.name;
             const fileType = fileName.split('.').pop();
@@ -591,7 +592,8 @@ export default function Upload({ params }: { params: { id: string } }) {
             formData.append('file', file);
             formData.append('userId', userId || ''); // Safely append userId
             formData.append('projectId', projectId);
-            formData.append('fileIndex', fileIndex.toString()); // Convert fileIndex to string
+            formData.append('fileIndex', fileIndex.toString());
+            formData.append('fileURL', fileURL[fileIndex]);
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -649,7 +651,7 @@ export default function Upload({ params }: { params: { id: string } }) {
     const docRef = doc(db, 'users', current!, 'projects', params.id);
     let foundCover = false;
     let files = values.files;
-  
+    let fileURL: string[] = [];
     try {
       const doc = await getDoc(docRef);
       console.log(files.length, 'file length');
@@ -678,12 +680,16 @@ export default function Upload({ params }: { params: { id: string } }) {
                 console.log('called');
                 // Add file path to the array
                 filePaths.push(`public/user-assets/${current}/projects/${params.id}/${name}`);
+                const fileUrl = await getDownloadURL(storageRef);
+                fileURL.push(fileUrl);
+                console.log('File URL:', fileUrl);
                 
               })
               .catch(err => {
                 console.log('upload Error', err, index);
               }),
-            //uploadToOpenAI(file, current!, params.id!) // Convert to string
+
+            uploadToOpenAI(file, current!, params.id!) // Convert to string
 
           ]);
         } catch (err) {
@@ -693,7 +699,7 @@ export default function Upload({ params }: { params: { id: string } }) {
   
       await Promise.all(promises);
   
-      await assetTagging(files,current!, params.id!);
+      await assetTagging(files,current!, params.id!,fileURL);
   
       form.setValue('files', []);
       console.log(form.getValues('files'), 'after refresh');
