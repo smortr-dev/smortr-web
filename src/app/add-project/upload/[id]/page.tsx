@@ -31,7 +31,7 @@ import Previews from "../../Dropzone"
 // import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "@/app/context/AuthContext"
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore"
+import { arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
 import { db, storage } from "@/lib/firebase"
 import {
   getDownloadURL,
@@ -551,6 +551,68 @@ export default function Upload({ params }: { params: { id: string } }) {
   }, [])
   // form
 
+    
+  async function assetTagging(files: File[], userId: string | null | undefined, projectId: string) {
+    console.log("Entered assetTag");
+
+    try {
+        console.log("Fetching project data from Firestore...");
+        // Fetch project document
+        const projectRef = doc(db, "users", userId!, "projects", projectId);
+        const projectSnapshot = await getDoc(projectRef);
+
+        //console.log('Project Snapshot:', projectSnapshot.data());
+        if (!projectSnapshot.exists()) {
+            throw new Error("Project does not exist");
+        }
+
+        const projectData = projectSnapshot.data();
+        console.log("Assets fetched:", projectData.assets);
+        const assets = projectData.assets || [];
+        let fileIndex = assets.length;
+
+        for (fileIndex; fileIndex < files.length; fileIndex++) {
+            const file = files[fileIndex];
+            const fileName = file.name;
+            const fileType = fileName.split('.').pop();
+            console.log(`Processing file ${fileIndex + 1}/${files.length}: ${fileName}, Type: ${fileType}`);
+
+            let apiUrl = '';
+            if (fileType === 'pdf') {
+                apiUrl = '/api/add-project/asset-tagging/pdf-files';
+            } else if (fileType === 'jpeg' || fileType === 'png') {
+                apiUrl = '/api/add-project/asset-tagging/image-files';
+            } else {
+                console.warn(`Unsupported file type: ${fileType}`);
+                continue; // Skip unsupported file types
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('userId', userId || ''); // Safely append userId
+            formData.append('projectId', projectId);
+            formData.append('fileIndex', fileIndex.toString()); // Convert fileIndex to string
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to process ${fileType} file`);
+            }
+
+            const data = await response.json();
+            console.log(`${fileType} processing response:`, data);
+        }
+    } catch (error) {
+        console.error('Error tagging assets:', error);
+    }
+}
+
+
+
+
   async function uploadToOpenAI(file: File, userId: string | null | undefined, projectId: string) {
     const formData = new FormData();
     formData.append('file', file);
@@ -616,11 +678,13 @@ export default function Upload({ params }: { params: { id: string } }) {
                 console.log('called');
                 // Add file path to the array
                 filePaths.push(`public/user-assets/${current}/projects/${params.id}/${name}`);
+                
               })
               .catch(err => {
                 console.log('upload Error', err, index);
               }),
-            uploadToOpenAI(file, current!, params.id!) // Convert to string
+            //uploadToOpenAI(file, current!, params.id!) // Convert to string
+
           ]);
         } catch (err) {
           console.log(err);
@@ -629,12 +693,15 @@ export default function Upload({ params }: { params: { id: string } }) {
   
       await Promise.all(promises);
   
+      await assetTagging(files,current!, params.id!);
+  
       form.setValue('files', []);
       console.log(form.getValues('files'), 'after refresh');
   
       document = values;
       document.files = undefined;
-      await updateDoc(docRef, { ...document, status: 'submitted' });
+      await updateDoc(docRef, { ...document, status: 'submitted',progress: 1 });
+      
   
       // await sendMail(current!, params.id);
       await loadInitialValues();
@@ -643,11 +710,11 @@ export default function Upload({ params }: { params: { id: string } }) {
         title: 'Updated Successfully',
       });
   
-      if (!move) {
-        toast({
-          title: "We'll Email you once the content is processed!",
-        });
-      }
+      // if (!move) {
+      //   toast({
+      //     title: "We'll Email you once the content is processed!",
+      //   });
+      // }
     } catch (err) {
       toast({
         className: cn('top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4'),
@@ -657,7 +724,6 @@ export default function Upload({ params }: { params: { id: string } }) {
       console.log(err);
     }
   }
-  
   
 
   async function submitHandler(values: z.infer<typeof formSchema>) {
