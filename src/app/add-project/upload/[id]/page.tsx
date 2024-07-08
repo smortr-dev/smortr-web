@@ -553,7 +553,7 @@ export default function Upload({ params }: { params: { id: string } }) {
 
     
   async function assetTagging(files: File[], userId: string | null | undefined, projectId: string, fileURL: string[]) {
-    console.log("Entered assetTag");
+    //console.log("Entered assetTag");
 
     try {
         console.log("Fetching project data from Firestore...");
@@ -572,6 +572,7 @@ export default function Upload({ params }: { params: { id: string } }) {
         //let fileIndex = assets.length-1;
 
         for (let fileIndex =0; fileIndex < files.length; fileIndex++) {
+          try{
             console.log("Entered for loop");
             const file = files[fileIndex];
             const fileName = file.name;
@@ -599,14 +600,16 @@ export default function Upload({ params }: { params: { id: string } }) {
                 method: 'POST',
                 body: formData,
             });
-
+          
             if (!response.ok) {
                 throw new Error(`Failed to process ${fileType} file`);
             }
 
             const data = await response.json();
             console.log(`${fileType} processing response:`, data);
-        }
+        } catch (error) {
+          console.log("Error in asset tagging:", error);
+        }}
     } catch (error) {
         console.error('Error tagging assets:', error);
     }
@@ -702,7 +705,11 @@ export default function Upload({ params }: { params: { id: string } }) {
   
       await Promise.all(promises);
       
+      const docData = doc.data();
+      const progress = docData?.progress;
+      if(progress === 0){
       await uploadToOpenAI(files, current!, params.id!,fileURL);
+    }
       await assetTagging(files,current!, params.id!,fileURL);
   
       form.setValue('files', []);
