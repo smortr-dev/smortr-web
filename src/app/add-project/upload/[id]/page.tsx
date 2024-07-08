@@ -615,14 +615,15 @@ export default function Upload({ params }: { params: { id: string } }) {
 
 
 
-  async function uploadToOpenAI(file: File, userId: string | null | undefined, projectId: string) {
+  async function uploadToOpenAI(files: File[], userId: string | null | undefined, projectId: string, fileURL: string[]) {
     const formData = new FormData();
-    formData.append('file', file);
+    // formData.append('file', files);
+    files.forEach(file => formData.append('file', file));
     if (userId !== null && userId !== undefined) {
       formData.append('userId', userId);
     }
     formData.append('projectId', projectId);
-  
+    formData.append('fileURL', JSON.stringify(fileURL));
     try {
       const response = await fetch('/api/add-project/upload', {
         method: 'POST',
@@ -680,16 +681,18 @@ export default function Upload({ params }: { params: { id: string } }) {
                 console.log('called');
                 // Add file path to the array
                 filePaths.push(`public/user-assets/${current}/projects/${params.id}/${name}`);
-                const fileUrl = await getDownloadURL(storageRef);
-                fileURL.push(fileUrl);
-                console.log('File URL:', fileUrl);
-                
+                let fileUrl;
+                if (file.type.split('/')[0] === 'image') {
+                  fileUrl = await getDownloadURL(storageRef);
+                  fileURL.push(fileUrl);
+                  console.log('File URL:', fileUrl);
+              }
               })
               .catch(err => {
                 console.log('upload Error', err, index);
               }),
 
-            uploadToOpenAI(file, current!, params.id!) // Convert to string
+            //uploadToOpenAI(file, current!, params.id!,fileURL) // Convert to string
 
           ]);
         } catch (err) {
@@ -698,7 +701,8 @@ export default function Upload({ params }: { params: { id: string } }) {
       });
   
       await Promise.all(promises);
-  
+      
+      await uploadToOpenAI(files, current!, params.id!,fileURL);
       await assetTagging(files,current!, params.id!,fileURL);
   
       form.setValue('files', []);

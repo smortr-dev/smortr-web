@@ -2,30 +2,27 @@ import { openai } from "@/lib/openai";
 import { NextRequest, NextResponse } from "next/server";
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { json } from "stream/consumers";
 
 export const maxDuration = 60;
 export const runtime = 'nodejs';
 
-// const jsonData = {
-//     title: 'Artificial Intelligence Course Project - Sudoku Solver - Report',
-//     description: 'The report dives into solving Sudoku puzzles using AI, focusing on state spaces and state space trees. It utilizes an array to represent state spaces and describes the generation of state space trees from initial puzzle states. This detailed approach highlights AI methodologies in constraint-based problem-solving, demonstrating the application of theoretical principles to practical puzzles. This approach helps in resolving the complexity of large puzzle state spaces.',
-//     content_type: 'Report',
-//     sharing_suggestions: 'LinkedIn as a blog about AI applications in logical puzzles for computer science students',
-//     project_phase: 'Research and Methodology Documentation',
-//     skills: [
-//       'AI Problem-Solving Techniques',
-//       'State Space Representation',
-//       'Constraint Satisfaction Problems'
-//     ]
-//   };
+// Define a type for the file object
+type ProjectFile = {
+    name: string;
+    description: string;
+    content_type: string;
+    phase: string;
+    share: string;
+    skills: string[];
+    original_name: string;
+};
+
 export async function POST(request: NextRequest) {
     try {
         const data = await request.formData();
         const uploaded_File = data.get('file') as File;
         const userId = data.get('userId') as string;
         const projectId = data.get('projectId') as string;
-        const fileIndex = parseInt(data.get('fileIndex') as string);
         const imageURL = data.get('fileURL') as string;
 
         if (!uploaded_File || !userId || !projectId) {
@@ -40,6 +37,7 @@ export async function POST(request: NextRequest) {
         }
 
         const projectData = projectSnapshot.data();
+        const files = projectData.files as ProjectFile[] || [];
 
         const response = await openai.chat.completions.create({
             model: "gpt-4o",
@@ -94,28 +92,26 @@ export async function POST(request: NextRequest) {
                 },
             ],
         });
-        
-        console.log(response.choices[0]);
-        console.log(typeof(response.choices[0]));
-        let  jsonObject ;
+
+        let jsonObject;
         let jsonResponse = response.choices[0].message.content;
-        if(jsonResponse !== null){
+        if (jsonResponse !== null) {
             jsonResponse = jsonResponse.replace(/```json\n|```/g, ''); // Remove the ```json and ``` from the response
 
             // Parse the JSON string into an object
             jsonObject = JSON.parse(jsonResponse);
-
-            console.log(jsonObject);
         }
-        const files = projectSnapshot.data().files || [];
 
-        // Ensure fileIndex is within bounds
-        if (fileIndex < 0 || fileIndex >= files.length) {
-            throw new Error('Invalid file index');
+        // Find the index of the file that matches the uploaded file name
+        const fileIndex = files.findIndex((file: ProjectFile) => file.original_name === uploaded_File.name);
+
+        // Ensure the file is found
+        if (fileIndex === -1) {
+            throw new Error('File not found');
         }
 
         // Create a new file object with the data to be added
-        const newFileData = {
+        const newFileData: ProjectFile = {
             name: jsonObject.title,
             description: jsonObject.description,
             content_type: jsonObject.content_type,
@@ -127,7 +123,6 @@ export async function POST(request: NextRequest) {
 
         // Update the Firestore document with the new files array
         files[fileIndex] = newFileData; // Replace or update the file at fileIndex
-        console.log(fileIndex);
         await updateDoc(projectRef, { files });
 
         return NextResponse.json({ success: true });
@@ -136,4 +131,4 @@ export async function POST(request: NextRequest) {
         console.error('Error processing request:', error);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
-} 
+}
