@@ -52,7 +52,7 @@ const ProjectSummary : React.FC<ProjectSummaryProps>= ({userID, projectID}) => {
     };
 
     return (
-        <div className="flex-col justify-center items-center bg-[#FFFFFF] w-96 border-[#BDBDBD] border-2 p-3">
+        <div className="flex-col justify-center items-center bg-[#FFFFFF] w-96 border-[#BDBDBD] border-2 p-3 h-screen">
             <div className="flex justify-between p-3 h-10 w-full border-[#BDBDBD] border-b-2">
                 <div className="flex flex-row items-center gap-3">
                     <p className="text-[#1769FF] ">Project Info</p>
@@ -71,25 +71,25 @@ const ProjectSummary : React.FC<ProjectSummaryProps>= ({userID, projectID}) => {
                     </svg>
                 </div>
             </div>
-            <div className="flex flex-col p-5">
+            <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Context</p>
                 <div className="p-3">
                     <Textarea value={context} onChange={handleContextChange} />
                 </div>
             </div>
-            <div className="flex flex-col p-5">
+            <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Conflict</p>
                 <div className="p-3">
                     <Textarea value={conflict} onChange={handleConflictChange} />
                 </div>
             </div>
-            <div className="flex flex-col p-5">
+            <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Resolution</p>
                 <div className="p-3">
                     <Textarea value={resolution} onChange={handleResolutionChange} />
                 </div>
             </div>
-            <div className="flex flex-col p-5">
+            <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Reaction</p>
                 <div className="p-3">
                     <Textarea value={reaction} onChange={handleReactionChange} />
