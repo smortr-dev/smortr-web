@@ -1,44 +1,241 @@
 import React from "react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select-custom"
 
 const SideNav = () => {
   return (
     <div className="bg-[#EDEDED] h-screen w-80 p-7 items-center justify-center flex-col border-[#BDBDBD] border-2">
-      <div className="flex items-center justify-between w-64 h-10 bg-[#FFFFFF] p-2 rounded-xl">
-        <div className="flex items-center space-x-3">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Choose Workspace" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem
+            value="database"
+            icon={
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22 11V17C22 21 21 22 17 22H7C3 22 2 21 2 17V7C2 3 3 2 7 2H8.5C10 2 10.33 2.44 10.9 3.2L12.4 5.2C12.78 5.7 13 6 14 6H17C21 6 22 7 22 11Z"
+                  fill="#1769FF"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                />
+                <path
+                  d="M8 2H17C19 2 20 3 20 5V6.38"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
           >
-            <path
-              d="M22 11V17C22 21 21 22 17 22H7C3 22 2 21 2 17V7C2 3 3 2 7 2H8.5C10 2 10.33 2.44 10.9 3.2L12.4 5.2C12.78 5.7 13 6 14 6H17C21 6 22 7 22 11Z"
-              fill="#1769FF"
-              stroke="#1769FF"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <p className="text-[#1769ff] text-lg font-semibold ">Database</p>
-        </div>
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5.59375 2.55001L9.66875 6.62501C10.15 7.10626 10.15 7.89376 9.66875 8.37501L5.59375 12.45"
-            stroke="#1769FF"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
+            Database
+          </SelectItem>
+          <SelectItem
+            value="profile"
+            icon={
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.14 21.62C17.26 21.88 16.22 22 15 22H8.99998C7.77998 22 6.73999 21.88 5.85999 21.62C6.07999 19.02 8.74998 16.97 12 16.97C15.25 16.97 17.92 19.02 18.14 21.62Z"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15 2H9C4 2 2 4 2 9V15C2 18.78 3.14 20.85 5.86 21.62C6.08 19.02 8.75 16.97 12 16.97C15.25 16.97 17.92 19.02 18.14 21.62C20.86 20.85 22 18.78 22 15V9C22 4 20 2 15 2ZM12 14.17C10.02 14.17 8.42 12.56 8.42 10.58C8.42 8.60002 10.02 7 12 7C13.98 7 15.58 8.60002 15.58 10.58C15.58 12.56 13.98 14.17 12 14.17Z"
+                  fill="#1769FF"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.58 10.58C15.58 12.56 13.98 14.17 12 14.17C10.02 14.17 8.41998 12.56 8.41998 10.58C8.41998 8.60002 10.02 7 12 7C13.98 7 15.58 8.60002 15.58 10.58Z"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          >
+            Profile
+          </SelectItem>
+          <SelectItem
+            value="workflow"
+            icon={
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                  fill="#1769FF"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.57 18.5V14.6"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.57 7.45V5.5"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.57 12.65C17.0059 12.65 18.17 11.486 18.17 10.05C18.17 8.61407 17.0059 7.45001 15.57 7.45001C14.134 7.45001 12.97 8.61407 12.97 10.05C12.97 11.486 14.134 12.65 15.57 12.65Z"
+                  fill="white"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.42999 18.5V16.55"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.42999 9.4V5.5"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.43002 16.55C9.86596 16.55 11.03 15.3859 11.03 13.95C11.03 12.514 9.86596 11.35 8.43002 11.35C6.99408 11.35 5.83002 12.514 5.83002 13.95C5.83002 15.3859 6.99408 16.55 8.43002 16.55Z"
+                  fill="white"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          >
+            Workflow
+          </SelectItem>
+          <SelectItem
+            value="showcase"
+            icon={
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                  fill="#1769FF"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.2 14.4C13.2 15.46 12.74 16.42 12 17.08C11.36 17.66 10.52 18 9.59998 18C7.60998 18 6 16.39 6 14.4C6 12.74 7.13002 11.34 8.65002 10.93C9.06002 11.97 9.94999 12.78 11.05 13.08C11.35 13.16 11.67 13.21 12 13.21C12.33 13.21 12.65 13.17 12.95 13.08C13.11 13.48 13.2 13.93 13.2 14.4Z"
+                  fill="white"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.6 9.6C15.6 10.07 15.51 10.52 15.35 10.93C14.94 11.97 14.05 12.78 12.95 13.08C12.65 13.16 12.33 13.21 12 13.21C11.67 13.21 11.35 13.17 11.05 13.08C9.94999 12.78 9.06002 11.98 8.65002 10.93C8.49002 10.52 8.40002 10.07 8.40002 9.6C8.40002 7.61 10.01 6 12 6C13.99 6 15.6 7.61 15.6 9.6Z"
+                  fill="white"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M18 14.4C18 16.39 16.39 18 14.4 18C13.48 18 12.64 17.65 12 17.08C12.74 16.43 13.2 15.47 13.2 14.4C13.2 13.93 13.11 13.48 12.95 13.07C14.05 12.77 14.94 11.97 15.35 10.92C16.87 11.34 18 12.74 18 14.4Z"
+                  fill="white"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          >
+            Showcase
+          </SelectItem>
+          <SelectItem
+            value="manage"
+            icon={
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                  fill="#1769FF"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M17.35 9.05004L15.01 16.59C14.45 18.38 11.94 18.41 11.35 16.63L10.65 14.56C10.46 13.99 10.01 13.53 9.43997 13.35L7.35997 12.65C5.58997 12.06 5.61997 9.53004 7.40997 8.99004L14.95 6.64003C16.43 6.19003 17.82 7.58004 17.35 9.05004Z"
+                  fill="white"
+                  stroke="#1B1B2D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          >
+            Manage
+          </SelectItem>
+        </SelectContent>
+      </Select>
+
       <div className="px-2 py-6">
         <p className="text-sm">Files</p>
         <div>

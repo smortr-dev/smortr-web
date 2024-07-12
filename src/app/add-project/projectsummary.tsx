@@ -52,7 +52,7 @@ const ProjectSummary : React.FC<ProjectSummaryProps>= ({userID, projectID}) => {
     };
 
     return (
-        <div className="flex-col justify-center items-center bg-[#FFFFFF] w-96 border-[#BDBDBD] border-2 p-3 h-screen">
+        <div className="flex-col justify-center items-center bg-[#FFFFFF] w-96 border-[#BDBDBD] border-2 p-3 h-screen overflow-scroll">
             <div className="flex justify-between p-3 h-10 w-full border-[#BDBDBD] border-b-2">
                 <div className="flex flex-row items-center gap-3">
                     <p className="text-[#1769FF] ">Project Info</p>
