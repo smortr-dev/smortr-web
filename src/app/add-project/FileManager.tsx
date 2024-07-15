@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { db } from "@/lib/firebase"
-import { collection, getDocs, doc } from "firebase/firestore"
+import { db, storage } from "@/lib/firebase"
+import { collection, getDocs, doc, getDoc } from "firebase/firestore"
+import { getDownloadURL, getMetadata, ref } from "firebase/storage"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import {
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { InputFeed } from "@/components/ui/input"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 
 interface FileManagerProps {
   userID: string
@@ -27,7 +27,10 @@ interface FileManagerProps {
 const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
   const [projects, setProjects] = useState<any[]>([])
   const [files, setFiles] = useState<any[]>([])
-  const [currentProject, setCurrentProject] = useState<string | null>(null)
+  const [currentProjectID, setCurrentProjectID] = useState<string | null>(null)
+  const [currentProjectName, setCurrentProjectName] = useState<string | null>(
+    null,
+  )
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -43,44 +46,89 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
     fetchProjects()
   }, [userID])
 
-  const handleProjectClick = async (projectID: string) => {
-    setCurrentProject(projectID)
-    const projectDoc = doc(db, "users", userID, "projects", projectID)
-    const filesCollection = collection(projectDoc, "files")
-    const querySnapshot = await getDocs(filesCollection)
-    const fileData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    setFiles(fileData)
+  const handleProjectClick = async (projectID: string, projectName: string) => {
+    try {
+      setCurrentProjectID(projectID)
+      setCurrentProjectName(projectName)
+
+      const projectDoc = doc(db, "users", userID, "projects", projectID)
+      const docRes = await getDoc(projectDoc)
+
+      if (!docRes.exists()) {
+        throw new Error("No document exists")
+      }
+
+      const assets: string[] = docRes.data()?.assets || []
+      const save = await Promise.all(
+        assets.map(async (asset, index) => {
+          const storeRef = ref(storage, asset)
+          const meta = await getMetadata(storeRef)
+          const filePath = await getDownloadURL(storeRef)
+
+          let res = ""
+          let type = ""
+          if (meta.contentType?.split("/")[0] === "image") {
+            res = filePath
+            type = meta.contentType?.split("/")[0]
+          } else if (meta.contentType?.split("/")[1] === "pdf") {
+            res = "/pdf.png" 
+            type = meta.contentType?.split("/")[1]
+          }
+
+          return {
+            type: type,
+            index: index,
+            preview: res,
+            filePath: filePath,
+            fileName: 
+              docRes.data()?.files[index]?.name ||
+              asset.split("/").slice(-1).join(),
+            fileOriginalName: docRes.data()?.files[index]?.original_name||asset.split("/").slice(-1).join(),
+            description: docRes.data()?.files[index]?.description || "",
+            content_type: docRes.data()?.files[index]?.content_type || "",
+            share: docRes.data()?.files[index]?.share || "",
+            notes: docRes.data()?.files[index]?.notes || "",
+            phase: docRes.data()?.files[index]?.phase || "",
+            skills: docRes.data()?.files[index]?.skills || [],
+          }
+        }),
+      )
+
+      setFiles([...save])
+    } catch (err) {
+      console.error(err)
+    }
   }
+
 
   return (
     <div className="flex flex-col justify-start w-full p-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink onClick={() => setCurrentProject(null)}>
+            <BreadcrumbLink onClick={() => setCurrentProjectID(null)}>
               Projects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {currentProject && (
+          {currentProjectID && currentProjectName && (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink>{currentProject}</BreadcrumbLink>
+                <BreadcrumbLink>{currentProjectName}</BreadcrumbLink>
               </BreadcrumbItem>
             </>
           )}
         </BreadcrumbList>
       </Breadcrumb>
-      {!currentProject ? (
+      {!currentProjectID ? (
         <div className="flex flex-row p-4 pt-7 order-2 gap-7 col-8">
           {projects.map((project) => (
             <div
               key={project.id}
               className="flex flex-col items-center p-2 cursor-pointer"
-              onClick={() => handleProjectClick(project.id)}
+              onClick={() =>
+                handleProjectClick(project.id, project.projectName)
+              }
             >
               <Image
                 src="/folder-icon.svg"
@@ -94,27 +142,23 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
         </div>
       ) : (
         <div className="flex flex-col p-4 order-2">
-          <p>Files for project {currentProject}</p>
-          {files.map((file) => (
-            <div key={file.id} className="flex items-center p-2">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 4H20V20H4V4Z"
-                  stroke="#BBBBBB"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span className="ml-2">{file.name}</span>
-            </div>
-          ))}
+          <p>Files for project {currentProjectName}</p>
+          <div className="grid grid-cols-8 gap-3 p-2">
+            {files.map((file) => (
+              <div key={file.id} className="flex flex-col items-center p-2 pt-8">
+                {file.type === "image" ? (
+                  <img
+                    src={file.preview}
+                    alt={file.fileName}
+                    className="w-24 h-24"
+                  />
+                ) : (
+                  <Image src="/pdf.png" width={96} height={96} alt="PDF" />
+                )}
+                <span className="flex justify-center items-center p-4 text-xs">{file.fileName}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       <div className="flex flex-row items-center p-4 pt-8 gap-2">
@@ -235,4 +279,4 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
   )
 }
 
-export default FileManager;
+export default FileManager

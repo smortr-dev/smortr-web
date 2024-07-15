@@ -45,6 +45,9 @@ import {
   setDoc,
 } from "firebase/firestore"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { Checkbox } from "@/components/ui/checkbox"
+import Image from "next/image"
 
 export default function Signup() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -69,7 +72,7 @@ export default function Signup() {
       const res = await createUserWithEmailAndPassword(
         auth,
         values.email,
-        values.password
+        values.password,
       )
 
       const uid = generateUID(values.email)
@@ -110,49 +113,36 @@ export default function Signup() {
 
   return (
     <>
-      <div className="flex flex-row ">
-        <div className="w-[50%]">
-          <Swiper style={{ height: "100vh" }} />
-        </div>
-        <div className="w-[50%] flex justify-center self-center">
-          <div>
-            <h2 className="text-[1.75rem] font-bold">Welcome to Smortr!</h2>
-            <p className="w-[25rem] mt-[0.75] text-[#848484] text-[0.75rem]">
-              You are a few clicks away from the next big revolution in the
-              building design industry.
-            </p>
-            <div className="my-[2.5rem] block">
-              <div className="cursor-pointer rounded-[50%] h-[3.5rem] w-[3.5rem] bg-[#1A1A1A] border-black border-[2px] flex justify-center self-center float-left">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="-2.258175 -4.620225 19.57085 27.72135"
-                >
-                  <path
-                    fill="#fff"
-                    d="M7.6445 5.31c-.73 0-1.86-.83-3.05-.8-1.57.02-3.01.91-3.82 2.32-1.63 2.83-.42 7.01 1.17 9.31.78 1.12 1.7 2.38 2.92 2.34 1.17-.05 1.61-.76 3.03-.76 1.41 0 1.81.76 3.05.73 1.26-.02 2.06-1.14 2.83-2.27.89-1.3 1.26-2.56 1.28-2.63-.03-.01-2.45-.94-2.48-3.74-.02-2.34 1.91-3.46 2-3.51-1.1-1.61-2.79-1.79-3.38-1.83-1.54-.12-2.83.84-3.55.84zm2.6-2.36c.65-.78 1.08-1.87.96-2.95-.93.04-2.05.62-2.72 1.4-.6.69-1.12 1.8-.98 2.86 1.03.08 2.09-.53 2.74-1.31"
-                  />
-                </svg>
-              </div>
+      <div className="flex justify-center items-center p-10">
+        <div className="flex justify-center ">
+          <div className="w-full max-w-lg">
+            <h2 className="text-2xl font-sans font-semibold text-center p-3">
+              Create your Smortr account
+            </h2>
+            <div className="flex flex-col p-2 justify-center  w-96 gap-3">
               <div
-                className="cursor-pointer rounded-[50%] h-[3.5rem] w-[3.5rem] bg-white ml-[2.25rem] flex justify-center items-center border-black border-[2px] float-left"
+                className="flex flex-row gap-3 justify-center items-center w-[34rem] border-[#BDBDBD] border-2 h-14 rounded-full hover:cursor-pointer hover:bg-gray-100"
                 onClick={googleAuth}
               >
-                <img
-                  src="/google.png"
-                  alt="google"
-                  style={{
-                    width: "2.5rem",
-                    height: "2.5rem",
-                    display: "inline-block",
-                  }}
-                />
+                <Image src="/google.png" alt="Google" width={28} height={28}/>
+                <p>Sign up with Google</p>
               </div>
-              <div className="cursor-pointer rounded-[50%] h-[3.5rem] w-[3.5rem] bg-white ml-[2.25rem] border-black border-[2px] flex justify-center self-center float-left">
-                <img src="/facebook.png" alt="facebook" />
+              <div className="flex flex-row gap-3 justify-center items-center w-[34rem] border-[#BDBDBD] border-2 h-14 rounded-full hover:cursor-pointer hover:bg-gray-100">
+                <Image
+                  src="/facebook.png"
+                  alt="Facebook"
+                  width={32}
+                  height={32}
+                />
+                <p>Sign up with Facebook</p>
+              </div>
+              <div className="flex flex-row gap-3 justify-center items-center w-[34rem] border-[#BDBDBD] border-2 h-14 rounded-full hover:cursor-pointer hover:bg-gray-100">
+                <Image src="/apple.png" alt="Google" width={32} height={32} />
+                <p>Sign up with Apple</p>
               </div>
             </div>
-            <div className="mt-[8rem] text-[#848484] text-special text-xs">
-              Or
+            <div className="p-2 mt-2 text-[#848484] text-special text-lg font-bold w-[35rem] text-center">
+              OR
             </div>
             <div>
               <Form {...form}>
@@ -164,12 +154,14 @@ export default function Signup() {
                     control={form.control}
                     name="email"
                     render={({ field, fieldState }) => (
-                      <FormItem>
-                        <FormLabel>Email Id</FormLabel>
+                      <FormItem className="flex flex-col p-2">
+                        <FormLabel className="text-[#666666] mb-2">
+                          Email Address
+                        </FormLabel>
                         <FormControl>
                           <Input
                             {...field}
-                            className={`rounded-[0.38rem] ${
+                            className={`rounded-xl w-[34rem] ${
                               fieldState.error
                                 ? "border-[#CC3057] border-2"
                                 : ""
@@ -184,35 +176,58 @@ export default function Signup() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
+                      <FormItem className="flex flex-col p-2">
+                        <FormLabel className="text-[#666666] mb-2">
+                          Password
+                        </FormLabel>
                         <FormControl className="relative">
                           <InputPassword
                             {...field}
-                            className="rounded-[0.38rem]"
+                            className="rounded-xl w-[34rem]"
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+                  <Link
+                    className="flex justify-end mt-1 font-bold"
+                    href={"/forgot-password"}
+                  >
+                    Forgot your password?
+                  </Link>
+                  <div className="flex items-center space-x-2 p-3">
+                    <Checkbox id="terms" />
+                    <label
+                      htmlFor="terms"
+                      className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Keep me signed in until I sign out
+                    </label>
+                  </div>
                   {error ? (
                     <div className="text-xs text-[#CC3057]">{error}</div>
                   ) : null}
                   <Button
                     type="submit"
-                    className="hover:text-black hover:border-2 hover:bg-gray-100 hover:border-black text-white bg-black w-[100%] rounded-[0.38rem]"
+                    className="hover:text-black hover:border-2 hover:bg-gray-100 hover:border-black text-white bg-[#BDBDBD] w-[34rem] rounded-full h-12"
                   >
-                    Continue
+                    Sign up
                   </Button>
                 </form>
               </Form>
-              <p className="text-[#848484] text-xs mt-16 text-center">
-                Already have an account?{" "}
-                <a href="/signup" className="text-[#482DB1]">
-                  Log In
-                </a>
+              <hr className="border-[#848484] border-opacity-100 mt-7 w-[35rem]" />
+              <p className="p-2 text-center text-md my-3 ">
+                Already have an account?
               </p>
+              <Link href={"/login"}>
+                <Button
+                  type="submit"
+                  className="text-black border-2 bg-gray-100 border-black hover:text-white  w-[34rem] rounded-full h-12"
+                >
+                  Login
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
