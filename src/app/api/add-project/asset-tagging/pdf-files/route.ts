@@ -154,6 +154,7 @@ You are to analyze the contents of the uploaded PDF file and generate a JSON out
                     share: texts.sharing_suggestions,
                     skills: texts.skills,
                     original_name: uploaded_File.name,
+                    
                 };
             
                 // Update the Firestore document with the new files array

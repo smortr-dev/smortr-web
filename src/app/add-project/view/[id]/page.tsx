@@ -67,9 +67,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import Bugs from "@/components/ui/bugs"
 import Feedback from "@/components/ui/feedback"
-import SideNav from "../../sidenav"
-import ProjectSummary from "../../projectsummary"
-import FileManager from "../../FileManager"
+import SideNav from "../../../sidenav"
+import ProjectSummary from "../../../projectsummary"
+import FileManager from "../../../FileManager"
 // import { AlertDialog, Alter } from "@/components/ui/alert-dialog"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
@@ -363,7 +363,9 @@ export default function View({ params }: { params: { id: string } }) {
     load && (
       <>
         <div className="flex justify-between h-screen">
+          <div className="w-80">
           <SideNav />
+          </div>
           <div className="flex-grow p-2">
             <FileManager userID = {current!} />
           </div>

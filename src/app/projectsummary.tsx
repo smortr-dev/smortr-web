@@ -74,25 +74,25 @@ const ProjectSummary : React.FC<ProjectSummaryProps>= ({userID, projectID}) => {
             <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Context</p>
                 <div className="p-3">
-                    <Textarea value={context} onChange={handleContextChange} />
+                    <p>{context}</p>
                 </div>
             </div>
             <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Conflict</p>
                 <div className="p-3">
-                    <Textarea value={conflict} onChange={handleConflictChange} />
+                    <p>{conflict}</p>
                 </div>
             </div>
             <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Resolution</p>
                 <div className="p-3">
-                    <Textarea value={resolution} onChange={handleResolutionChange} />
+                    <p>{resolution}</p>
                 </div>
             </div>
             <div className="flex flex-col p-4">
                 <p className="text-md font-semibold p-2">Reaction</p>
                 <div className="p-3">
-                    <Textarea value={reaction} onChange={handleReactionChange} />
+                    <p>{reaction}</p>
                 </div>
             </div>
         </div>

@@ -193,7 +193,7 @@ export default function Login() {
                   ) : null}
                   <Button
                     type="submit"
-                    className="hover:text-black hover:border-2 hover:bg-gray-100 hover:border-black text-white bg-[#BDBDBD] w-[34rem] rounded-full h-12"
+                    className="hover:text-white hover:border-2 hover:bg-[#1769ff] hover:border-black text-white bg-[#BDBDBD] w-[34rem] rounded-full h-12"
                   >
                     Log In
                   </Button>
