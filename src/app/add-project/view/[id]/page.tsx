@@ -359,18 +359,46 @@ export default function View({ params }: { params: { id: string } }) {
 
     // console.log("submission done")
   }
+
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [rightSidebarView, setRightSidebarView] = useState("details") // 'details' or 'edit'
+  const projectId: any = params.id
+  
+
+  const handleProjectSelect = (projectId: any) => {
+    setSelectedProject(projectId)
+    setRightSidebarView("details") // Reset to details view when a new project is selected
+  }
+
+  const handleRightSidebarViewChange = (view: any) => {
+    setRightSidebarView(view)
+  }
   return (
     load && (
       <>
         <div className="flex justify-between h-screen">
           <div className="w-80">
-          <SideNav />
+            <SideNav />
           </div>
           <div className="flex-grow p-2">
-            <FileManager userID = {current!} />
+            <FileManager
+              userID ={current!}
+              onProjectSelect={handleProjectSelect}
+            />
           </div>
           <div className="w-96">
-            <ProjectSummary userID={current!} projectID={params.id!} />
+            {selectedProject ? (
+              <ProjectSummary
+                userID={current!}
+                projectID={selectedProject}
+                view={rightSidebarView}
+                onViewChange={handleRightSidebarViewChange}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full border-[#BDBDBD] border-2">
+                <p>Select a project to view details</p>
+              </div>
+            )}
           </div>
         </div>
       </>

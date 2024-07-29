@@ -44,6 +44,7 @@ import FileContextMenu from "../components/ui/contextmenucustom"
 
 interface FileManagerProps {
   userID: string
+  onProjectSelect: (projectId: string) => void
 }
 
 interface File {
@@ -62,7 +63,7 @@ interface File {
   skills?: string[]
 }
 
-const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
+const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) => {
   const [projects, setProjects] = useState<any[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [currentProjectID, setCurrentProjectID] = useState<string | null>(null)
@@ -144,6 +145,7 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
 
   const handleProjectClick = async (projectID: string, projectName: string) => {
     try {
+      onProjectSelect(projectID)
       setCurrentProjectID(projectID)
       setCurrentProjectName(projectName)
       setCurrentPath("/")
@@ -290,50 +292,139 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
   //   setContextMenu(null)
   // }
 
+  const [isRenaming, setIsRenaming] = useState(false)
+
+  // const confirmRename = () => {
+  //   // if (!selectedFolder || !currentProjectID || isRenaming) return
+
+  //   // setIsRenaming(true)
+
+  //   // const projectDoc = doc(db, "users", userID, "projects", currentProjectID)
+
+  //   // getDoc(projectDoc)
+  //   //   .then((docRes) => {
+  //   //     if (docRes.exists()) {
+  //   //       const updatedDocData = { ...docRes.data() }
+
+  //   //       // Update folder name
+  //   //       updatedDocData.folders = updatedDocData.folders.map((f: File) =>
+  //   //         f.index === selectedFolder.index
+  //   //           ? { ...f, fileName: newFolderName }
+  //   //           : f,
+  //   //       )
+
+  //   //       // Update file paths
+  //   //       const oldPath = `${selectedFolder.filePathDir}/${selectedFolder.fileName}`
+  //   //       const newPath = `${selectedFolder.filePathDir}/${newFolderName}`
+
+  //   //       updatedDocData.files = updatedDocData.files.map((file: any) => {
+  //   //         if (file.file_path.startsWith(oldPath)) {
+  //   //           file.file_path = file.file_path.replace(oldPath, newPath)
+  //   //         }
+  //   //         return file
+  //   //       })
+
+  //   //       return setDoc(projectDoc, updatedDocData)
+  //   //     }
+  //   //   })
+  //   //   .then(() => {
+  //   //     // Update local state
+  //   //     setFiles((prevFiles) =>
+  //   //       prevFiles.map((file) => {
+  //   //         if (file.index === selectedFolder.index) {
+  //   //           return { ...file, fileName: newFolderName }
+  //   //         }
+  //   //         if (
+  //   //           file.filePathDir.startsWith(
+  //   //             `${selectedFolder.filePathDir}/${selectedFolder.fileName}`,
+  //   //           )
+  //   //         ) {
+  //   //           return {
+  //   //             ...file,
+  //   //             filePathDir: file.filePathDir.replace(
+  //   //               `${selectedFolder.filePathDir}/${selectedFolder.fileName}`,
+  //   //               `${selectedFolder.filePathDir}/${newFolderName}`,
+  //   //             ),
+  //   //           }
+  //   //         }
+  //   //         return file
+  //   //       }),
+  //   //     )
+  //   //   })
+  //   //   .catch((error) => {
+  //   //     console.error("Error renaming folder:", error)
+  //   //   })
+  //   //   .finally(() => {
+  //   //     setIsRenaming(false)
+  //   //     setIsRenameDialogOpen(false)
+  //   //     setSelectedFolder(null)
+  //   //   })
+  //   console.log("Entered function")
+  // }
+
   const confirmRename = async () => {
-    if (!selectedFolder || !currentProjectID) return
-
-    const projectDoc = doc(db, "users", userID, "projects", currentProjectID)
-    const docRes = await getDoc(projectDoc)
-
-    if (docRes.exists()) {
-      const updatedDocData = { ...docRes.data() }
-
-      console.log("Entered Folder Name change")
-      // Update folder name
-      updatedDocData.folders = updatedDocData.folders.map((f: File) =>
-        f.index === selectedFolder.index
-          ? { ...f, fileName: newFolderName }
-          : f,
-      )
-
-      console.log("Finished renaming folder")
-
-      console.log("About to enter file path change")
-      // Update file paths
-      updatedDocData.files = updatedDocData.files.map((file: any) => {
-        if (
-          file.file_path.startsWith(
-            selectedFolder.filePathDir + "/" + selectedFolder.fileName,
-          )
-        ) {
-          console.log("Entered file path change")
-          file.file_path = file.file_path.replace(
-            selectedFolder.filePathDir + "/" + selectedFolder.fileName,
-            selectedFolder.filePathDir + "/" + newFolderName,
-          )
-        }
-        return file
-      })
-
-      await setDoc(projectDoc, updatedDocData)
-      await fetchFiles(currentProjectID)
+    if (!selectedFolder || !currentProjectID || isRenaming) return;
+  
+    setIsRenaming(true);
+  
+    const projectDoc = doc(db, "users", userID, "projects", currentProjectID);
+  
+    try {
+      const docRes = await getDoc(projectDoc);
+      if (docRes.exists()) {
+        const updatedDocData = { ...docRes.data() };
+  
+        // Update folder name
+        updatedDocData.folders = updatedDocData.folders.map((f: File) =>
+          f.index === selectedFolder.index ? { ...f, fileName: newFolderName } : f,
+        );
+  
+        // Update file paths
+        const oldPath = `${selectedFolder.filePathDir}/${selectedFolder.fileName}`;
+        const newPath = `${selectedFolder.filePathDir}/${newFolderName}`;
+  
+        updatedDocData.files = updatedDocData.files.map((file: any) => {
+          if (file.file_path.startsWith(oldPath)) {
+            file.file_path = file.file_path.replace(oldPath, newPath);
+          }
+          return file;
+        });
+  
+        await setDoc(projectDoc, updatedDocData);
+  
+        // Update local state
+        setFiles((prevFiles) =>
+          prevFiles.map((file) => {
+            if (file.index === selectedFolder.index) {
+              return { ...file, fileName: newFolderName };
+            }
+            if (
+              file.filePathDir.startsWith(
+                `${selectedFolder.filePathDir}/${selectedFolder.fileName}`,
+              )
+            ) {
+              return {
+                ...file,
+                filePathDir: file.filePathDir.replace(
+                  `${selectedFolder.filePathDir}/${selectedFolder.fileName}`,
+                  `${selectedFolder.filePathDir}/${newFolderName}`,
+                ),
+              };
+            }
+            return file;
+          }),
+        );
+      }
+    } catch (error) {
+      console.error("Error renaming folder:", error);
+    } finally {
+      setIsRenaming(false);
+      setIsRenameDialogOpen(false);
+      setSelectedFolder(null);
     }
+  };
+  
 
-    setIsRenameDialogOpen(false)
-    setSelectedFolder(null)
-    
-  }
   const handleDeleteFolder = async (folder: File) => {
     if (!currentProjectID) return
 
@@ -372,45 +463,6 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
     setIsRenameDialogOpen(true)
   }
 
-  // const confirmRename = async () => {
-  //   if (!selectedFolder || !currentProjectID) return
-
-  //   const projectDoc = doc(db, "users", userID, "projects", currentProjectID)
-  //   const docRes = await getDoc(projectDoc)
-
-  //   if (docRes.exists()) {
-  //     const updatedDocData = { ...docRes.data() }
-
-  //     // Update folder name
-  //     updatedDocData.folders = updatedDocData.folders.map((f: File) =>
-  //       f.index === selectedFolder.index
-  //         ? { ...f, fileName: newFolderName }
-  //         : f,
-  //     )
-
-  //     // Update file paths
-  //     updatedDocData.files = updatedDocData.files.map((file: any) => {
-  //       if (
-  //         file.file_path.startsWith(
-  //           selectedFolder.filePathDir + "/" + selectedFolder.fileName,
-  //         )
-  //       ) {
-  //         file.file_path = file.file_path.replace(
-  //           selectedFolder.filePathDir + "/" + selectedFolder.fileName,
-  //           selectedFolder.filePathDir + "/" + newFolderName,
-  //         )
-  //       }
-  //       return file
-  //     })
-
-  //     await setDoc(projectDoc, updatedDocData)
-  //     await fetchFiles(currentProjectID)
-  //   }
-
-  //   setIsRenameDialogOpen(false)
-  //   setSelectedFolder(null)
-  // }
-
   return (
     <div className="flex flex-col justify-start w-full p-4">
       <Breadcrumb>
@@ -421,6 +473,7 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
                 setCurrentProjectID(null)
                 setCurrentProjectName(null)
                 setCurrentPath("/")
+                onProjectSelect("")
               }}
             >
               Projects
@@ -475,11 +528,11 @@ const FileManager: React.FC<FileManagerProps> = ({ userID }) => {
         <div className="flex flex-row p-4 pt-7 order-2 gap-7 col-8">
           {projects.map((project) => (
             <div
-              key={project.id}
+            key={project.id} onClick={() => handleProjectClick(project.id, project.projectName)}
               className="flex flex-col items-center p-2 cursor-pointer"
-              onClick={() =>
-                handleProjectClick(project.id, project.projectName)
-              }
+              // onClick={() =>
+              //   handleProjectClick(project.id, project.projectName)
+              // }
             >
               <Image
                 src="/folder-icon.svg"

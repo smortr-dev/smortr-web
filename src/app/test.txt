@@ -1,9 +1,9 @@
 "use client"
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { Textarea } from "@/components/ui/textarea"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
-import { ref, getMetadata, getDownloadURL, uploadBytes } from "firebase/storage"
+import { ref, getMetadata, getDownloadURL } from "firebase/storage"
 import { db, storage } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { useForm, Controller } from "react-hook-form"
@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { PlusCircle, X } from "lucide-react"
-import { debounce } from "lodash"
 
 interface ProjectDetails {
   projectName: string
@@ -33,7 +32,6 @@ interface ProjectDetails {
   year: string
   note: string
   tags: string[]
-  cover: string
 }
 
 interface ProjectSummaryProps {
@@ -66,54 +64,9 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
     year: "",
     note: "",
     tags: [],
-    cover: "",
   })
   const [editMode, setEditMode] = useState(false)
   const [newTag, setNewTag] = useState("")
-  const [isSaving, setIsSaving] = useState(false)
-  const [saveStatus, setSaveStatus] = useState<"unsaved" | "saving" | "saved">(
-    "saved",
-  )
-  const [imageFile, setImageFile] = useState<File | null>(null)
-
-  const debouncedSave = useCallback(
-    (details: ProjectDetails) => {
-      const saveData = async () => {
-        setIsSaving(true)
-        setSaveStatus("saving")
-        try {
-          const dataToUpdate = Object.entries(details).reduce(
-            (acc, [key, value]) => {
-              if (value !== undefined && value !== null) {
-                acc[key] = value
-              }
-              return acc
-            },
-            {} as Record<string, any>,
-          )
-
-          await updateDoc(
-            doc(db, "users", userID, "projects", projectID),
-            dataToUpdate,
-          )
-          setSaveStatus("saved")
-        } catch (error) {
-          console.error("Error saving data:", error)
-          setSaveStatus("unsaved")
-        }
-        setIsSaving(false)
-      }
-
-      debounce(saveData, 1000)()
-    },
-    [userID, projectID],
-  )
-
-  useEffect(() => {
-    if (Object.keys(projectDetails).length > 0) {
-      debouncedSave(projectDetails)
-    }
-  }, [projectDetails, debouncedSave])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,7 +89,6 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
             description: data?.description || "",
             area: data?.area || "",
             note: data?.note || "",
-            cover: data?.cover || "",
           }))
 
           if (data?.cover) {
@@ -176,37 +128,8 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
     setEditMode(false)
   }
 
-  const handleSave = async () => {
-    setIsSaving(true)
-    setSaveStatus("saving")
-    try {
-      let coverURL = projectDetails.cover
-      if (imageFile) {
-        coverURL = await handleImageUpload()
-      }
-      const updatedDetails = { ...projectDetails, cover: coverURL }
-      await updateDoc(
-        doc(db, "users", userID, "projects", projectID),
-        updatedDetails,
-      )
-      setProjectDetails(updatedDetails)
-      setSaveStatus("saved")
-    } catch (error) {
-      console.error("Error saving data:", error)
-      setSaveStatus("unsaved")
-    }
-    setIsSaving(false)
-  }
+  const handleSave = async () => {}
 
-  const handleImageUpload = async () => {
-    if (imageFile) {
-      const storageRef = ref(storage, `covers/${userID}/${projectID}`)
-      await uploadBytes(storageRef, imageFile)
-      const downloadURL = await getDownloadURL(storageRef)
-      return downloadURL
-    }
-    return null
-  }
   const handleTextChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -489,21 +412,9 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
         </select>
       </div>
       {view === "edit" && (
-        <div className="flex items-center">
-          {saveStatus === "saving" && <span className="mr-2">Saving...</span>}
-          {saveStatus === "saved" && <span className="mr-2">Saved</span>}
-          {saveStatus === "unsaved" && (
-            <span className="mr-2">Unsaved changes</span>
-          )}
-          <Image
-            src={
-              saveStatus === "saved" ? "/savemark-blue.svg" : "/savemark.svg"
-            }
-            width={30}
-            height={30}
-            alt="Save"
-          />
-        </div>
+        <button onClick={handleSave} className="text-[#1769FF]">
+          <Image src="/savemark.svg" width={30} height={30} alt="Save" />
+        </button>
       )}
       {view === "info" && (
         <div className="flex flex-row gap-3 p-1">
@@ -633,6 +544,9 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
     </div>
   )
 
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  //tags: string[]
   const renderEditView = () => {
     return (
       <form onSubmit={handleSubmit(handleSave)}>
@@ -641,23 +555,7 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
         </div>
         <div className="flex flex-row p-2 gap-6 justify-between items-center">
           <label className="whitespace-nowrap">Cover picture</label>
-          <input
-            type="file"
-            id="img"
-            name="img"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0]
-              if (file) {
-                setImageFile(file)
-                const reader = new FileReader()
-                reader.onloadend = () => {
-                  setCoverImage(reader.result as string)
-                }
-                reader.readAsDataURL(file)
-              }
-            }}
-          />
+          <input type="file" id="img" name="img" accept="image/*" />
         </div>
 
         <div className="space-y-4">
