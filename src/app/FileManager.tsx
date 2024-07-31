@@ -45,6 +45,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import Link from "next/link"
 
 interface FileManagerProps {
   userID: string
@@ -337,7 +338,7 @@ const FileManager: React.FC<FileManagerProps> = ({
             ? { ...f, fileName: newFolderName }
             : f,
         )
-        
+
         // Update file paths
         const oldPath = `${selectedFolder.filePathDir}/${selectedFolder.fileName}`
         const newPath = `${selectedFolder.filePathDir}/${newFolderName}`
@@ -517,7 +518,7 @@ const FileManager: React.FC<FileManagerProps> = ({
                 width={100}
                 height={100}
                 alt="Folder"
-              /> 
+              />
               <span className="p-2">{project.projectName}</span>
             </div>
           ))}
@@ -526,6 +527,9 @@ const FileManager: React.FC<FileManagerProps> = ({
         <div className="flex flex-col p-4 order-2">
           <div className="flex justify-between">
             <p>Files for project {currentProjectName}</p>
+            <Link href={`/add-project/upload/${currentProjectID}`}>
+              <Button>Upload</Button>
+            </Link>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button onClick={() => setIsDialogOpen(true)}>
@@ -643,12 +647,8 @@ const FileManager: React.FC<FileManagerProps> = ({
                 </ContextMenu>
               ))}
           </div>
-          
-          <Dialog
-            open={isRenameDialogOpen}
-            onOpenChange={handleCloseDialog}
-            
-          >
+
+          <Dialog open={isRenameDialogOpen} onOpenChange={handleCloseDialog}>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Rename Folder</DialogTitle>
