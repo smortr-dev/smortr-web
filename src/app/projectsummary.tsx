@@ -38,7 +38,7 @@ interface ProjectDetails {
 interface ProjectSummaryProps {
   userID: string
   projectID: string
-  view: "details" | "edit" | "info"
+  view: string
   onViewChange: (view: "details" | "edit" | "info") => void
 }
 
