@@ -67,8 +67,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import Bugs from "@/components/ui/bugs"
 import Feedback from "@/components/ui/feedback"
-import SideNav from "./sidenav"
-import ProjectSummary from "./projectsummary"
+import SideNav from "../../../sidenav"
+import ProjectSummary from "../../../projectsummary"
+import FileManager from "../../../FileManager"
 // import { AlertDialog, Alter } from "@/components/ui/alert-dialog"
 const privacy = z.enum(["public", "private"])
 const formSchema = z.object({
@@ -198,7 +199,6 @@ export default function View({ params }: { params: { id: string } }) {
     // if (typeof window === "undefined") return
     getData()
   }, [])
-
 
   async function getData() {
     try {
@@ -359,14 +359,48 @@ export default function View({ params }: { params: { id: string } }) {
 
     // console.log("submission done")
   }
+
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [rightSidebarView, setRightSidebarView] = useState("details") // 'details' or 'edit'
+  const projectId: any = params.id
+  
+
+  const handleProjectSelect = (projectId: any) => {
+    setSelectedProject(projectId)
+    setRightSidebarView("details") // Reset to details view when a new project is selected
+  }
+
+  const handleRightSidebarViewChange = (view: string) => {
+    setRightSidebarView(view)
+  }
   return (
     load && (
       <>
-      <div className="flex justify-between">
-        <SideNav/>
-        <div>HELLO</div>
-        <ProjectSummary userID= {current!} projectID={params.id!}/>
-      </div>
+        <div className="flex justify-between h-screen">
+          <div className="w-80">
+            <SideNav />
+          </div>
+          <div className="flex-grow p-2">
+            <FileManager
+              userID ={current!}
+              onProjectSelect={handleProjectSelect}
+            />
+          </div>
+          <div className="w-96">
+            {selectedProject ? (
+              <ProjectSummary
+                userID={current!}
+                projectID={selectedProject}
+                view ={rightSidebarView}
+                onViewChange={handleRightSidebarViewChange}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full border-[#BDBDBD] border-2">
+                <p>Select a project to view details</p>
+              </div>
+            )}
+          </div>
+        </div>
       </>
       // <>
       //   <div className="sticky  w-full py-1 top-0 z-[100] justify-center px-16 flex bg-white">
@@ -463,7 +497,7 @@ export default function View({ params }: { params: { id: string } }) {
       //                           ))}
       //                     </span>
       //                   </div>
-                        
+
       //                   <div className="flex">
       //                     <div className="mr-2">
       //                       <Bugs />
@@ -683,7 +717,7 @@ export default function View({ params }: { params: { id: string } }) {
       //                               onValueChange={field.onChange}
       //                               defaultValue={field.value}
       //                             >
-                                    
+
       //                               <FormControl>
       //                                 <SelectTrigger
       //                                   className={`prompt bg-white rounded-[0.88rem] w-full border-2  view ${
