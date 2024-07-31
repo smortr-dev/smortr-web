@@ -370,7 +370,7 @@ export default function View({ params }: { params: { id: string } }) {
     setRightSidebarView("details") // Reset to details view when a new project is selected
   }
 
-  const handleRightSidebarViewChange = (view: any) => {
+  const handleRightSidebarViewChange = (view: string) => {
     setRightSidebarView(view)
   }
   return (
@@ -391,7 +391,7 @@ export default function View({ params }: { params: { id: string } }) {
               <ProjectSummary
                 userID={current!}
                 projectID={selectedProject}
-                view={rightSidebarView}
+                view ={rightSidebarView}
                 onViewChange={handleRightSidebarViewChange}
               />
             ) : (
