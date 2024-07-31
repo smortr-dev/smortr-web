@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { db, storage } from "@/lib/firebase"
 import {
   collection,
@@ -38,9 +38,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { set } from "date-fns"
-import ContextMenu from "../components/ui/contextmenucustom"
-import ContextMenuCustom from "../components/ui/contextmenucustom"
 import FileContextMenu from "../components/ui/contextmenucustom"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
 
 interface FileManagerProps {
   userID: string
@@ -63,7 +67,10 @@ interface File {
   skills?: string[]
 }
 
-const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) => {
+const FileManager: React.FC<FileManagerProps> = ({
+  userID,
+  onProjectSelect,
+}) => {
   const [projects, setProjects] = useState<any[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [currentProjectID, setCurrentProjectID] = useState<string | null>(null)
@@ -242,56 +249,6 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
     }
   }
 
-  // const handleContextMenu = (e: React.MouseEvent, folder: File) => {
-  //   e.preventDefault()
-  //   setContextMenu({ x: e.clientX, y: e.clientY, folder })
-  // }
-
-  // const handleDeleteFolder = async () => {
-  //   if (!contextMenu || !currentProjectID) return
-
-  //   const folderToDelete = contextMenu.folder
-  //   const projectDoc = doc(db, "users", userID, "projects", currentProjectID)
-  //   const docRes = await getDoc(projectDoc)
-
-  //   if (docRes.exists()) {
-  //     const updatedDocData = { ...docRes.data() }
-
-  //     // Remove the folder
-  //     updatedDocData.folders = updatedDocData.folders.filter(
-  //       (f: File) => f.index !== folderToDelete.index,
-  //     )
-
-  //     // Update file paths
-  //     updatedDocData.files = updatedDocData.files.map((file: any) => {
-  //       if (
-  //         file.file_path.startsWith(
-  //           folderToDelete.filePathDir + "/" + folderToDelete.fileName,
-  //         )
-  //       ) {
-  //         file.file_path = file.file_path.replace(
-  //           folderToDelete.filePathDir + "/" + folderToDelete.fileName,
-  //           folderToDelete.filePathDir,
-  //         )
-  //       }
-  //       return file
-  //     })
-
-  //     await setDoc(projectDoc, updatedDocData)
-  //     await fetchFiles(currentProjectID)
-  //   }
-
-  //   setContextMenu(null)
-  // }
-
-  // const handleRenameFolder = () => {
-  //   if (!contextMenu) return
-  //   setSelectedFolder(contextMenu.folder)
-  //   setNewFolderName(contextMenu.folder.fileName)
-  //   setIsRenameDialogOpen(true)
-  //   setContextMenu(null)
-  // }
-
   const [isRenaming, setIsRenaming] = useState(false)
 
   // const confirmRename = () => {
@@ -363,40 +320,42 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
   // }
 
   const confirmRename = async () => {
-    if (!selectedFolder || !currentProjectID || isRenaming) return;
-  
-    setIsRenaming(true);
-  
-    const projectDoc = doc(db, "users", userID, "projects", currentProjectID);
-  
+    if (!selectedFolder || !currentProjectID || isRenaming) return
+
+    setIsRenaming(true)
+
+    const projectDoc = doc(db, "users", userID, "projects", currentProjectID)
+
     try {
-      const docRes = await getDoc(projectDoc);
+      const docRes = await getDoc(projectDoc)
       if (docRes.exists()) {
-        const updatedDocData = { ...docRes.data() };
-  
+        const updatedDocData = { ...docRes.data() }
+
         // Update folder name
         updatedDocData.folders = updatedDocData.folders.map((f: File) =>
-          f.index === selectedFolder.index ? { ...f, fileName: newFolderName } : f,
-        );
-  
+          f.index === selectedFolder.index
+            ? { ...f, fileName: newFolderName }
+            : f,
+        )
+        
         // Update file paths
-        const oldPath = `${selectedFolder.filePathDir}/${selectedFolder.fileName}`;
-        const newPath = `${selectedFolder.filePathDir}/${newFolderName}`;
-  
+        const oldPath = `${selectedFolder.filePathDir}/${selectedFolder.fileName}`
+        const newPath = `${selectedFolder.filePathDir}/${newFolderName}`
+
         updatedDocData.files = updatedDocData.files.map((file: any) => {
           if (file.file_path.startsWith(oldPath)) {
-            file.file_path = file.file_path.replace(oldPath, newPath);
+            file.file_path = file.file_path.replace(oldPath, newPath)
           }
-          return file;
-        });
-  
-        await setDoc(projectDoc, updatedDocData);
-  
+          return file
+        })
+
+        await setDoc(projectDoc, updatedDocData)
+
         // Update local state
         setFiles((prevFiles) =>
           prevFiles.map((file) => {
             if (file.index === selectedFolder.index) {
-              return { ...file, fileName: newFolderName };
+              return { ...file, fileName: newFolderName }
             }
             if (
               file.filePathDir.startsWith(
@@ -409,21 +368,28 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
                   `${selectedFolder.filePathDir}/${selectedFolder.fileName}`,
                   `${selectedFolder.filePathDir}/${newFolderName}`,
                 ),
-              };
+              }
             }
-            return file;
+            return file
           }),
-        );
+        )
       }
     } catch (error) {
-      console.error("Error renaming folder:", error);
+      console.error("Error renaming folder:", error)
     } finally {
-      setIsRenaming(false);
-      setIsRenameDialogOpen(false);
-      setSelectedFolder(null);
+      setIsRenaming(false)
+      setIsRenameDialogOpen(false)
+      setSelectedFolder(null)
+      location.reload()
     }
-  };
-  
+  }
+  // const confirmRename = () => {
+  //   console.log("Entered function")
+  //   setIsRenaming(false)
+  //   setIsRenameDialogOpen(false)
+  //   setSelectedFolder(null)
+  //   location.reload()
+  // }
 
   const handleDeleteFolder = async (folder: File) => {
     if (!currentProjectID) return
@@ -434,12 +400,10 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
     if (docRes.exists()) {
       const updatedDocData = { ...docRes.data() }
 
-      // Remove the folder
       updatedDocData.folders = updatedDocData.folders.filter(
         (f: File) => f.index !== folder.index,
       )
 
-      // Update file paths
       updatedDocData.files = updatedDocData.files.map((file: any) => {
         if (
           file.file_path.startsWith(folder.filePathDir + "/" + folder.fileName)
@@ -457,10 +421,21 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
     }
   }
 
-  const handleRenameFolder = (folder: File) => {
-    setSelectedFolder(folder)
-    setNewFolderName(folder.fileName)
-    setIsRenameDialogOpen(true)
+  const handleRenameFolder = useCallback((folder: File) => {
+    console.log("handleRenameFolder called", folder)
+    try {
+      setSelectedFolder(folder)
+      setNewFolderName(folder.fileName)
+      setIsRenameDialogOpen(true)
+      //console.log(isRenameDialogOpen)
+    } catch (error) {
+      console.error("Error in handleRenameFolder:", error)
+    }
+  }, [])
+
+  const handleCloseDialog = () => {
+    setIsRenameDialogOpen(false)
+    location.reload()
   }
 
   return (
@@ -525,10 +500,13 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
         </BreadcrumbList>
       </Breadcrumb>
       {!currentProjectID ? (
-        <div className="flex flex-row p-4 pt-7 order-2 gap-7 col-8">
+        <div className="flex flex-row p-4 pt-7 order-2 gap-7 col-6">
           {projects.map((project) => (
             <div
-            key={project.id} onClick={() => handleProjectClick(project.id, project.projectName)}
+              key={project.id}
+              onClick={() =>
+                handleProjectClick(project.id, project.projectName)
+              }
               className="flex flex-col items-center p-2 cursor-pointer"
               // onClick={() =>
               //   handleProjectClick(project.id, project.projectName)
@@ -539,7 +517,7 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
                 width={100}
                 height={100}
                 alt="Folder"
-              />
+              /> 
               <span className="p-2">{project.projectName}</span>
             </div>
           ))}
@@ -598,76 +576,78 @@ const FileManager: React.FC<FileManagerProps> = ({ userID , onProjectSelect}) =>
             {files
               .filter((file) => file.filePathDir === currentPath)
               .map((file) => (
-                <FileContextMenu
-                  key={file.index}
-                  onDelete={() => handleDeleteFolder(file)}
-                  onRename={() => handleRenameFolder(file)}
-                >
-                  <div
-                    key={file.index}
-                    className="flex flex-col items-center p-2 pt-8"
-                    draggable={file.type !== "folder"}
-                    onDragStart={(e) =>
-                      e.dataTransfer.setData("fileData", JSON.stringify(file))
-                    }
-                    onDrop={(e) =>
-                      file.type === "folder" && handleFileDrop(e, file.fileName)
-                    }
-                    onDragOver={(e) =>
-                      file.type === "folder" && e.preventDefault()
-                    }
-                    // onContextMenu={(e) =>
-                    //   file.type === "folder" && handleContextMenu(e, file)
-                    // }
-                  >
-                    {file.type === "image" ? (
-                      <img
-                        src={file.preview || ""}
-                        alt={file.fileName}
-                        className="w-24 h-24"
-                      />
-                    ) : file.type === "pdf" ? (
-                      <Image src="/pdf.png" width={96} height={96} alt="PDF" />
-                    ) : (
-                      <div
-                        className="flex flex-col items-center p-2 cursor-pointer"
-                        onClick={() => {
-                          setCurrentPath((prevPath) =>
-                            prevPath === "/"
-                              ? `/${file.fileName}`
-                              : `${prevPath}/${file.fileName}`,
-                          )
-                        }}
-                      >
-                        <Image
-                          src="/folder-icon.svg"
-                          width={100}
-                          height={100}
-                          alt="Folder"
+                <ContextMenu key={file.index}>
+                  <ContextMenuTrigger>
+                    <div
+                      className="flex flex-col items-center p-2 pt-8"
+                      draggable={file.type !== "folder"}
+                      onDragStart={(e) =>
+                        e.dataTransfer.setData("fileData", JSON.stringify(file))
+                      }
+                      onDrop={(e) =>
+                        file.type === "folder" &&
+                        handleFileDrop(e, file.fileName)
+                      }
+                      onDragOver={(e) =>
+                        file.type === "folder" && e.preventDefault()
+                      }
+                    >
+                      {file.type === "image" ? (
+                        <img
+                          src={file.preview || ""}
+                          alt={file.fileName}
+                          className="w-24 h-24"
                         />
-                        <span className="p-2">{file.fileName}</span>
-                      </div>
-                    )}
-                    {file.type !== "folder" && (
-                      <span className="flex justify-center items-center p-4 text-xs w-28 overflow-x-scroll">
-                        {file.fileName}
-                      </span>
-                    )}
-                  </div>
-                </FileContextMenu>
+                      ) : file.type === "pdf" ? (
+                        <Image
+                          src="/pdf.png"
+                          width={96}
+                          height={96}
+                          alt="PDF"
+                        />
+                      ) : (
+                        <div
+                          className="flex flex-col items-center p-2 cursor-pointer"
+                          onClick={() => {
+                            setCurrentPath((prevPath) =>
+                              prevPath === "/"
+                                ? `/${file.fileName}`
+                                : `${prevPath}/${file.fileName}`,
+                            )
+                          }}
+                        >
+                          <Image
+                            src="/folder-icon.svg"
+                            width={100}
+                            height={100}
+                            alt="Folder"
+                          />
+                          <span className="p-2">{file.fileName}</span>
+                        </div>
+                      )}
+                      {file.type !== "folder" && (
+                        <span className="flex justify-center items-center p-4 text-xs w-28 overflow-x-scroll">
+                          {file.fileName}
+                        </span>
+                      )}
+                    </div>
+                  </ContextMenuTrigger>
+                  <ContextMenuContent className="w-64">
+                    <ContextMenuItem onClick={() => handleRenameFolder(file)}>
+                      Rename
+                    </ContextMenuItem>
+                    <ContextMenuItem onClick={() => handleDeleteFolder(file)}>
+                      Delete
+                    </ContextMenuItem>
+                  </ContextMenuContent>
+                </ContextMenu>
               ))}
           </div>
-          {/* {contextMenu && (
-            <ContextMenuCustom
-              x={contextMenu.x}
-              y={contextMenu.y}
-              onDelete={handleDeleteFolder}
-              onRename={handleRenameFolder}
-            />
-          )} */}
+          
           <Dialog
             open={isRenameDialogOpen}
-            onOpenChange={setIsRenameDialogOpen}
+            onOpenChange={handleCloseDialog}
+            
           >
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>

@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, ChangeEvent } from "react"
 import Image from "next/image"
 import { Textarea } from "@/components/ui/textarea"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { PlusCircle, X } from "lucide-react"
-import { debounce } from "lodash"
 
 interface ProjectDetails {
   projectName: string
@@ -75,45 +74,30 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
     "saved",
   )
   const [imageFile, setImageFile] = useState<File | null>(null)
+  const [showSaveConfirmation, setShowSaveConfirmation] = useState(false)
 
-  const debouncedSave = useCallback(
-    (details: ProjectDetails) => {
-      const saveData = async () => {
-        setIsSaving(true)
-        setSaveStatus("saving")
-        try {
-          const dataToUpdate = Object.entries(details).reduce(
-            (acc, [key, value]) => {
-              if (value !== undefined && value !== null) {
-                acc[key] = value
-              }
-              return acc
-            },
-            {} as Record<string, any>,
-          )
+  const handleSaveClick = () => {
+    setShowSaveConfirmation(true)
+  }
 
-          await updateDoc(
-            doc(db, "users", userID, "projects", projectID),
-            dataToUpdate,
-          )
-          setSaveStatus("saved")
-        } catch (error) {
-          console.error("Error saving data:", error)
-          setSaveStatus("unsaved")
-        }
-        setIsSaving(false)
+  const handleSaveConfirm = async () => {
+    try {
+      let coverURL: any = projectDetails.cover
+      if (imageFile) {
+        coverURL = await handleImageUpload()
       }
-
-      debounce(saveData, 1000)()
-    },
-    [userID, projectID],
-  )
-
-  useEffect(() => {
-    if (Object.keys(projectDetails).length > 0) {
-      debouncedSave(projectDetails)
+      const updatedDetails = { ...projectDetails, cover: coverURL }
+      await updateDoc(
+        doc(db, "users", userID, "projects", projectID),
+        updatedDetails,
+      )
+      console.log("Updated Details:", updatedDetails)
+      setProjectDetails(updatedDetails)
+      setShowSaveConfirmation(false)
+    } catch (error) {
+      console.error("Error saving data:", error)
     }
-  }, [projectDetails, debouncedSave])
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,6 +121,7 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
             area: data?.area || "",
             note: data?.note || "",
             cover: data?.cover || "",
+            tags: data?.tags || [],
           }))
 
           if (data?.cover) {
@@ -176,15 +161,16 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
     setEditMode(false)
   }
 
-  const handleSave = async () => {
+  const handleSave = async (data: ProjectDetails) => {
     setIsSaving(true)
     setSaveStatus("saving")
     try {
-      let coverURL = projectDetails.cover
+      let coverURL: any = projectDetails.cover
       if (imageFile) {
         coverURL = await handleImageUpload()
       }
-      const updatedDetails = { ...projectDetails, cover: coverURL }
+      const updatedDetails = { ...data, cover: coverURL }
+      console.log("Updated Details:", updatedDetails)
       await updateDoc(
         doc(db, "users", userID, "projects", projectID),
         updatedDetails,
@@ -207,19 +193,13 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
     }
     return null
   }
+
   const handleTextChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setter(e.target.value)
     }
 
-  let keywords = [
-    "Keyword 1",
-    "Keyword 2",
-    "Keyword 3",
-    "Keyword 4",
-    "Keyword 5",
-  ]
   const optionCreator = (items: string[]): Option[] =>
     items.map((item) => ({ label: item, value: item }))
 
@@ -481,7 +461,7 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
           onChange={(e) =>
             onViewChange(e.target.value as "details" | "edit" | "info")
           }
-          className="text-[#1769FF] bg-[#FFFFFF] border-none hover:cursor-pointer"
+          className="text-[#1769FF] bg-[#FFFFFF] border-none hover:cursor-pointer font-sans"
         >
           <option value="details">Project Details</option>
           <option value="edit">Edit Project Details</option>
@@ -489,21 +469,9 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
         </select>
       </div>
       {view === "edit" && (
-        <div className="flex items-center">
-          {saveStatus === "saving" && <span className="mr-2">Saving...</span>}
-          {saveStatus === "saved" && <span className="mr-2">Saved</span>}
-          {saveStatus === "unsaved" && (
-            <span className="mr-2">Unsaved changes</span>
-          )}
-          <Image
-            src={
-              saveStatus === "saved" ? "/savemark-blue.svg" : "/savemark.svg"
-            }
-            width={30}
-            height={30}
-            alt="Save"
-          />
-        </div>
+        <button onClick={handleSaveClick}>
+          <Image src="/savemark.svg" width={30} height={30} alt="Save" />
+        </button>
       )}
       {view === "info" && (
         <div className="flex flex-row gap-3 p-1">
@@ -519,6 +487,29 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
           <Image src="/edit-main.svg" width={25} height={25} alt="Edit" />
         </div>
       )}
+    </div>
+  )
+
+  const SaveConfirmationDialog = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg">
+        <h2 className="text-lg font-bold mb-4">Confirm Save</h2>
+        <p>Are you sure you want to save the changes?</p>
+        <div className="flex justify-end mt-4">
+          <button
+            className="mr-2 px-4 py-2 bg-gray-200 rounded"
+            onClick={() => setShowSaveConfirmation(false)}
+          >
+            Cancel
+          </button>
+          <Button
+            className="px-4 py-2  text-white rounded"
+            onClick={handleSaveConfirm}
+          >
+            Save
+          </Button>
+        </div>
+      </div>
     </div>
   )
 
@@ -607,31 +598,48 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
       </div>
       <div className="p-2">
         <p className="p-1 text-lg font-semibold">Description</p>
-        <p className="p-1 h-40 overflow-scroll text-sm">
+        <p className="p-1 h-auto overflow-scroll text-sm">
           {projectDetails.description}
         </p>
       </div>
       <div className="p-2">
         <p className="p-1 text-lg font-semibold">Tags</p>
         <div className="grid grid-cols-4 gap-2">
-          {keywords.map((keyword) => (
+          {projectDetails.tags.map((tag) => (
             <div
               className="text-[11px] border-2 border-[#BDBDBD] rounded-lg h-7 w-[4.25rem] text-ellipsis text-center font-semibold"
-              key={keyword}
+              key={tag}
             >
-              {keyword}
+              {tag}
             </div>
           ))}
         </div>
       </div>
       <div className="p-2">
         <p className="p-1 text-lg font-semibold">Note</p>
-        <p className="p-1 h-40 overflow-scroll text-sm">
+        <p className="p-1 h-auto overflow-scroll text-sm">
           {projectDetails.note}
         </p>
       </div>
     </div>
   )
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target
+    setProjectDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }))
+  }
+
+  const handleSelectChange = (name: string, value: any) => {
+    setProjectDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }))
+  }
 
   const renderEditView = () => {
     return (
@@ -662,10 +670,20 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
 
         <div className="space-y-4">
           <p className="p-1 text-md font-semibold">Project Name</p>
-          <Input {...register("projectName")} placeholder="Project Name" />
+          <Input
+            name="projectName"
+            onChange={handleInputChange}
+            placeholder="Project Name"
+            value={projectDetails.projectName}
+          />
 
           <p className="p-1 text-md font-semibold">Description</p>
-          <Textarea {...register("description")} placeholder="Description" />
+          <Textarea
+            name="description"
+            onChange={handleInputChange}
+            placeholder="Description"
+            value={projectDetails.description}
+          />
 
           <div className="p-1 text-md font-semibold">Design Sector</div>
           <Controller
@@ -676,9 +694,10 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
                 isCreatable={true}
                 options={design_sector}
                 value={convertToOptions(field.value)}
-                onChange={(selected: Option[]) =>
+                onChange={(selected: Option[]) => {
                   field.onChange(convertToValues(selected))
-                }
+                  handleSelectChange("design_sector", convertToValues(selected))
+                }}
                 labelledBy="Design Sector"
                 overrideStrings={{ selectSomeItems: "Design Sector" }}
               />
@@ -690,7 +709,13 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
             control={control}
             name="typology"
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value)
+                  handleSelectChange("typology", value)
+                }}
+                value={field.value}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Typology" />
                 </SelectTrigger>
@@ -719,9 +744,10 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
                 isCreatable={true}
                 options={scope_role}
                 value={convertToOptions(field.value)}
-                onChange={(selected: Option[]) =>
+                onChange={(selected: Option[]) => {
                   field.onChange(convertToValues(selected))
-                }
+                  handleSelectChange("scope_role", convertToValues(selected))
+                }}
                 labelledBy="Scope/Role"
                 overrideStrings={{ selectSomeItems: "Scope/Role" }}
               />
@@ -733,7 +759,13 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
             control={control}
             name="project_type"
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value)
+                  handleSelectChange("project_type", value)
+                }}
+                value={field.value}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Project Type" />
                 </SelectTrigger>
@@ -795,13 +827,33 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
             </div>
           </div>
 
-          <Input {...register("location")} placeholder="Location" />
+          <Input
+            name="location"
+            onChange={handleInputChange}
+            placeholder="Location"
+            value={projectDetails.location}
+          />
 
-          <Input {...register("area")} placeholder="Area" />
+          <Input
+            name="area"
+            onChange={handleInputChange}
+            placeholder="Area"
+            value={projectDetails.area}
+          />
 
-          <Input {...register("year")} placeholder="Year" />
+          <Input
+            name="year"
+            onChange={handleInputChange}
+            placeholder="Year"
+            value={projectDetails.year}
+          />
 
-          <Textarea {...register("note")} placeholder="Note" />
+          <Textarea
+            name="note"
+            onChange={handleInputChange}
+            placeholder="Note"
+            value={projectDetails.note}
+          />
         </div>
       </form>
     )
@@ -813,6 +865,7 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
       {view === "info" && renderInfoView()}
       {view === "details" && renderDetailsView()}
       {view === "edit" && renderEditView()}
+      {showSaveConfirmation && <SaveConfirmationDialog />}
     </div>
   )
 }

@@ -716,3 +716,42 @@ const ProjectSummary: React.FC<ProjectSummaryProps> = ({
 }
 
 export default ProjectSummary
+
+ // const debouncedSave = useCallback(
+  //   (details: ProjectDetails) => {
+  //     const saveData = async () => {
+  //       setIsSaving(true)
+  //       setSaveStatus("saving")
+  //       try {
+  //         const dataToUpdate = Object.entries(details).reduce(
+  //           (acc, [key, value]) => {
+  //             if (value !== undefined && value !== null) {
+  //               acc[key] = value
+  //             }
+  //             return acc
+  //           },
+  //           {} as Record<string, any>,
+  //         )
+
+  //         await updateDoc(
+  //           doc(db, "users", userID, "projects", projectID),
+  //           dataToUpdate,
+  //         )
+  //         setSaveStatus("saved")
+  //       } catch (error) {
+  //         console.error("Error saving data:", error)
+  //         setSaveStatus("unsaved")
+  //       }
+  //       setIsSaving(false)
+  //     }
+
+  //     debounce(saveData, 1000)()
+  //   },
+  //   [userID, projectID],
+  // )
+
+  // useEffect(() => {
+  //   if (Object.keys(projectDetails).length > 0) {
+  //     debouncedSave(projectDetails)
+  //   }
+  // }, [projectDetails, debouncedSave])
