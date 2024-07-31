@@ -710,7 +710,7 @@ export default function Upload({ params }: { params: { id: string } }) {
       const progress = docData?.progress;
       
       await uploadToOpenAI(files, current!, params.id!,fileURL);
-      
+
       await assetTagging(files,current!, params.id!,fileURL);
   
       form.setValue('files', []);
