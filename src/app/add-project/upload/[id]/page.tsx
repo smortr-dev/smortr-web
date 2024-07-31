@@ -664,6 +664,7 @@ export default function Upload({ params }: { params: { id: string } }) {
       const filePaths: string[] = []; // Array to hold file paths
   
       const promises = files.map(async (file: File, index: number) => {
+        const fileWithPath = { ...file, file_path: "/" };
         const name = file.name.split('.').slice(0, -1).join() + '-' + new Date().getTime() + '.' + file.name.split('.').slice(-1).join();
         const storageRef = ref(storage, `user-assets/${current}/projects/${params.id}/${name}`);
   
