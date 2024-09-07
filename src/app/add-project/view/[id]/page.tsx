@@ -50,7 +50,7 @@ import { useRouter } from "next/navigation"
 import Toggle from "../../Toggle"
 import { FONT_MANIFEST } from "next/dist/shared/lib/constants"
 import clsx from "clsx"
-import Skills from "../../Skills"
+//import Skills from "../../Skills"
 import PDFViewer from "./Pdf-viewer"
 import { cn } from "@/lib/utils"
 import { toast } from "@/components/ui/use-toast"
@@ -80,7 +80,7 @@ const formSchema = z.object({
       privacy: z.string(),
       notes: z.string().optional(),
       phase: z.string().optional(),
-      skills: z.string().array().optional(),
+      //skills: z.string().array().optional(),
       original_name: z.string().optional(),
       // filePath: z.string().optional(),
     })
@@ -138,7 +138,7 @@ export default function View({ params }: { params: { id: string } }) {
       share: string
       notes: string
       phase: string
-      skills: string[]
+      //skills: string[]
     }[]
   >([])
   const [count, setCount] = useState(0)
@@ -157,7 +157,7 @@ export default function View({ params }: { params: { id: string } }) {
       share: string
       notes: string
       phase: string
-      skills: string[]
+      //skills: string[]
     }[]
   >([])
   const [projectName, setProjectName] = useState("New Project")
@@ -225,7 +225,7 @@ export default function View({ params }: { params: { id: string } }) {
             share: string
             notes: string
             phase: string
-            skills: string[]
+            //skills: string[]
           }[] = []
           await Promise.all(
             assets.map(async (asset, index) => {
@@ -255,7 +255,7 @@ export default function View({ params }: { params: { id: string } }) {
                   share: docRes.data()?.files[index]?.share || "",
                   notes: docRes.data()?.files[index]?.notes || "",
                   phase: docRes.data()?.files[index]?.phase || "",
-                  skills: docRes.data()?.files[index]?.skills || [],
+                  //skills: docRes.data()?.files[index]?.skills || [],
                 })
               } catch (err) {
                 console.log(err)
@@ -270,7 +270,7 @@ export default function View({ params }: { params: { id: string } }) {
             content_type?: string
             privacy: string
             name?: string | undefined
-            skills?: string[] | undefined
+            //skills?: string[] | undefined
             // link?: string | undefined
             description?: string | undefined
             share?: string | undefined
@@ -815,7 +815,7 @@ export default function View({ params }: { params: { id: string } }) {
                                   )
                                 }}
                               />
-                              <Skills form={form} index={file.index} />
+                              {/* <Skills form={form} index={file.index} /> */}
                               <FormField
                                 control={form.control}
                                 name={`files.${file.index}.notes`}
