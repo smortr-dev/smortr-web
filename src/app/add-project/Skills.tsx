@@ -64,7 +64,12 @@ export default function Skills({ form, index }: SkillsProps) {
           </Button>
         </div>
         <div className=" w-full flex mt-3 flex-wrap gap-y-2">
-          {form.watch(`files.${index}.skills`, [])?.map((skill, nindex) => {
+        {(() => {
+  const skills = form.watch(`files.${index}.skills`);
+  return Array.isArray(skills) 
+    ? skills.map((skill, nindex) => {
+        // ... your existing code
+     
             return (
               <div
                 className="flex items-center group bg-[#6563FF] overflow-hidden rounded-[0.38rem] first:ml-0 mr-2 px-2 "
@@ -89,7 +94,9 @@ export default function Skills({ form, index }: SkillsProps) {
                 />
               </div>
             )
-          })}
+          })
+          : null; // or some placeholder content
+      })()}
         </div>
       </div>
     </div>
