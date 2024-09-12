@@ -48,38 +48,31 @@ export async function POST(request: NextRequest) {
                         { 
                             type: "text", 
                             text: `
-        title
-        Format: [Project Name] - [Design Feature or Element] - [Content Type]
-        Example: Encapsulate 01 - Urban Skyscraper - Concept Render
-        
-        description
-        Context: Start with the setting or context of the asset with respect to the project.
-        Word Limit: 80 Words or 500 characters - whichever is lesser.
-        Features: Detail the specific elements shown, such as design or construction techniques, materials, and the integration of building systems.
-        Domain Specific Description: Highlight any domain specific information informed by project scope and role.
-        Relevance: Explain the significance of the asset in the overall project and how it plays a role in “resolving a conflict”.
-        Format: [Context] + [Features] + [Domain Specific Description] + [Relevance] in one concise paragraph under Description
-        
-        content_type
-        Categories: Render, Photograph, Sketch, Plan, Section, Elevation, Detail, Conceptual Graphic, Physical Model, Axonometric View, Map
-        Selection: Choose the category that accurately reflects the nature of the uploaded content.
-        
-        sharing_suggestions
-        Format: [Platform/Forum] as [medium of showcase] about [highlight domain expertise from asset] for [Audience]
-        Word Limit: 30 Words or 200 characters - whichever is lesser.
-        Example: 
-        - LinkedIn as a blog about adaptive reuse for prospective clients
-        - Architecture Schools as hands-on workshop about circular systems for prospective talent
-        
-        project_phase
-        Phases: Site Study, Concept Design, Reference/Mood Board, Schematic Design, Design Development, Construction Documentation, Implementation
-        Phase: Align the content with the relevant phase of the architectural project.
-        
-        skills
-        Tagging: Avoid generic tags. Highlight domain specific skills and expertise showcased in the asset for the layman. 
-        Example: Space Planning and Access Control in Architecture
-        
-        instructions: You are to analyze the contents of the uploaded image file and generate a JSON output based on the provided structure. The output should accurately reflect the details of the image, not the examples provided. Ensure each field (title, description, content_type, project_phase, sharing_suggestions, skills) is filled with relevant information extracted from the image. For more context, assume that the uploaded images are somewhat related to architecture and engineering to generate more sensible output in the required format.
+        Task: Analyze the contents of the uploaded image file (related to architecture/engineering/construction) and generate a structured JSON output for upload based on the provided details. Do not include placeholder terms or examples (such as "Urban Skyscraper" or "<title>") in the output. The output must be based entirely on the content of the image file.
+
+                            Instructions:
+
+                            Title: Format the title as [Design Feature or Element] - [Content Type]. Create the title based on the content of the image and do not use any example titles.
+
+                            Description: Include [Context] + [Features] + [Domain-Specific Description] + [Relevance] in a concise paragraph under 80 words or 500 characters. The description should relate to the image content only, and avoid using placeholder terms.
+
+                            Content Type: Choose only for from - Render, Photograph, Sketch, Plan, Section, Elevation, Detail, Conceptual Graphic, Physical Model, Axonometric View, Map. Do not include placeholder text.
+
+                            Timestamp: Use the file creation date from metadata or information on asset if available else look up and use the current date. Format as YYYY-MM-DDTHH:MM:SSZ. Avoid using placeholder terms.
+
+                            Project Phase: Select the appropriate phase only from - Programming, Schematic Design, Design Development, Construction Documents, Bidding/Permitting, Construction Admin, References, Site Study, Post Construction. Do not use example terms.
+
+                            Skills: Tag relevant domain-specific skills, avoiding generic tags and not using placeholders or example skills.
+
+                            Output JSON format: The final output must look like this, but with real data based on the image content, and without any placeholder values.
+                            {
+                            "title": "Site Boundary Analysis - Plan",
+                            "description": "The "THIRUVERKADU[MAHALAKSHMI AVENUE]" document presents a model plan of the VHouse project, detailing the precise boundary measurements like 18.237 meters [59'-10"] and the relations with adjacent properties. This plan is crucial for understanding how VHouse fits within its immediate urban context, the constraints posed by the plot size, and the architect's response to these challenges through strategic design.",
+                            "content_type": "Plan",
+                            "timestamp": "2024-09-11T18:15:36Z",
+                            "project_phase": "Site Study",
+                            "skills": ["Urban Context Analysis" , "Land Surveying"]
+                            }           
         ` 
                         },
                         {
