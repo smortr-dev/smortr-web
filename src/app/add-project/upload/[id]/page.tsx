@@ -582,7 +582,7 @@ export default function Upload({ params }: { params: { id: string } }) {
             let apiUrl = '';
             if (fileType === 'pdf') {
                 apiUrl = '/api/add-project/asset-tagging/pdf-files';
-            } else if (fileType === 'jpeg' || fileType === 'png') {
+            } else if (fileType === 'jpeg' || fileType === 'jpg' || fileType === 'png') {
                 apiUrl = '/api/add-project/asset-tagging/image-files';
             } else {
                 console.warn(`Unsupported file type: ${fileType}`);
