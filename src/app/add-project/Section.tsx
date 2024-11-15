@@ -1,28 +1,3 @@
-import { cva } from "class-variance-authority"
-import clsx from "clsx"
-import { usePathname, useRouter } from "next/navigation"
-import { useMemo } from "react"
-// import { Button } from "react-day-picker"
-import { Button } from "@/components/ui/button"
-
-const link = cva(
-  [
-    "px-12 py-3 text-[#6563FF] relative text-center text-[0.875rem] tracking-wide transition-colors",
-  ],
-  {
-    variants: {
-      intent: {
-        active: "font-[700] bg-white hover:bg-gray-300 cursor-pointer",
-        passive: "font-[400]",
-      },
-      navigate: {
-        clickable: "bg-white hover:bg-gray-300 cursor-pointer ",
-        blocked: "bg-gray-100 cursor-not-allowed",
-      },
-    },
-  },
-)
-
 export default function Section({
   active,
   move,
@@ -81,7 +56,7 @@ export default function Section({
                   : link({ intent: "passive", navigate: "blocked" }),
             )}
           >
-            <span className="relative">
+            {/* <span className="relative">
               Edit
               <span
                 className={clsx(
@@ -89,7 +64,7 @@ export default function Section({
                     "absolute h-[3px] bottom-[-7px] right-0 w-full bg-[#6563FF]",
                 )}
               ></span>
-            </span>
+            </span> */}
           </div>
           <div
             onClick={() => {
