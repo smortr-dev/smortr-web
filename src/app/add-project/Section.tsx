@@ -65,7 +65,7 @@ export default function Section({
               ></span>
             </span>
           </div>
-          <div
+          {/* <div
             onClick={() => {
               if (active != "edit" && load && move) {
                 // console.log(id, "clicked")
@@ -81,7 +81,7 @@ export default function Section({
                   : link({ intent: "passive", navigate: "blocked" }),
             )}
           >
-            {/* <span className="relative">
+            <span className="relative">
               Edit
               <span
                 className={clsx(
@@ -89,8 +89,8 @@ export default function Section({
                     "absolute h-[3px] bottom-[-7px] right-0 w-full bg-[#6563FF]",
                 )}
               ></span>
-            </span> */}
-          </div>
+            </span>
+          </div> */}
           <div
             onClick={() => {
               if (active != "view" && load && move) {
